@@ -1,11 +1,11 @@
 import React from "react";
-import Navbar from "./components/navbar/navbar";
-
+import Login from "./components/login/Login";
+import { Container } from "./styles/styles.style";
 function App() {
   return (
-    <div>
-      <Navbar />
-    </div>
+    <Container bgr="#22d1ee" col height="100vh">
+      <Login />
+    </Container>
   );
 }
 
