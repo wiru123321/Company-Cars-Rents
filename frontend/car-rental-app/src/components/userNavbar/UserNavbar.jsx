@@ -25,7 +25,7 @@ const UserNavbar = () => {
               }
               id="collasible-nav-dropdown"
             >
-              <NavDropdown.Item href="#userPage/showCars">
+              <NavDropdown.Item href="#userPage">
                 Show all yours cars
               </NavDropdown.Item>
               <NavDropdown.Item href="#userPage/cancelReservation">

@@ -23,9 +23,7 @@ const AdminNavbar = () => {
               }
               id="collasible-nav-dropdown"
             >
-              <NavDropdown.Item href="#adminPage/addNewCar">
-                Add new car
-              </NavDropdown.Item>
+              <NavDropdown.Item href="#adminPage">Add new car</NavDropdown.Item>
               <NavDropdown.Item href="#adminPage/removeCar">
                 Remove car
               </NavDropdown.Item>

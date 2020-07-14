@@ -15,7 +15,7 @@ const AdminPage = () => {
       <div>Welcome on admin page!</div>
       <HashRouter basename="/adminPage">
         <Switch>
-          <Route path="/addNewCar" component={AddNewCar} />
+          <Route path="/" exact component={AddNewCar} />
           <Route path="/removeCar" component={RemoveCar} />
           <Route path="/addEmployer" component={AddEmployer} />
           <Route path="/removeEmployer" component={RemoveEmployer} />
