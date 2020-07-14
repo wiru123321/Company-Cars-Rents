@@ -5,9 +5,9 @@ import lombok.Data;
 import javax.persistence.*;
 
 @Data
-@Table(name = "models")
+@Table(name = "gearbox_type")
 @Entity
-public class Model {
+public class GearboxType {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,13 +16,10 @@ public class Model {
     @Column(nullable = false)
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    private Mark mark;
-
-    public Model() {
+    public GearboxType() {
     }
 
-    public Model(String name) {
+    public GearboxType(String name) {
         this.name = name;
     }
 }

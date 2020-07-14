@@ -14,10 +14,28 @@ public class Car {
 
     @Column(nullable = false)
     private String licensePlate;
+//
+    @Column(nullable = false)
+    private Integer enginePower;
 
     @Column(nullable = false)
-    private Integer capacity;
+    private Integer capacityOfTrunkScale;
 
+    @Column(nullable = false)
+    private Integer capacityOfPeople;
+
+    @Column(nullable = false)
+    private Integer doorsNumer;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    private GearboxType gearboxType;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    private FuelType fuelType;
+
+    @Column(nullable = false)
+    private String lastInspection;
+//
     @Column(nullable = false)
     private Integer year;
 
