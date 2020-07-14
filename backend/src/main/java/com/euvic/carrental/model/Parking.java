@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Entity
 public class Parking {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @Column(nullable = false)
