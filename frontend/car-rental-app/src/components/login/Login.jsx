@@ -1,9 +1,25 @@
 import React, { useState } from "react";
-import { Container, ShadowContainer } from "../../styles/styles.style";
+import {
+  Container,
+  ShadowContainer,
+  ImageContainer,
+} from "../../styles/styles.style";
 import InputControl from "./InputControl";
 import Submit from "./Submit";
 const Error = ({ message }) => {
   return <div style={{ color: "red" }}> {message}</div>;
+};
+
+const LoginPage = () => {
+  return (
+    <ImageContainer img>
+      <ShadowContainer shadow="0.4">
+        <Container col height="100vh">
+          <Login />
+        </Container>
+      </ShadowContainer>
+    </ImageContainer>
+  );
 };
 
 const Login = () => {
@@ -40,4 +56,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginPage;
