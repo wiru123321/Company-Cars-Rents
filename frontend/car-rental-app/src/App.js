@@ -1,6 +1,5 @@
 import React from "react";
 import Login from "./components/login/Login";
-import Navbar from "./components/navbar/navbar";
 import {
   Container,
   ShadowContainer,
@@ -8,8 +7,8 @@ import {
 } from "./styles/styles.style";
 import { Route, Switch, HashRouter } from "react-router-dom";
 
-const LoginPage = () => {
-  return (
+import UserNavbar from "./components/userNavbar/UserNavbar";
+import AdminNavbar from "./components/adminNavbar/AdminNavbar";
     <ImageContainer img>
       <ShadowContainer shadow="0.4">
         <Container col height="100vh">
@@ -26,6 +25,7 @@ function App() {
       <Switch>
         <Route exact path="/" component={LoginPage} />
         <Route path="/userPage" component={Navbar} />
+          <Route path="/adminPage" component={AdminNavbar} />
       </Switch>
     </HashRouter>
   );
