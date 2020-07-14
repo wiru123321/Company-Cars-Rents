@@ -1,12 +1,18 @@
 import React from "react";
 import Login from "./components/login/Login";
-import { Container } from "./styles/styles.style";
+import { Route, Switch, HashRouter } from "react-router-dom";
+import Login from "./components/login/Login";
+
 function App() {
   return (
     <Container bgr="#22d1ee" col height="100vh">
-      <Login />
-    </Container>
+      <HashRouter basename="/">
+        <Switch>
+          <Route exact path="/" component={Login} />
+          <Route path="/userPage" component={Navbar} />
+        </Switch>
+      </HashRouter>
+    </div>
   );
 }
-
 export default App;
