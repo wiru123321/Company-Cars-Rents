@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Entity
 public class Colour {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(nullable = false)
