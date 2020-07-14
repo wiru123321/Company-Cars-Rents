@@ -6,6 +6,7 @@ const InputControl = ({ children, type, value, handleChange }) => {
       <Label>{children}</Label>
       <Input
         value={value}
+        placeholder="..."
         onChange={(event) => {
           handleChange(event.target.value);
         }}

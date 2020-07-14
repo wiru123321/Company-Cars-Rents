@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { Container } from "../../styles/styles.style";
+import { Container, ShadowContainer } from "../../styles/styles.style";
 import InputControl from "./InputControl";
 import Submit from "./Submit";
-
 const Error = ({ message }) => {
   return <div style={{ color: "red" }}> {message}</div>;
 };
