@@ -11,29 +11,46 @@ const AdminNavbar = () => {
         className="bg-color-nav"
         variant="dark"
       >
-        <Navbar.Brand href="/" style={{ color: "#f3f169" }}>
+        <Navbar.Brand href="#adminPage" style={{ color: "#f3f169" }}>
           Company Name or logo
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="ml-auto">
             <NavDropdown
-              title={<span style={{ color: "#f3f169" }}>Cars</span>}
+              title={
+                <span style={{ color: "#f3f169", fontSize: "20px" }}>Cars</span>
+              }
               id="collasible-nav-dropdown"
             >
-              <NavDropdown.Item href="/">Add new car</NavDropdown.Item>
-              <NavDropdown.Item href="/">Remove car</NavDropdown.Item>
+              <NavDropdown.Item href="#adminPage/addNewCar">
+                Add new car
+              </NavDropdown.Item>
+              <NavDropdown.Item href="#adminPage/removeCar">
+                Remove car
+              </NavDropdown.Item>
               <NavDropdown.Divider />
             </NavDropdown>
             <NavDropdown
-              title={<span style={{ color: "#f3f169" }}>Employer</span>}
+              title={
+                <span style={{ color: "#f3f169", fontSize: "20px" }}>
+                  Employer
+                </span>
+              }
               id="collasible-nav-dropdown"
             >
-              <NavDropdown.Item href="/">Add Employer</NavDropdown.Item>
-              <NavDropdown.Item href="/">Remove Employer</NavDropdown.Item>
+              <NavDropdown.Item href="#adminPage/addEmployer">
+                Add Employer
+              </NavDropdown.Item>
+              <NavDropdown.Item href="#adminPage/removeEmployer">
+                Remove Employer
+              </NavDropdown.Item>
               <NavDropdown.Divider />
             </NavDropdown>
-            <Nav.Link href="/" style={{ color: "#f3f169" }}>
+            <Nav.Link
+              href="#adminPage/parking"
+              style={{ color: "#f3f169", fontSize: "20px" }}
+            >
               Parking
             </Nav.Link>
           </Nav>

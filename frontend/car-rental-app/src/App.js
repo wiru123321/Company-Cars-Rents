@@ -1,7 +1,7 @@
 import React from "react";
 import LoginPage from "./components/login/Login";
-import UserNavbar from "./components/userNavbar/UserNavbar";
-import AdminNavbar from "./components/adminNavbar/AdminNavbar";
+import UserPage from "./components/userPage/UserPage";
+import AdminPage from "./components/adminPage/AdminPage";
 
 import { Route, Switch, HashRouter } from "react-router-dom";
 
@@ -10,8 +10,8 @@ function App() {
     <HashRouter basename="/">
       <Switch>
         <Route exact path="/" component={LoginPage} />
-        <Route path="/userPage" component={UserNavbar} />
-        <Route path="/adminPage" component={AdminNavbar} />
+        <Route path="/userPage" component={UserPage} />
+        <Route path="/adminPage" component={AdminPage} />
       </Switch>
     </HashRouter>
   );
