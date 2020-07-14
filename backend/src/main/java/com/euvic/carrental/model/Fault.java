@@ -10,13 +10,16 @@ import javax.persistence.*;
 public class Fault {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     private String describe;
 
     @Column(nullable = false)
     private Boolean isActive;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    private Car car;
 
     public Fault() {
     }

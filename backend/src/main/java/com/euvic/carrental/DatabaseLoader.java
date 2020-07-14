@@ -52,5 +52,7 @@ public class DatabaseLoader implements CommandLineRunner {
         roleRepository.save(r1);
         roleRepository.save(r2);
         roleRepository.save(r3);
+
+
     }
 }

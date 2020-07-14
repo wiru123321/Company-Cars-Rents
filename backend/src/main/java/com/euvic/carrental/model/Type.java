@@ -3,6 +3,7 @@ package com.euvic.carrental.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Table(name = "car_types")
@@ -10,11 +11,16 @@ import javax.persistence.*;
 public class Type {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @Column(nullable = false)
     private String typeName;
+
+    @OneToMany(mappedBy = "type",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private List<Car> cars;
 
     public Type() {
     }

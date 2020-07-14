@@ -11,7 +11,7 @@ import java.util.List;
 public class Mark {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @Column(nullable = false)
@@ -21,6 +21,11 @@ public class Mark {
             cascade = CascadeType.ALL,
             orphanRemoval = true)
     private List<Model> models;
+
+    @OneToMany(mappedBy = "mark",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private List<Car> cars;
 
     public Mark() {
     }
