@@ -6,7 +6,9 @@ import {
 } from "../../styles/styles.style";
 import InputControl from "./InputControl";
 import Submit from "./Submit";
+
 const Error = ({ message }) => {
+  // TODO: Make separate, clean component when integrated with Api.
   return <div style={{ color: "red" }}> {message}</div>;
 };
 
