@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import { ListGroup, Container, Row, Card, Image, Col } from "react-bootstrap";
+import { ListGroup, Container, Row, Image, Col } from "react-bootstrap";
+import CarInfo from "./CarInfo";
+import CarImage from "./CarImage";
 // Temporary json, has to be removed when connected with Api.
 const json = [
   {
@@ -37,39 +39,11 @@ const json = [
   },
 ];
 
-const tempSrc = "https://picsum.photos/320/250?random=1";
-
-const CarImage = ({ src }) => {
-  return <Image src={src} height="240px" width="320px" />;
-};
-
-const CarInfo = ({ car }) => {
-  const { mark, model, licensePlate, capacity, mileage, year, hp } = car;
-  return (
-    <Card>
-      <Card.Body>
-        <Card.Title>
-          {mark} {model}
-        </Card.Title>
-        <Card.Subtitle>{licensePlate}</Card.Subtitle>
-        <Card.Text>
-          <ListGroup>
-            <ListGroup.Item>Year of production: {year}</ListGroup.Item>
-            <ListGroup.Item>Mileage: {mileage}</ListGroup.Item>
-            <ListGroup.Item>Hp: {hp}</ListGroup.Item>
-            <ListGroup.Item>Capacity: {capacity}</ListGroup.Item>
-          </ListGroup>
-        </Card.Text>
-      </Card.Body>
-    </Card>
-  );
-};
-
 const CarsList = () => {
   const [cars, setCars] = useState(json);
   return (
     <Container>
-      <ListGroup>
+      <ListGroup variant="flush">
         {cars.map((car, index) => (
           <ListGroup.Item>
             <Row className="justify-content-md-center">
