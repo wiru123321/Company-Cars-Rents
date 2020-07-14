@@ -7,11 +7,20 @@ import javax.persistence.*;
 @Data
 @Table(name = "rents")
 @Entity
-public class Rents {
+public class Rent {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
+
+    @Column(nullable = false)
+    private String dateFrom;
+
+    @Column(nullable = false)
+    private String dateTo;
+
+    @Column(nullable = false)
+    private Boolean isActive;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private User user;
@@ -19,25 +28,17 @@ public class Rents {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Car car;
 
-    @Column(nullable = false)
-    private String dateFrom;
-    @Column(nullable = false)
-    private String dateTo;
-
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Parking parkingFrom;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Parking parkingTo;
 
-    @Column(nullable = false)
-    private Boolean isActive;
-
-    public Rents(){
+    public Rent() {
 
     }
 
-    public Rents(User user,Car car, String dateFrom, String dateTo, Parking parkingFrom, Parking parkingTo, boolean isActive){
+    public Rent(User user, Car car, String dateFrom, String dateTo, Parking parkingFrom, Parking parkingTo, boolean isActive) {
         this.user = user;
         this.car = car;
         this.dateFrom = dateFrom;

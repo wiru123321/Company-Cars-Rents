@@ -3,7 +3,6 @@ package com.euvic.carrental.model;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Data
 @Table(name = "cars")
@@ -22,10 +21,14 @@ public class Car {
     @Column(nullable = false)
     private Integer year;
 
-    @OneToMany(mappedBy = "car",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true)
-    private List<Fault> faults;
+    @Column(nullable = false)
+    private Boolean isActive;
+
+    @Column(nullable = false)
+    private Boolean isOnCompany;
+
+    @Column(nullable = false)
+    private Integer mileage;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Mark mark;

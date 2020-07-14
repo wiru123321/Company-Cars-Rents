@@ -3,7 +3,6 @@ package com.euvic.carrental.model;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Data
 @Table(name = "colours")
@@ -14,17 +13,12 @@ public class Colour {
     private long id;
 
     @Column(nullable = false)
-    private String colourName;
-
-    @OneToMany(mappedBy = "colour",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true)
-    private List<Car> cars;
+    private String name;
 
     public void ColourEntity() {
     }
 
     public Colour(String name) {
-        this.colourName = name;
+        this.name = name;
     }
 }

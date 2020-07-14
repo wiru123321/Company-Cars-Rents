@@ -3,7 +3,6 @@ package com.euvic.carrental.model;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Data
 @Table(name = "roles")
@@ -13,17 +12,12 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    private String roleName;
-
-    @OneToMany(mappedBy = "role",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true)
-    private List<User> users;
+    private String name;
 
     public Role() {
     }
 
     public Role(String roleName) {
-        this.roleName = roleName;
+        this.name = roleName;
     }
 }

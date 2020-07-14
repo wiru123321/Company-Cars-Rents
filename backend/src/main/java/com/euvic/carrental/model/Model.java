@@ -14,7 +14,7 @@ public class Model {
     private Long id;
 
     @Column(nullable = false)
-    private String modelName;
+    private String name;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Mark mark;
@@ -23,6 +23,6 @@ public class Model {
     }
 
     public Model(String modelName) {
-        this.modelName = modelName;
+        this.name = modelName;
     }
 }
