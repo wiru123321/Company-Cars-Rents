@@ -5,6 +5,8 @@ import AdminPage from "./components/adminPage/AdminPage";
 
 import { Route, Switch, HashRouter } from "react-router-dom";
 
+import UserPage from "./components/UserPage";
+
 function App() {
   return (
     <HashRouter basename="/">
