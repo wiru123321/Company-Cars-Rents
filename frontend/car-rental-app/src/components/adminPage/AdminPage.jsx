@@ -12,7 +12,6 @@ const AdminPage = () => {
   return (
     <div>
       <UserNavbar />
-      <div>Welcome on admin page!</div>
       <HashRouter basename="/adminPage">
         <Switch>
           <Route path="/" exact component={AddNewCar} />
