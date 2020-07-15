@@ -22,7 +22,8 @@ public class Model {
     public Model() {
     }
 
-    public Model(String name) {
+    public Model(String name, Mark mark) {
         this.name = name;
+        this.mark = mark;
     }
 }

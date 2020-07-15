@@ -12,6 +12,7 @@ import java.nio.file.Paths;
 import java.util.List;
 
 
+//TODO MUST BE changed because it overrides test database (maybe database-test.sql)
 @Component
 public class DatabaseLoader implements CommandLineRunner {
 
@@ -71,12 +72,13 @@ public class DatabaseLoader implements CommandLineRunner {
         }
         stringList.clear();
 
+        /*
         path = Paths.get("./DataBase/Marks.txt");
         stringList = Files.readAllLines(path);
         for (int i = 0; i < stringList.size(); i++) {
             markRepository.save(new Mark(stringList.get(i)));
         }
-        stringList.clear();
+        stringList.clear();*/ //Dont work because of changed constructor (Repair or delete)
 
         path = Paths.get("./DataBase/GearBoxTypes.txt");
         stringList = Files.readAllLines(path);

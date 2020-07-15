@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 
+// ready Entity
 @Data
 @Table(name = "faults")
 @Entity
@@ -13,6 +14,7 @@ public class Fault {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
+    @Column(nullable = false)
     private String describe;
 
     @Column(nullable = false)
@@ -24,8 +26,9 @@ public class Fault {
     public Fault() {
     }
 
-    public Fault(String describe, Boolean isActive) {
+    public Fault(Car car, String describe, Boolean isActive) {
+        this.car = car;
         this.describe = describe;
-        this.id = id;
+        this.isActive = isActive;
     }
 }

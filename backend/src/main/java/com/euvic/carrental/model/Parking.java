@@ -15,24 +15,25 @@ public class Parking {
     @Column(nullable = false)
     private String town;
 
-    @Column(nullable = false)
     private String postalCode;
 
     @Column(nullable = false)
     private String street;
 
-    private String placeNumber;
-
+    @Column(nullable = false)
     private String comment;
+
+    @Column(nullable = false)
+    private Boolean isActive;
 
     public Parking() {
     }
 
-    public Parking(String town, String postalCode, String street, String placeNumber, String comment) {
+    public Parking(String town, String postalCode, String street, String comment, Boolean isActive) {
         this.town = town;
         this.postalCode = postalCode;
         this.street = street;
-        this.placeNumber = placeNumber;
         this.comment = comment;
+        this.isActive = isActive;
     }
 }
