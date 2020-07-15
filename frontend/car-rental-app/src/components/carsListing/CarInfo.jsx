@@ -1,21 +1,30 @@
 import React from "react";
-import { ListGroup, Container } from "react-bootstrap";
+import { Container, List, ListItem, Link } from "@material-ui/core";
+
 const CarInfo = ({ car }) => {
   const { mark, model, licensePlate, capacity, mileage, year, hp } = car;
   return (
     <Container>
       <h1 style={{ fontSize: "1.3rem" }}>
-        <a href="#">
+        <Link href="#">
           {mark} {model}
-        </a>
+        </Link>
       </h1>
-      <h2 style={{ fontSize: "1.1rem" }}>{licensePlate}</h2>
-      <ListGroup variant="flush">
-        <ListGroup.Item>Year of production: {year}</ListGroup.Item>
-        <ListGroup.Item>Mileage: {mileage}</ListGroup.Item>
-        <ListGroup.Item>Hp: {hp}</ListGroup.Item>
-        <ListGroup.Item>Capacity: {capacity}</ListGroup.Item>
-      </ListGroup>
+      <h2>{licensePlate}</h2>
+      <List>
+        <ListItem>
+          <label>Year of production: {year}</label>
+        </ListItem>
+        <ListItem>
+          <label>Mileage: {mileage}</label>
+        </ListItem>
+        <ListItem>
+          <label>Hp: {hp}</label>
+        </ListItem>
+        <ListItem>
+          <label>Capacity: {capacity}</label>
+        </ListItem>
+      </List>
     </Container>
   );
 };

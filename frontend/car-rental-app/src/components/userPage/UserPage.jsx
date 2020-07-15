@@ -1,6 +1,5 @@
 import React from "react";
 import { Route, Switch, HashRouter } from "react-router-dom";
-
 import ShowCars from "./showCars/ShowCars";
 import CancelReservation from "./cancelReservation/CancelReservation";
 import ReportBug from "./reportBug/ReportBug";
@@ -12,10 +11,9 @@ const UserPage = () => {
   return (
     <div>
       <UserNavbar />
-      <div>Welcome on user page!</div>
       <HashRouter basename="/userPage">
         <Switch>
-          <Route path="/showCars" component={ShowCars} />
+          <Route path="/" component={ShowCars} />
           <Route path="/cancelReservation" component={CancelReservation} />
           <Route path="/reportBug" component={ReportBug} />
           <Route path="/showAllCars" component={ShowAllCars} />
