@@ -1,0 +1,1 @@
+INSERT INTO colours (name) VALUES ('whatever');
