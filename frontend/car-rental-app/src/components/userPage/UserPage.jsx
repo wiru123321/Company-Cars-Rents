@@ -13,7 +13,7 @@ const UserPage = () => {
       <UserNavbar />
       <HashRouter basename="/userPage">
         <Switch>
-          <Route path="/" component={ShowCars} />
+          <Route path="/" exact component={ShowCars} />
           <Route path="/cancelReservation" component={CancelReservation} />
           <Route path="/reportBug" component={ReportBug} />
           <Route path="/showAllCars" component={ShowAllCars} />
