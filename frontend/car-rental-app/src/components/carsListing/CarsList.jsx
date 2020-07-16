@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ListGroup, Container, Row, Image, Col } from "react-bootstrap";
+import { Container, List, ListItem, Box } from "@material-ui/core";
 import CarInfo from "./CarInfo";
 import CarImage from "./CarImage";
 // Temporary json, has to be removed when connected with Api.
@@ -42,22 +42,18 @@ const json = [
 const CarsList = () => {
   const [cars, setCars] = useState(json);
   return (
-    <Container>
-      <ListGroup variant="flush">
+    <Box display="flex" justifyContent="center" alignItems="center">
+      <List>
         {cars.map((car, index) => (
-          <ListGroup.Item>
-            <Row className="justify-content-md-center">
-              <Col md="auto">
-                <CarImage src={car.src} />
-              </Col>
-              <Col>
-                <CarInfo car={car} />
-              </Col>
-            </Row>
-          </ListGroup.Item>
+          <ListItem key={car.src}>
+            <Box display="flex">
+              <CarImage src={car.src} />
+              <CarInfo car={car} />
+            </Box>
+          </ListItem>
         ))}
-      </ListGroup>
-    </Container>
+      </List>
+    </Box>
   );
 };
 
