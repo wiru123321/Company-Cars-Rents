@@ -6,7 +6,6 @@ import {
   Grid,
   List,
   ListItem,
-  Box,
   Button,
 } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -49,6 +48,19 @@ const json = [
   },
 ];
 
+const CarControlPanel = () => {
+  return (
+    <Grid container direction="row" justify="space-evenly" alignItems="center">
+      <Button variant="contained" color="primary" startIcon={<EditIcon />}>
+        Edit
+      </Button>
+      <Button variant="contained" color="secondary" startIcon={<DeleteIcon />}>
+        Remove
+      </Button>
+    </Grid>
+  );
+};
+
 const RemoveCar = () => {
   const [cars, setCars] = useState(json);
 
@@ -57,30 +69,10 @@ const RemoveCar = () => {
       <List>
         {cars.map((car, index) => {
           return (
-            <ListItem>
+            <ListItem key={index}>
               <CarImage src={car.src} />
               <CarInfo car={car} />
-              <Grid
-                container
-                direction="row"
-                justify="space-evenly"
-                alignItems="center"
-              >
-                <Button
-                  variant="contained"
-                  color="primary"
-                  startIcon={<EditIcon />}
-                >
-                  Edit
-                </Button>
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  startIcon={<DeleteIcon />}
-                >
-                  Remove
-                </Button>
-              </Grid>
+              <CarControlPanel />
             </ListItem>
           );
         })}
