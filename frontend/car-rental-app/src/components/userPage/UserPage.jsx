@@ -1,6 +1,5 @@
 import React from "react";
 import { Route, Switch, HashRouter } from "react-router-dom";
-
 import ShowCars from "./showCars/ShowCars";
 import CancelReservation from "./cancelReservation/CancelReservation";
 import ReportBug from "./reportBug/ReportBug";
