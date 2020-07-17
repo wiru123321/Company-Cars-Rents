@@ -9,9 +9,13 @@ import {
 } from "@material-ui/core";
 export const UserPersonalData = () => {
   return (
-    <Grid direction="row" justify="left" alignItems="center">
-      <TextField label="Firstname" variant="outlined" margin="normal" />
-      <TextField label="Lastname" variant="outlined" margin="normal" />
+    <Grid container spacing={2}>
+      <Grid item xs={6}>
+        <TextField label="Firstname" variant="outlined" margin="normal" />
+      </Grid>
+      <Grid item xs={6}>
+        <TextField label="Lastname" variant="outlined" margin="normal" />
+      </Grid>
     </Grid>
   );
 };

@@ -1,34 +1,44 @@
 import React from "react";
-import {
-  Container,
-  TextField,
-  Grid,
-  Input,
-  InputLabel,
-  Button,
-  Box,
-  ListItem,
-} from "@material-ui/core";
+import CarSuggestion from "./CarSuggestion";
+import { makeStyles } from "@material-ui/core/styles";
+import { Container, Grid, Button } from "@material-ui/core";
 import {
   RequestDate,
   ReservationDate,
   UserPersonalData,
 } from "./ReservationForm";
-import CarSuggestion from "./CarSuggestion";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    marginTop: "2%",
+    height: "800px",
+    padding: "8px",
+  },
+  leftColumn: {
+    width: "40%",
+  },
+  rightColumn: {
+    width: "60%",
+  },
+}));
 
 const Reservation = () => {
+  const classes = useStyles();
+
   return (
-    <Container maxWidth="lg">
+    <Container className={classes.root} maxWidth="lg">
       <Grid container direction="row" justify="left" alignItems="flex-start">
-        <Container style={{ width: "40%" }}>
+        <Container className={classes.leftColumn}>
           <Grid direction="column" justify="flex-start" alignItems="center">
             <UserPersonalData />
             <RequestDate />
             <ReservationDate />
-            <Button>Submit</Button>
+            <Button variant="contained" color="primary">
+              Submit
+            </Button>
           </Grid>
         </Container>
-        <Container style={{ width: "60%" }}>
+        <Container className={classes.rightColumn}>
           <CarSuggestion />
         </Container>
       </Grid>
