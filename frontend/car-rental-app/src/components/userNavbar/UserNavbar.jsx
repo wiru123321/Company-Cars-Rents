@@ -11,7 +11,10 @@ const UserNavbar = () => {
         className="bg-color-nav"
         variant="dark"
       >
-        <Navbar.Brand href="#userPage" style={{ color: "#f3f169" }}>
+        <Navbar.Brand
+          href="#userPage"
+          style={{ color: "#f3f169", fontSize: "25px" }}
+        >
           Company Name or logo
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
@@ -19,7 +22,7 @@ const UserNavbar = () => {
           <Nav className="ml-auto">
             <NavDropdown
               title={
-                <span style={{ color: "#f3f169", fontSize: "20px" }}>
+                <span style={{ color: "#f3f169", fontSize: "25px" }}>
                   Your Cars
                 </span>
               }
@@ -41,7 +44,7 @@ const UserNavbar = () => {
                 <span
                   style={{
                     color: "#f3f169",
-                    fontSize: "20px",
+                    fontSize: "25px",
                     marginRight: "15px",
                   }}
                 >
