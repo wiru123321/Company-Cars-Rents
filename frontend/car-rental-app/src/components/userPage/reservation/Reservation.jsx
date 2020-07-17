@@ -6,37 +6,32 @@ import {
   Input,
   InputLabel,
   Button,
+  Box,
+  ListItem,
 } from "@material-ui/core";
-
 import {
   RequestDate,
   ReservationDate,
   UserPersonalData,
 } from "./ReservationForm";
+import CarSuggestion from "./CarSuggestion";
 
-const CarSuggestion = () => {
-  return (
-    <Grid container direction="column" justify="flex-start" alignItems="center">
-      Elo
-    </Grid>
-  );
-};
 const Reservation = () => {
   return (
-    <Container>
-      <Grid container direction="row" justify="flex-start" alignItems="center">
-        <Container style={{ width: "50%" }}>
+    <Container maxWidth="lg">
+      <Grid container direction="row" justify="left" alignItems="flex-start">
+        <Container style={{ width: "40%" }}>
           <Grid direction="column" justify="flex-start" alignItems="center">
             <UserPersonalData />
             <RequestDate />
             <ReservationDate />
+            <Button>Submit</Button>
           </Grid>
         </Container>
-        <Container style={{ width: "50%" }}>
+        <Container style={{ width: "60%" }}>
           <CarSuggestion />
         </Container>
       </Grid>
-      <Button>Submit</Button>
     </Container>
   );
 };
