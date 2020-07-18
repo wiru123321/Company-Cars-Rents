@@ -4,7 +4,6 @@ import lombok.Data;
 
 import javax.persistence.*;
 
-// ready Entity
 @Data
 @Table(name = "car_types")
 @Entity
@@ -20,7 +19,7 @@ public class Type {
     public Type() {
     }
 
-    public Type(String typeName) {
-        this.name = typeName;
+    public Type(String name) {
+        this.name = name;
     }
 }

@@ -5,7 +5,6 @@ import lombok.Data;
 import javax.persistence.*;
 import java.util.Date;
 
-// ready Entity
 @Data
 @Table(name = "cars")
 @Entity
@@ -53,7 +52,7 @@ public class Car {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Mark mark;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
     private Parking parking;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

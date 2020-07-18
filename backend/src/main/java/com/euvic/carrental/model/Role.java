@@ -4,7 +4,6 @@ import lombok.Data;
 
 import javax.persistence.*;
 
-// ready Entity
 @Data
 @Table(name = "roles")
 @Entity
@@ -13,12 +12,13 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String name;
 
     public Role() {
     }
 
-    public Role(String roleName) {
-        this.name = roleName;
+    public Role(String name) {
+        this.name = name;
     }
 }

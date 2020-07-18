@@ -1,8 +1,10 @@
 package com.euvic.carrental.model;
 
 import lombok.Data;
+import org.hibernate.exception.DataException;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Data
 @Table(name = "rents_history")
@@ -14,13 +16,10 @@ public class RentHistory {
     private Long id;
 
     @Column(nullable = false)
-    private String dateFrom;
+    private Date dateFrom;
 
     @Column(nullable = false)
-    private String dateTo;
-
-    @Column(nullable = false)
-    private Boolean isActive;
+    private Date dateTo;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private User user;
@@ -28,18 +27,21 @@ public class RentHistory {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Car car;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
     private Parking parkingFrom;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
     private Parking parkingTo;
+
+    @Column(nullable = false)
+    private Boolean isActive;
 
 
     public RentHistory() {
 
     }
 
-    public RentHistory(User user, Car car, String dateFrom, String dateTo, Parking parkingFrom, Parking parkingTo, boolean isActive) {
+    public RentHistory(User user, Car car, Date dateFrom, Date dateTo, Parking parkingFrom, Parking parkingTo, Boolean isActive) {
         this.user = user;
         this.car = car;
         this.dateFrom = dateFrom;

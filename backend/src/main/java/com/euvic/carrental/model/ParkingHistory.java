@@ -1,16 +1,15 @@
 package com.euvic.carrental.model;
 
-import lombok.Data;
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
-import javax.persistence.*;
+public class ParkingHistory {
 
-@Data
-@Table(name = "parkings")
-@Entity
-public class Parking {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long id;
+@Id
+@GeneratedValue(strategy = GenerationType.SEQUENCE)
+private Long id;
 
     @Column(nullable = false)
     private String town;
@@ -26,10 +25,10 @@ public class Parking {
     @Column(nullable = false)
     private Boolean isActive;
 
-    public Parking() {
+    public ParkingHistory() {
     }
 
-    public Parking(String town, String postalCode, String streetName, String comment, Boolean isActive) {
+    public ParkingHistory(String town, String postalCode, String streetName, String comment, Boolean isActive) {
         this.town = town;
         this.postalCode = postalCode;
         this.streetName = streetName;

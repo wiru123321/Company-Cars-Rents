@@ -16,7 +16,8 @@ public class Model {
     @Column(nullable = false)
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne()
+    @JoinColumn(name = "mark_id", nullable = false)
     private Mark mark;
 
     public Model() {
