@@ -5,7 +5,7 @@ import lombok.Data;
 import javax.persistence.*;
 
 @Data
-@Table(name = "fuel_type")
+@Table(name = "fuel_types")
 @Entity
 public class FuelType {
 

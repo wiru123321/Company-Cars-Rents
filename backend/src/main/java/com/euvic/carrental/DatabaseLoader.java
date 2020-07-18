@@ -12,7 +12,7 @@ import java.nio.file.Paths;
 import java.util.List;
 
 
-//@Component
+@Component
 public class DatabaseLoader implements CommandLineRunner {
 
     //TODO add reposittories and services
@@ -56,7 +56,7 @@ public class DatabaseLoader implements CommandLineRunner {
 
     @Override
     public void run(String... strings) throws Exception {
-/*
+
         Path path = Paths.get("./DataBase/Types.txt");
         List<String> stringList = Files.readAllLines(path);
         for (int i = 0; i < stringList.size(); i++) {
@@ -71,14 +71,14 @@ public class DatabaseLoader implements CommandLineRunner {
         }
         stringList.clear();
 
-        /*
+
         path = Paths.get("./DataBase/Marks.txt");
         stringList = Files.readAllLines(path);
         for (int i = 0; i < stringList.size(); i++) {
             markRepository.save(new Mark(stringList.get(i)));
         }
-        stringList.clear();*/ //Dont work because of changed constructor (Repair or delete)
-/*
+        stringList.clear();
+
         path = Paths.get("./DataBase/GearBoxTypes.txt");
         stringList = Files.readAllLines(path);
         for (int i = 0; i < stringList.size(); i++) {
@@ -98,6 +98,6 @@ public class DatabaseLoader implements CommandLineRunner {
         for (int i = 0; i < stringList.size(); i++) {
             colourRepository.save(new Colour(stringList.get(i)));
         }
-        stringList.clear();*/
+        stringList.clear();
     }
 }

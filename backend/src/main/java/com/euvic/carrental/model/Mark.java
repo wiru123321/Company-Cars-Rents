@@ -23,8 +23,12 @@ public class Mark {
     public Mark() {
     }
 
-    public Mark(String markName,Set<Model> modelList) {
+    public Mark(String markName, Set<Model> modelList) {
         this.name = markName;
         this.modelList = modelList;
+    }
+
+    public Mark(String markName) {
+        this.name = markName;
     }
 }
