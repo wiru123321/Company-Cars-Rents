@@ -56,7 +56,7 @@ public class DatabaseLoader implements CommandLineRunner {
 
     @Override
     public void run(String... strings) throws Exception {
-
+/*
         Path path = Paths.get("./DataBase/Types.txt");
         List<String> stringList = Files.readAllLines(path);
         for (int i = 0; i < stringList.size(); i++) {
@@ -98,6 +98,6 @@ public class DatabaseLoader implements CommandLineRunner {
         for (int i = 0; i < stringList.size(); i++) {
             colourRepository.save(new Colour(stringList.get(i)));
         }
-        stringList.clear();
+        stringList.clear(); */
     }
 }
