@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Grid, Button, Box } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import useStyles from "./useStyles";
 import CarImage from "../../carsListing/CarImage";
 import CarInfo from "../../carsListing/CarInfo";
 import {
@@ -11,17 +11,7 @@ import {
   undoChoose,
 } from "../../../features/car-reservation/reservationSlice";
 
-const useStyles = makeStyles((theme) => ({
-  btnPanel: {
-    marginTop: "2%",
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-evenly",
-  },
-}));
-
 const SelectedCar = () => {
-  const classes = useStyles();
   const dispatch = useDispatch();
   const isChoosen = useSelector(selectIsChoosen);
   const car = useSelector(selectCar);
@@ -44,7 +34,7 @@ const SelectedCar = () => {
         <CarImage src={car.src} />
         <CarInfo car={car} />
       </Box>
-      <div className={classes.btnPanel}>
+      <div className={useStyles.btnPanel}>
         <Button onClick={toggleCarChoose} variant="contained" color="primary">
           Change car
         </Button>
