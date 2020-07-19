@@ -11,7 +11,10 @@ const AdminNavbar = () => {
         className="bg-color-nav"
         variant="dark"
       >
-        <Navbar.Brand href="#adminPage" style={{ color: "#f3f169" }}>
+        <Navbar.Brand
+          href="#adminPage"
+          style={{ color: "#f3f169", fontSize: "25px" }}
+        >
           Company Name or logo
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
@@ -19,13 +22,11 @@ const AdminNavbar = () => {
           <Nav className="ml-auto">
             <NavDropdown
               title={
-                <span style={{ color: "#f3f169", fontSize: "20px" }}>Cars</span>
+                <span style={{ color: "#f3f169", fontSize: "25px" }}>Cars</span>
               }
               id="collasible-nav-dropdown"
             >
-              <NavDropdown.Item href="#adminPage/addNewCar">
-                Add new car
-              </NavDropdown.Item>
+              <NavDropdown.Item href="#adminPage">Add new car</NavDropdown.Item>
               <NavDropdown.Item href="#adminPage/removeCar">
                 Remove car
               </NavDropdown.Item>
@@ -33,7 +34,7 @@ const AdminNavbar = () => {
             </NavDropdown>
             <NavDropdown
               title={
-                <span style={{ color: "#f3f169", fontSize: "20px" }}>
+                <span style={{ color: "#f3f169", fontSize: "25px" }}>
                   Employer
                 </span>
               }
@@ -49,7 +50,7 @@ const AdminNavbar = () => {
             </NavDropdown>
             <Nav.Link
               href="#adminPage/parking"
-              style={{ color: "#f3f169", fontSize: "20px" }}
+              style={{ color: "#f3f169", fontSize: "25px" }}
             >
               Parking
             </Nav.Link>
