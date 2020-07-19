@@ -1,7 +1,7 @@
 import React from "react";
 import CarSuggestion from "./CarSuggestion";
 import { makeStyles } from "@material-ui/core/styles";
-import { Container, Grid, Button } from "@material-ui/core";
+import { Container, Grid, Button, Box } from "@material-ui/core";
 import {
   RequestDate,
   ReservationDate,
@@ -15,6 +15,7 @@ const useStyles = makeStyles((theme) => ({
     padding: "8px",
   },
   leftColumn: {
+    // padding: "14px",
     width: "40%",
   },
   rightColumn: {
@@ -28,16 +29,19 @@ const Reservation = () => {
   return (
     <Container className={classes.root} maxWidth="lg">
       <Grid container direction="row" justify="left" alignItems="flex-start">
-        <Container className={classes.leftColumn}>
+        <Box className={classes.leftColumn}>
           <Grid direction="column" justify="flex-start" alignItems="center">
             <UserPersonalData />
-            <RequestDate />
             <ReservationDate />
-            <Button variant="contained" color="primary">
+            <Button
+              style={{ marginTop: "2%", width: "100%" }}
+              variant="contained"
+              color="primary"
+            >
               Submit
             </Button>
           </Grid>
-        </Container>
+        </Box>
         <Container className={classes.rightColumn}>
           <CarSuggestion />
         </Container>
