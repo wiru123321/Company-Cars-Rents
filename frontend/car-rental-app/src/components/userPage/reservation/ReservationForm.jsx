@@ -9,7 +9,10 @@ import {
 } from "@material-ui/core";
 import useStyles from "./useStyles";
 
-export const UserPersonalData = () => {
+export const UserPersonalData = ({
+  handleFirstnameChange,
+  handleLastnameChange,
+}) => {
   return (
     <Box
       border={1}
@@ -18,12 +21,14 @@ export const UserPersonalData = () => {
     >
       <Grid container direction="row" justify="space-between">
         <TextField
+          onChange={() => handleFirstnameChange}
           label="Firstname"
           variant="outlined"
           margin="normal"
           required
         />
         <TextField
+          onChange={() => handleLastnameChange}
           label="Lastname"
           variant="outlined"
           margin="normal"
@@ -34,7 +39,11 @@ export const UserPersonalData = () => {
   );
 };
 
-export const ReservationDate = ({ inputText }) => {
+export const ReservationDate = ({
+  inputText,
+  handleDateChange,
+  handleHourChange,
+}) => {
   return (
     <Box
       border={1}
@@ -48,6 +57,7 @@ export const ReservationDate = ({ inputText }) => {
           labelPlacement="start"
           control={
             <TextField
+              onChange={() => handleDateChange}
               type="date"
               variant="outlined"
               shrink
@@ -61,6 +71,7 @@ export const ReservationDate = ({ inputText }) => {
           labelPlacement="start"
           control={
             <TextField
+              onChange={() => handleHourChange}
               type="time"
               variant="outlined"
               shrink

@@ -36,7 +36,6 @@ const json = [
   },
 ];
 const initialState = {
-  requestDate: "",
   firstName: "",
   lastName: "",
   reservationBeginDate: "",
@@ -66,10 +65,38 @@ export const reservationSlice = createSlice({
     toggleChoose: (state) => {
       state.choose = !state.choose;
     },
+    firstnameChange: (state, action) => {
+      state.firstName = action.payload;
+    },
+    lastnameChange: (state, action) => {
+      state.lastName = action.payload;
+    },
+    beginDateChange: (state, action) => {
+      state.reservationBeginDate = action.payload;
+    },
+    beginHourChange: (state, action) => {
+      state.reservationBeginHours = action.payload;
+    },
+    endDateChange: (state, action) => {
+      state.reservationEndDate = action.payload;
+    },
+    endHourChange: (state, action) => {
+      state.reservationEndHour = action.payload;
+    },
   },
 });
 
-export const { chooseCar, undoChoose, toggleChoose } = reservationSlice.actions;
+export const {
+  chooseCar,
+  undoChoose,
+  toggleChoose,
+  firstnameChange,
+  lastnameChange,
+  beginDateChange,
+  beginHourChange,
+  endDateChange,
+  endHourChange,
+} = reservationSlice.actions;
 
 export const selectCars = (state) => state.reservation.cars;
 export const selectCar = (state) =>
