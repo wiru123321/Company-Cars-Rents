@@ -13,8 +13,7 @@ public class Car {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long photoInFolderId;
+    private String photoInFolderName;
 
     @Column(nullable = false)
     private String licensePlate;
