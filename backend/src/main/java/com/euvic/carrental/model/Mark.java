@@ -17,7 +17,7 @@ public class Mark {
     @Column(nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "marks")
+    @OneToMany(mappedBy = "mark")
     private Set<Model> modelList;
 
     public Mark() {
@@ -28,7 +28,4 @@ public class Mark {
         this.modelList = modelList;
     }
 
-    public Mark(String markName) {
-        this.name = markName;
-    }
 }

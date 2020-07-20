@@ -1,6 +1,7 @@
 package com.euvic.carrental.model;
 
 import lombok.Data;
+import lombok.Getter;
 
 import javax.persistence.*;
 
@@ -18,7 +19,8 @@ public class Role {
     public Role() {
     }
 
-    public Role(String name) {
+    public Role(Long id, String name) {
+        this.id = id;
         this.name = name;
     }
 }
