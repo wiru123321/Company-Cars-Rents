@@ -31,14 +31,13 @@ public class RoleServiceTest {
 
     @Test
     void whenRoleGiven_thenReturnRoleDTO(){
-        Role role = new Role(null,"Admin");
-        RoleDTO roleDTO = new RoleDTO("Admin");
+        final Role role = new Role(null,"Admin");
+        final RoleDTO roleDTO = new RoleDTO("Admin");
         assertAll(() -> {
             assertEquals(roleService.mapRestModel(roleDTO).getName(), role.getName());
             assertEquals(roleService.mapRestModel(roleDTO).getId(), role.getId());
         });
     }
-
 
     @Test
     void returnDBRole(){
@@ -65,6 +64,6 @@ public class RoleServiceTest {
 
         List<RoleDTO> roleDTOList = roleService.getAll();
 
-        assertEquals(3, roleDTOList.size());
+        assertEquals(roleRepository.count(), roleDTOList.size());
     }
 }

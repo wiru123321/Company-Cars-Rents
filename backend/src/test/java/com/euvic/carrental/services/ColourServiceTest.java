@@ -30,7 +30,7 @@ public class ColourServiceTest {
     }
 
     @Test
-    void whenColourGiven_thenReturnRoleDTO() {
+    void whenColourGiven_thenReturnColourDTO() {
         final Colour colour = new Colour(null, "Red");
         final ColourDTO colourDTO = new ColourDTO("Red");
         assertAll(() -> {
@@ -64,12 +64,12 @@ public class ColourServiceTest {
 
         final List<ColourDTO> colourDTOList = colourService.getAll();
 
-        assertEquals(3, colourDTOList.size());
+        assertEquals(colourRepository.count(), colourDTOList.size());
     }
 
     @Test
     void addColour() {
-        final ColourDTO colourDTO = new ColourDTO("Czerwony");
+        final ColourDTO colourDTO = new ColourDTO("Red");
 
         assertEquals(0, colourRepository.count());
         colourService.add(colourDTO);

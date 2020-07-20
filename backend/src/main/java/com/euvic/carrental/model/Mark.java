@@ -20,7 +20,9 @@ public class Mark {
     @OneToMany(mappedBy = "mark")
     private Set<Model> modelList;
 
-    public Mark(final String name) {
+    //TODO add to constructor Set ? or maybe by setter
+    public Mark(Long id, String name) {
+        this.id = id;
         this.name = name;
     }
 }

@@ -64,14 +64,14 @@ public class DatabaseLoader implements CommandLineRunner {
             Path path = Paths.get("./DataBase/Types.txt");
             List<String> stringList = Files.readAllLines(path);
             for (int i = 0; i < stringList.size(); i++) {
-                typeRepository.save(new Type(stringList.get(i)));
+                typeRepository.save(new Type(null, stringList.get(i)));
             }
             stringList.clear();
 
             path = Paths.get("./DataBase/Roles.txt");
             stringList = Files.readAllLines(path);
             for (int i = 0; i < stringList.size(); i++) {
-                roleRepository.save(new Role(stringList.get(i)));
+                roleRepository.save(new Role(null, stringList.get(i)));
             }
             stringList.clear();
 
@@ -79,28 +79,28 @@ public class DatabaseLoader implements CommandLineRunner {
             path = Paths.get("./DataBase/Marks.txt");
             stringList = Files.readAllLines(path);
             for (int i = 0; i < stringList.size(); i++) {
-                markRepository.save(new Mark(stringList.get(i)));
+                markRepository.save(new Mark(null, stringList.get(i)));
             }
             stringList.clear();
 
             path = Paths.get("./DataBase/GearBoxTypes.txt");
             stringList = Files.readAllLines(path);
             for (int i = 0; i < stringList.size(); i++) {
-                gearboxTypeRepository.save(new GearboxType(stringList.get(i)));
+                gearboxTypeRepository.save(new GearboxType(null, stringList.get(i)));
             }
             stringList.clear();
 
             path = Paths.get("./DataBase/FuelTypes.txt");
             stringList = Files.readAllLines(path);
             for (int i = 0; i < stringList.size(); i++) {
-                fuelTypeRepository.save(new FuelType(stringList.get(i)));
+                fuelTypeRepository.save(new FuelType(null, stringList.get(i)));
             }
             stringList.clear();
 
             path = Paths.get("./DataBase/Colours.txt");
             stringList = Files.readAllLines(path);
             for (int i = 0; i < stringList.size(); i++) {
-                colourRepository.save(new Colour(stringList.get(i)));
+                colourRepository.save(new Colour(null, stringList.get(i)));
             }
             stringList.clear();
         }

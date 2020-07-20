@@ -22,8 +22,4 @@ public class Role {
         this.id = id;
         this.name = name;
     }
-
-    public Role(final String name) {
-        this.name = name;
-    }
 }
