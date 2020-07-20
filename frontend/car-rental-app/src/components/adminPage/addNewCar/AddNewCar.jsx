@@ -209,9 +209,7 @@ const AddNewCar = () => {
                 color="primary"
                 aria-label="upload picture"
                 component="span"
-              >
-                <PhotoCamera />
-              </IconButton>
+              ></IconButton>
             </label>
           </Box>
           <Box display="flex" justifyContent="center" m={1} p={1}>
