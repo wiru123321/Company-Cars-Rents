@@ -21,18 +21,18 @@ const Reservation = () => {
         <Box className={useStyles().leftColumn}>
           <Grid direction="column" justify="flex-start" alignItems="center">
             <UserPersonalData
-              handleFirstnameChange={dispatch(firstnameChange())}
-              handleLastnameChange={dispatch(lastnameChange())}
+              handleFirstnameChange={dispatch(firstnameChange)}
+              handleLastnameChange={dispatch(lastnameChange)}
             />
             <ReservationDate
               inputText="Reservation start:"
-              handleDateChange={dispatch(beginDateChange())}
-              handleHourChange={dispatch(beginHourChange())}
+              handleDateChange={dispatch(beginDateChange)}
+              handleHourChange={dispatch(beginHourChange)}
             />
             <ReservationDate
               inputText="Reservation end:"
-              handleDateChange={dispatch(endDateChange())}
-              handleHourChange={dispatch(endHourChange())}
+              handleDateChange={dispatch(endDateChange)}
+              handleHourChange={dispatch(endHourChange)}
             />
             <Button
               style={{ marginTop: "2%", width: "100%" }}

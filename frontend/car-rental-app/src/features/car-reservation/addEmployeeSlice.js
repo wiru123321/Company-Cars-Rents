@@ -6,6 +6,8 @@ const initialState = {
   login: "",
   password: "",
   rePassword: "",
+  didSubmit: false,
+  success: false,
 };
 
 export const addEmployeeSlice = createSlice({
@@ -27,6 +29,21 @@ export const addEmployeeSlice = createSlice({
     rePasswordChange: (state, action) => {
       state.rePassword = action.payload;
     },
+    toggleDidSubmit: (state, action) => {
+      state.didSubmit = action.payload;
+    },
+    toggleSuccess: (state, action) => {
+      state.success = action.payload;
+    },
+    reset: (state) => {
+      state.firstname = "";
+      state.lastname = "";
+      state.login = "";
+      state.password = "";
+      state.rePassword = "";
+      state.didSubmit = false;
+      state.success = false;
+    },
   },
 });
 
@@ -36,6 +53,9 @@ export const {
   loginChange,
   passwordChange,
   rePasswordChange,
+  toggleDidSubmit,
+  toggleSuccess,
+  reset,
 } = addEmployeeSlice.actions;
 export const selectAll = (state) => state.addEmployee;
 

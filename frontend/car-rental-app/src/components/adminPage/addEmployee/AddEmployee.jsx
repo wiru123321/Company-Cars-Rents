@@ -1,14 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  firstnameChange,
-  lastnameChange,
-  loginChange,
-  passwordChange,
-  rePasswordChange,
+  toggleDidSubmit,
   selectAll,
+  reset,
 } from "../../../features/car-reservation/addEmployeeSlice";
-import { TextField, Container, Grid, Button } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
+import FormControlPanel from "./FormControlPanel";
+import UsersLogin from "./UsersLogin";
+import UsersPassword from "./UsersPassword";
+import UsersPersonalData from "./UsersPersonalData";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
@@ -19,14 +20,37 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
+
 const AddEmployee = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { firstname, lastname, login, password, rePassword } = useSelector(
-    selectAll
-  );
+  const [showSuccess, toggleShowSuccess] = useState(false);
+  const [success, isSuccess] = useState(false);
+  const { password, rePassword } = useSelector(selectAll);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      toggleShowSuccess(false);
+      isSuccess(false);
+    }, 2000);
+    return () => {
+      if (showSuccess == true) return clearTimeout(timer);
+    };
+  }, [success, showSuccess]);
+
   return (
-    <form>
+    <form
+      onSubmit={(event) => {
+        event.preventDefault();
+
+        if (password === rePassword) {
+          dispatch(reset());
+          isSuccess(true);
+          toggleShowSuccess(true);
+        }
+        dispatch(toggleDidSubmit(true));
+      }}
+    >
       <Grid
         className={classes.root}
         container
@@ -34,41 +58,10 @@ const AddEmployee = () => {
         justify="center"
         alignItems="center"
       >
-        <TextField
-          onChange={(event) => dispatch(firstnameChange(event.target.value))}
-          label="firstname"
-          variant="filled"
-          required
-        />
-        <TextField
-          onChange={(event) => dispatch(lastnameChange(event.target.value))}
-          label="lastname"
-          variant="filled"
-          required
-        />
-        <TextField
-          onChange={(event) => dispatch(loginChange(event.target.value))}
-          label="login"
-          variant="filled"
-          required
-        />
-        <TextField
-          onChange={(event) => dispatch(passwordChange(event.target.value))}
-          label="password"
-          variant="filled"
-          type="password"
-          required
-        />
-        <TextField
-          onChange={(event) => dispatch(rePasswordChange(event.target.value))}
-          label="repeat password"
-          variant="filled"
-          type="password"
-          required
-        />
-        <Button variant="contained" type="submit">
-          Create account
-        </Button>
+        <UsersPersonalData />
+        <UsersLogin />
+        <UsersPassword />
+        <FormControlPanel success={success} showSuccess={showSuccess} />
       </Grid>
     </form>
   );
