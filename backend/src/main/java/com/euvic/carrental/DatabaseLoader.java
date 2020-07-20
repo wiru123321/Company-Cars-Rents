@@ -3,6 +3,7 @@ package com.euvic.carrental;
 import com.euvic.carrental.model.*;
 import com.euvic.carrental.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -30,15 +31,17 @@ public class DatabaseLoader implements CommandLineRunner {
     private final GearboxTypeRepository gearboxTypeRepository;
     private final FuelTypeRepository fuelTypeRepository;
 
+    @Value("${spring.datasource.username}")
+    private String dataBase;
 
     @Autowired
-    public DatabaseLoader(CarRepository carRepository, ColourRepository colourRepository,
-                          FaultRepository faultRepository, MarkRepository markRepository,
-                          ModelRepository modelRepository, ParkingRepository parkingRepository,
-                          RentHistoryRepository rentHistoryRepository, RentRepository rentRepository,
-                          RoleRepository roleRepository, TypeRepository typeRepository,
-                          UserRepository userRepository, GearboxTypeRepository gearboxTypeRepository,
-                          FuelTypeRepository fuelTypeRepository) {
+    public DatabaseLoader(final CarRepository carRepository, final ColourRepository colourRepository,
+                          final FaultRepository faultRepository, final MarkRepository markRepository,
+                          final ModelRepository modelRepository, final ParkingRepository parkingRepository,
+                          final RentHistoryRepository rentHistoryRepository, final RentRepository rentRepository,
+                          final RoleRepository roleRepository, final TypeRepository typeRepository,
+                          final UserRepository userRepository, final GearboxTypeRepository gearboxTypeRepository,
+                          final FuelTypeRepository fuelTypeRepository) {
         this.carRepository = carRepository;
         this.colourRepository = colourRepository;
         this.faultRepository = faultRepository;
@@ -55,49 +58,51 @@ public class DatabaseLoader implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... strings) throws Exception {
-/*
-        Path path = Paths.get("./DataBase/Types.txt");
-        List<String> stringList = Files.readAllLines(path);
-        for (int i = 0; i < stringList.size(); i++) {
-            typeRepository.save(new Type(stringList.get(i)));
-        }
-        stringList.clear();
+    public void run(final String... strings) throws Exception {
+        
+        if (dataBase.equals("postgres")) {
+            Path path = Paths.get("./DataBase/Types.txt");
+            List<String> stringList = Files.readAllLines(path);
+            for (int i = 0; i < stringList.size(); i++) {
+                typeRepository.save(new Type(stringList.get(i)));
+            }
+            stringList.clear();
 
-        path = Paths.get("./DataBase/Roles.txt");
-        stringList = Files.readAllLines(path);
-        for (int i = 0; i < stringList.size(); i++) {
-            roleRepository.save(new Role(stringList.get(i)));
-        }
-        stringList.clear();
+            path = Paths.get("./DataBase/Roles.txt");
+            stringList = Files.readAllLines(path);
+            for (int i = 0; i < stringList.size(); i++) {
+                roleRepository.save(new Role(stringList.get(i)));
+            }
+            stringList.clear();
 
 
-        path = Paths.get("./DataBase/Marks.txt");
-        stringList = Files.readAllLines(path);
-        for (int i = 0; i < stringList.size(); i++) {
-            markRepository.save(new Mark(stringList.get(i)));
-        }
-        stringList.clear();
+            path = Paths.get("./DataBase/Marks.txt");
+            stringList = Files.readAllLines(path);
+            for (int i = 0; i < stringList.size(); i++) {
+                markRepository.save(new Mark(stringList.get(i)));
+            }
+            stringList.clear();
 
-        path = Paths.get("./DataBase/GearBoxTypes.txt");
-        stringList = Files.readAllLines(path);
-        for (int i = 0; i < stringList.size(); i++) {
-            gearboxTypeRepository.save(new GearboxType(stringList.get(i)));
-        }
-        stringList.clear();
+            path = Paths.get("./DataBase/GearBoxTypes.txt");
+            stringList = Files.readAllLines(path);
+            for (int i = 0; i < stringList.size(); i++) {
+                gearboxTypeRepository.save(new GearboxType(stringList.get(i)));
+            }
+            stringList.clear();
 
-        path = Paths.get("./DataBase/FuelTypes.txt");
-        stringList = Files.readAllLines(path);
-        for (int i = 0; i < stringList.size(); i++) {
-            fuelTypeRepository.save(new FuelType(stringList.get(i)));
-        }
-        stringList.clear();
+            path = Paths.get("./DataBase/FuelTypes.txt");
+            stringList = Files.readAllLines(path);
+            for (int i = 0; i < stringList.size(); i++) {
+                fuelTypeRepository.save(new FuelType(stringList.get(i)));
+            }
+            stringList.clear();
 
-        path = Paths.get("./DataBase/Colours.txt");
-        stringList = Files.readAllLines(path);
-        for (int i = 0; i < stringList.size(); i++) {
-            colourRepository.save(new Colour(stringList.get(i)));
+            path = Paths.get("./DataBase/Colours.txt");
+            stringList = Files.readAllLines(path);
+            for (int i = 0; i < stringList.size(); i++) {
+                colourRepository.save(new Colour(stringList.get(i)));
+            }
+            stringList.clear();
         }
-        stringList.clear(); */
     }
 }

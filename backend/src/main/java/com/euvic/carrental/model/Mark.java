@@ -20,12 +20,7 @@ public class Mark {
     @OneToMany(mappedBy = "mark")
     private Set<Model> modelList;
 
-    public Mark() {
+    public Mark(final String name) {
+        this.name = name;
     }
-
-    public Mark(String markName, Set<Model> modelList) {
-        this.name = markName;
-        this.modelList = modelList;
-    }
-
 }
