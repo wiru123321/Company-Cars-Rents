@@ -46,9 +46,9 @@ public class ColourServiceTest {
         colourRepository.save(colour);
         assertEquals(1, colourRepository.count());
 
-        final ColourDTO serviceColourDTO = colourService.getByName("Blue");
+        final ColourDTO colourDTO = colourService.getByName("Blue");
 
-        assertEquals(colour.getName(), serviceColourDTO.getName());
+        assertEquals(colour.getName(), colourDTO.getName());
     }
 
     @Test

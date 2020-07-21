@@ -25,18 +25,13 @@ public class ColourService implements ColourServiceInterface {
     }
 
     @Override
-    public ColourDTO getById(final Long id) {
-        return new ColourDTO(colourRepository.getById(id));
-    }
-
-    @Override
     public Long add(final ColourDTO colour) {
         return colourRepository.save(this.mapRestModel(colour)).getId();
     }
 
     @Override
     public Colour mapRestModel(final ColourDTO colour) {
-        return new Colour(colour.getName());
+        return new Colour(null, colour.getName());
     }
 
     @Override
@@ -44,6 +39,8 @@ public class ColourService implements ColourServiceInterface {
         final ArrayList<Colour> colourList = new ArrayList<>();
         colourRepository.findAll().forEach(colourList::add);
 
-        return colourList.stream().map(ColourDTO::new).collect(Collectors.toList());
+        return colourList.stream()
+                .map(ColourDTO::new)
+                .collect(Collectors.toList());
     }
 }

@@ -5,7 +5,7 @@ import com.euvic.carrental.responses.ParkingDTO;
 
 import java.util.List;
 
-public interface ParkingServiceInterface {
+public interface ParkingHistoryServiceInterface {
     Parking mapRestModel(final ParkingDTO parking);
 
     ParkingDTO getByTown(String town);
@@ -13,5 +13,4 @@ public interface ParkingServiceInterface {
     List<ParkingDTO> getAll();
 
     Long add(final ParkingDTO parking);
-    
 }

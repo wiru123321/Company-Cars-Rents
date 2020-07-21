@@ -1,22 +1,20 @@
 package com.euvic.carrental.services;
 
 import com.euvic.carrental.model.Parking;
-import com.euvic.carrental.repositories.ParkingRepository;
+import com.euvic.carrental.repositories.ParkingHistoryRepository;
 import com.euvic.carrental.responses.ParkingDTO;
-import com.euvic.carrental.services.interfaces.ParkingServiceInterface;
-import org.springframework.stereotype.Service;
+import com.euvic.carrental.services.interfaces.ParkingHistoryServiceInterface;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Service
-public class ParkingService implements ParkingServiceInterface {
+public class ParkingHistoryService implements ParkingHistoryServiceInterface {
 
-    private final ParkingRepository parkingRepository;
+    private final ParkingHistoryRepository parkingHistoryRepository;
 
-    public ParkingService(final ParkingRepository parkingRepository) {
-        this.parkingRepository = parkingRepository;
+    public ParkingHistoryService(final ParkingHistoryRepository parkingHistoryRepository) {
+        this.parkingHistoryRepository = parkingHistoryRepository;
     }
 
     @Override
@@ -26,23 +24,21 @@ public class ParkingService implements ParkingServiceInterface {
 
     @Override
     public ParkingDTO getByTown(final String town) {
-        return new ParkingDTO(parkingRepository.getByTown(town));
+        return new ParkingDTO(parkingHistoryRepository.getByTown(town));
     }
 
     @Override
     public Long add(final ParkingDTO parking) {
-        return parkingRepository.save(this.mapRestModel(parking)).getId();
+        return parkingHistoryRepository.save(this.mapRestModel(parking)).getId();
     }
 
     @Override
     public List<ParkingDTO> getAll() {
         final ArrayList<Parking> parkingArrayList = new ArrayList<>();
-        parkingRepository.findAll().forEach(parkingArrayList::add);
+        parkingHistoryRepository.findAll().forEach(parkingArrayList::add);
 
         return parkingArrayList.stream()
                 .map(ParkingDTO::new)
                 .collect(Collectors.toList());
     }
-
-
 }

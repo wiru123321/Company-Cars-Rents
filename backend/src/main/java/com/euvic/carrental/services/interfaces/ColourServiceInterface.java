@@ -8,8 +8,6 @@ import java.util.List;
 public interface ColourServiceInterface {
     ColourDTO getByName(final String name);
 
-    ColourDTO getById(final Long id);
-
     Long add(final ColourDTO colour);
 
     Colour mapRestModel(final ColourDTO colour);
