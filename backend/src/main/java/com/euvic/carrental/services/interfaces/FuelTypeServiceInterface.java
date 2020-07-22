@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface FuelTypeServiceInterface {
     FuelType mapRestModel(final FuelTypeDTO model);
-    FuelTypeDTO getByName(String name);
+    FuelTypeDTO getDTOByName(String name);
     List<FuelTypeDTO> getAll();
 }

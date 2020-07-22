@@ -22,7 +22,7 @@ public class TypeService implements TypeServiceInterface {
     }
 
     @Override
-    public TypeDTO getByName(final String name) {
+    public TypeDTO getDTOByName(final String name) {
         final Type type = typeRepository.findByName(name);
         return new TypeDTO(type);
     }

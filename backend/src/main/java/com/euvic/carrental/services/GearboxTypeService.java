@@ -20,7 +20,7 @@ public class GearboxTypeService implements GearboxTypeServiceInterface {
     }
 
     @Override
-    public GearBoxTypeDTO getByName(final String name) {
+    public GearBoxTypeDTO getDTOByName(final String name) {
         final GearboxType gearboxType = gearboxTypeRepository.findByName(name);
         return new GearBoxTypeDTO(gearboxType);
     }

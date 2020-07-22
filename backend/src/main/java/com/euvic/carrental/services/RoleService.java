@@ -20,7 +20,7 @@ public class RoleService implements RoleServiceInterface {
     }
 
     @Override
-    public RoleDTO getByName(final String name) {
+    public RoleDTO getDTOByName(final String name) {
         final Role role = roleRepository.findByName(name);
         return new RoleDTO(role);
     }

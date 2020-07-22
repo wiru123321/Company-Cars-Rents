@@ -23,7 +23,7 @@ public class ParkingHistoryService implements ParkingHistoryServiceInterface {
     }
 
     @Override
-    public ParkingDTO getByTown(final String town) {
+    public ParkingDTO getDTOByTown(final String town) {
         return new ParkingDTO(parkingHistoryRepository.getByTown(town));
     }
 

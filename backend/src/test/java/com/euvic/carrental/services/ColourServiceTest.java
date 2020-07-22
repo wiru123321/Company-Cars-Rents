@@ -30,7 +30,7 @@ public class ColourServiceTest {
     }
 
     @Test
-    void whenColourGiven_thenReturnColourDTO() {
+    void whenColourDTOGiven_thenReturnColourEntity() {
         final Colour colour = new Colour(null, "Red");
         final ColourDTO colourDTO = new ColourDTO("Red");
         assertAll(() -> {
@@ -40,22 +40,22 @@ public class ColourServiceTest {
     }
 
     @Test
-    void returnDBColour() {
+    void returnDBColourDTO() {
         final Colour colour = new Colour(null, "Blue");
         assertEquals(0, colourRepository.count());
         colourRepository.save(colour);
         assertEquals(1, colourRepository.count());
 
-        final ColourDTO colourDTO = colourService.getByName("Blue");
+        final ColourDTO colourDTO = colourService.getDTOByName("Blue");
 
         assertEquals(colour.getName(), colourDTO.getName());
     }
 
     @Test
-    void returnAllDBRoles() {
-        final Colour colour1 = new Colour(1L, "Red");
-        final Colour colour2 = new Colour(2L, "Blue");
-        final Colour colour3 = new Colour(3L, "Yellow");
+    void returnAllDBRolesDTO() {
+        final Colour colour1 = new Colour(null, "Red");
+        final Colour colour2 = new Colour(null, "Blue");
+        final Colour colour3 = new Colour(null, "Yellow");
         assertEquals(0, colourRepository.count());
         colourRepository.save(colour1);
         colourRepository.save(colour2);

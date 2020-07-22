@@ -30,7 +30,7 @@ public class GearboxTypeServiceTest {
     }
 
     @Test
-    void whenGearboxGiven_thenReturnGearboxDTO(){
+    void whenGearboxTypeDTOGiven_thenReturnGearboxTypeEntity(){
         final GearboxType gearboxType = new GearboxType(null, "Automatic");
         final GearBoxTypeDTO gearBoxTypeDTO = new GearBoxTypeDTO("Automatic");
 
@@ -41,19 +41,19 @@ public class GearboxTypeServiceTest {
     }
 
     @Test
-    void returnDBGearbox(){
+    void returnDBGearboxTypeDTO(){
         final GearboxType gearboxType = new GearboxType(null, "Automatic");
         assertEquals(0, gearboxTypeRepository.count());
         gearboxTypeRepository.save(gearboxType);
         assertEquals(1, gearboxTypeRepository.count());
 
-        GearBoxTypeDTO serviceGearboxDTO = gearboxTypeService.getByName("Automatic");
+        GearBoxTypeDTO serviceGearboxDTO = gearboxTypeService.getDTOByName("Automatic");
 
         assertEquals(gearboxType.getName(), serviceGearboxDTO.getName());
     }
 
     @Test
-    void returnAllDBGearboxTypes(){
+    void returnAllDBGearboxTypesDTO(){
         final GearboxType gearboxType1 = new GearboxType(null, "Automatic");
         final GearboxType gearboxType2 = new GearboxType(null, "Manual");
         assertEquals(0, gearboxTypeRepository.count());

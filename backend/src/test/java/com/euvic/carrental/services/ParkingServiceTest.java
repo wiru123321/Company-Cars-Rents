@@ -28,7 +28,7 @@ public class ParkingServiceTest {
     }
 
     @Test
-    void whenParkingGiven_thenReturnParkingDTO() {
+    void whenParkingDTOGiven_thenReturnParkingEntity() {
         final Parking parking = new Parking(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
         final ParkingDTO parkingDTO = new ParkingDTO("Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
         assertAll(() -> {
@@ -44,13 +44,13 @@ public class ParkingServiceTest {
     }
 
     @Test
-    void returnDBParking() {
+    void returnDBParkingDTO() {
         final Parking parking = new Parking(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
         assertEquals(0, parkingRepository.count());
         parkingRepository.save(parking);
         assertEquals(1, parkingRepository.count());
 
-        final ParkingDTO parkingDTO = parkingService.getByTown("Katowice");
+        final ParkingDTO parkingDTO = parkingService.getDTOByTown("Katowice");
 
         assertEquals(parking.getTown(), parkingDTO.getTown());
     }

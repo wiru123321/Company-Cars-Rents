@@ -31,7 +31,7 @@ public class TypeServiceTest {
 
 
     @Test
-    void whenTypeGiven_thenReturnTypeDTO(){
+    void whenTypeDTOGiven_thenReturnTypeEntity(){
         final Type type = new Type(null,"Sedan");
         final TypeDTO typeDTO = new TypeDTO("Sedan");
         assertAll(() -> {
@@ -42,19 +42,19 @@ public class TypeServiceTest {
 
 
     @Test
-    void returnDBType(){
+    void returnDBTypeDTO(){
         final Type type = new Type(null, "Sedan");
         assertEquals(0, typeRepository.count());
         typeRepository.save(type);
         assertEquals(1, typeRepository.count());
 
-        TypeDTO serviceTypeDTO = typeService.getByName("Sedan");
+        TypeDTO serviceTypeDTO = typeService.getDTOByName("Sedan");
 
         assertEquals(type.getName(), serviceTypeDTO.getName());
     }
 
     @Test
-    void returnAllDBTypes(){
+    void returnAllDBTypesDTO(){
         final Type type1 = new Type(null, "Sedan");
         final Type type2 = new Type(null, "Coupe");
         final Type type3 = new Type(null, "Van");

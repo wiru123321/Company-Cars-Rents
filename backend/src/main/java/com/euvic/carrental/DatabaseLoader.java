@@ -2,6 +2,7 @@ package com.euvic.carrental;
 
 import com.euvic.carrental.model.*;
 import com.euvic.carrental.repositories.*;
+import com.euvic.carrental.services.MarkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;

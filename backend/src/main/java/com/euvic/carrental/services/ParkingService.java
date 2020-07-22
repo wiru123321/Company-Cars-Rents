@@ -25,7 +25,7 @@ public class ParkingService implements ParkingServiceInterface {
     }
 
     @Override
-    public ParkingDTO getByTown(final String town) {
+    public ParkingDTO getDTOByTown(final String town) {
         return new ParkingDTO(parkingRepository.getByTown(town));
     }
 

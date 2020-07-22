@@ -6,7 +6,7 @@ import com.euvic.carrental.responses.GearBoxTypeDTO;
 import java.util.List;
 
 public interface GearboxTypeServiceInterface {
-    GearBoxTypeDTO getByName(final String name);
+    GearBoxTypeDTO getDTOByName(final String name);
     GearboxType mapRestModel(final GearBoxTypeDTO model);
     List<GearBoxTypeDTO> getAll();
 }

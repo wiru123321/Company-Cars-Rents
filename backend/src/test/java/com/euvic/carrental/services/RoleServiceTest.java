@@ -30,7 +30,7 @@ public class RoleServiceTest {
     }
 
     @Test
-    void whenRoleGiven_thenReturnRoleDTO(){
+    void whenRoleDTOGiven_thenReturnRoleEntity(){
         final Role role = new Role(null,"Admin");
         final RoleDTO roleDTO = new RoleDTO("Admin");
         assertAll(() -> {
@@ -40,19 +40,19 @@ public class RoleServiceTest {
     }
 
     @Test
-    void returnDBRole(){
+    void returnDBRoleDTO(){
         final Role role = new Role(null, "Admin");
         assertEquals(0, roleRepository.count());
         roleRepository.save(role);
         assertEquals(1, roleRepository.count());
 
-        RoleDTO serviceRoleDTO = roleService.getByName("Admin");
+        RoleDTO serviceRoleDTO = roleService.getDTOByName("Admin");
 
         assertEquals(role.getName(), serviceRoleDTO.getName());
     }
 
     @Test
-    void returnAllDBRoles(){
+    void returnAllDBRolesDTO(){
         final Role role1 = new Role(null, "Admin");
         final Role role2 = new Role(null, "User");
         final Role role3 = new Role(null, "NoOne");

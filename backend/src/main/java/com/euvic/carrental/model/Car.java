@@ -52,7 +52,7 @@ public class Car {
     private Integer mileage;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    private Mark mark;
+    private Model model;
 
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     private Parking parking;
@@ -66,7 +66,7 @@ public class Car {
     public Car(){
     }
 
-    public Car(String licensePlate, Integer enginePower, Integer capacityOfTrunkScale, Integer capacityOfPeople, Integer doorsNumber, GearboxType gearboxType, FuelType fuelType, Date lastInspection, Integer productionYear, Boolean isActive, Boolean isOnCompany, Integer mileage, Mark mark, Parking parking, Colour colour, Type type){
+    public Car(String licensePlate, Integer enginePower, Integer capacityOfTrunkScale, Integer capacityOfPeople, Integer doorsNumber, GearboxType gearboxType, FuelType fuelType, Date lastInspection, Integer productionYear, Boolean isActive, Boolean isOnCompany, Integer mileage, Model model, Parking parking, Colour colour, Type type){
         this.licensePlate = licensePlate;
         this.enginePower = enginePower;
         this.capacityOfTrunkScale = capacityOfTrunkScale;
@@ -79,7 +79,7 @@ public class Car {
         this.isActive = isActive;
         this.isOnCompany = isOnCompany;
         this.mileage = mileage;
-        this.mark = mark;
+        this.model = model;
         this.parking = parking;
         this.colour = colour;
         this.type = type;

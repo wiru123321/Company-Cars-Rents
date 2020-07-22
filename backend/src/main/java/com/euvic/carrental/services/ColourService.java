@@ -20,7 +20,7 @@ public class ColourService implements ColourServiceInterface {
     }
 
     @Override
-    public ColourDTO getByName(final String name) {
+    public ColourDTO getDTOByName(final String name) {
         return new ColourDTO(colourRepository.getByName(name));
     }
 

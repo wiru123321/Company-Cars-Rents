@@ -6,7 +6,7 @@ import com.euvic.carrental.responses.ColourDTO;
 import java.util.List;
 
 public interface ColourServiceInterface {
-    ColourDTO getByName(final String name);
+    ColourDTO getDTOByName(final String name);
 
     Long add(final ColourDTO colour);
 
