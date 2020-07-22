@@ -2,10 +2,10 @@ package com.euvic.carrental;
 
 import com.euvic.carrental.model.*;
 import com.euvic.carrental.repositories.*;
-import com.euvic.carrental.services.MarkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.nio.file.Files;
@@ -31,6 +31,9 @@ public class DatabaseLoader implements CommandLineRunner {
     private final UserRepository userRepository;
     private final GearboxTypeRepository gearboxTypeRepository;
     private final FuelTypeRepository fuelTypeRepository;
+
+    @Autowired
+    BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Value("${spring.datasource.username}")
     private String dataBase;
@@ -60,48 +63,48 @@ public class DatabaseLoader implements CommandLineRunner {
 
     @Override
     public void run(final String... strings) throws Exception {
-        
+
         if (dataBase.equals("postgres")) {
             Path path = Paths.get("./DataBase/Types.txt");
             List<String> stringList = Files.readAllLines(path);
-            for (int i = 0; i < stringList.size(); i++) {
-                typeRepository.save(new Type(null, stringList.get(i)));
+            for (final String name : stringList) {
+                typeRepository.save(new Type(null, name));
             }
             stringList.clear();
 
             path = Paths.get("./DataBase/Roles.txt");
             stringList = Files.readAllLines(path);
-            for (int i = 0; i < stringList.size(); i++) {
-                roleRepository.save(new Role(null, stringList.get(i)));
+            for (final String name : stringList) {
+                roleRepository.save(new Role(null, name));
             }
             stringList.clear();
 
 
             path = Paths.get("./DataBase/Marks.txt");
             stringList = Files.readAllLines(path);
-            for (int i = 0; i < stringList.size(); i++) {
-                markRepository.save(new Mark(null, stringList.get(i)));
+            for (final String name : stringList) {
+                markRepository.save(new Mark(null, name));
             }
             stringList.clear();
 
             path = Paths.get("./DataBase/GearBoxTypes.txt");
             stringList = Files.readAllLines(path);
-            for (int i = 0; i < stringList.size(); i++) {
-                gearboxTypeRepository.save(new GearboxType(null, stringList.get(i)));
+            for (final String name : stringList) {
+                gearboxTypeRepository.save(new GearboxType(null, name));
             }
             stringList.clear();
 
             path = Paths.get("./DataBase/FuelTypes.txt");
             stringList = Files.readAllLines(path);
-            for (int i = 0; i < stringList.size(); i++) {
-                fuelTypeRepository.save(new FuelType(null, stringList.get(i)));
+            for (final String name : stringList) {
+                fuelTypeRepository.save(new FuelType(null, name));
             }
             stringList.clear();
 
             path = Paths.get("./DataBase/Colours.txt");
             stringList = Files.readAllLines(path);
-            for (int i = 0; i < stringList.size(); i++) {
-                colourRepository.save(new Colour(null, stringList.get(i)));
+            for (final String name : stringList) {
+                colourRepository.save(new Colour(null, name));
             }
             stringList.clear();
         }

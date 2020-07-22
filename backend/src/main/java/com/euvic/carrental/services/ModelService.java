@@ -17,26 +17,31 @@ public class ModelService implements ModelServiceInterface {
     final ModelRepository modelRepository;
     final MarkService markService;
 
-    public ModelService(ModelRepository modelRepository, MarkService markService) {
+    public ModelService(final ModelRepository modelRepository, final MarkService markService) {
         this.modelRepository = modelRepository;
         this.markService = markService;
     }
 
     @Override
-    public Model mapRestModel(ModelDTO modelDTO) {
+    public Model mapRestModel(final ModelDTO modelDTO) {
         return new Model(null, modelDTO.getName(), markService.getEntityByName(modelDTO.getMarkDTO().getName()));
     }
 
     @Override
-    public Model getEntityByName(String name) {
+    public Model getEntityByName(final String name) {
         return modelRepository.findByName(name);
     }
 
     @Override
-    public ModelDTO getDTOByName(String name) {
+    public ModelDTO getDTOByName(final String name) {
         final Model model = modelRepository.findByName(name);
-        Mark modelMark = model.getMark();
+        final Mark modelMark = model.getMark();
         return new ModelDTO(model.getName(), markService.getDTOByName(modelMark.getName()));
+    }
+
+    @Override
+    public void add(final ModelDTO modelDTO) {
+        modelRepository.save(this.mapRestModel(modelDTO));
     }
 
     @Override
@@ -45,16 +50,11 @@ public class ModelService implements ModelServiceInterface {
         modelRepository.findAll().forEach(modelList::add);
 
         final ArrayList<ModelDTO> modelDTOList = new ArrayList<>();
-        modelList.stream().forEach((model) ->{
-            ModelDTO modelDTO = new ModelDTO(model.getName(), new MarkDTO(model.getMark().getName()));
+        modelList.stream().forEach((model) -> {
+            final ModelDTO modelDTO = new ModelDTO(model.getName(), new MarkDTO(model.getMark().getName()));
             modelDTOList.add(modelDTO);
         });
 
         return modelDTOList;
-    }
-
-    @Override
-    public void addModelToDatabase(ModelDTO modelDTO) {
-        modelRepository.save(mapRestModel(modelDTO));
     }
 }

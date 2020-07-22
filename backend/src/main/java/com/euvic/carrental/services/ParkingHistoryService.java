@@ -4,11 +4,13 @@ import com.euvic.carrental.model.Parking;
 import com.euvic.carrental.repositories.ParkingHistoryRepository;
 import com.euvic.carrental.responses.ParkingDTO;
 import com.euvic.carrental.services.interfaces.ParkingHistoryServiceInterface;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class ParkingHistoryService implements ParkingHistoryServiceInterface {
 
     private final ParkingHistoryRepository parkingHistoryRepository;

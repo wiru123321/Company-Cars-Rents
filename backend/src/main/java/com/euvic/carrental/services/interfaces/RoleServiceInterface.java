@@ -7,6 +7,10 @@ import java.util.List;
 
 public interface RoleServiceInterface {
     Role mapRestModel(final RoleDTO model);
-    RoleDTO getDTOByName(String name);
+
+    RoleDTO getDTOByRoleName(String name);
+
     List<RoleDTO> getAll();
+
+    Role getEntityByRoleName(String roleName);
 }

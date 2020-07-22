@@ -1,0 +1,136 @@
+package com.euvic.carrental.services;
+
+import com.euvic.carrental.model.Role;
+import com.euvic.carrental.model.User;
+import com.euvic.carrental.repositories.RoleRepository;
+import com.euvic.carrental.repositories.UserRepository;
+import com.euvic.carrental.responses.UserDTO;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+@SpringBootTest
+@ActiveProfiles("h2")
+public class UserServiceTest {
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private RoleRepository roleRepository;
+
+    @Autowired
+    private RoleService roleService;
+
+    @BeforeEach
+    void setUp() {
+        final Role role1 = new Role(null, "Admin");
+        final Role role2 = new Role(null, "User");
+        final Role role3 = new Role(null, "Manager");
+
+        roleRepository.save(role1);
+        roleRepository.save(role2);
+        roleRepository.save(role3);
+    }
+
+    @AfterEach
+    void tearDown() {
+        userRepository.deleteAll();
+        roleRepository.deleteAll();
+    }
+
+    @Test
+    void whenUserDTOGiven_thenReturnUserEntity() {
+        final User user = new User(null, "login1", "password1", "email@email.com", "Wojciech", "Waleszczyk", "700 100 110", true, roleService.getEntityByRoleName("User"));
+        final UserDTO userDTO = new UserDTO("login1", "password1", "email@email.com", "Wojciech", "Waleszczyk", "700 100 110", true, roleService.getEntityByRoleName("User"));
+        final User restModelToEntityUser = userService.mapRestModel(userDTO);
+        assertAll(() -> {
+            assertEquals(restModelToEntityUser.getLogin(), user.getLogin());
+            assertEquals(restModelToEntityUser.getPassword(), user.getPassword());
+            assertEquals(restModelToEntityUser.getEmail(), user.getEmail());
+            assertEquals(restModelToEntityUser.getName(), user.getName());
+            assertEquals(restModelToEntityUser.getSurname(), user.getSurname());
+            assertEquals(restModelToEntityUser.getPhoneNumber(), user.getPhoneNumber());
+            assertEquals(restModelToEntityUser.getIsActive(), user.getIsActive());
+            assertEquals(restModelToEntityUser.getRole(), user.getRole());
+            assertEquals(restModelToEntityUser.getId(), user.getId());
+        });
+    }
+
+    @Test
+    void returnDBUserEntity() {
+        final User user = new User(null, "login1", "password1", "email@email.com", "Wojciech", "Waleszczyk", "700 100 110", true, roleService.getEntityByRoleName("User"));
+        assertEquals(0, userRepository.count());
+        userRepository.save(user);
+        assertEquals(1, userRepository.count());
+        final User serviceUser = userService.getEntityByLogin("login1");
+
+        assertAll(() -> {
+            assertEquals(user.getLogin(), serviceUser.getLogin());
+            assertEquals(user.getPassword(), serviceUser.getPassword());
+            assertEquals(user.getEmail(), serviceUser.getEmail());
+            assertEquals(user.getName(), serviceUser.getName());
+            assertEquals(user.getSurname(), serviceUser.getSurname());
+            assertEquals(user.getPhoneNumber(), serviceUser.getPhoneNumber());
+            assertEquals(user.getIsActive(), serviceUser.getIsActive());
+            assertEquals(user.getRole(), serviceUser.getRole());
+            assertNotEquals(null, serviceUser.getId());
+        });
+    }
+
+    @Test
+    void returnDBUserDTO() {
+        final User user = new User(null, "login1", "password1", "email@email.com", "Wojciech", "Waleszczyk", "700 100 110", true, roleService.getEntityByRoleName("User"));
+        assertEquals(0, userRepository.count());
+        userRepository.save(user);
+        assertEquals(1, userRepository.count());
+
+        final UserDTO userDTO = userService.getDTOByLogin("login1");
+
+        assertAll(() -> {
+            assertEquals(user.getLogin(), userDTO.getLogin());
+            assertEquals(user.getPassword(), userDTO.getPassword());
+            assertEquals(user.getEmail(), userDTO.getEmail());
+            assertEquals(user.getName(), userDTO.getName());
+            assertEquals(user.getSurname(), userDTO.getSurname());
+            assertEquals(user.getPhoneNumber(), userDTO.getPhoneNumber());
+            assertEquals(user.getIsActive(), userDTO.getIsActive());
+            assertEquals(user.getRole().getName(), userDTO.getRole().getName());
+        });
+    }
+
+    @Test
+    void returnAllDBUserDTO() {
+        final User user1 = new User(null, "login1", "password1", "email@email.com", "Wojciech", "Waleszczyk", "700 100 110", true, roleService.getEntityByRoleName("User"));
+        final User user2 = new User(null, "login2", "password1", "email@email.com", "Wojciech", "Waleszczyk", "700 100 110", true, roleService.getEntityByRoleName("User"));
+        final User user3 = new User(null, "login3", "password1", "email@email.com", "Wojciech", "Waleszczyk", "700 100 110", true, roleService.getEntityByRoleName("User"));
+
+        assertEquals(0, userRepository.count());
+        userRepository.save(user1);
+        userRepository.save(user2);
+        userRepository.save(user3);
+        assertEquals(3, userRepository.count());
+
+        final List<UserDTO> userDTOList = userService.getAll();
+
+        assertEquals(userRepository.count(), userDTOList.size());
+    }
+
+    @Test
+    void whenUserDTOGiven_shouldAddEntityUserToDB() {
+        final UserDTO userDTO = new UserDTO("login1", "password1", "email@email.com", "Wojciech", "Waleszczyk", "700 100 110", true, roleService.getEntityByRoleName("User"));
+        assertEquals(0, userRepository.count());
+        userService.add(userDTO);
+        assertEquals(1, userRepository.count());
+    }
+}

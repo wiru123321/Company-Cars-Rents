@@ -52,7 +52,7 @@ public class ColourServiceTest {
     }
 
     @Test
-    void returnAllDBRolesDTO() {
+    void returnAllDBColoursDTO() {
         final Colour colour1 = new Colour(null, "Red");
         final Colour colour2 = new Colour(null, "Blue");
         final Colour colour3 = new Colour(null, "Yellow");

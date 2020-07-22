@@ -7,7 +7,6 @@ import com.euvic.carrental.repositories.ModelRepository;
 import com.euvic.carrental.responses.MarkDTO;
 import com.euvic.carrental.responses.ModelDTO;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,10 +34,10 @@ public class ModelServiceTest {
     private MarkRepository markRepository;
 
     @BeforeEach
-    void setUp(){
-        Mark mark1 = new Mark(null,"Audi");
-        Mark mark2 = new Mark(null,"Opel");
-        Mark mark3 = new Mark(null,"BMW");
+    void setUp() {
+        final Mark mark1 = new Mark(null, "Audi");
+        final Mark mark2 = new Mark(null, "Opel");
+        final Mark mark3 = new Mark(null, "BMW");
 
         markRepository.save(mark1);
         markRepository.save(mark2);
@@ -46,13 +45,13 @@ public class ModelServiceTest {
     }
 
     @AfterEach
-    void tearDown(){
+    void tearDown() {
         modelRepository.deleteAll();
         markRepository.deleteAll();
     }
 
     @Test
-    void whenModelDTOGiven_thenReturnModelEntity(){
+    void whenModelDTOGiven_thenReturnModelEntity() {
         final Model model = new Model(null, "C350", markService.getEntityByName("Audi"));
         final ModelDTO modelDTO = new ModelDTO("C350", new MarkDTO("Audi"));
         final Model restModelToEntityModel = modelService.mapRestModel(modelDTO);
@@ -64,14 +63,14 @@ public class ModelServiceTest {
     }
 
     @Test
-    void returnDBModelEntity(){
+    void returnDBModelEntity() {
         final Model model = new Model(null, "C350", markService.getEntityByName("Audi"));
         assertEquals(0, modelRepository.count());
         modelRepository.save(model);
         assertEquals(1, modelRepository.count());
-        Model serviceModel = modelService.getEntityByName("C350");
+        final Model serviceModel = modelService.getEntityByName("C350");
 
-        assertAll(()->{
+        assertAll(() -> {
             assertEquals(model.getName(), serviceModel.getName());
             assertEquals(model.getMark(), serviceModel.getMark());
             assertNotEquals(null, serviceModel.getId());
@@ -79,25 +78,25 @@ public class ModelServiceTest {
     }
 
     @Test
-    void returnDBModelDTO(){
+    void returnDBModelDTO() {
         final Model model = new Model(null, "C350", markService.getEntityByName("Audi"));
         assertEquals(0, modelRepository.count());
         modelRepository.save(model);
         assertEquals(1, modelRepository.count());
 
-        ModelDTO serviceModelDTO = modelService.getDTOByName("C350");
+        final ModelDTO serviceModelDTO = modelService.getDTOByName("C350");
 
-        assertAll(()->{
+        assertAll(() -> {
             assertEquals(model.getName(), serviceModelDTO.getName());
             assertEquals(model.getMark().getName(), serviceModelDTO.getMarkDTO().getName());
         });
     }
 
     @Test
-    void returnAllDBModelsDTO(){
-        final Model model1 = new Model(null, "C350",  markService.getEntityByName("Audi"));
-        final Model model2 = new Model(null, "Astra",  markService.getEntityByName("Opel"));
-        final Model model3 = new Model(null, "M5",  markService.getEntityByName("BMW"));
+    void returnAllDBModelsDTO() {
+        final Model model1 = new Model(null, "C350", markService.getEntityByName("Audi"));
+        final Model model2 = new Model(null, "Astra", markService.getEntityByName("Opel"));
+        final Model model3 = new Model(null, "M5", markService.getEntityByName("BMW"));
 
 
         assertEquals(0, modelRepository.count());
@@ -106,16 +105,16 @@ public class ModelServiceTest {
         modelRepository.save(model3);
         assertEquals(3, modelRepository.count());
 
-        List<ModelDTO> modelDTOList = modelService.getAll();
+        final List<ModelDTO> modelDTOList = modelService.getAll();
 
         assertEquals(modelRepository.count(), modelDTOList.size());
     }
 
     @Test
-    void whenModelDTOGiven_shouldAddEntityModelToDB(){
-        final ModelDTO modelDTO = new ModelDTO("C350",  markService.getDTOByName("Audi"));
+    void whenModelDTOGiven_shouldAddEntityModelToDB() {
+        final ModelDTO modelDTO = new ModelDTO("C350", markService.getDTOByName("Audi"));
         assertEquals(0, modelRepository.count());
-        modelService.addModelToDatabase(modelDTO);
+        modelService.add(modelDTO);
         assertEquals(1, modelRepository.count());
     }
 }

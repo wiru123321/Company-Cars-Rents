@@ -1,5 +1,6 @@
 package com.euvic.carrental.model;
 
+import com.euvic.carrental.responses.UserDTO;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -33,13 +34,26 @@ public class User {
     @Column(nullable = false)
     private Boolean isActive;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private Role role;
 
     public User() {
     }
 
-    public User(String login, String password, String email, String name, String surname, String phoneNumber, Boolean isActive, Role role) {
+    public User(final UserDTO userDTO, final Role role) {
+        this.login = userDTO.getLogin();
+        this.password = userDTO.getPassword();
+        this.email = userDTO.getEmail();
+        this.name = userDTO.getName();
+        this.surname = userDTO.getSurname();
+        this.phoneNumber = userDTO.getPhoneNumber();
+        this.isActive = userDTO.getIsActive();
+        this.role = role;
+        this.id = null;
+    }
+
+    public User(final Long id, final String login, final String password, final String email, final String name, final String surname, final String phoneNumber, final Boolean isActive, final Role role) {
+        this.id = id;
         this.login = login;
         this.password = password;
         this.email = email;

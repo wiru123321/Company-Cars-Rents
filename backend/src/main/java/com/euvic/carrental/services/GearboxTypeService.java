@@ -15,8 +15,13 @@ public class GearboxTypeService implements GearboxTypeServiceInterface {
 
     private final GearboxTypeRepository gearboxTypeRepository;
 
-    public GearboxTypeService(GearboxTypeRepository gearboxTypeRepository) {
+    public GearboxTypeService(final GearboxTypeRepository gearboxTypeRepository) {
         this.gearboxTypeRepository = gearboxTypeRepository;
+    }
+
+    @Override
+    public GearboxType mapRestModel(final GearBoxTypeDTO model) {
+        return new GearboxType(null, model.getName());
     }
 
     @Override
@@ -26,13 +31,8 @@ public class GearboxTypeService implements GearboxTypeServiceInterface {
     }
 
     @Override
-    public GearboxType mapRestModel(final GearBoxTypeDTO model) {
-        return new GearboxType(null, model.getName());
-    }
-
-    @Override
     public List<GearBoxTypeDTO> getAll() {
-        ArrayList<GearboxType> gearboxTypes = new ArrayList<>();
+        final ArrayList<GearboxType> gearboxTypes = new ArrayList<>();
         gearboxTypeRepository.findAll().forEach(gearboxTypes::add);
 
         return gearboxTypes.stream().map(GearBoxTypeDTO::new).collect(Collectors.toList());

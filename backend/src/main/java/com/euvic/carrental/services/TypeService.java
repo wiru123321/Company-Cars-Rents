@@ -2,10 +2,8 @@ package com.euvic.carrental.services;
 
 import com.euvic.carrental.model.Type;
 import com.euvic.carrental.repositories.TypeRepository;
-import com.euvic.carrental.responses.RoleDTO;
 import com.euvic.carrental.responses.TypeDTO;
 import com.euvic.carrental.services.interfaces.TypeServiceInterface;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,14 +20,14 @@ public class TypeService implements TypeServiceInterface {
     }
 
     @Override
-    public TypeDTO getDTOByName(final String name) {
-        final Type type = typeRepository.findByName(name);
-        return new TypeDTO(type);
+    public Type mapRestModel(final TypeDTO model) {
+        return new Type(null, model.getName());
     }
 
     @Override
-    public Type mapRestModel(final TypeDTO model) {
-        return new Type(null, model.getName());
+    public TypeDTO getDTOByName(final String name) {
+        final Type type = typeRepository.findByName(name);
+        return new TypeDTO(type);
     }
 
     @Override

@@ -25,13 +25,13 @@ public class RoleServiceTest {
     private RoleRepository roleRepository;
 
     @AfterEach
-    void tearDown(){
+    void tearDown() {
         roleRepository.deleteAll();
     }
 
     @Test
-    void whenRoleDTOGiven_thenReturnRoleEntity(){
-        final Role role = new Role(null,"Admin");
+    void whenRoleDTOGiven_thenReturnRoleEntity() {
+        final Role role = new Role(null, "Admin");
         final RoleDTO roleDTO = new RoleDTO("Admin");
         assertAll(() -> {
             assertEquals(roleService.mapRestModel(roleDTO).getName(), role.getName());
@@ -40,19 +40,19 @@ public class RoleServiceTest {
     }
 
     @Test
-    void returnDBRoleDTO(){
+    void returnDBRoleDTO() {
         final Role role = new Role(null, "Admin");
         assertEquals(0, roleRepository.count());
         roleRepository.save(role);
         assertEquals(1, roleRepository.count());
 
-        RoleDTO serviceRoleDTO = roleService.getDTOByName("Admin");
+        final RoleDTO serviceRoleDTO = roleService.getDTOByRoleName("Admin");
 
         assertEquals(role.getName(), serviceRoleDTO.getName());
     }
 
     @Test
-    void returnAllDBRolesDTO(){
+    void returnAllDBRolesDTO() {
         final Role role1 = new Role(null, "Admin");
         final Role role2 = new Role(null, "User");
         final Role role3 = new Role(null, "NoOne");
@@ -62,7 +62,7 @@ public class RoleServiceTest {
         roleRepository.save(role3);
         assertEquals(3, roleRepository.count());
 
-        List<RoleDTO> roleDTOList = roleService.getAll();
+        final List<RoleDTO> roleDTOList = roleService.getAll();
 
         assertEquals(roleRepository.count(), roleDTOList.size());
     }

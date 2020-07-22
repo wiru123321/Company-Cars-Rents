@@ -1,7 +1,7 @@
 package com.euvic.carrental.services;
 
 import com.euvic.carrental.model.Parking;
-import com.euvic.carrental.repositories.ParkingRepository;
+import com.euvic.carrental.repositories.ParkingHistoryRepository;
 import com.euvic.carrental.responses.ParkingDTO;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -16,10 +16,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @ActiveProfiles("h2")
 public class ParkingHistoryServiceTest {
     @Autowired
-    private ParkingService parkingHistoryService;
+    private ParkingHistoryService parkingHistoryService;
 
     @Autowired
-    private ParkingRepository parkingHistoryRepository;
+    private ParkingHistoryRepository parkingHistoryRepository;
 
     @AfterEach
     void tearDown() {
