@@ -1,26 +1,9 @@
 import React, { useRef, useState } from "react";
+
 import { Popover, Button, Overlay, Badge } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
-import { selectRequests } from "../../features/rent-requests/rentRequestsSlice";
-
-const ContentItem = ({
-  request: { firstname, lastname, beginDate, beginHour, endDate, endHour },
-}) => (
-  <div>
-    <div style={{ width: "80%" }}>
-      {firstname} {lastname}
-      <div>
-        {beginDate} - {beginHour}
-      </div>
-      <div>
-        {endDate} - {endHour}
-      </div>
-    </div>
-    <div style={{ width: "30%" }}>
-      <Button size="sm">check</Button>
-    </div>
-  </div>
-);
+import { selectRequests } from "../../../features/rent-requests/rentRequestsSlice";
+import ContentItem from "./ContentItem";
 
 const RentRequestsPopover = () => {
   const requests = useSelector(selectRequests);
@@ -33,7 +16,7 @@ const RentRequestsPopover = () => {
   };
   return (
     <div ref={ref}>
-      <Button onClick={handleClick}>
+      <Button variant="outline-secondary" onClick={handleClick}>
         Rent requests <Badge variant="light">{requests.length}</Badge>
         <span className="sr-only">unread messages</span>
       </Button>
@@ -43,10 +26,9 @@ const RentRequestsPopover = () => {
         target={target}
         placement="bottom"
         container={ref.current}
-        containerPadding={20}
       >
         <Popover id="popover-contained">
-          <Popover.Title as="h3">Popover bottom</Popover.Title>
+          <Popover.Title as="h3">Requests</Popover.Title>
           <Popover.Content>
             {requests.map((request, index) => (
               <ContentItem request={request} />

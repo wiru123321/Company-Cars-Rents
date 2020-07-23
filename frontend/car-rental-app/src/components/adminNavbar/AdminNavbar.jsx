@@ -1,6 +1,6 @@
 import React from "react";
-import RentRequestsPopover from "./RentRequestsPopover";
-import { Navbar, Nav, NavDropdown, Badge, Button } from "react-bootstrap";
+import RentRequestsPopover from "../adminPage/rentRequestsPopover/RentRequestsPopover";
+import { Navbar, Nav, NavDropdown } from "react-bootstrap";
 import "../userNavbar/UserNavbar.css";
 
 const AdminNavbar = () => {
