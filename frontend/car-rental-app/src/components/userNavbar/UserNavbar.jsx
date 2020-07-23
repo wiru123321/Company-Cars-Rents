@@ -31,7 +31,7 @@ const UserNavbar = () => {
               <NavDropdown.Item href="#userPage">
                 Show all yours cars
               </NavDropdown.Item>
-              <NavDropdown.Item href="#userPage/cancelReservation">
+              <NavDropdown.Item href="#userPage/yourReservation">
                 Cancel reservation
               </NavDropdown.Item>
               <NavDropdown.Item href="#userPage/reportBug">
