@@ -1,6 +1,7 @@
 package com.euvic.carrental.services;
 
 import com.euvic.carrental.model.GearboxType;
+import com.euvic.carrental.model.Model;
 import com.euvic.carrental.repositories.GearboxTypeRepository;
 import com.euvic.carrental.responses.GearBoxTypeDTO;
 import org.junit.jupiter.api.AfterEach;
@@ -11,8 +12,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @ActiveProfiles("h2")
@@ -37,6 +37,20 @@ public class GearboxTypeServiceTest {
         assertAll(() -> {
             assertEquals(gearboxTypeService.mapRestModel(gearBoxTypeDTO).getName(), gearboxType.getName());
             assertEquals(gearboxTypeService.mapRestModel(gearBoxTypeDTO).getId(), gearboxType.getId());
+        });
+    }
+
+    @Test
+    void returnDBGearboxTypeEntity() {
+        final GearboxType gearboxType = new GearboxType(null, "Automatic");
+        assertEquals(0, gearboxTypeRepository.count());
+        gearboxTypeRepository.save(gearboxType);
+        assertEquals(1, gearboxTypeRepository.count());
+        final GearboxType serviceGearboxType = gearboxTypeService.getEntityByName("Automatic");
+
+        assertAll(() -> {
+            assertEquals(gearboxType.getName(), serviceGearboxType.getName());
+            assertNotEquals(null, serviceGearboxType.getId());
         });
     }
 

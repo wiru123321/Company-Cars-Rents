@@ -16,6 +16,7 @@ public class UserDTO {
     private Boolean isActive;
     private Role role;
 
+    //TODO role zmienic  na roleDTO
     public UserDTO(final User user) {
         this.login = user.getLogin();
         this.password = user.getPassword();

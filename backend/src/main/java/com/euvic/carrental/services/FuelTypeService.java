@@ -20,6 +20,11 @@ public class FuelTypeService implements FuelTypeServiceInterface {
     }
 
     @Override
+    public FuelType getEntityByName(String name) {
+        return fuelTypeRepository.findByName(name);
+    }
+
+    @Override
     public FuelTypeDTO getDTOByName(final String name) {
         final FuelType fuelType = fuelTypeRepository.findByName(name);
         return new FuelTypeDTO(fuelType);

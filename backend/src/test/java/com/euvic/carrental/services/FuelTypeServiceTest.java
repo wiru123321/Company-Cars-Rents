@@ -1,6 +1,7 @@
 package com.euvic.carrental.services;
 
 import com.euvic.carrental.model.FuelType;
+import com.euvic.carrental.model.GearboxType;
 import com.euvic.carrental.repositories.FuelTypeRepository;
 import com.euvic.carrental.responses.FuelTypeDTO;
 import org.junit.jupiter.api.AfterEach;
@@ -11,8 +12,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @ActiveProfiles("h2")
@@ -36,6 +36,20 @@ public class FuelTypeServiceTest {
         assertAll(() -> {
             assertEquals(fuelTypeService.mapRestModel(fuelTypeDTO).getName(), fuelType.getName());
             assertEquals(fuelTypeService.mapRestModel(fuelTypeDTO).getId(), fuelType.getId());
+        });
+    }
+
+    @Test
+    void returnDBFuelTypeEntity() {
+        final FuelType fuelType = new FuelType(null, "Gasoline");
+        assertEquals(0, fuelTypeRepository.count());
+        fuelTypeRepository.save(fuelType);
+        assertEquals(1, fuelTypeRepository.count());
+        final FuelType serviceFuelType = fuelTypeService.getEntityByName("Gasoline");
+
+        assertAll(() -> {
+            assertEquals(fuelType.getName(), serviceFuelType.getName());
+            assertNotEquals(null, serviceFuelType.getId());
         });
     }
 

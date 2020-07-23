@@ -25,6 +25,11 @@ public class TypeService implements TypeServiceInterface {
     }
 
     @Override
+    public Type getEntityByName(String name) {
+        return typeRepository.findByName(name);
+    }
+
+    @Override
     public TypeDTO getDTOByName(final String name) {
         final Type type = typeRepository.findByName(name);
         return new TypeDTO(type);

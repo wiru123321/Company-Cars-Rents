@@ -9,6 +9,7 @@ public interface ParkingServiceInterface {
     Parking mapRestModel(final ParkingDTO parking);
 
     ParkingDTO getDTOByTown(String town);
+    Parking getEntityByTown(String town);
 
     List<ParkingDTO> getAll();
 

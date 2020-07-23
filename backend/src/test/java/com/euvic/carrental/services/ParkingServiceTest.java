@@ -1,5 +1,7 @@
 package com.euvic.carrental.services;
 
+import com.euvic.carrental.model.Mark;
+import com.euvic.carrental.model.Model;
 import com.euvic.carrental.model.Parking;
 import com.euvic.carrental.repositories.ParkingRepository;
 import com.euvic.carrental.responses.ParkingDTO;
@@ -9,8 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @ActiveProfiles("h2")
@@ -40,6 +41,25 @@ public class ParkingServiceTest {
             assertEquals(parkingService.mapRestModel(parkingDTO).getIsActive(), parking.getIsActive());
             assertEquals(parkingService.mapRestModel(parkingDTO).getNumber(), parking.getNumber());
 
+        });
+    }
+
+    @Test
+    void returnDBParkingEntity(){
+        final Parking parking = new Parking(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
+        assertEquals(0, parkingRepository.count());
+        parkingRepository.save(parking);
+        assertEquals(1, parkingRepository.count());
+        Parking serviceParking = parkingService.getEntityByTown("Katowice");
+
+        assertAll(()->{
+            assertEquals(parking.getComment(), serviceParking.getComment());
+            assertEquals(parking.getIsActive(), serviceParking.getIsActive());
+            assertEquals(parking.getNumber(), serviceParking.getNumber());
+            assertEquals(parking.getPostalCode(), serviceParking.getPostalCode());
+            assertEquals(parking.getStreetName(), serviceParking.getStreetName());
+            assertEquals(parking.getTown(), serviceParking.getTown());
+            assertNotEquals(null, serviceParking.getId());
         });
     }
 

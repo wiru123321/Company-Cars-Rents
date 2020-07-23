@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface TypeServiceInterface {
     Type mapRestModel(final TypeDTO model);
+    Type getEntityByName(final String name);
     TypeDTO getDTOByName(String name);
     List<TypeDTO> getAll();
 }

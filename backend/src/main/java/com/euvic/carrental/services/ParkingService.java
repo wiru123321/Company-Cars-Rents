@@ -1,5 +1,6 @@
 package com.euvic.carrental.services;
 
+import com.euvic.carrental.model.GearboxType;
 import com.euvic.carrental.model.Parking;
 import com.euvic.carrental.repositories.ParkingRepository;
 import com.euvic.carrental.responses.ParkingDTO;
@@ -22,6 +23,12 @@ public class ParkingService implements ParkingServiceInterface {
     @Override
     public Parking mapRestModel(final ParkingDTO parking) {
         return new Parking(null, parking.getTown(), parking.getPostalCode(), parking.getStreet(), parking.getNumber(), parking.getComment(), parking.getIsActive());
+    }
+
+    // TODO getEntity i DTO muszą zwracać 1 wynik / zmienić getByTown na findByTown w get dto
+    @Override
+    public Parking getEntityByTown(final String name) {
+        return parkingRepository.findByTown(name);
     }
 
     @Override

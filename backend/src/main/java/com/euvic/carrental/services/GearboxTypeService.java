@@ -25,6 +25,11 @@ public class GearboxTypeService implements GearboxTypeServiceInterface {
     }
 
     @Override
+    public GearboxType getEntityByName(final String name) {
+        return gearboxTypeRepository.findByName(name);
+    }
+
+    @Override
     public GearBoxTypeDTO getDTOByName(final String name) {
         final GearboxType gearboxType = gearboxTypeRepository.findByName(name);
         return new GearBoxTypeDTO(gearboxType);

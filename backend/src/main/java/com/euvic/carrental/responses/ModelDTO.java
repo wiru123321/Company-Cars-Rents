@@ -1,5 +1,6 @@
 package com.euvic.carrental.responses;
 
+import com.euvic.carrental.model.Model;
 import lombok.Data;
 
 @Data
@@ -12,9 +13,9 @@ public class ModelDTO {
 
     }
 
-    public ModelDTO(final ModelDTO entity){
+    public ModelDTO(final Model entity){
         this.name = entity.getName();
-        this.markDTO = entity.getMarkDTO();
+        this.markDTO = new MarkDTO(entity.getMark());
     }
 
     public ModelDTO(final String name, final MarkDTO markDTO){

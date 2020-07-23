@@ -1,4 +1,84 @@
 package com.euvic.carrental.services;
 
-public class CarService {
+import com.euvic.carrental.model.*;
+import com.euvic.carrental.repositories.CarRepository;
+import com.euvic.carrental.responses.*;
+import com.euvic.carrental.services.interfaces.CarServiceInterface;
+import org.dom4j.rule.Mode;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
+public class CarService implements CarServiceInterface {
+
+    private final CarRepository carRepository;
+    private final GearboxTypeService gearboxTypeService;
+    private final FuelTypeService fuelTypeService;
+    private final ModelService modelService;
+    private final ParkingService parkingService;
+    private final ColourService colourService;
+    private final TypeService typeService;
+
+
+    public CarService(CarRepository carRepository, GearboxTypeService gearboxTypeService, FuelTypeService fuelTypeService,
+                      ModelService modelService, ParkingService parkingService, ColourService colourService, TypeService typeService) {
+        this.carRepository = carRepository;
+        this.gearboxTypeService = gearboxTypeService;
+        this.fuelTypeService = fuelTypeService;
+        this.modelService = modelService;
+        this.parkingService = parkingService;
+        this.colourService = colourService;
+        this.typeService = typeService;
+    }
+
+    @Override
+    public Car mapRestModel(final CarDTO carDTO) {
+        return new Car(null, carDTO, gearboxTypeService.getEntityByName(carDTO.getGearBoxTypeDTO().getName()),
+                fuelTypeService.getEntityByName(carDTO.getFuelTypeDTO().getName()),
+                        modelService.getEntityByName(carDTO.getModelDTO().getName()),
+                                parkingService.getEntityByTown(carDTO.getParkingDTO().getTown()),
+                                        colourService.getEntityByName(carDTO.getColourDTO().getName()),
+                                                typeService.getEntityByName(carDTO.getTypeDTO().getName()));
+    }
+
+    @Override
+    public Car getEntityByLicensePlate(String licensePlate) {
+        return carRepository.findByLicensePlate(licensePlate);
+    }
+
+    @Override
+    public CarDTO getDTOByLicensePlate(String licensePlate) {
+        final Car car = carRepository.findByLicensePlate(licensePlate);
+        final GearboxType gearboxType = car.getGearboxType();
+        final FuelType fuelType = car.getFuelType();
+        final Model model = car.getModel();
+        final Parking parking = car.getParking();
+        final Colour colour = car.getColour();
+        final Type type = car.getType();
+        return new CarDTO(car, gearboxTypeService.getDTOByName(gearboxType.getName()), fuelTypeService.getDTOByName(fuelType.getName())
+                , modelService.getDTOByName(model.getName()), parkingService.getDTOByTown(parking.getTown())
+                        , colourService.getDTOByName(colour.getName()), typeService.getDTOByName(type.getName()));
+    }
+
+    @Override
+    public List<CarDTO> getAll() {
+        final ArrayList<Car> carList = new ArrayList<>();
+        carRepository.findAll().forEach(carList::add);
+
+        final ArrayList<CarDTO> carDTOList = new ArrayList<>();
+        carList.stream().forEach((car) -> {
+            final CarDTO carDTO = new CarDTO(car, new GearBoxTypeDTO(car.getGearboxType()), new FuelTypeDTO(car.getFuelType()), new ModelDTO(car.getModel()),
+                    new ParkingDTO(car.getParking()), new ColourDTO(car.getColour()), new TypeDTO(car.getType()));
+            carDTOList.add(carDTO);
+        });
+
+        return carDTOList;
+    }
+
+    @Override
+    public void add(final CarDTO car) {
+        carRepository.save(this.mapRestModel(car));
+    }
 }

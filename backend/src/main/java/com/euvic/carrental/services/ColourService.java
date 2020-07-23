@@ -20,6 +20,11 @@ public class ColourService implements ColourServiceInterface {
     }
 
     @Override
+    public Colour getEntityByName(String name) {
+        return colourRepository.getByName(name);
+    }
+
+    @Override
     public ColourDTO getDTOByName(final String name) {
         return new ColourDTO(colourRepository.getByName(name));
     }

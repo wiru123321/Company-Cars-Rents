@@ -1,6 +1,8 @@
 package com.euvic.carrental.services;
 
+import com.euvic.carrental.model.Car;
 import com.euvic.carrental.model.Colour;
+import com.euvic.carrental.model.Mark;
 import com.euvic.carrental.repositories.ColourRepository;
 import com.euvic.carrental.responses.ColourDTO;
 import org.junit.jupiter.api.AfterEach;
@@ -11,8 +13,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @ActiveProfiles("h2")
@@ -36,6 +37,20 @@ public class ColourServiceTest {
         assertAll(() -> {
             assertEquals(colourService.mapRestModel(colourDTO).getName(), colour.getName());
             assertEquals(colourService.mapRestModel(colourDTO).getId(), colour.getId());
+        });
+    }
+
+    @Test
+    void returnDBColourEntity(){
+        final Colour colour = new Colour(null, "Red");
+        assertEquals(0, colourRepository.count());
+        colourRepository.save(colour);
+        assertEquals(1, colourRepository.count());
+        Colour serviceColour = colourService.getEntityByName("Red");
+
+        assertAll(()->{
+            assertEquals(colour.getName(), serviceColour.getName());
+            assertNotEquals(null, serviceColour.getId());
         });
     }
 

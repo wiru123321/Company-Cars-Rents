@@ -14,8 +14,8 @@ import java.util.List;
 @Service
 public class ModelService implements ModelServiceInterface {
 
-    final ModelRepository modelRepository;
-    final MarkService markService;
+    private final ModelRepository modelRepository;
+    private final MarkService markService;
 
     public ModelService(final ModelRepository modelRepository, final MarkService markService) {
         this.modelRepository = modelRepository;
