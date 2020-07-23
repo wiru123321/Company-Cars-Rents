@@ -48,4 +48,7 @@ export const selectRequests = (state) => state.rentRequest.requests;
 export const selectChoosenRequestIndex = (state) =>
   state.rentRequest.choosenRequestIndex;
 
+export const selectCurrentRequest = (state) =>
+  state.rentRequest.requests[state.rentRequest.choosenRequestIndex];
+
 export default rentRequestsSlice.reducer;
