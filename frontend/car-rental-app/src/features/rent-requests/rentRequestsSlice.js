@@ -27,16 +27,25 @@ const initialState = {
       endHour: "19:20",
     },
   ],
+
+  choosenRequestIndex: "",
 };
 
 export const rentRequestsSlice = createSlice({
   name: "rentRequest",
   initialState,
-  reducers: {},
+  reducers: {
+    chooseRequest: (state, action) => {
+      state.choosenRequestIndex = action.payload;
+    },
+  },
 });
 
-export const {} = rentRequestsSlice.actions;
+export const { chooseRequest } = rentRequestsSlice.actions;
 
 export const selectRequests = (state) => state.rentRequest.requests;
+
+export const selectChoosenRequestIndex = (state) =>
+  state.rentRequest.choosenRequestIndex;
 
 export default rentRequestsSlice.reducer;

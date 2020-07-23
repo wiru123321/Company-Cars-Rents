@@ -20,7 +20,6 @@ const RentRequestsPopover = () => {
         Rent requests <Badge variant="light">{requests.length}</Badge>
         <span className="sr-only">unread messages</span>
       </Button>
-
       <Overlay
         show={show}
         target={target}
@@ -31,7 +30,7 @@ const RentRequestsPopover = () => {
           <Popover.Title as="h3">Requests</Popover.Title>
           <Popover.Content>
             {requests.map((request, index) => (
-              <ContentItem request={request} />
+              <ContentItem request={request} index={index} />
             ))}
           </Popover.Content>
         </Popover>
