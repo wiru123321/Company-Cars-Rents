@@ -40,7 +40,7 @@ const AdminNavbar = () => {
               }
               id="collasible-nav-dropdown"
             >
-              <NavDropdown.Item href="#adminPage/addEmployer">
+              <NavDropdown.Item href="#adminPage/addEmployee">
                 Add Employer
               </NavDropdown.Item>
               <NavDropdown.Item href="#adminPage/removeEmployer">
