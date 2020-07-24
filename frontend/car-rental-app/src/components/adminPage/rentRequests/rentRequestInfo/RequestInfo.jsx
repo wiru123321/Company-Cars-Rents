@@ -8,27 +8,20 @@ import {
   Typography,
   Divider,
 } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: "100%",
-  },
-  paper: {
-    padding: 8,
-    marginTop: "2%",
-    // height: 140,
-    // width: 100,
-  },
-  control: {
-    padding: theme.spacing(2),
-  },
-}));
+
 const RequestInfo = ({
-  request: { firstname, lastname, beginDate, beginHour, endDate, endHour },
+  request: {
+    firstname,
+    lastname,
+    beginDate,
+    beginHour,
+    endDate,
+    endHour,
+    description,
+  },
 }) => {
-  const classes = useStyles();
   return (
-    <List className={classes.root}>
+    <List>
       <ListItem>
         <ListItemText primary={`${firstname} ${lastname}`} />
       </ListItem>
@@ -42,7 +35,6 @@ const RequestInfo = ({
           secondary={`Hour: ${beginHour}`}
         />
       </ListItem>
-      <Divider component="li" />
       <li>
         <Typography>Reservation end</Typography>
       </li>
@@ -51,6 +43,13 @@ const RequestInfo = ({
           primary={`Date: ${endDate}`}
           secondary={`Hour: ${endHour}`}
         />
+      </ListItem>
+      <Divider component="li" />
+      <li>
+        <Typography>Description: </Typography>
+      </li>
+      <ListItem>
+        <ListItemText primary={description} />
       </ListItem>
     </List>
   );

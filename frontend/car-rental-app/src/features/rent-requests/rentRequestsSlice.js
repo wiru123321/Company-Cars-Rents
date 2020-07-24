@@ -9,6 +9,8 @@ const initialState = {
       beginHour: "20:40",
       endDate: "19-08-2020",
       endHour: "19:20",
+      description:
+        "DescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescription",
     },
     {
       firstname: "Kamil",
@@ -17,6 +19,8 @@ const initialState = {
       beginHour: "20:40",
       endDate: "19-08-2020",
       endHour: "19:20",
+      description:
+        "DescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescription",
     },
     {
       firstname: "Kamil",
@@ -25,6 +29,8 @@ const initialState = {
       beginHour: "20:40",
       endDate: "19-08-2020",
       endHour: "19:20",
+      description:
+        "DescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescription",
     },
   ],
 
