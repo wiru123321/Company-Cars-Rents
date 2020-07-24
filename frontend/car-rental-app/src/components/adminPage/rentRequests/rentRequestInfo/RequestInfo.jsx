@@ -1,7 +1,5 @@
 import React from "react";
 import {
-  Grid,
-  Paper,
   List,
   ListItem,
   ListItemText,

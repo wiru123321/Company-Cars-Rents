@@ -46,7 +46,7 @@ const RentRequestsPopover = () => {
           <Popover.Title as="h3">Requests</Popover.Title>
           <Popover.Content>
             {requests.map((request, index) => (
-              <ContentItem request={request} index={index} />
+              <ContentItem key={index} request={request} index={index} />
             ))}
           </Popover.Content>
         </Popover>

@@ -40,8 +40,8 @@ const RentRequestListItem = ({
   const dispatch = useDispatch();
   return (
     <Box border={1} borderRadius="20px" padding="8px">
-      <Grid container xs={12}>
-        <Grid item xs={12} spacing={1}>
+      <Grid container>
+        <Grid item xs={12}>
           <UserData firstname={firstname} lastname={lastname} />
         </Grid>
         <Grid container item xs={12}>

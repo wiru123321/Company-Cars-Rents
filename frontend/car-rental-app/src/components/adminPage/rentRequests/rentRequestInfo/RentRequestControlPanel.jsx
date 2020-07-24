@@ -1,13 +1,7 @@
 import React from "react";
 import { Grid, Button } from "@material-ui/core";
-import styled from "styled-components";
-import { rentRequestStyles } from "./rentRequest.styles";
-const TextArea = styled.textarea`
-  width: 100%;
-  height: 10vh;
-  resize: none;
-  padding: 8px;
-`;
+
+import { rentRequestStyles, TextArea } from "./rentRequest.styles";
 
 const RentRequestControlPanel = () => {
   const classes = rentRequestStyles();

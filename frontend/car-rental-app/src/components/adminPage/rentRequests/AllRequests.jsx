@@ -15,7 +15,9 @@ const AllRequests = () => {
     <Container>
       {requests.map((request, index) => {
         const { firstname, lastname } = request;
-        return <RentRequestListItem request={request} index={index} />;
+        return (
+          <RentRequestListItem key={index} request={request} index={index} />
+        );
       })}
     </Container>
   );

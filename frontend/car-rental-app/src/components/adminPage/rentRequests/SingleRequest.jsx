@@ -1,20 +1,7 @@
 import React from "react";
-import {
-  chooseRequest,
-  selectChoosenRequestIndex,
-  selectRequests,
-  selectCurrentRequest,
-} from "../../../features/rent-requests/rentRequestsSlice";
-import {
-  Grid,
-  Paper,
-  List,
-  ListItem,
-  ListItemText,
-  Typography,
-  Divider,
-} from "@material-ui/core";
-import { useSelector, useDispatch } from "react-redux";
+import { selectCurrentRequest } from "../../../features/rent-requests/rentRequestsSlice";
+import { Paper } from "@material-ui/core";
+import { useSelector } from "react-redux";
 import RequestInfo from "./rentRequestInfo/RequestInfo";
 import RentRequestControlPanel from "./rentRequestInfo/RentRequestControlPanel";
 import { Container } from "@material-ui/core";
