@@ -1,14 +1,10 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import {
-  chooseRequest,
-  selectChoosenRequestIndex,
-  selectRequests,
-  selectCurrentRequest,
-} from "../../../../features/rent-requests/rentRequestsSlice";
-import { Grid, Box, Button } from "@material-ui/core";
+import { useDispatch } from "react-redux";
+import { chooseRequest } from "../../../../features/rent-requests/rentRequestsSlice";
+import { Grid, Box, Button, Paper } from "@material-ui/core";
+import { rentRequestStyles } from "../rentRequestInfo/rentRequest.styles";
 
-function UserData({ firstname, lastname }) {
+const UserData = ({ firstname, lastname }) => {
   return (
     <React.Fragment>
       <Grid item xs={4}>
@@ -18,9 +14,9 @@ function UserData({ firstname, lastname }) {
       </Grid>
     </React.Fragment>
   );
-}
+};
 
-function ReservationDate({ beginDate, beginHour, endDate, endHour }) {
+const ReservationDate = ({ beginDate, beginHour, endDate, endHour }) => {
   return (
     <React.Fragment>
       <Grid item xs={4}>
@@ -31,15 +27,16 @@ function ReservationDate({ beginDate, beginHour, endDate, endHour }) {
       </Grid>
     </React.Fragment>
   );
-}
+};
 
 const RentRequestListItem = ({
   request: { firstname, lastname, beginDate, beginHour, endDate, endHour },
   index,
 }) => {
+  const classes = rentRequestStyles();
   const dispatch = useDispatch();
   return (
-    <Box border={1} borderRadius="20px" padding="8px">
+    <Paper className={classes.paper}>
       <Grid container>
         <Grid item xs={12}>
           <UserData firstname={firstname} lastname={lastname} />
@@ -53,6 +50,7 @@ const RentRequestListItem = ({
           />
         </Grid>
         <Button
+          color="primary"
           onClick={(event) => {
             dispatch(chooseRequest(index));
           }}
@@ -61,7 +59,7 @@ const RentRequestListItem = ({
           check
         </Button>
       </Grid>
-    </Box>
+    </Paper>
   );
 };
 

@@ -2,6 +2,7 @@ import React from "react";
 import RentRequestsPopover from "../adminPage/rentRequestsPopover/RentRequestsPopover";
 import { Navbar, Nav, NavDropdown } from "react-bootstrap";
 import "../userNavbar/UserNavbar.css";
+import AllRequestsNavLink from "../adminPage/rentRequestsPopover/AllRequestsNavLink";
 
 const AdminNavbar = () => {
   return (
@@ -21,9 +22,8 @@ const AdminNavbar = () => {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="ml-auto">
-            <Nav.Item>
-              <RentRequestsPopover />
-            </Nav.Item>
+            <AllRequestsNavLink />
+            <RentRequestsPopover />
             <NavDropdown
               title={
                 <span style={{ color: "#f3f169", fontSize: "25px" }}>Cars</span>

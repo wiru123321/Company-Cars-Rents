@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 
-import { Popover, Button, Overlay, Badge } from "react-bootstrap";
+import { Popover, Button, Overlay, Badge, Nav } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import {
   selectRequests,
@@ -12,7 +12,7 @@ const RentRequestsPopover = () => {
   const requests = useSelector(selectRequests);
   const [show, setShow] = useState(false);
   const [target, setTarget] = useState(null);
-  const dispatch = useDispatch();
+
   const ref = useRef(null);
   const handleClick = (event) => {
     setShow(!show);
@@ -20,22 +20,13 @@ const RentRequestsPopover = () => {
   };
   return (
     <div ref={ref}>
-      <Button
-        onClick={(event) => {
-          dispatch(chooseRequest(""));
-        }}
-        href="#/adminPage/rentRequest"
-        size="sm"
-      >
-        Rent requests
-      </Button>
-      <Badge variant="light">
-        <Button variant="outline-primary" size="sm" onClick={handleClick}>
-          {requests.length}
-        </Button>
-      </Badge>
-
-      <span className="sr-only">unread messages</span>
+      <Nav.Link>
+        <Badge variant="light">
+          <Button variant="outline-primary" size="sm" onClick={handleClick}>
+            {requests.length}
+          </Button>
+        </Badge>
+      </Nav.Link>
       <Overlay
         show={show}
         target={target}

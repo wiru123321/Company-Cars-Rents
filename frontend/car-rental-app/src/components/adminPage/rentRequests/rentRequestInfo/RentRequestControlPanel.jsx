@@ -1,7 +1,7 @@
 import React from "react";
 import { Grid, Button } from "@material-ui/core";
 
-import { rentRequestStyles, TextArea } from "./rentRequest.styles";
+import { rentRequestStyles, TextArea } from "./rentRequest.styles.js";
 
 const RentRequestControlPanel = () => {
   const classes = rentRequestStyles();
