@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -49,9 +51,9 @@ public class ParkingHistoryServiceTest {
         parkingHistoryRepository.save(parking);
         assertEquals(1, parkingHistoryRepository.count());
 
-        final ParkingDTO parkingDTO = parkingHistoryService.getDTOByTown("Katowice");
+        final List<ParkingDTO> parkingDTO = parkingHistoryService.getDTOByTown("Katowice");
 
-        assertEquals(parking.getTown(), parkingDTO.getTown());
+        assertEquals(parking.getTown(), parkingDTO.get(0).getTown());
     }
 
     @Test

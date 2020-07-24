@@ -25,8 +25,13 @@ public class ParkingHistoryService implements ParkingHistoryServiceInterface {
     }
 
     @Override
-    public ParkingDTO getDTOByTown(final String town) {
-        return new ParkingDTO(parkingHistoryRepository.getByTown(town));
+    public List<ParkingDTO> getDTOByTown(final String town) {
+        final ArrayList<Parking> parkingArrayList = new ArrayList<>();
+        parkingHistoryRepository.findByTown(town).forEach(parkingArrayList::add);
+
+        return parkingArrayList.stream()
+                .map(ParkingDTO::new)
+                .collect(Collectors.toList());
     }
 
     @Override

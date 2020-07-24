@@ -8,7 +8,7 @@ import java.util.List;
 public interface ParkingHistoryServiceInterface {
     Parking mapRestModel(final ParkingDTO parking);
 
-    ParkingDTO getDTOByTown(String town);
+    List<ParkingDTO> getDTOByTown(String town);
 
     List<ParkingDTO> getAll();
 

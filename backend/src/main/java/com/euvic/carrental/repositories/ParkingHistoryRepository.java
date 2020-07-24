@@ -4,7 +4,9 @@ import com.euvic.carrental.model.Parking;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface ParkingHistoryRepository extends CrudRepository<Parking, Long> {
-    Parking getByTown(String town);
+    List<Parking> findByTown(String town);
 }
