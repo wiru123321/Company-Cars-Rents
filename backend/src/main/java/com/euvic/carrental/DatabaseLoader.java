@@ -17,20 +17,22 @@ import java.util.List;
 @Component
 public class DatabaseLoader implements CommandLineRunner {
 
-    //TODO add reposittories and services
+    //TODO add services if needed
     private final CarRepository carRepository;
     private final ColourRepository colourRepository;
     private final FaultRepository faultRepository;
+    private final FuelTypeRepository fuelTypeRepository;
+    private final GearboxTypeRepository gearboxTypeRepository;
     private final MarkRepository markRepository;
     private final ModelRepository modelRepository;
     private final ParkingRepository parkingRepository;
+    private final ParkingHistoryRepository parkingHistoryRepository;
     private final RentHistoryRepository rentHistoryRepository;
     private final RentRepository rentRepository;
     private final RoleRepository roleRepository;
     private final TypeRepository typeRepository;
     private final UserRepository userRepository;
-    private final GearboxTypeRepository gearboxTypeRepository;
-    private final FuelTypeRepository fuelTypeRepository;
+
 
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -45,7 +47,7 @@ public class DatabaseLoader implements CommandLineRunner {
                           final RentHistoryRepository rentHistoryRepository, final RentRepository rentRepository,
                           final RoleRepository roleRepository, final TypeRepository typeRepository,
                           final UserRepository userRepository, final GearboxTypeRepository gearboxTypeRepository,
-                          final FuelTypeRepository fuelTypeRepository) {
+                          final FuelTypeRepository fuelTypeRepository, final ParkingHistoryRepository parkingHistoryRepository) {
         this.carRepository = carRepository;
         this.colourRepository = colourRepository;
         this.faultRepository = faultRepository;
@@ -59,6 +61,7 @@ public class DatabaseLoader implements CommandLineRunner {
         this.userRepository = userRepository;
         this.gearboxTypeRepository = gearboxTypeRepository;
         this.fuelTypeRepository = fuelTypeRepository;
+        this.parkingHistoryRepository = parkingHistoryRepository;
     }
 
     @Override

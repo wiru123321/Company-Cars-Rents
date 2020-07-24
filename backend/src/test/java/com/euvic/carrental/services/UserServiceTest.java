@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
@@ -32,6 +33,9 @@ public class UserServiceTest {
     @Autowired
     private RoleService roleService;
 
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
     @BeforeEach
     void setUp() {
         final Role role1 = new Role(null, "Admin");
@@ -51,8 +55,10 @@ public class UserServiceTest {
 
     @Test
     void whenUserDTOGiven_thenReturnUserEntity() {
-        final User user = new User(null, "login1", "password1", "email@email.com", "Wojciech", "Waleszczyk", "700 100 110", true, roleService.getEntityByRoleName("User"));
-        final UserDTO userDTO = new UserDTO("login1", "password1", "email@email.com", "Wojciech", "Waleszczyk", "700 100 110", true, roleService.getEntityByRoleName("User"));
+        final User user = new User(null, "login1", "password1", "email@email.com",
+                "Wojciech", "Waleszczyk", "700 100 110", true, roleService.getEntityByRoleName("User"));
+        final UserDTO userDTO = new UserDTO("login1", "password1", "email@email.com",
+                "Wojciech", "Waleszczyk", "700 100 110", true, roleService.getDTOByRoleName("User"));
         final User restModelToEntityUser = userService.mapRestModel(userDTO);
         assertAll(() -> {
             assertEquals(restModelToEntityUser.getLogin(), user.getLogin());
@@ -69,7 +75,8 @@ public class UserServiceTest {
 
     @Test
     void returnDBUserEntity() {
-        final User user = new User(null, "login1", "password1", "email@email.com", "Wojciech", "Waleszczyk", "700 100 110", true, roleService.getEntityByRoleName("User"));
+        final User user = new User(null, "login1", "password1", "email@email.com",
+                "Wojciech", "Waleszczyk", "700 100 110", true, roleService.getEntityByRoleName("User"));
         assertEquals(0, userRepository.count());
         userRepository.save(user);
         assertEquals(1, userRepository.count());
@@ -90,7 +97,8 @@ public class UserServiceTest {
 
     @Test
     void returnDBUserDTO() {
-        final User user = new User(null, "login1", "password1", "email@email.com", "Wojciech", "Waleszczyk", "700 100 110", true, roleService.getEntityByRoleName("User"));
+        final User user = new User(null, "login1", "password1", "email@email.com",
+                "Wojciech", "Waleszczyk", "700 100 110", true, roleService.getEntityByRoleName("User"));
         assertEquals(0, userRepository.count());
         userRepository.save(user);
         assertEquals(1, userRepository.count());
@@ -105,15 +113,18 @@ public class UserServiceTest {
             assertEquals(user.getSurname(), userDTO.getSurname());
             assertEquals(user.getPhoneNumber(), userDTO.getPhoneNumber());
             assertEquals(user.getIsActive(), userDTO.getIsActive());
-            assertEquals(user.getRole().getName(), userDTO.getRole().getName());
+            assertEquals(user.getRole().getName(), userDTO.getRoleDTO().getName());
         });
     }
 
     @Test
     void returnAllDBUserDTO() {
-        final User user1 = new User(null, "login1", "password1", "email@email.com", "Wojciech", "Waleszczyk", "700 100 110", true, roleService.getEntityByRoleName("User"));
-        final User user2 = new User(null, "login2", "password1", "email@email.com", "Wojciech", "Waleszczyk", "700 100 110", true, roleService.getEntityByRoleName("User"));
-        final User user3 = new User(null, "login3", "password1", "email@email.com", "Wojciech", "Waleszczyk", "700 100 110", true, roleService.getEntityByRoleName("User"));
+        final User user1 = new User(null, "login1", "password1", "email@email.com",
+                "Wojciech", "Waleszczyk", "700 100 110", true, roleService.getEntityByRoleName("User"));
+        final User user2 = new User(null, "login2", "password1", "email@email.com",
+                "Wojciech", "Waleszczyk", "700 100 110", true, roleService.getEntityByRoleName("User"));
+        final User user3 = new User(null, "login3", "password1", "email@email.com",
+                "Wojciech", "Waleszczyk", "700 100 110", true, roleService.getEntityByRoleName("User"));
 
         assertEquals(0, userRepository.count());
         userRepository.save(user1);
@@ -128,7 +139,8 @@ public class UserServiceTest {
 
     @Test
     void whenUserDTOGiven_shouldAddEntityUserToDB() {
-        final UserDTO userDTO = new UserDTO("login1", "password1", "email@email.com", "Wojciech", "Waleszczyk", "700 100 110", true, roleService.getEntityByRoleName("User"));
+        final UserDTO userDTO = new UserDTO("login1", "password1", "email@email.com",
+                "Wojciech", "Waleszczyk", "700 100 110", true, roleService.getDTOByRoleName("User"));
         assertEquals(0, userRepository.count());
         userService.add(userDTO);
         assertEquals(1, userRepository.count());

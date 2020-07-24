@@ -40,7 +40,6 @@ public class User {
     public User() {
     }
 
-        //TODO wywalic (mapRestModel to już robi)
     public User(final UserDTO userDTO, final Role role) {
         this.login = userDTO.getLogin();
         this.password = userDTO.getPassword();

@@ -1,7 +1,5 @@
 package com.euvic.carrental.services;
 
-import com.euvic.carrental.model.Mark;
-import com.euvic.carrental.model.Model;
 import com.euvic.carrental.model.Parking;
 import com.euvic.carrental.repositories.ParkingRepository;
 import com.euvic.carrental.responses.ParkingDTO;
@@ -10,6 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -45,21 +45,21 @@ public class ParkingServiceTest {
     }
 
     @Test
-    void returnDBParkingEntity(){
+    void returnDBParkingEntity() {
         final Parking parking = new Parking(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
         assertEquals(0, parkingRepository.count());
         parkingRepository.save(parking);
         assertEquals(1, parkingRepository.count());
-        Parking serviceParking = parkingService.getEntityByTown("Katowice");
+        final List<Parking> serviceParking = parkingService.getEntityByTown("Katowice");
 
-        assertAll(()->{
-            assertEquals(parking.getComment(), serviceParking.getComment());
-            assertEquals(parking.getIsActive(), serviceParking.getIsActive());
-            assertEquals(parking.getNumber(), serviceParking.getNumber());
-            assertEquals(parking.getPostalCode(), serviceParking.getPostalCode());
-            assertEquals(parking.getStreetName(), serviceParking.getStreetName());
-            assertEquals(parking.getTown(), serviceParking.getTown());
-            assertNotEquals(null, serviceParking.getId());
+        assertAll(() -> {
+            assertEquals(parking.getComment(), serviceParking.get(0).getComment());
+            assertEquals(parking.getIsActive(), serviceParking.get(0).getIsActive());
+            assertEquals(parking.getNumber(), serviceParking.get(0).getNumber());
+            assertEquals(parking.getPostalCode(), serviceParking.get(0).getPostalCode());
+            assertEquals(parking.getStreetName(), serviceParking.get(0).getStreetName());
+            assertEquals(parking.getTown(), serviceParking.get(0).getTown());
+            assertNotEquals(null, serviceParking.get(0).getId());
         });
     }
 
@@ -70,9 +70,10 @@ public class ParkingServiceTest {
         parkingRepository.save(parking);
         assertEquals(1, parkingRepository.count());
 
-        final ParkingDTO parkingDTO = parkingService.getDTOByTown("Katowice");
+        final List<ParkingDTO> parkingDTO = parkingService.getDTOByTown("Katowice");
 
-        assertEquals(parking.getTown(), parkingDTO.getTown());
+        assertEquals(parking.getTown(), parkingDTO.get(0).getTown());
+
     }
 
     @Test

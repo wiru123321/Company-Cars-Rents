@@ -4,7 +4,6 @@ import com.euvic.carrental.model.*;
 import com.euvic.carrental.repositories.CarRepository;
 import com.euvic.carrental.responses.*;
 import com.euvic.carrental.services.interfaces.CarServiceInterface;
-import org.dom4j.rule.Mode;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,8 +21,8 @@ public class CarService implements CarServiceInterface {
     private final TypeService typeService;
 
 
-    public CarService(CarRepository carRepository, GearboxTypeService gearboxTypeService, FuelTypeService fuelTypeService,
-                      ModelService modelService, ParkingService parkingService, ColourService colourService, TypeService typeService) {
+    public CarService(final CarRepository carRepository, final GearboxTypeService gearboxTypeService, final FuelTypeService fuelTypeService,
+                      final ModelService modelService, final ParkingService parkingService, final ColourService colourService, final TypeService typeService) {
         this.carRepository = carRepository;
         this.gearboxTypeService = gearboxTypeService;
         this.fuelTypeService = fuelTypeService;
@@ -37,19 +36,19 @@ public class CarService implements CarServiceInterface {
     public Car mapRestModel(final CarDTO carDTO) {
         return new Car(null, carDTO, gearboxTypeService.getEntityByName(carDTO.getGearBoxTypeDTO().getName()),
                 fuelTypeService.getEntityByName(carDTO.getFuelTypeDTO().getName()),
-                        modelService.getEntityByName(carDTO.getModelDTO().getName()),
-                                parkingService.getEntityByTown(carDTO.getParkingDTO().getTown()),
-                                        colourService.getEntityByName(carDTO.getColourDTO().getName()),
-                                                typeService.getEntityByName(carDTO.getTypeDTO().getName()));
+                modelService.getEntityByName(carDTO.getModelDTO().getName()),
+                parkingService.getEntityByTown(carDTO.getParkingDTO().getTown()).get(0),
+                colourService.getEntityByName(carDTO.getColourDTO().getName()),
+                typeService.getEntityByName(carDTO.getTypeDTO().getName()));
     }
 
     @Override
-    public Car getEntityByLicensePlate(String licensePlate) {
+    public Car getEntityByLicensePlate(final String licensePlate) {
         return carRepository.findByLicensePlate(licensePlate);
     }
 
     @Override
-    public CarDTO getDTOByLicensePlate(String licensePlate) {
+    public CarDTO getDTOByLicensePlate(final String licensePlate) {
         final Car car = carRepository.findByLicensePlate(licensePlate);
         final GearboxType gearboxType = car.getGearboxType();
         final FuelType fuelType = car.getFuelType();
@@ -58,8 +57,8 @@ public class CarService implements CarServiceInterface {
         final Colour colour = car.getColour();
         final Type type = car.getType();
         return new CarDTO(car, gearboxTypeService.getDTOByName(gearboxType.getName()), fuelTypeService.getDTOByName(fuelType.getName())
-                , modelService.getDTOByName(model.getName()), parkingService.getDTOByTown(parking.getTown())
-                        , colourService.getDTOByName(colour.getName()), typeService.getDTOByName(type.getName()));
+                , modelService.getDTOByName(model.getName()), parkingService.getDTOByTown(parking.getTown()).get(0)
+                , colourService.getDTOByName(colour.getName()), typeService.getDTOByName(type.getName()));
     }
 
     @Override

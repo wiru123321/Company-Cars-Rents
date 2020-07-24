@@ -8,11 +8,12 @@ import java.util.List;
 public interface ParkingServiceInterface {
     Parking mapRestModel(final ParkingDTO parking);
 
-    ParkingDTO getDTOByTown(String town);
-    Parking getEntityByTown(String town);
+    List<ParkingDTO> getDTOByTown(String town);
+
+    List<Parking> getEntityByTown(String town);
 
     List<ParkingDTO> getAll();
 
     Long add(final ParkingDTO parking);
-    
+
 }

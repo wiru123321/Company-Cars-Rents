@@ -14,28 +14,43 @@ import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 @ActiveProfiles("h2")
 public class CarServiceTest {
 
-    @Autowired private CarService carService;
-    @Autowired private CarRepository carRepository;
-    @Autowired private GearboxTypeService gearboxTypeService;
-    @Autowired private GearboxTypeRepository gearboxTypeRepository;
-    @Autowired private FuelTypeService fuelTypeService;
-    @Autowired private FuelTypeRepository fuelTypeRepository;
-    @Autowired private MarkService markService;
-    @Autowired private MarkRepository markRepository;
-    @Autowired private ModelService modelService;
-    @Autowired private ModelRepository modelRepository;
-    @Autowired private ParkingService parkingService;
-    @Autowired private ParkingRepository parkingRepository;
-    @Autowired private ColourService colourService;
-    @Autowired private ColourRepository colourRepository;
-    @Autowired private TypeService typeService;
-    @Autowired private TypeRepository typeRepository;
+    @Autowired
+    private CarService carService;
+    @Autowired
+    private CarRepository carRepository;
+    @Autowired
+    private GearboxTypeService gearboxTypeService;
+    @Autowired
+    private GearboxTypeRepository gearboxTypeRepository;
+    @Autowired
+    private FuelTypeService fuelTypeService;
+    @Autowired
+    private FuelTypeRepository fuelTypeRepository;
+    @Autowired
+    private MarkService markService;
+    @Autowired
+    private MarkRepository markRepository;
+    @Autowired
+    private ModelService modelService;
+    @Autowired
+    private ModelRepository modelRepository;
+    @Autowired
+    private ParkingService parkingService;
+    @Autowired
+    private ParkingRepository parkingRepository;
+    @Autowired
+    private ColourService colourService;
+    @Autowired
+    private ColourRepository colourRepository;
+    @Autowired
+    private TypeService typeService;
+    @Autowired
+    private TypeRepository typeRepository;
 
 
     // TODO optymalizacja @BeforeEach
@@ -114,14 +129,14 @@ public class CarServiceTest {
     @Test
     void whenCarDTOGiven_thenReturnCarEntity() {
         final Car car = new Car(null, "photoNr1", "WN101", 100, 4, 5, 5,
-                gearboxTypeService.getEntityByName("Automatic"),fuelTypeService.getEntityByName("Gasoline"),
-                        new Date(2000, 03, 25), 1990, true, true, 200000, modelService.getEntityByName("C350"),
-                parkingService.getEntityByTown("Katowice"), colourService.getEntityByName("Red"), typeService.getEntityByName("Sedan"));
+                gearboxTypeService.getEntityByName("Automatic"), fuelTypeService.getEntityByName("Gasoline"),
+                new Date(2000, 03, 25), 1990, true, true, 200000, modelService.getEntityByName("C350"),
+                parkingService.getEntityByTown("Katowice").get(0), colourService.getEntityByName("Red"), typeService.getEntityByName("Sedan"));
 
         final CarDTO carDTO = new CarDTO("photoNr1", "WN101", 100, 4, 5, 5,
-                gearboxTypeService.getDTOByName("Automatic"),fuelTypeService.getDTOByName("Gasoline"),
+                gearboxTypeService.getDTOByName("Automatic"), fuelTypeService.getDTOByName("Gasoline"),
                 new Date(2000, 03, 25), 1990, true, true, 200000, modelService.getDTOByName("C350"),
-                parkingService.getDTOByTown("Katowice"), colourService.getDTOByName("Red"), typeService.getDTOByName("Sedan"));
+                parkingService.getDTOByTown("Katowice").get(0), colourService.getDTOByName("Red"), typeService.getDTOByName("Sedan"));
         final Car restModelToEntityModel = carService.mapRestModel(carDTO);
         assertAll(() -> {
             assertEquals(restModelToEntityModel.getId(), car.getId());
@@ -148,9 +163,9 @@ public class CarServiceTest {
     @Test
     void returnDBCarEntity() {
         final Car car = new Car(null, "photoNr1", "WN101", 100, 4, 5, 5,
-            gearboxTypeService.getEntityByName("Automatic"),fuelTypeService.getEntityByName("Gasoline"),
-            new Date(2000, 03, 25), 1990, true, true, 200000, modelService.getEntityByName("C350"),
-            parkingService.getEntityByTown("Katowice"), colourService.getEntityByName("Red"), typeService.getEntityByName("Sedan"));
+                gearboxTypeService.getEntityByName("Automatic"), fuelTypeService.getEntityByName("Gasoline"),
+                new Date(2000, 03, 25), 1990, true, true, 200000, modelService.getEntityByName("C350"),
+                parkingService.getEntityByTown("Katowice").get(0), colourService.getEntityByName("Red"), typeService.getEntityByName("Sedan"));
 
         assertEquals(0, carRepository.count());
         carRepository.save(car);
@@ -182,9 +197,9 @@ public class CarServiceTest {
     @Test
     void returnDBCarDTO() {
         final Car car = new Car(null, "photoNr1", "WN101", 100, 4, 5, 5,
-                gearboxTypeService.getEntityByName("Automatic"),fuelTypeService.getEntityByName("Gasoline"),
+                gearboxTypeService.getEntityByName("Automatic"), fuelTypeService.getEntityByName("Gasoline"),
                 new Date(2000, 03, 25), 1990, true, true, 200000, modelService.getEntityByName("C350"),
-                parkingService.getEntityByTown("Katowice"), colourService.getEntityByName("Red"), typeService.getEntityByName("Sedan"));
+                parkingService.getEntityByTown("Katowice").get(0), colourService.getEntityByName("Red"), typeService.getEntityByName("Sedan"));
         assertEquals(0, carRepository.count());
         carRepository.save(car);
         assertEquals(1, carRepository.count());
@@ -215,19 +230,19 @@ public class CarServiceTest {
     @Test
     void returnAllDBCarsDTO() {
         final Car car1 = new Car(null, "photoNr1", "WN101", 100, 4, 5, 5,
-                gearboxTypeService.getEntityByName("Automatic"),fuelTypeService.getEntityByName("Gasoline"),
+                gearboxTypeService.getEntityByName("Automatic"), fuelTypeService.getEntityByName("Gasoline"),
                 new Date(2000, 3, 25), 1990, true, true, 200000, modelService.getEntityByName("C350"),
-                parkingService.getEntityByTown("Katowice"), colourService.getEntityByName("Red"), typeService.getEntityByName("Sedan"));
+                parkingService.getEntityByTown("Katowice").get(0), colourService.getEntityByName("Red"), typeService.getEntityByName("Sedan"));
 
         final Car car2 = new Car(null, "photoNr2", "SBE33212", 120, 1, 4, 3,
                 gearboxTypeService.getEntityByName("Manual"), fuelTypeService.getEntityByName("Diesel"),
                 new Date(2000, 3, 25), 2000, true, true, 120000, modelService.getEntityByName("Astra"),
-                parkingService.getEntityByTown("Radom"), colourService.getEntityByName("Blue"), typeService.getEntityByName("Coupe"));
+                parkingService.getEntityByTown("Radom").get(0), colourService.getEntityByName("Blue"), typeService.getEntityByName("Coupe"));
 
         final Car car3 = new Car(null, "photoNr3", "SBE11212", 250, 4, 5, 5,
                 gearboxTypeService.getEntityByName("Automatic"), fuelTypeService.getEntityByName("Diesel"),
                 new Date(2015, 9, 11), 2014, true, true, 100000, modelService.getEntityByName("M5"),
-                parkingService.getEntityByTown("Kielce"), colourService.getEntityByName("Green"), typeService.getEntityByName("Sedan"));
+                parkingService.getEntityByTown("Kielce").get(0), colourService.getEntityByName("Green"), typeService.getEntityByName("Sedan"));
 
         assertEquals(0, carRepository.count());
         carRepository.save(car1);
@@ -244,9 +259,9 @@ public class CarServiceTest {
     void whenCarDTOGiven_shouldAddEntityCarToDB() {
 
         final CarDTO carDTO = new CarDTO("photoNr1", "WN101", 100, 4, 5, 5,
-                gearboxTypeService.getDTOByName("Automatic"),fuelTypeService.getDTOByName("Gasoline"),
+                gearboxTypeService.getDTOByName("Automatic"), fuelTypeService.getDTOByName("Gasoline"),
                 new Date(2000, 3, 25), 1990, true, true, 200000, modelService.getDTOByName("C350"),
-                parkingService.getDTOByTown("Katowice"), colourService.getDTOByName("Red"), typeService.getDTOByName("Sedan"));
+                parkingService.getDTOByTown("Katowice").get(0), colourService.getDTOByName("Red"), typeService.getDTOByName("Sedan"));
 
         assertEquals(0, carRepository.count());
         carService.add(carDTO);

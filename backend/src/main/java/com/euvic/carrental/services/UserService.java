@@ -22,7 +22,7 @@ public class UserService implements UserServiceInterface {
 
     @Override
     public User mapRestModel(final UserDTO userDTO) {
-        return new User(userDTO, roleService.getEntityByRoleName(userDTO.getRole().getName()));
+        return new User(userDTO, roleService.getEntityByRoleName(userDTO.getRoleDTO().getName()));
     }
 
     @Override
@@ -33,7 +33,7 @@ public class UserService implements UserServiceInterface {
     @Override
     public UserDTO getDTOByLogin(final String login) {
         final User user = userRepository.findByLogin(login);
-        return new UserDTO(user);
+        return new UserDTO(user, roleService.getDTOByRoleName(user.getRole().getName()));
     }
 
     @Override
@@ -53,7 +53,7 @@ public class UserService implements UserServiceInterface {
 
         final ArrayList<UserDTO> userDTOArrayList = new ArrayList<>();
         userArrayList.stream().forEach((user) -> {
-            final UserDTO userDTO = new UserDTO(user);
+            final UserDTO userDTO = new UserDTO(user, roleService.getDTOByRoleName(user.getRole().getName()));
             userDTOArrayList.add(userDTO);
         });
 
