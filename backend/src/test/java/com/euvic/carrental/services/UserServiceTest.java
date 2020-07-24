@@ -75,7 +75,7 @@ public class UserServiceTest {
 
     @Test
     void returnDBUserEntity() {
-        final User user = new User(null, "login1", "password1", "email@email.com",
+        final User user = new User(null, "login1", bCryptPasswordEncoder.encode("password1"), "email@email.com",
                 "Wojciech", "Waleszczyk", "700 100 110", true, roleService.getEntityByRoleName("User"));
         assertEquals(0, userRepository.count());
         userRepository.save(user);
@@ -97,7 +97,7 @@ public class UserServiceTest {
 
     @Test
     void returnDBUserDTO() {
-        final User user = new User(null, "login1", "password1", "email@email.com",
+        final User user = new User(null, "login1", bCryptPasswordEncoder.encode("password1"), "email@email.com",
                 "Wojciech", "Waleszczyk", "700 100 110", true, roleService.getEntityByRoleName("User"));
         assertEquals(0, userRepository.count());
         userRepository.save(user);
@@ -119,11 +119,11 @@ public class UserServiceTest {
 
     @Test
     void returnAllDBUserDTO() {
-        final User user1 = new User(null, "login1", "password1", "email@email.com",
+        final User user1 = new User(null, "login1", bCryptPasswordEncoder.encode("password1"), "email@email.com",
                 "Wojciech", "Waleszczyk", "700 100 110", true, roleService.getEntityByRoleName("User"));
-        final User user2 = new User(null, "login2", "password1", "email@email.com",
+        final User user2 = new User(null, "login2", bCryptPasswordEncoder.encode("password1"), "email@email.com",
                 "Wojciech", "Waleszczyk", "700 100 110", true, roleService.getEntityByRoleName("User"));
-        final User user3 = new User(null, "login3", "password1", "email@email.com",
+        final User user3 = new User(null, "login3", bCryptPasswordEncoder.encode("password1"), "email@email.com",
                 "Wojciech", "Waleszczyk", "700 100 110", true, roleService.getEntityByRoleName("User"));
 
         assertEquals(0, userRepository.count());
@@ -139,7 +139,7 @@ public class UserServiceTest {
 
     @Test
     void whenUserDTOGiven_shouldAddEntityUserToDB() {
-        final UserDTO userDTO = new UserDTO("login1", "password1", "email@email.com",
+        final UserDTO userDTO = new UserDTO("login1", bCryptPasswordEncoder.encode("password1"), "email@email.com",
                 "Wojciech", "Waleszczyk", "700 100 110", true, roleService.getDTOByRoleName("User"));
         assertEquals(0, userRepository.count());
         userService.add(userDTO);

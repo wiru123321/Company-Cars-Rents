@@ -4,6 +4,7 @@ import com.euvic.carrental.model.User;
 import com.euvic.carrental.repositories.UserRepository;
 import com.euvic.carrental.responses.UserDTO;
 import com.euvic.carrental.services.interfaces.UserServiceInterface;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ public class UserService implements UserServiceInterface {
     final UserRepository userRepository;
     final RoleService roleService;
 
+    @Autowired
     public UserService(final UserRepository userRepository, final RoleService roleService) {
         this.userRepository = userRepository;
         this.roleService = roleService;

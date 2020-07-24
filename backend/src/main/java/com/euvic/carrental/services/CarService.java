@@ -4,6 +4,7 @@ import com.euvic.carrental.model.*;
 import com.euvic.carrental.repositories.CarRepository;
 import com.euvic.carrental.responses.*;
 import com.euvic.carrental.services.interfaces.CarServiceInterface;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ public class CarService implements CarServiceInterface {
     private final ColourService colourService;
     private final TypeService typeService;
 
-
+    @Autowired
     public CarService(final CarRepository carRepository, final GearboxTypeService gearboxTypeService, final FuelTypeService fuelTypeService,
                       final ModelService modelService, final ParkingService parkingService, final ColourService colourService, final TypeService typeService) {
         this.carRepository = carRepository;
