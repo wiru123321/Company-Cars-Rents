@@ -44,7 +44,6 @@ const RentRequestListItem = ({
         <Grid item xs={12} spacing={1}>
           <UserData firstname={firstname} lastname={lastname} />
         </Grid>
-
         <Grid container item xs={12}>
           <ReservationDate
             beginDate={beginDate}

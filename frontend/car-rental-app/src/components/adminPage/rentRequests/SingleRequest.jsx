@@ -7,21 +7,15 @@ import {
 } from "../../../features/rent-requests/rentRequestsSlice";
 import { useSelector, useDispatch } from "react-redux";
 import RequestInfo from "./rentRequestInfo/RequestInfo";
-
+import RentRequestControlPanel from "./rentRequestInfo/RentRequestControlPanel";
+import { Container } from "@material-ui/core";
 const SingleRequest = () => {
-  const {
-    firstname,
-    lastname,
-    beginDate,
-    beginHour,
-    endDate,
-    endHour,
-  } = useSelector(selectCurrentRequest);
+  const request = useSelector(selectCurrentRequest);
   return (
-    <div>
-      {firstname} {lastname} {beginDate}
-      {beginHour} {endDate} {endHour}
-    </div>
+    <Container>
+      <RequestInfo request={request} />
+      <RentRequestControlPanel />
+    </Container>
   );
 };
 

@@ -1,7 +1,6 @@
 import React from "react";
 import { PopoverContent } from "./popover.style";
 import { Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { chooseRequest } from "../../../features/rent-requests/rentRequestsSlice";
 const ContentItem = ({
@@ -20,7 +19,6 @@ const ContentItem = ({
       <p>
         End: {endDate} - {endHour}
       </p>
-
       <Button
         variant="outline-primary"
         size="sm"
