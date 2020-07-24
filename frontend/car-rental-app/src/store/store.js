@@ -1,9 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
 import reservationReducer from "../features/car-reservation/reservationSlice";
-import addEmployeeReducer from "../features/car-reservation/addEmployeeSlice";s
+import addEmployeeReducer from "../features/car-reservation/addEmployeeSlice";
 import rentRequestSlice from "../features/rent-requests/rentRequestsSlice";
 import yourReservationReducer from "../features/your-cars/yourCarsSlice";
-
 
 export default configureStore({
   reducer: {

@@ -12,6 +12,7 @@ let json = [
     src:
       "https://ocs-pl.oktawave.com/v1/AUTH_2887234e-384a-4873-8bc5-405211db13a2/autoblog/2019/09/Audi-RS7-3.jpg",
     isEndOfRent: true,
+    bugDescribe: "",
   },
   {
     mark: "Fiat",
@@ -24,6 +25,7 @@ let json = [
     src:
       "https://www.autocentrum.pl/ac-file/gallery-photo/5dd3eae5583a0f08331eca84/fiat-panda.jpg",
     isEndOfRent: true,
+    bugDescribe: "",
   },
   {
     mark: "Mercedes",
@@ -36,6 +38,7 @@ let json = [
     src:
       "https://www.mercedes-benz.pl/passengercars/mercedes-benz-cars/models/a-class/hatchback-w177/amg/comparison-slider/_jcr_content/comparisonslider/par/comparisonslide_576434814/exteriorImage.MQ6.12.20191001221334.jpeg",
     isEndOfRent: false,
+    bugDescribe: "",
   },
 ];
 
@@ -45,6 +48,7 @@ const initialState = {
   endingFormChoose: false,
   isEndOfRent: true,
   chooseCarIndex: 0,
+  bugOpen: false,
   cars: json,
 };
 export const yourCarsSlice = createSlice({
@@ -65,6 +69,12 @@ export const yourCarsSlice = createSlice({
     parkingPlaceNumberChange: (state, action) => {
       state.parkingPlaceNumber = action.payload;
     },
+    bugOpenChange: (state) => {
+      state.bugOpen = !state.bugOpen;
+    },
+    bugDescribeChane: (state, action) => {
+      state.cars[state.chooseCarIndex].bugDescribe = action.payload;
+    },
   },
 });
 export const {
@@ -72,6 +82,8 @@ export const {
   parkingNumberChange,
   parkingPlaceNumberChange,
   acceptForm,
+  bugOpenChange,
+  bugDescribeChane,
 } = yourCarsSlice.actions;
 
 export const selectCars = (state) => state.YourReservation.cars;
@@ -79,5 +91,6 @@ export const selectEnd = (state) => state.YourReservation.isEndOfRent;
 export const selectIndex = (state) => state.YourReservation.chooseCarIndex;
 export const selectEndingformchoose = (state) =>
   state.YourReservation.endingFormChoose;
+export const selectBugopen = (state) => state.YourReservation.bugOpen;
 
 export default yourCarsSlice.reducer;
