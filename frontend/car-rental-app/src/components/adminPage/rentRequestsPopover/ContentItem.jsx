@@ -7,7 +7,13 @@ const ContentItem = ({
   request: { firstname, lastname, beginDate, beginHour, endDate, endHour },
   index,
 }) => {
+  const linkPath = "#/adminPage/rentRequest";
   const dispatch = useDispatch();
+
+  function setActiveRequest() {
+    dispatch(chooseRequest(index));
+  }
+
   return (
     <PopoverContent>
       <p>
@@ -22,10 +28,8 @@ const ContentItem = ({
       <Button
         variant="outline-primary"
         size="sm"
-        onClick={(event) => {
-          dispatch(chooseRequest(index));
-        }}
-        href="#/adminPage/rentRequest"
+        onClick={setActiveRequest}
+        href={linkPath}
       >
         check
       </Button>
