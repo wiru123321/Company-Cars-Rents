@@ -25,7 +25,7 @@ const AddEmployee = () => {
       isSuccess(false);
     }, 2000);
     return () => {
-      if (showSuccess == true) return clearTimeout(timer);
+      if (showSuccess === true) return clearTimeout(timer);
     };
   }, [success, showSuccess]);
 
@@ -42,7 +42,7 @@ const AddEmployee = () => {
       onSubmit={(event) => {
         event.preventDefault();
         if (password === rePassword) {
-          reset();
+          resetForm();
           isSuccess(true);
           toggleShowSuccess(true);
         }
