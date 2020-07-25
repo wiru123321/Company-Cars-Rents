@@ -10,16 +10,7 @@ import FormControlPanel from "./FormControlPanel";
 import UsersLogin from "./UsersLogin";
 import UsersPassword from "./UsersPassword";
 import UsersPersonalData from "./UsersPersonalData";
-import { makeStyles } from "@material-ui/core/styles";
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    "& > *": {
-      margin: theme.spacing(1),
-      width: "60ch",
-    },
-  },
-}));
+import useStyles from "./useStyles";
 
 const AddEmployee = () => {
   const classes = useStyles();
@@ -38,17 +29,24 @@ const AddEmployee = () => {
     };
   }, [success, showSuccess]);
 
+  function toggleSubmit(toggleValue) {
+    dispatch(toggleDidSubmit(toggleValue));
+  }
+
+  function resetForm() {
+    dispatch(reset());
+  }
+
   return (
     <form
       onSubmit={(event) => {
         event.preventDefault();
-
         if (password === rePassword) {
-          dispatch(reset());
+          reset();
           isSuccess(true);
           toggleShowSuccess(true);
         }
-        dispatch(toggleDidSubmit(true));
+        toggleSubmit(true);
       }}
     >
       <Grid
