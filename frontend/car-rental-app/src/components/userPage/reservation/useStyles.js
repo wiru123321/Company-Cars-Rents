@@ -22,5 +22,9 @@ const useStyles = makeStyles((theme) => ({
     padding: "12px",
     marginTop: "2%",
   },
+  listRender: {
+    minHeight: "20vh",
+    padding: "8px",
+  },
 }));
 export default useStyles;

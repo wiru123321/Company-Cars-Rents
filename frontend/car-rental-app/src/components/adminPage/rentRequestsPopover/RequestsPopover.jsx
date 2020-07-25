@@ -14,6 +14,7 @@ const RequestsPopover = () => {
     setShow(!show);
     setTarget(event.target);
   };
+
   return (
     <div ref={ref}>
       <Nav.Link>
