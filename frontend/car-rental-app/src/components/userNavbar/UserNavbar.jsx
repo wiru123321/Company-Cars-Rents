@@ -20,25 +20,12 @@ const UserNavbar = () => {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="ml-auto">
-            <NavDropdown
-              title={
-                <span style={{ color: "#f3f169", fontSize: "25px" }}>
-                  Your Cars
-                </span>
-              }
-              id="collasible-nav-dropdown"
+            <Nav.Link
+              href="#userPage/yourReservation"
+              style={{ color: "#f3f169", fontSize: "25px" }}
             >
-              <NavDropdown.Item href="#userPage">
-                Show all yours cars
-              </NavDropdown.Item>
-              <NavDropdown.Item href="#userPage/yourReservation">
-                Cancel reservation
-              </NavDropdown.Item>
-              <NavDropdown.Item href="#userPage/reportBug">
-                Report a bug
-              </NavDropdown.Item>
-              <NavDropdown.Divider />
-            </NavDropdown>
+              Your Cars
+            </Nav.Link>
             <NavDropdown
               title={
                 <span
