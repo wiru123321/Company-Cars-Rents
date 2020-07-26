@@ -1,5 +1,5 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { selectChoosenRequestIndex } from "../../../features/rent-requests/rentRequestsSlice";
 import SingleRequest from "./SingleRequest";
 import AllRequests from "./AllRequests";

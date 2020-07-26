@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { selectAll } from "../../../features/car-reservation/addEmployeeSlice";
+import { selectAll } from "../../../features/add-employees/addEmployeeSlice";
 import { Grid, Button } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 import useStyles from "./useStyles";

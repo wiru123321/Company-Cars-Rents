@@ -1,40 +1,22 @@
 import React from "react";
 import { useDispatch } from "react-redux";
+import { UserData, ReservationDate } from "./ItemComponents";
 import { chooseRequest } from "../../../../features/rent-requests/rentRequestsSlice";
-import { Grid, Box, Button, Paper } from "@material-ui/core";
+import { Grid, Button, Paper } from "@material-ui/core";
 import { rentRequestStyles } from "../rentRequestInfo/rentRequest.styles";
-
-const UserData = ({ firstname, lastname }) => {
-  return (
-    <React.Fragment>
-      <Grid item xs={4}>
-        <h1>
-          {firstname} {lastname}
-        </h1>
-      </Grid>
-    </React.Fragment>
-  );
-};
-
-const ReservationDate = ({ beginDate, beginHour, endDate, endHour }) => {
-  return (
-    <React.Fragment>
-      <Grid item xs={4}>
-        Reservation start: {beginDate} - {beginHour}
-      </Grid>
-      <Grid item xs={4}>
-        Reservation end: {endDate} - {endHour}
-      </Grid>
-    </React.Fragment>
-  );
-};
 
 const RentRequestListItem = ({
   request: { firstname, lastname, beginDate, beginHour, endDate, endHour },
   index,
 }) => {
+  const linkPath = "#/adminPage/rentRequest";
   const classes = rentRequestStyles();
   const dispatch = useDispatch();
+
+  function setActiveRequest() {
+    dispatch(chooseRequest(index));
+  }
+
   return (
     <Paper className={classes.paper}>
       <Grid container>
@@ -49,13 +31,7 @@ const RentRequestListItem = ({
             endHour={endHour}
           />
         </Grid>
-        <Button
-          color="primary"
-          onClick={(event) => {
-            dispatch(chooseRequest(index));
-          }}
-          href="#/adminPage/rentRequest"
-        >
+        <Button color="primary" onClick={setActiveRequest} href={linkPath}>
           check
         </Button>
       </Grid>
