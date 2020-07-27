@@ -1,9 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { act } from "react-dom/test-utils";
 
 const initialState = {
   firstname: "",
   lastname: "",
+  email: "",
   login: "",
+  phoneNumber: "",
   password: "",
   rePassword: "",
   didSubmit: false,
@@ -20,8 +23,14 @@ export const addEmployeeSlice = createSlice({
     lastnameChange: (state, action) => {
       state.lastname = action.payload;
     },
+    emailChange: (state, action) => {
+      state.email = action.payload;
+    },
     loginChange: (state, action) => {
       state.login = action.payload;
+    },
+    phoneNumberChange: (state, action) => {
+      state.phoneNumber = action.payload;
     },
     passwordChange: (state, action) => {
       state.password = action.payload;
@@ -38,7 +47,9 @@ export const addEmployeeSlice = createSlice({
     reset: (state) => {
       state.firstname = "";
       state.lastname = "";
+      state.email = "";
       state.login = "";
+      state.phoneNumber = "";
       state.password = "";
       state.rePassword = "";
       state.didSubmit = false;
@@ -50,7 +61,9 @@ export const addEmployeeSlice = createSlice({
 export const {
   firstnameChange,
   lastnameChange,
+  emailChange,
   loginChange,
+  phoneNumberChange,
   passwordChange,
   rePasswordChange,
   toggleDidSubmit,

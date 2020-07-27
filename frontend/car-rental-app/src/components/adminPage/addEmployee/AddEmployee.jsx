@@ -37,18 +37,18 @@ const AddEmployee = () => {
     dispatch(reset());
   }
 
+  function submit(event) {
+    event.preventDefault();
+    if (password === rePassword) {
+      resetForm();
+      isSuccess(true);
+      toggleShowSuccess(true);
+    }
+    toggleSubmit(true);
+  }
+
   return (
-    <form
-      onSubmit={(event) => {
-        event.preventDefault();
-        if (password === rePassword) {
-          resetForm();
-          isSuccess(true);
-          toggleShowSuccess(true);
-        }
-        toggleSubmit(true);
-      }}
-    >
+    <form onSubmit={submit}>
       <Grid
         className={classes.root}
         container
