@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { Grid } from "@material-ui/core";
 import {
   toggleDidSubmit,
   selectAll,
   reset,
 } from "../../../features/add-employees/addEmployeeSlice";
-import { Grid } from "@material-ui/core";
 import FormControlPanel from "./FormControlPanel";
 import UsersLogin from "./UsersLogin";
 import UsersPassword from "./UsersPassword";
 import UsersPersonalData from "./UsersPersonalData";
+import addEmployee from "../../../apis/addEmployeeApi";
 import useStyles from "./useStyles";
 
 const AddEmployee = () => {
@@ -17,7 +18,8 @@ const AddEmployee = () => {
   const dispatch = useDispatch();
   const [showSuccess, toggleShowSuccess] = useState(false);
   const [success, isSuccess] = useState(false);
-  const { password, rePassword } = useSelector(selectAll);
+  const employee = useSelector(selectAll);
+  const { password, rePassword } = employee;
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -40,9 +42,17 @@ const AddEmployee = () => {
   function submit(event) {
     event.preventDefault();
     if (password === rePassword) {
-      resetForm();
-      isSuccess(true);
-      toggleShowSuccess(true);
+      addEmployee(employee)
+        .then((response) => {
+          resetForm();
+          isSuccess(true);
+          toggleShowSuccess(true);
+        })
+        .catch((error) => {
+          console.log(error);
+          isSuccess(false);
+          toggleShowSuccess(true);
+        });
     }
     toggleSubmit(true);
   }

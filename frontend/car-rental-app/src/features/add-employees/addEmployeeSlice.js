@@ -70,6 +70,7 @@ export const {
   toggleSuccess,
   reset,
 } = addEmployeeSlice.actions;
+
 export const selectAll = (state) => state.addEmployee;
 
 export default addEmployeeSlice.reducer;
