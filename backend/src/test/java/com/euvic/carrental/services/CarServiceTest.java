@@ -157,7 +157,7 @@ public class CarServiceTest {
     }
 
     @Test
-    void returnDBCarEntity() {
+    void shouldReturnDBCarEntity() {
         final Parking parking1 = new Parking(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
 
         Long parkingId1 = parkingService.addEntityToDB(parking1);
@@ -195,7 +195,7 @@ public class CarServiceTest {
     }
 
     @Test
-    void returnDBCarDTO() {
+    void shouldReturnDBCarDTO() {
         final Parking parking1 = new Parking(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
 
         Long parkingId1 = parkingService.addEntityToDB(parking1);
@@ -233,7 +233,7 @@ public class CarServiceTest {
     }
 
     @Test
-    void returnAllDBCarsDTO() {
+    void shouldReturnAllDBCarsDTO() {
         final Parking parking1 = new Parking(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
         final Parking parking2 = new Parking(null, "Radom", "40-222", "Jaka 32", "A-8", "Parking przy sklepie Tesco", true);
         final Parking parking3 = new Parking(null, "Kielce", "40-623", "Weteranow 54", "B-4", "Parking przy dworcu", true);
@@ -271,18 +271,17 @@ public class CarServiceTest {
 
     @Test
     void whenCarEntityGiven_shouldAddCarEntityToDB() {
-        final Parking parking1 = new Parking(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
+        final Parking parking = new Parking(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
 
-        Long parkingId1 = parkingService.addEntityToDB(parking1);
+        Long parkingId = parkingService.addEntityToDB(parking);
 
-
-        final CarDTO carDTO = new CarDTO("photoNr1", "WN101", 100, 4, 5, 5,
-                gearboxTypeService.getDTOByName("Automatic"), fuelTypeService.getDTOByName("Gasoline"),
-                new Date(2000, 3, 25), 1990, true, true, 200000, modelService.getDTOByName("C350"),
-                parkingService.getDTOById(parkingId1), colourService.getDTOByName("Red"), typeService.getDTOByName("Sedan"));
+        final Car car = new Car(null, "photoNr1", "WN101", 100, 4, 5, 5,
+                gearboxTypeService.getEntityByName("Automatic"), fuelTypeService.getEntityByName("Gasoline"),
+                new Date(2000, 3, 25), 1990, true, true, 200000, modelService.getEntityByName("C350"),
+                parkingService.getEntityById(parkingId), colourService.getEntityByName("Red"), typeService.getEntityByName("Sedan"));
 
         assertEquals(0, carRepository.count());
-        carService.addEntityToDB(carService.mapRestModel(carDTO, parkingId1));
+        carService.addEntityToDB(car);
         assertEquals(1, carRepository.count());
     }
 }

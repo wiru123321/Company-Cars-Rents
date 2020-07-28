@@ -3,6 +3,7 @@ package com.euvic.carrental.services.interfaces;
 import com.euvic.carrental.model.Car;
 import com.euvic.carrental.model.Fault;
 import com.euvic.carrental.model.Parking;
+import com.euvic.carrental.responses.CarDTO;
 import com.euvic.carrental.responses.FaultDTO;
 import com.euvic.carrental.responses.ParkingDTO;
 
@@ -14,6 +15,8 @@ public interface FaultServiceInterface {
     List<Fault> getAllEntitiesByCar(final Car car);
 
     List<FaultDTO> getAllDTOsByCar(final Car car);
+
+    List<FaultDTO> getAllDTOs();
 
     Long addEntityToDB(final Fault fault);
 

@@ -33,7 +33,7 @@ public class CarService implements CarServiceInterface {
         this.typeService = typeService;
     }
 
-    @Override
+    @Override //TODO change all mapRestModels to mapRestModel(Long id, final CarDTO carDTO, Long parkingId)
     public Car mapRestModel(final CarDTO carDTO, Long parkingId) {
         return new Car(null, carDTO, gearboxTypeService.getEntityByName(carDTO.getGearBoxTypeDTO().getName()),
                 fuelTypeService.getEntityByName(carDTO.getFuelTypeDTO().getName()),

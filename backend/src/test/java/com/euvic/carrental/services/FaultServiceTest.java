@@ -225,7 +225,7 @@ public class FaultServiceTest {
     }
 
     @Test
-    void shouldReturnAllDBFaultsDTO() {
+    void shouldReturnAllCarDBFaultsDTO_And_shouldReturnAllDBFaultsDTO() {
         final Car car = carService.getEntityByLicensePlate("SBE33212");
 
         final Fault fault1 = new Fault(null, car, "sd", true);
@@ -238,9 +238,13 @@ public class FaultServiceTest {
         faultRepository.save(fault3);
         assertEquals(3, faultRepository.count());
 
-        final List<FaultDTO> faultDTOList = faultService.getAllDTOsByCar(car);
+        final List<FaultDTO> faultDTOList1 = faultService.getAllDTOsByCar(car);
+        final List<FaultDTO> faultDTOList2 = faultService.getAllDTOs();
 
-        assertEquals(faultRepository.count(), faultDTOList.size());
+        assertAll(() -> {
+            assertEquals(faultRepository.count(), faultDTOList1.size());
+            assertEquals(faultRepository.count(), faultDTOList2.size());
+        });
     }
 
     @Test

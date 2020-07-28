@@ -30,7 +30,7 @@ public class Rent {
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     private Parking parkingFrom;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @OneToOne(fetch = FetchType.LAZY, optional = true)
     private Parking parkingTo;
 
     @Column(nullable = false)

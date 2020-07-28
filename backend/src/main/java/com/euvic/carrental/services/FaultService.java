@@ -39,7 +39,6 @@ public class FaultService implements FaultServiceInterface {
         return faultArrayList;
     }
 
-    @Override
     public List<FaultDTO> getAllDTOsByCar(final Car car) {
         final ArrayList<Fault> faultArrayList = new ArrayList<>();
         faultRepository.findByCar(car).forEach(faultArrayList::add);
@@ -69,4 +68,17 @@ public class FaultService implements FaultServiceInterface {
         return faultRepository.save(fault).getId();
     }
 
+    @Override
+    public List<FaultDTO> getAllDTOs() {
+        final ArrayList<Fault> faultArrayList = new ArrayList<>();
+        faultRepository.findAll().forEach(faultArrayList::add);
+
+        final ArrayList<FaultDTO> faultDTOArrayList = new ArrayList<>();
+        faultArrayList.stream().forEach(fault -> {
+            final FaultDTO faultDTO = new FaultDTO(carService.getDTOByLicensePlate(fault.getCar().getLicensePlate()), fault.getDescribe(), fault.getIsActive());
+            faultDTOArrayList.add(faultDTO);
+        });
+
+        return faultDTOArrayList;
+    }
 }
