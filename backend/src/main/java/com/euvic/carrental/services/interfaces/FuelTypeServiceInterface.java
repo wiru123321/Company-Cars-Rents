@@ -9,5 +9,5 @@ public interface FuelTypeServiceInterface {
     FuelType mapRestModel(final FuelTypeDTO model);
     FuelType getEntityByName(final String name);
     FuelTypeDTO getDTOByName(final String name);
-    List<FuelTypeDTO> getAll();
+    List<FuelTypeDTO> getAllDTOs();
 }

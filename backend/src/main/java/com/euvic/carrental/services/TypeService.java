@@ -36,7 +36,7 @@ public class TypeService implements TypeServiceInterface {
     }
 
     @Override
-    public List<TypeDTO> getAll() {
+    public List<TypeDTO> getAllDTOs() {
         final ArrayList<Type> typeList = new ArrayList<>();
         typeRepository.findAll().forEach(typeList::add);
 

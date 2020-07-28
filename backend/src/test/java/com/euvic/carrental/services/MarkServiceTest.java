@@ -40,7 +40,7 @@ public class MarkServiceTest {
     }
 
     @Test
-    void returnDBMarkEntity(){
+    void shouldReturnDBMarkEntity(){
         final Mark mark = new Mark(null, "Audi");
         assertEquals(0, markRepository.count());
         markRepository.save(mark);
@@ -54,7 +54,7 @@ public class MarkServiceTest {
     }
 
     @Test
-    void returnDBMarkDTO(){
+    void shouldReturnDBMarkDTO(){
         final Mark mark = new Mark(null, "Audi");
 
         assertEquals(0, markRepository.count());
@@ -66,7 +66,7 @@ public class MarkServiceTest {
     }
 
     @Test
-    void returnAllDBMarksDTO(){
+    void shouldReturnAllDBMarksDTO(){
         final Mark mark1 = new Mark(null, "Audi");
         final Mark mark2 = new Mark(null, "Mercedes");
         final Mark mark3 = new Mark(null, "Opel");
@@ -76,7 +76,7 @@ public class MarkServiceTest {
         markRepository.save(mark3);
         assertEquals(3, markRepository.count());
 
-        final List<MarkDTO> markDTOList = markService.getAll();
+        final List<MarkDTO> markDTOList = markService.getAllDTOs();
 
         assertEquals(markRepository.count(), markDTOList.size());
     }

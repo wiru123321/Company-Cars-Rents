@@ -1,7 +1,6 @@
 package com.euvic.carrental.services;
 
 import com.euvic.carrental.model.FuelType;
-import com.euvic.carrental.model.GearboxType;
 import com.euvic.carrental.repositories.FuelTypeRepository;
 import com.euvic.carrental.responses.FuelTypeDTO;
 import org.junit.jupiter.api.AfterEach;
@@ -40,7 +39,7 @@ public class FuelTypeServiceTest {
     }
 
     @Test
-    void returnDBFuelTypeEntity() {
+    void shouldReturnDBFuelTypeEntity() {
         final FuelType fuelType = new FuelType(null, "Gasoline");
         assertEquals(0, fuelTypeRepository.count());
         fuelTypeRepository.save(fuelType);
@@ -54,7 +53,7 @@ public class FuelTypeServiceTest {
     }
 
     @Test
-    void returnDBFuelTypeDTO(){
+    void shouldReturnDBFuelTypeDTO(){
         final FuelType fuelType = new FuelType(null, "Gasoline");
         assertEquals(0, fuelTypeRepository.count());
         fuelTypeRepository.save(fuelType);
@@ -66,7 +65,7 @@ public class FuelTypeServiceTest {
     }
 
     @Test
-    void returnAllDBFuelTypesDTO(){
+    void shouldReturnAllDBFuelTypesDTO(){
         final FuelType fuelType1 = new FuelType(null, "Gasoline");
         final FuelType fuelType2 = new FuelType(null, "Diesel");
         final FuelType fuelType3 = new FuelType(null, "Petrol");
@@ -76,7 +75,7 @@ public class FuelTypeServiceTest {
         fuelTypeRepository.save(fuelType3);
         assertEquals(3, fuelTypeRepository.count());
 
-        List<FuelTypeDTO> fuelTypeDTOList = fuelTypeService.getAll();
+        List<FuelTypeDTO> fuelTypeDTOList = fuelTypeService.getAllDTOs();
 
         assertEquals(fuelTypeRepository.count(), fuelTypeDTOList.size());
     }

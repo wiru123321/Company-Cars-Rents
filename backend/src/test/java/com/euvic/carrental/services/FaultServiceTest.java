@@ -114,9 +114,7 @@ public class FaultServiceTest {
         final Parking parking2 = new Parking(null, "Radom", "40-222", "Jaka 32", "A-8", "Parking przy sklepie Tesco", true);
         final Parking parking3 = new Parking(null, "Kielce", "40-623", "Weteranow 54", "B-4", "Parking przy dworcu", true);
 
-        parkingRepository.save(parking1);
-        parkingRepository.save(parking2);
-        parkingRepository.save(parking3);
+        Long parkingId1 = parkingService.addEntityToDB(parking1);
 
         final Colour colour1 = new Colour(null, "Red");
         final Colour colour2 = new Colour(null, "Blue");
@@ -138,7 +136,7 @@ public class FaultServiceTest {
         final Car car = new Car(null, "photoNr2", "SBE33212", 120, 1, 4, 3,
                 gearboxTypeService.getEntityByName("Manual"), fuelTypeService.getEntityByName("Diesel"),
                 new Date(2000, 3, 25), 2000, true, true, 120000, modelService.getEntityByName("Astra"),
-                parkingService.getEntityByTown("Radom").get(0), colourService.getEntityByName("Blue"), typeService.getEntityByName("Coupe"));
+                parkingService.getEntityById(parkingId1), colourService.getEntityByName("Blue"), typeService.getEntityByName("Coupe"));
 
         carRepository.save(car);
     }
@@ -162,7 +160,7 @@ public class FaultServiceTest {
         final Car car = carService.getEntityByLicensePlate("SBE33212");
         final CarDTO carDTO = carService.getDTOByLicensePlate("SBE33212");
 
-        final Fault fault = new Fault(car, "nothing", true);
+        final Fault fault = new Fault(null, car, "nothing", true);
 
         final FaultDTO faultDTO = new FaultDTO(carDTO, "nothing", true);
 
@@ -176,50 +174,63 @@ public class FaultServiceTest {
     }
 
     @Test
-    void returnDBFaultEntity() {
+    void shouldReturnDBFaultEntity() {
         final Car car = carService.getEntityByLicensePlate("SBE33212");
 
-        final Fault fault = new Fault(car, "nothing", true);
+        final Fault fault = new Fault(null, car, "nothing", true);
 
         assertEquals(0, faultRepository.count());
-        faultRepository.save(fault);
+        Long faultId = faultService.addEntityToDB(fault);
         assertEquals(1, faultRepository.count());
 
-        final Fault serviceFault = faultService.getEntitiesByCar(car).get(0);
+        final Fault serviceFault1 = faultService.getAllEntitiesByCar(car).get(0);
+        final Fault serviceFault2 = faultService.getEntityById(faultId);
 
         assertAll(() -> {
-            assertNotEquals(null, serviceFault.getId());
-            assertEquals(fault.getCar(), serviceFault.getCar());
-            assertEquals(fault.getDescribe(), serviceFault.getDescribe());
-            assertEquals(fault.getIsActive(), serviceFault.getIsActive());
+            assertNotEquals(null, serviceFault1.getId());
+            assertEquals(fault.getCar(), serviceFault1.getCar());
+            assertEquals(fault.getDescribe(), serviceFault1.getDescribe());
+            assertEquals(fault.getIsActive(), serviceFault1.getIsActive());
+
+
+            assertNotEquals(null, serviceFault2.getId());
+            assertEquals(fault.getCar(), serviceFault2.getCar());
+            assertEquals(fault.getDescribe(), serviceFault2.getDescribe());
+            assertEquals(fault.getIsActive(), serviceFault2.getIsActive());
         });
     }
 
     @Test
-    void returnDBFaultDTO() {
+    void shouldReturnDBFaultDTO() {
         final Car car = carService.getEntityByLicensePlate("SBE33212");
 
-        final Fault fault = new Fault(car, "nothing", true);
+        final Fault fault = new Fault(null, car, "nothing", true);
         assertEquals(0, faultRepository.count());
-        faultRepository.save(fault);
+        Long faultId = faultService.addEntityToDB(fault);
         assertEquals(1, faultRepository.count());
 
-        final FaultDTO faultDTO = faultService.getDTOByCar(car).get(0);
+        final FaultDTO faultDTO1 = faultService.getAllDTOsByCar(car).get(0);
+        final FaultDTO faultDTO2 = faultService.getDTOById(faultId);
 
         assertAll(() -> {
-            assertEquals(fault.getIsActive(), faultDTO.getIsActive());
-            assertEquals(fault.getDescribe(), faultDTO.getDescribe());
-            assertEquals(fault.getCar().getLicensePlate(), faultDTO.getCarDTO().getLicensePlate());
+            assertEquals(fault.getIsActive(), faultDTO1.getIsActive());
+            assertEquals(fault.getDescribe(), faultDTO1.getDescribe());
+            assertEquals(fault.getCar().getLicensePlate(), faultDTO1.getCarDTO().getLicensePlate());
+
+
+            assertEquals(fault.getIsActive(), faultDTO2.getIsActive());
+            assertEquals(fault.getDescribe(), faultDTO2.getDescribe());
+            assertEquals(fault.getCar().getLicensePlate(), faultDTO2.getCarDTO().getLicensePlate());
         });
     }
 
     @Test
-    void returnAllDBFaultsDTO() {
+    void shouldReturnAllDBFaultsDTO() {
         final Car car = carService.getEntityByLicensePlate("SBE33212");
 
-        final Fault fault1 = new Fault(car, "sd", true);
-        final Fault fault2 = new Fault(car, "dd", true);
-        final Fault fault3 = new Fault(car, "we", true);
+        final Fault fault1 = new Fault(null, car, "sd", true);
+        final Fault fault2 = new Fault(null, car, "dd", true);
+        final Fault fault3 = new Fault(null, car, "we", true);
 
         assertEquals(0, faultRepository.count());
         faultRepository.save(fault1);
@@ -227,19 +238,19 @@ public class FaultServiceTest {
         faultRepository.save(fault3);
         assertEquals(3, faultRepository.count());
 
-        final List<FaultDTO> faultDTOList = faultService.getAll();
+        final List<FaultDTO> faultDTOList = faultService.getAllDTOsByCar(car);
 
         assertEquals(faultRepository.count(), faultDTOList.size());
     }
 
     @Test
-    void whenCarDTOGiven_shouldAddEntityCarToDB() {
-        final CarDTO carDTO = carService.getDTOByLicensePlate("SBE33212");
+    void whenFaultEntityGiven_shouldAddFaultEntityToDB() {
+        final Car car = carService.getEntityByLicensePlate("SBE33212");
 
-        final FaultDTO faultDTO = new FaultDTO(carDTO, "nothing", true);
+        final Fault fault = new Fault(null, car, "nothing", true);
 
         assertEquals(0, faultRepository.count());
-        faultService.add(faultDTO);
+        faultService.addEntityToDB(fault);
         assertEquals(1, faultRepository.count());
     }
 }

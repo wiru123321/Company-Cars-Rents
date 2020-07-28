@@ -34,11 +34,11 @@ public class CarService implements CarServiceInterface {
     }
 
     @Override
-    public Car mapRestModel(final CarDTO carDTO) {
+    public Car mapRestModel(final CarDTO carDTO, Long parkingId) {
         return new Car(null, carDTO, gearboxTypeService.getEntityByName(carDTO.getGearBoxTypeDTO().getName()),
                 fuelTypeService.getEntityByName(carDTO.getFuelTypeDTO().getName()),
                 modelService.getEntityByName(carDTO.getModelDTO().getName()),
-                parkingService.getEntityByTown(carDTO.getParkingDTO().getTown()).get(0),
+                parkingService.getEntityById(parkingId),
                 colourService.getEntityByName(carDTO.getColourDTO().getName()),
                 typeService.getEntityByName(carDTO.getTypeDTO().getName()));
     }
@@ -58,12 +58,12 @@ public class CarService implements CarServiceInterface {
         final Colour colour = car.getColour();
         final Type type = car.getType();
         return new CarDTO(car, gearboxTypeService.getDTOByName(gearboxType.getName()), fuelTypeService.getDTOByName(fuelType.getName())
-                , modelService.getDTOByName(model.getName()), parkingService.getDTOByTown(parking.getTown()).get(0)
+                , modelService.getDTOByName(model.getName()), parkingService.getAllDTOsByTownName(parking.getTown()).get(0)
                 , colourService.getDTOByName(colour.getName()), typeService.getDTOByName(type.getName()));
     }
 
     @Override
-    public List<CarDTO> getAll() {
+    public List<CarDTO> getAllDTOs() {
         final ArrayList<Car> carList = new ArrayList<>();
         carRepository.findAll().forEach(carList::add);
 
@@ -78,7 +78,7 @@ public class CarService implements CarServiceInterface {
     }
 
     @Override
-    public void add(final CarDTO car) {
-        carRepository.save(this.mapRestModel(car));
+    public Long addEntityToDB(final Car car) {
+        return carRepository.save(car).getId();
     }
 }

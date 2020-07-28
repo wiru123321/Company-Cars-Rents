@@ -24,7 +24,7 @@ public class UserService implements UserServiceInterface {
 
     @Override
     public User mapRestModel(final UserDTO userDTO) {
-        return new User(userDTO, roleService.getEntityByRoleName(userDTO.getRoleDTO().getName()));
+        return new User(null, userDTO, roleService.getEntityByRoleName(userDTO.getRoleDTO().getName()));
     }
 
     @Override
@@ -43,13 +43,20 @@ public class UserService implements UserServiceInterface {
         return userRepository.findByEmail(email);
     }
 
+
     @Override
-    public void add(final UserDTO userDTO) {
-        userRepository.save(this.mapRestModel(userDTO));
+    public UserDTO getDTOByEmail(final String email) {
+        final User user = userRepository.findByEmail(email);
+        return new UserDTO(user, roleService.getDTOByRoleName(user.getRole().getName()));
     }
 
     @Override
-    public List<UserDTO> getAll() {
+    public Long addEntityToDB(final User user) {
+        return userRepository.save(user).getId();
+    }
+
+    @Override
+    public List<UserDTO> getAllDTOs() {
         final ArrayList<User> userArrayList = new ArrayList<>();
         userRepository.findAll().forEach(userArrayList::add);
 

@@ -1,6 +1,5 @@
 package com.euvic.carrental.services;
 
-import com.euvic.carrental.model.Colour;
 import com.euvic.carrental.model.Type;
 import com.euvic.carrental.repositories.TypeRepository;
 import com.euvic.carrental.responses.TypeDTO;
@@ -42,7 +41,7 @@ public class TypeServiceTest {
 
 
     @Test
-    void returnDBColourEntity(){
+    void shouldReturnDBColourEntity(){
         final Type type = new Type(null, "Sedan");
         assertEquals(0, typeRepository.count());
         typeRepository.save(type);
@@ -56,7 +55,7 @@ public class TypeServiceTest {
     }
 
     @Test
-    void returnDBTypeDTO(){
+    void shouldReturnDBTypeDTO(){
         final Type type = new Type(null, "Sedan");
         assertEquals(0, typeRepository.count());
         typeRepository.save(type);
@@ -68,7 +67,7 @@ public class TypeServiceTest {
     }
 
     @Test
-    void returnAllDBTypesDTO(){
+    void shouldReturnAllDBTypesDTO(){
         final Type type1 = new Type(null, "Sedan");
         final Type type2 = new Type(null, "Coupe");
         final Type type3 = new Type(null, "Van");
@@ -78,7 +77,7 @@ public class TypeServiceTest {
         typeRepository.save(type3);
         assertEquals(3, typeRepository.count());
 
-        List<TypeDTO> typeDTOList = typeService.getAll();
+        List<TypeDTO> typeDTOList = typeService.getAllDTOs();
 
         assertEquals(typeRepository.count(), typeDTOList.size());
     }

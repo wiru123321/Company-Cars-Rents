@@ -36,7 +36,7 @@ public class MarkService implements MarkServiceInterface {
     }
 
     @Override
-    public List<MarkDTO> getAll() {
+    public List<MarkDTO> getAllDTOs() {
         final ArrayList<Mark> markList = new ArrayList<>();
         markRepository.findAll().forEach(markList::add);
 

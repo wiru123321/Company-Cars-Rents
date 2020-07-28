@@ -40,7 +40,7 @@ public class RoleServiceTest {
     }
 
     @Test
-    void returnDBRoleDTO() {
+    void shouldReturnDBRoleDTO() {
         final Role role = new Role(null, "Admin");
         assertEquals(0, roleRepository.count());
         roleRepository.save(role);
@@ -52,7 +52,7 @@ public class RoleServiceTest {
     }
 
     @Test
-    void returnAllDBRolesDTO() {
+    void shouldReturnAllDBRolesDTO() {
         final Role role1 = new Role(null, "Admin");
         final Role role2 = new Role(null, "User");
         final Role role3 = new Role(null, "NoOne");
@@ -62,7 +62,7 @@ public class RoleServiceTest {
         roleRepository.save(role3);
         assertEquals(3, roleRepository.count());
 
-        final List<RoleDTO> roleDTOList = roleService.getAll();
+        final List<RoleDTO> roleDTOList = roleService.getAllDTOs();
 
         assertEquals(roleRepository.count(), roleDTOList.size());
     }

@@ -40,7 +40,8 @@ public class Rent {
 
     }
 
-    public Rent(User user, Car car, Date dateFrom, Date dateTo, Parking parkingFrom, Parking parkingTo, Boolean isActive) {
+    public Rent(Long id, User user, Car car, Date dateFrom, Date dateTo, Parking parkingFrom, Parking parkingTo, Boolean isActive) {
+        this.id = id;
         this.user = user;
         this.car = car;
         this.dateFrom = dateFrom;

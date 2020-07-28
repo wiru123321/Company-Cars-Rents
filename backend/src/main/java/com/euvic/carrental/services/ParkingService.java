@@ -21,18 +21,13 @@ public class ParkingService implements ParkingServiceInterface {
 
     @Override
     public Parking mapRestModel(final ParkingDTO parking) {
-        return new Parking(null, parking.getTown(), parking.getPostalCode(), parking.getStreet(), parking.getNumber(), parking.getComment(), parking.getIsActive());
-    }
-    
-    @Override
-    public List<Parking> getEntityByTown(final String name) {
-        return parkingRepository.findByTown(name);
+        return new Parking(null, parking.getTown(), parking.getPostalCode(), parking.getStreetName(), parking.getNumber(), parking.getComment(), parking.getIsActive());
     }
 
     @Override
-    public List<ParkingDTO> getDTOByTown(final String town) {
+    public List<ParkingDTO> getAllDTOsByTownName(final String name) {
         final ArrayList<Parking> parkingArrayList = new ArrayList<>();
-        parkingRepository.findByTown(town).forEach(parkingArrayList::add);
+        parkingRepository.findByTown(name).forEach(parkingArrayList::add);
 
         return parkingArrayList.stream()
                 .map(ParkingDTO::new)
@@ -40,12 +35,22 @@ public class ParkingService implements ParkingServiceInterface {
     }
 
     @Override
-    public Long add(final ParkingDTO parking) {
-        return parkingRepository.save(this.mapRestModel(parking)).getId();
+    public Parking getEntityById(Long id) {
+        return parkingRepository.findById(id).get();
     }
 
     @Override
-    public List<ParkingDTO> getAll() {
+    public ParkingDTO getDTOById(Long id) {
+        return new ParkingDTO(getEntityById(id));
+    }
+
+    @Override
+    public Long addEntityToDB(final Parking parking) {
+        return parkingRepository.save(parking).getId();
+    }
+
+    @Override
+    public List<ParkingDTO> getAllDTOs() {
         final ArrayList<Parking> parkingArrayList = new ArrayList<>();
         parkingRepository.findAll().forEach(parkingArrayList::add);
 
@@ -53,6 +58,5 @@ public class ParkingService implements ParkingServiceInterface {
                 .map(ParkingDTO::new)
                 .collect(Collectors.toList());
     }
-
 
 }

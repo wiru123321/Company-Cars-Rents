@@ -9,5 +9,5 @@ public interface MarkServiceInterface {
     Mark mapRestModel(final MarkDTO model);
     Mark getEntityByName(String name);
     MarkDTO getDTOByName(String name);
-    List<MarkDTO> getAll();
+    List<MarkDTO> getAllDTOs();
 }

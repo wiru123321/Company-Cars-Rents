@@ -63,7 +63,7 @@ public class ModelServiceTest {
     }
 
     @Test
-    void returnDBModelEntity() {
+    void shouldReturnDBModelEntity() {
         final Model model = new Model(null, "C350", markService.getEntityByName("Audi"));
         assertEquals(0, modelRepository.count());
         modelRepository.save(model);
@@ -78,7 +78,7 @@ public class ModelServiceTest {
     }
 
     @Test
-    void returnDBModelDTO() {
+    void shouldReturnDBModelDTO() {
         final Model model = new Model(null, "C350", markService.getEntityByName("Audi"));
         assertEquals(0, modelRepository.count());
         modelRepository.save(model);
@@ -93,7 +93,7 @@ public class ModelServiceTest {
     }
 
     @Test
-    void returnAllDBModelsDTO() {
+    void shouldReturnAllDBModelsDTO() {
         final Model model1 = new Model(null, "C350", markService.getEntityByName("Audi"));
         final Model model2 = new Model(null, "Astra", markService.getEntityByName("Opel"));
         final Model model3 = new Model(null, "M5", markService.getEntityByName("BMW"));
@@ -105,16 +105,16 @@ public class ModelServiceTest {
         modelRepository.save(model3);
         assertEquals(3, modelRepository.count());
 
-        final List<ModelDTO> modelDTOList = modelService.getAll();
+        final List<ModelDTO> modelDTOList = modelService.getAllDTOs();
 
         assertEquals(modelRepository.count(), modelDTOList.size());
     }
 
     @Test
-    void whenModelDTOGiven_shouldAddEntityModelToDB() {
-        final ModelDTO modelDTO = new ModelDTO("C350", markService.getDTOByName("Audi"));
+    void whenModelEntityGiven_shouldAddModelEntityToDB() {
+        final Model model = new Model(null,"C350", markService.getEntityByName("Audi"));
         assertEquals(0, modelRepository.count());
-        modelService.add(modelDTO);
+        modelService.addEntityToDB(model);
         assertEquals(1, modelRepository.count());
     }
 }

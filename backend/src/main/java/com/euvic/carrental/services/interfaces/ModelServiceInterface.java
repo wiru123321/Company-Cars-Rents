@@ -12,7 +12,7 @@ public interface ModelServiceInterface {
 
     ModelDTO getDTOByName(String name);
 
-    void add(ModelDTO modelDTO);
+    Long addEntityToDB(Model model);
 
-    List<ModelDTO> getAll();
+    List<ModelDTO> getAllDTOs();
 }

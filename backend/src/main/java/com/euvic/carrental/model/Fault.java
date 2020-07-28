@@ -25,7 +25,8 @@ public class Fault {
     public Fault() {
     }
 
-    public Fault(final Car car, final String describe, final Boolean isActive) {
+    public Fault(final Long id,final Car car, final String describe, final Boolean isActive) {
+        this.id = id;
         this.car = car;
         this.describe = describe;
         this.isActive = isActive;

@@ -1,5 +1,6 @@
 package com.euvic.carrental.responses;
 
+import com.euvic.carrental.model.Fault;
 import lombok.Data;
 
 @Data

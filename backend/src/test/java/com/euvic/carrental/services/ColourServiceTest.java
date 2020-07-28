@@ -1,8 +1,6 @@
 package com.euvic.carrental.services;
 
-import com.euvic.carrental.model.Car;
 import com.euvic.carrental.model.Colour;
-import com.euvic.carrental.model.Mark;
 import com.euvic.carrental.repositories.ColourRepository;
 import com.euvic.carrental.responses.ColourDTO;
 import org.junit.jupiter.api.AfterEach;
@@ -77,17 +75,17 @@ public class ColourServiceTest {
         colourRepository.save(colour3);
         assertEquals(3, colourRepository.count());
 
-        final List<ColourDTO> colourDTOList = colourService.getAll();
+        final List<ColourDTO> colourDTOList = colourService.getAllDTOs();
 
         assertEquals(colourRepository.count(), colourDTOList.size());
     }
 
     @Test
-    void addColour() {
-        final ColourDTO colourDTO = new ColourDTO("Red");
+    void whenColourEntityGiven_shouldAddColourEntityToDB() {
+        final Colour colour = new Colour(null, "Red");
 
         assertEquals(0, colourRepository.count());
-        colourService.add(colourDTO);
+        colourService.addEntityToDB(colour);
         assertEquals(1, colourRepository.count());
     }
 }

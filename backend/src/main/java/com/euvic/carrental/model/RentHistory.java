@@ -41,7 +41,7 @@ public class RentHistory {
 
     }
 
-    public RentHistory(User user, Car car, Date dateFrom, Date dateTo, Parking parkingFrom, Parking parkingTo, Boolean isActive) {
+    public RentHistory(Long id, User user, Car car, Date dateFrom, Date dateTo, Parking parkingFrom, Parking parkingTo, Boolean isActive) {
         this.user = user;
         this.car = car;
         this.dateFrom = dateFrom;

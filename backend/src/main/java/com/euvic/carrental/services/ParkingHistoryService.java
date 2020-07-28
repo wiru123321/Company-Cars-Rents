@@ -21,11 +21,11 @@ public class ParkingHistoryService implements ParkingHistoryServiceInterface {
 
     @Override
     public Parking mapRestModel(final ParkingDTO parking) {
-        return new Parking(null, parking.getTown(), parking.getPostalCode(), parking.getStreet(), parking.getNumber(), parking.getComment(), parking.getIsActive());
+        return new Parking(null, parking.getTown(), parking.getPostalCode(), parking.getStreetName(), parking.getNumber(), parking.getComment(), parking.getIsActive());
     }
 
     @Override
-    public List<ParkingDTO> getDTOByTown(final String town) {
+    public List<ParkingDTO> getAllDTOsByTownName(final String town) {
         final ArrayList<Parking> parkingArrayList = new ArrayList<>();
         parkingHistoryRepository.findByTown(town).forEach(parkingArrayList::add);
 
@@ -35,12 +35,22 @@ public class ParkingHistoryService implements ParkingHistoryServiceInterface {
     }
 
     @Override
-    public Long add(final ParkingDTO parking) {
-        return parkingHistoryRepository.save(this.mapRestModel(parking)).getId();
+    public Parking getEntityById(Long id) {
+        return parkingHistoryRepository.findById(id).get();
     }
 
     @Override
-    public List<ParkingDTO> getAll() {
+    public ParkingDTO getDTOById(Long id) {
+        return new ParkingDTO(getEntityById(id));
+    }
+
+    @Override
+    public Long addEntityToDB(final Parking parking) {
+        return parkingHistoryRepository.save(parking).getId();
+    }
+
+    @Override
+    public List<ParkingDTO> getAllDTOs() {
         final ArrayList<Parking> parkingArrayList = new ArrayList<>();
         parkingHistoryRepository.findAll().forEach(parkingArrayList::add);
 

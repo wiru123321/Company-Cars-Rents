@@ -2,18 +2,22 @@ package com.euvic.carrental.services.interfaces;
 
 import com.euvic.carrental.model.Car;
 import com.euvic.carrental.model.Fault;
+import com.euvic.carrental.model.Parking;
 import com.euvic.carrental.responses.FaultDTO;
+import com.euvic.carrental.responses.ParkingDTO;
 
 import java.util.List;
 
 public interface FaultServiceInterface {
     Fault mapRestModel(final FaultDTO faultDTO);
 
-    List<Fault> getEntitiesByCar(final Car car);
+    List<Fault> getAllEntitiesByCar(final Car car);
 
-    List<FaultDTO> getDTOByCar(final Car car);
+    List<FaultDTO> getAllDTOsByCar(final Car car);
 
-    void add(final FaultDTO faultDTO);
+    Long addEntityToDB(final Fault fault);
 
-    List<FaultDTO> getAll();
+    Fault getEntityById(Long id);
+
+    FaultDTO getDTOById(Long id);
 }

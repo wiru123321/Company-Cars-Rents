@@ -12,9 +12,11 @@ public interface UserServiceInterface {
 
     User getEntityByEmail(String email);
 
-    void add(UserDTO userDTO);
+    UserDTO getDTOByEmail(String email);
+
+    Long addEntityToDB(User user);
 
     UserDTO getDTOByLogin(final String login);
 
-    List<UserDTO> getAll();
+    List<UserDTO> getAllDTOs();
 }

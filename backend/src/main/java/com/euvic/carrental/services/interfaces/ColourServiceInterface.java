@@ -10,9 +10,9 @@ public interface ColourServiceInterface {
     Colour getEntityByName(final String name);
     ColourDTO getDTOByName(final String name);
 
-    Long add(final ColourDTO colour);
+    Long addEntityToDB(Colour colour);
 
     Colour mapRestModel(final ColourDTO colour);
 
-    List<ColourDTO> getAll();
+    List<ColourDTO> getAllDTOs();
 }

@@ -36,7 +36,7 @@ public class FuelTypeService implements FuelTypeServiceInterface {
     }
 
     @Override
-    public List<FuelTypeDTO> getAll() {
+    public List<FuelTypeDTO> getAllDTOs() {
         final ArrayList<FuelType> fuelTypeList = new ArrayList<>();
         fuelTypeRepository.findAll().forEach(fuelTypeList::add);
 

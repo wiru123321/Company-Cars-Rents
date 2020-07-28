@@ -40,7 +40,8 @@ public class User {
     public User() {
     }
 
-    public User(final UserDTO userDTO, final Role role) {
+    public User(Long id, final UserDTO userDTO, final Role role) {
+        this.id = id;
         this.login = userDTO.getLogin();
         this.password = userDTO.getPassword();
         this.email = userDTO.getEmail();

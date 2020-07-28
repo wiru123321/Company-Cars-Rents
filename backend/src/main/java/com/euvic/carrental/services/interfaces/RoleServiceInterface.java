@@ -10,7 +10,7 @@ public interface RoleServiceInterface {
 
     RoleDTO getDTOByRoleName(String name);
 
-    List<RoleDTO> getAll();
+    List<RoleDTO> getAllDTOs();
 
     Role getEntityByRoleName(String roleName);
 }

@@ -40,12 +40,12 @@ public class ModelService implements ModelServiceInterface {
     }
 
     @Override
-    public void add(final ModelDTO modelDTO) {
-        modelRepository.save(this.mapRestModel(modelDTO));
+    public Long addEntityToDB(final Model model) {
+        return modelRepository.save(model).getId();
     }
 
     @Override
-    public List<ModelDTO> getAll() {
+    public List<ModelDTO> getAllDTOs() {
         final ArrayList<Model> modelList = new ArrayList<>();
         modelRepository.findAll().forEach(modelList::add);
 

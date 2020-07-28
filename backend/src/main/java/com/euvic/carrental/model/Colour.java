@@ -18,10 +18,6 @@ public class Colour {
     public Colour() {
     }
 
-    public Colour(String name) {
-        this.name = name;
-    }
-
     public Colour(Long id, String name) {
         this.name = name;
         this.id = id;

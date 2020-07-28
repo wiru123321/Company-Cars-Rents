@@ -2,8 +2,11 @@ package com.euvic.carrental.services;
 
 import com.euvic.carrental.model.Car;
 import com.euvic.carrental.model.Fault;
+import com.euvic.carrental.model.Parking;
 import com.euvic.carrental.repositories.FaultRepository;
+import com.euvic.carrental.responses.CarDTO;
 import com.euvic.carrental.responses.FaultDTO;
+import com.euvic.carrental.responses.ParkingDTO;
 import com.euvic.carrental.services.interfaces.FaultServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,16 +28,19 @@ public class FaultService implements FaultServiceInterface {
 
     @Override
     public Fault mapRestModel(final FaultDTO faultDTO) {
-        return new Fault(carService.getEntityByLicensePlate(faultDTO.getCarDTO().getLicensePlate()), faultDTO.getDescribe(), faultDTO.getIsActive());
+        return new Fault(null, carService.getEntityByLicensePlate(faultDTO.getCarDTO().getLicensePlate()), faultDTO.getDescribe(), faultDTO.getIsActive());
     }
 
     @Override
-    public List<Fault> getEntitiesByCar(final Car car) {
-        return faultRepository.findByCar(car);
+    public List<Fault> getAllEntitiesByCar(final Car car) {
+        final ArrayList<Fault> faultArrayList = new ArrayList<>();
+        faultRepository.findByCar(car).forEach(faultArrayList::add);
+
+        return faultArrayList;
     }
 
     @Override
-    public List<FaultDTO> getDTOByCar(final Car car) {
+    public List<FaultDTO> getAllDTOsByCar(final Car car) {
         final ArrayList<Fault> faultArrayList = new ArrayList<>();
         faultRepository.findByCar(car).forEach(faultArrayList::add);
 
@@ -46,23 +52,21 @@ public class FaultService implements FaultServiceInterface {
 
         return faultDTOArrayList;
     }
-
     @Override
-    public void add(final FaultDTO faultDTO) {
-        faultRepository.save(this.mapRestModel(faultDTO));
+    public Fault getEntityById(Long id) {
+        return faultRepository.findById(id).get();
     }
 
     @Override
-    public List<FaultDTO> getAll() {
-        final ArrayList<Fault> faultArrayList = new ArrayList<>();
-        faultRepository.findAll().forEach(faultArrayList::add);
-
-        final ArrayList<FaultDTO> faultDTOArrayList = new ArrayList<>();
-        faultArrayList.stream().forEach(fault -> {
-            final FaultDTO faultDTO = new FaultDTO(carService.getDTOByLicensePlate(fault.getCar().getLicensePlate()), fault.getDescribe(), fault.getIsActive());
-            faultDTOArrayList.add(faultDTO);
-        });
-
-        return faultDTOArrayList;
+    public FaultDTO getDTOById(Long id) {
+        Fault fault = getEntityById(id);
+        Car car = fault.getCar();
+        return new FaultDTO(carService.getDTOByLicensePlate(car.getLicensePlate()), fault.getDescribe(), fault.getIsActive());
     }
+
+    @Override
+    public Long addEntityToDB(final Fault fault) {
+        return faultRepository.save(fault).getId();
+    }
+
 }

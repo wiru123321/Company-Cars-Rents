@@ -74,51 +74,74 @@ public class UserServiceTest {
     }
 
     @Test
-    void returnDBUserEntity() {
+    void shouldReturnDBUserEntity() {
         final User user = new User(null, "login1", bCryptPasswordEncoder.encode("password1"), "email@email.com",
                 "Wojciech", "Waleszczyk", "700 100 110", true, roleService.getEntityByRoleName("User"));
         assertEquals(0, userRepository.count());
         userRepository.save(user);
         assertEquals(1, userRepository.count());
-        final User serviceUser = userService.getEntityByLogin("login1");
+        final User serviceUser1 = userService.getEntityByLogin("login1");
+        final User serviceUser2 = userService.getEntityByEmail("email@email.com");
 
         assertAll(() -> {
-            assertEquals(user.getLogin(), serviceUser.getLogin());
-            assertEquals(user.getPassword(), serviceUser.getPassword());
-            assertEquals(user.getEmail(), serviceUser.getEmail());
-            assertEquals(user.getName(), serviceUser.getName());
-            assertEquals(user.getSurname(), serviceUser.getSurname());
-            assertEquals(user.getPhoneNumber(), serviceUser.getPhoneNumber());
-            assertEquals(user.getIsActive(), serviceUser.getIsActive());
-            assertEquals(user.getRole(), serviceUser.getRole());
-            assertNotEquals(null, serviceUser.getId());
+            assertEquals(user.getLogin(), serviceUser1.getLogin());
+            assertEquals(user.getPassword(), serviceUser1.getPassword());
+            assertEquals(user.getEmail(), serviceUser1.getEmail());
+            assertEquals(user.getName(), serviceUser1.getName());
+            assertEquals(user.getSurname(), serviceUser1.getSurname());
+            assertEquals(user.getPhoneNumber(), serviceUser1.getPhoneNumber());
+            assertEquals(user.getIsActive(), serviceUser1.getIsActive());
+            assertEquals(user.getRole(), serviceUser1.getRole());
+            assertNotEquals(null, serviceUser1.getId());
+
+
+            assertEquals(user.getLogin(), serviceUser2.getLogin());
+            assertEquals(user.getPassword(), serviceUser2.getPassword());
+            assertEquals(user.getEmail(), serviceUser2.getEmail());
+            assertEquals(user.getName(), serviceUser2.getName());
+            assertEquals(user.getSurname(), serviceUser2.getSurname());
+            assertEquals(user.getPhoneNumber(), serviceUser2.getPhoneNumber());
+            assertEquals(user.getIsActive(), serviceUser2.getIsActive());
+            assertEquals(user.getRole(), serviceUser2.getRole());
+            assertNotEquals(null, serviceUser2.getId());
         });
     }
 
     @Test
-    void returnDBUserDTO() {
+    void shouldReturnDBUserDTO() {
         final User user = new User(null, "login1", bCryptPasswordEncoder.encode("password1"), "email@email.com",
                 "Wojciech", "Waleszczyk", "700 100 110", true, roleService.getEntityByRoleName("User"));
         assertEquals(0, userRepository.count());
         userRepository.save(user);
         assertEquals(1, userRepository.count());
 
-        final UserDTO userDTO = userService.getDTOByLogin("login1");
+        final UserDTO serviceUserDTO1 = userService.getDTOByLogin("login1");
+        final UserDTO serviceUserDTO2 = userService.getDTOByEmail("email@email.com");
 
         assertAll(() -> {
-            assertEquals(user.getLogin(), userDTO.getLogin());
-            assertEquals(user.getPassword(), userDTO.getPassword());
-            assertEquals(user.getEmail(), userDTO.getEmail());
-            assertEquals(user.getName(), userDTO.getName());
-            assertEquals(user.getSurname(), userDTO.getSurname());
-            assertEquals(user.getPhoneNumber(), userDTO.getPhoneNumber());
-            assertEquals(user.getIsActive(), userDTO.getIsActive());
-            assertEquals(user.getRole().getName(), userDTO.getRoleDTO().getName());
+            assertEquals(user.getLogin(), serviceUserDTO1.getLogin());
+            assertEquals(user.getPassword(), serviceUserDTO1.getPassword());
+            assertEquals(user.getEmail(), serviceUserDTO1.getEmail());
+            assertEquals(user.getName(), serviceUserDTO1.getName());
+            assertEquals(user.getSurname(), serviceUserDTO1.getSurname());
+            assertEquals(user.getPhoneNumber(), serviceUserDTO1.getPhoneNumber());
+            assertEquals(user.getIsActive(), serviceUserDTO1.getIsActive());
+            assertEquals(user.getRole().getName(), serviceUserDTO1.getRoleDTO().getName());
+
+
+            assertEquals(user.getLogin(), serviceUserDTO2.getLogin());
+            assertEquals(user.getPassword(), serviceUserDTO2.getPassword());
+            assertEquals(user.getEmail(), serviceUserDTO2.getEmail());
+            assertEquals(user.getName(), serviceUserDTO2.getName());
+            assertEquals(user.getSurname(), serviceUserDTO2.getSurname());
+            assertEquals(user.getPhoneNumber(), serviceUserDTO2.getPhoneNumber());
+            assertEquals(user.getIsActive(), serviceUserDTO2.getIsActive());
+            assertEquals(user.getRole().getName(), serviceUserDTO2.getRoleDTO().getName());
         });
     }
 
     @Test
-    void returnAllDBUserDTO() {
+    void shouldReturnAllDBUserDTO() {
         final User user1 = new User(null, "login1", bCryptPasswordEncoder.encode("password1"), "email@email.com",
                 "Wojciech", "Waleszczyk", "700 100 110", true, roleService.getEntityByRoleName("User"));
         final User user2 = new User(null, "login2", bCryptPasswordEncoder.encode("password1"), "email@email.com",
@@ -132,17 +155,17 @@ public class UserServiceTest {
         userRepository.save(user3);
         assertEquals(3, userRepository.count());
 
-        final List<UserDTO> userDTOList = userService.getAll();
+        final List<UserDTO> userDTOList = userService.getAllDTOs();
 
         assertEquals(userRepository.count(), userDTOList.size());
     }
 
     @Test
     void whenUserDTOGiven_shouldAddEntityUserToDB() {
-        final UserDTO userDTO = new UserDTO("login1", bCryptPasswordEncoder.encode("password1"), "email@email.com",
-                "Wojciech", "Waleszczyk", "700 100 110", true, roleService.getDTOByRoleName("User"));
+        final User user = new User(null, "login1", bCryptPasswordEncoder.encode("password1"), "email@email.com",
+                "Wojciech", "Waleszczyk", "700 100 110", true, roleService.getEntityByRoleName("User"));
         assertEquals(0, userRepository.count());
-        userService.add(userDTO);
+        userService.addEntityToDB(user);
         assertEquals(1, userRepository.count());
     }
 }

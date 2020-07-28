@@ -36,7 +36,7 @@ public class GearboxTypeService implements GearboxTypeServiceInterface {
     }
 
     @Override
-    public List<GearBoxTypeDTO> getAll() {
+    public List<GearBoxTypeDTO> getAllDTOs() {
         final ArrayList<GearboxType> gearboxTypes = new ArrayList<>();
         gearboxTypeRepository.findAll().forEach(gearboxTypes::add);
 

@@ -6,9 +6,9 @@ import com.euvic.carrental.responses.CarDTO;
 import java.util.List;
 
 public interface CarServiceInterface {
-    Car mapRestModel(final CarDTO carDTO);
+    Car mapRestModel(final CarDTO carDTO, Long parkingId);
     Car getEntityByLicensePlate(String licensePlate);
     CarDTO getDTOByLicensePlate(String licensePlate);
-    List<CarDTO> getAll();
-    void add(CarDTO car);
+    List<CarDTO> getAllDTOs();
+    Long addEntityToDB(Car car);
 }

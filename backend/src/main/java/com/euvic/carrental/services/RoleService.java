@@ -36,7 +36,7 @@ public class RoleService implements RoleServiceInterface {
     }
 
     @Override
-    public List<RoleDTO> getAll() {
+    public List<RoleDTO> getAllDTOs() {
         final ArrayList<Role> roleList = new ArrayList<>();
         roleRepository.findAll().forEach(roleList::add);
 

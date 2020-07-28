@@ -30,8 +30,8 @@ public class ColourService implements ColourServiceInterface {
     }
 
     @Override
-    public Long add(final ColourDTO colour) {
-        return colourRepository.save(this.mapRestModel(colour)).getId();
+    public Long addEntityToDB(final Colour colour) {
+        return colourRepository.save(colour).getId();
     }
 
     @Override
@@ -40,7 +40,7 @@ public class ColourService implements ColourServiceInterface {
     }
 
     @Override
-    public List<ColourDTO> getAll() {
+    public List<ColourDTO> getAllDTOs() {
         final ArrayList<Colour> colourList = new ArrayList<>();
         colourRepository.findAll().forEach(colourList::add);
 

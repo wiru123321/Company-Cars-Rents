@@ -1,7 +1,6 @@
 package com.euvic.carrental.services;
 
 import com.euvic.carrental.model.GearboxType;
-import com.euvic.carrental.model.Model;
 import com.euvic.carrental.repositories.GearboxTypeRepository;
 import com.euvic.carrental.responses.GearBoxTypeDTO;
 import org.junit.jupiter.api.AfterEach;
@@ -41,7 +40,7 @@ public class GearboxTypeServiceTest {
     }
 
     @Test
-    void returnDBGearboxTypeEntity() {
+    void shouldReturnDBGearboxTypeEntity() {
         final GearboxType gearboxType = new GearboxType(null, "Automatic");
         assertEquals(0, gearboxTypeRepository.count());
         gearboxTypeRepository.save(gearboxType);
@@ -55,7 +54,7 @@ public class GearboxTypeServiceTest {
     }
 
     @Test
-    void returnDBGearboxTypeDTO(){
+    void shouldReturnDBGearboxTypeDTO(){
         final GearboxType gearboxType = new GearboxType(null, "Automatic");
         assertEquals(0, gearboxTypeRepository.count());
         gearboxTypeRepository.save(gearboxType);
@@ -67,7 +66,7 @@ public class GearboxTypeServiceTest {
     }
 
     @Test
-    void returnAllDBGearboxTypesDTO(){
+    void shouldReturnAllDBGearboxTypesDTO(){
         final GearboxType gearboxType1 = new GearboxType(null, "Automatic");
         final GearboxType gearboxType2 = new GearboxType(null, "Manual");
         assertEquals(0, gearboxTypeRepository.count());
@@ -75,7 +74,7 @@ public class GearboxTypeServiceTest {
         gearboxTypeRepository.save(gearboxType2);
         assertEquals(2, gearboxTypeRepository.count());
 
-        List<GearBoxTypeDTO> gearBoxTypeDTOList = gearboxTypeService.getAll();
+        List<GearBoxTypeDTO> gearBoxTypeDTOList = gearboxTypeService.getAllDTOs();
 
         assertEquals(gearboxTypeRepository.count(), gearBoxTypeDTOList.size());
     }
