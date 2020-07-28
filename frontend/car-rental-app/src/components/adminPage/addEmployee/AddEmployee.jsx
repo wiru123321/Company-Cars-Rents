@@ -4,22 +4,13 @@ import {
   toggleDidSubmit,
   selectAll,
   reset,
-} from "../../../features/car-reservation/addEmployeeSlice";
+} from "../../../features/add-employees/addEmployeeSlice";
 import { Grid } from "@material-ui/core";
 import FormControlPanel from "./FormControlPanel";
 import UsersLogin from "./UsersLogin";
 import UsersPassword from "./UsersPassword";
 import UsersPersonalData from "./UsersPersonalData";
-import { makeStyles } from "@material-ui/core/styles";
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    "& > *": {
-      margin: theme.spacing(1),
-      width: "60ch",
-    },
-  },
-}));
+import useStyles from "./useStyles";
 
 const AddEmployee = () => {
   const classes = useStyles();
@@ -34,21 +25,28 @@ const AddEmployee = () => {
       isSuccess(false);
     }, 2000);
     return () => {
-      if (showSuccess == true) return clearTimeout(timer);
+      if (showSuccess === true) return clearTimeout(timer);
     };
   }, [success, showSuccess]);
+
+  function toggleSubmit(toggleValue) {
+    dispatch(toggleDidSubmit(toggleValue));
+  }
+
+  function resetForm() {
+    dispatch(reset());
+  }
 
   return (
     <form
       onSubmit={(event) => {
         event.preventDefault();
-
         if (password === rePassword) {
-          dispatch(reset());
+          resetForm();
           isSuccess(true);
           toggleShowSuccess(true);
         }
-        dispatch(toggleDidSubmit(true));
+        toggleSubmit(true);
       }}
     >
       <Grid

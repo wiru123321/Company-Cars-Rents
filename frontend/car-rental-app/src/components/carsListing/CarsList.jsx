@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Container, List, ListItem, Box } from "@material-ui/core";
+import { List, ListItem, Box } from "@material-ui/core";
 import CarInfo from "./CarInfo";
 import CarImage from "./CarImage";
 // Temporary json, has to be removed when connected with Api.

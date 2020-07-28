@@ -1,15 +1,8 @@
 import React, { useState } from "react";
 import CarInfo from "../../carsListing/CarInfo";
 import CarImage from "../../carsListing/CarImage";
-import {
-  Container,
-  Grid,
-  List,
-  ListItem,
-  Button,
-} from "@material-ui/core";
-import DeleteIcon from "@material-ui/icons/Delete";
-import EditIcon from "@material-ui/icons/Edit";
+import CarControlPanel from "./CarControlPanel";
+import { Container, List, ListItem } from "@material-ui/core";
 
 // Temporary json, has to be removed when connected with Api.
 const json = [
@@ -47,19 +40,6 @@ const json = [
       "https://www.mercedes-benz.pl/passengercars/mercedes-benz-cars/models/a-class/hatchback-w177/amg/comparison-slider/_jcr_content/comparisonslider/par/comparisonslide_576434814/exteriorImage.MQ6.12.20191001221334.jpeg",
   },
 ];
-
-const CarControlPanel = () => {
-  return (
-    <Grid container direction="row" justify="space-evenly" alignItems="center">
-      <Button variant="contained" color="primary" startIcon={<EditIcon />}>
-        Edit
-      </Button>
-      <Button variant="contained" color="secondary" startIcon={<DeleteIcon />}>
-        Remove
-      </Button>
-    </Grid>
-  );
-};
 
 const RemoveCar = () => {
   const [cars, setCars] = useState(json);

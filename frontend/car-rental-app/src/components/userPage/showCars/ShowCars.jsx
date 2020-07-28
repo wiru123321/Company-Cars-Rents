@@ -4,9 +4,9 @@ import CarsList from "../../carsListing/CarsList";
 
 const ShowCars = () => {
   return (
-    <div>
+    <React.Fragment>
       <CarsList />
-    </div>
+    </React.Fragment>
   );
 };
 

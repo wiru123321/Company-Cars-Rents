@@ -1,14 +1,10 @@
 import React, { useRef, useState } from "react";
-
 import { Popover, Button, Overlay, Badge, Nav } from "react-bootstrap";
-import { useSelector, useDispatch } from "react-redux";
-import {
-  selectRequests,
-  chooseRequest,
-} from "../../../features/rent-requests/rentRequestsSlice";
+import { useSelector } from "react-redux";
+import { selectRequests } from "../../../features/rent-requests/rentRequestsSlice";
 import ContentItem from "./ContentItem";
 
-const RentRequestsPopover = () => {
+const RequestsPopover = () => {
   const requests = useSelector(selectRequests);
   const [show, setShow] = useState(false);
   const [target, setTarget] = useState(null);
@@ -18,6 +14,7 @@ const RentRequestsPopover = () => {
     setShow(!show);
     setTarget(event.target);
   };
+
   return (
     <div ref={ref}>
       <Nav.Link>
@@ -46,4 +43,4 @@ const RentRequestsPopover = () => {
   );
 };
 
-export default RentRequestsPopover;
+export default RequestsPopover;

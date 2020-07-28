@@ -3,7 +3,7 @@ import CarSuggestion from "./CarSuggestion";
 import useStyles from "./useStyles";
 import { Container, Grid, Button, Box } from "@material-ui/core";
 import { ReservationDate, UserPersonalData } from "./ReservationForm";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   firstnameChange,
   lastnameChange,
@@ -14,25 +14,51 @@ import {
 } from "../../../features/car-reservation/reservationSlice";
 
 const Reservation = () => {
+  const classes = useStyles();
   const dispatch = useDispatch();
+
+  function handleFirstnameChange(event) {
+    dispatch(firstnameChange(event.target.value));
+  }
+
+  function handleLastnameChange(event) {
+    dispatch(lastnameChange(event.target.value));
+  }
+
+  function handleBeginDateChange(event) {
+    dispatch(beginDateChange(event.target.value));
+  }
+
+  function handleBeginHourChange(event) {
+    dispatch(beginHourChange(event.target.value));
+  }
+
+  function handleEndDateChange(event) {
+    dispatch(endDateChange(event.target.value));
+  }
+
+  function handleEndHourChange(event) {
+    dispatch(endHourChange(event.target.value));
+  }
+
   return (
-    <Container className={useStyles().root} maxWidth="lg">
+    <Container className={classes.root} maxWidth="lg">
       <Grid container direction="row" justify="left" alignItems="flex-start">
-        <Box className={useStyles().leftColumn}>
+        <Box className={classes.leftColumn}>
           <Grid direction="column" justify="flex-start" alignItems="center">
             <UserPersonalData
-              handleFirstnameChange={dispatch(firstnameChange)}
-              handleLastnameChange={dispatch(lastnameChange)}
+              handleFirstnameChange={handleFirstnameChange}
+              handleLastnameChange={handleLastnameChange}
             />
             <ReservationDate
               inputText="Reservation start:"
-              handleDateChange={dispatch(beginDateChange)}
-              handleHourChange={dispatch(beginHourChange)}
+              handleDateChange={handleBeginDateChange}
+              handleHourChange={handleBeginHourChange}
             />
             <ReservationDate
               inputText="Reservation end:"
-              handleDateChange={dispatch(endDateChange)}
-              handleHourChange={dispatch(endHourChange)}
+              handleDateChange={handleEndDateChange}
+              handleHourChange={handleEndHourChange}
             />
             <Button
               style={{ marginTop: "2%", width: "100%" }}
@@ -43,7 +69,7 @@ const Reservation = () => {
             </Button>
           </Grid>
         </Box>
-        <Container className={useStyles().rightColumn}>
+        <Container className={classes.rightColumn}>
           <CarSuggestion />
         </Container>
       </Grid>

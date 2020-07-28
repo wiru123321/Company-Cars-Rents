@@ -12,13 +12,17 @@ import {
 const CarsSelection = () => {
   const dispatch = useDispatch();
   const cars = useSelector(selectCars);
+
+  function toggleDismiss() {
+    dispatch(toggleChoose());
+  }
+  function toggleSuggest(index) {
+    dispatch(chooseCar(index));
+    dispatch(toggleChoose());
+  }
   return (
     <Grid container direction="column" justify="center" alignItems="center">
-      <Button
-        onClick={() => dispatch(toggleChoose())}
-        variant="contained"
-        color="secondary"
-      >
+      <Button onClick={toggleDismiss} variant="contained" color="secondary">
         Dismiss
       </Button>
       <List>
@@ -30,10 +34,7 @@ const CarsSelection = () => {
               <div>
                 <Button
                   variant="contained"
-                  onClick={() => {
-                    dispatch(chooseCar(index));
-                    dispatch(toggleChoose());
-                  }}
+                  onClick={() => toggleSuggest(index)}
                 >
                   Select
                 </Button>
