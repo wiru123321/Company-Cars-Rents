@@ -29,6 +29,7 @@ const UsersPersonalData = () => {
       <TextField
         onChange={handleFirstnameChange}
         value={firstname}
+        type="name"
         label="firstname"
         variant="filled"
         required
@@ -36,6 +37,7 @@ const UsersPersonalData = () => {
       <TextField
         onChange={handleLastnameChange}
         value={lastname}
+        type="name"
         label="lastname"
         variant="filled"
         required
