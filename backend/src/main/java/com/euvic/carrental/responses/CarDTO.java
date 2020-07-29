@@ -1,9 +1,9 @@
 package com.euvic.carrental.responses;
 
-import com.euvic.carrental.model.*;
+import com.euvic.carrental.model.Car;
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Data
 public class CarDTO {
@@ -16,7 +16,7 @@ public class CarDTO {
     private Integer doorsNumber;
     private GearBoxTypeDTO gearBoxTypeDTO;
     private FuelTypeDTO fuelTypeDTO;
-    private Date lastInspection;
+    private LocalDateTime lastInspection;
     private Integer productionYear;
     private Boolean isActive;
     private Boolean isOnCompany;
@@ -26,11 +26,11 @@ public class CarDTO {
     private ColourDTO colourDTO;
     private TypeDTO typeDTO;
 
-    public CarDTO(){
+    public CarDTO() {
 
     }
 
-    public CarDTO(final Car entity, GearBoxTypeDTO gearBoxTypeDTO, FuelTypeDTO fuelTypeDTO, ModelDTO modelDTO, ParkingDTO parkingDTO, ColourDTO colourDTO, TypeDTO typeDTO){
+    public CarDTO(final Car entity, final GearBoxTypeDTO gearBoxTypeDTO, final FuelTypeDTO fuelTypeDTO, final ModelDTO modelDTO, final ParkingDTO parkingDTO, final ColourDTO colourDTO, final TypeDTO typeDTO) {
         this.photoInFolderName = entity.getPhotoInFolderName();
         this.licensePlate = entity.getLicensePlate();
         this.enginePower = entity.getEnginePower();
@@ -50,7 +50,7 @@ public class CarDTO {
         this.typeDTO = typeDTO;
     }
 
-    public CarDTO(String photoInFolderName, String licensePlate, Integer enginePower, Integer capacityOfTrunkScale, Integer capacityOfPeople, Integer doorsNumber, GearBoxTypeDTO gearBoxTypeDTO, FuelTypeDTO fuelTypeDTO, Date lastInspection, Integer productionYear, Boolean isActive, Boolean isOnCompany, Integer mileage, ModelDTO modelDTO, ParkingDTO parkingDTO, ColourDTO colourDTO, TypeDTO typeDTO){
+    public CarDTO(final String photoInFolderName, final String licensePlate, final Integer enginePower, final Integer capacityOfTrunkScale, final Integer capacityOfPeople, final Integer doorsNumber, final GearBoxTypeDTO gearBoxTypeDTO, final FuelTypeDTO fuelTypeDTO, final LocalDateTime lastInspection, final Integer productionYear, final Boolean isActive, final Boolean isOnCompany, final Integer mileage, final ModelDTO modelDTO, final ParkingDTO parkingDTO, final ColourDTO colourDTO, final TypeDTO typeDTO) {
         this.photoInFolderName = photoInFolderName;
         this.licensePlate = licensePlate;
         this.enginePower = enginePower;

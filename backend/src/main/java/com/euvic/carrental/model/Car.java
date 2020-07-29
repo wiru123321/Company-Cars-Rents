@@ -4,7 +4,7 @@ import com.euvic.carrental.responses.CarDTO;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Data
 @Table(name = "cars")
@@ -38,7 +38,7 @@ public class Car {
     private FuelType fuelType;
 
     @Column(nullable = false)
-    private Date lastInspection;
+    private LocalDateTime lastInspection;
 
     @Column(nullable = false)
     private Integer productionYear;
@@ -64,10 +64,10 @@ public class Car {
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private Type type;
 
-    public Car(){
+    public Car() {
     }
 
-    public Car(Long id,String photoInFolderName, String licensePlate, Integer enginePower, Integer capacityOfTrunkScale, Integer capacityOfPeople, Integer doorsNumber, GearboxType gearboxType, FuelType fuelType, Date lastInspection, Integer productionYear, Boolean isActive, Boolean isOnCompany, Integer mileage, Model model, Parking parking, Colour colour, Type type){
+    public Car(final Long id, final String photoInFolderName, final String licensePlate, final Integer enginePower, final Integer capacityOfTrunkScale, final Integer capacityOfPeople, final Integer doorsNumber, final GearboxType gearboxType, final FuelType fuelType, final LocalDateTime lastInspection, final Integer productionYear, final Boolean isActive, final Boolean isOnCompany, final Integer mileage, final Model model, final Parking parking, final Colour colour, final Type type) {
         this.id = id;
         this.photoInFolderName = photoInFolderName;
         this.licensePlate = licensePlate;
@@ -88,7 +88,7 @@ public class Car {
         this.type = type;
     }
 
-    public Car(Long id, CarDTO carDTO, GearboxType gearboxType, FuelType fuelType, Model model, Parking parking, Colour colour, Type type){
+    public Car(final Long id, final CarDTO carDTO, final GearboxType gearboxType, final FuelType fuelType, final Model model, final Parking parking, final Colour colour, final Type type) {
         this.id = id;
         this.photoInFolderName = carDTO.getPhotoInFolderName();
         this.licensePlate = carDTO.getLicensePlate();

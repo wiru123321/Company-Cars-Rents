@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -135,7 +135,7 @@ public class FaultServiceTest {
 
         final Car car = new Car(null, "photoNr2", "SBE33212", 120, 1, 4, 3,
                 gearboxTypeService.getEntityByName("Manual"), fuelTypeService.getEntityByName("Diesel"),
-                new Date(2000, 3, 25), 2000, true, true, 120000, modelService.getEntityByName("Astra"),
+                LocalDateTime.of(2000, 3, 25, 0, 0), 2000, true, true, 120000, modelService.getEntityByName("Astra"),
                 parkingService.getEntityById(parkingId1), colourService.getEntityByName("Blue"), typeService.getEntityByName("Coupe"));
 
         carRepository.save(car);

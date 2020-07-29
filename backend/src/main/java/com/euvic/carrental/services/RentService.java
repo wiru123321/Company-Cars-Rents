@@ -11,8 +11,8 @@ import com.euvic.carrental.responses.RentDTO;
 import com.euvic.carrental.services.interfaces.RentServiceInterface;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -41,7 +41,7 @@ public class RentService implements RentServiceInterface {
     }
 
     @Override
-    public Rent getEntityByCarAndDateFrom(final Car car, final Date dateFrom) {
+    public Rent getEntityByCarAndDateFrom(final Car car, final LocalDateTime dateFrom) {
 
         return rentRepository.findByCarAndDateFrom(car, dateFrom);
     }
@@ -65,7 +65,7 @@ public class RentService implements RentServiceInterface {
     }
 
     @Override
-    public RentDTO getDTOByCarDTOAndDateFrom(final CarDTO carDTO, final Date dateFrom) {
+    public RentDTO getDTOByCarDTOAndDateFrom(final CarDTO carDTO, final LocalDateTime dateFrom) {
         final Car car = carService.getEntityByLicensePlate(carDTO.getLicensePlate());
         final Rent rent = rentRepository.findByCarAndDateFrom(car, dateFrom);
         final RentDTO rentDTO;
@@ -100,13 +100,13 @@ public class RentService implements RentServiceInterface {
 
         if (!rentArrayList.isEmpty()) {
             if (rentArrayList.get(0).getParkingTo() != null) {
-                rentArrayList.stream().forEach(rent -> {
+                rentArrayList.forEach(rent -> {
                     final RentDTO rentDTO = new RentDTO(rent, userService.getDTOByLogin(rent.getUser().getLogin()), carService.getDTOByLicensePlate(rent.getCar().getLicensePlate())
                             , new ParkingDTO(rent.getParkingFrom()), new ParkingDTO((rent.getParkingTo())));
                     rentDTOArrayList.add(rentDTO);
                 });
             } else {
-                rentArrayList.stream().forEach(rent -> {
+                rentArrayList.forEach(rent -> {
                     final RentDTO rentDTO = new RentDTO(rent, userService.getDTOByLogin(rent.getUser().getLogin()), carService.getDTOByLicensePlate(rent.getCar().getLicensePlate())
                             , new ParkingDTO(rent.getParkingFrom()), null);
                     rentDTOArrayList.add(rentDTO);

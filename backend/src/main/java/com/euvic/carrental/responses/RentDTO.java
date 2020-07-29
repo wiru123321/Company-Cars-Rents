@@ -3,12 +3,12 @@ package com.euvic.carrental.responses;
 import com.euvic.carrental.model.Rent;
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Data
 public class RentDTO {
-    private Date dateFrom;
-    private Date dateTo;
+    private LocalDateTime dateFrom;
+    private LocalDateTime dateTo;
     private UserDTO userDTO;
     private CarDTO carDTO;
     private ParkingDTO parkingDTOFrom;
@@ -19,7 +19,7 @@ public class RentDTO {
 
     }
 
-    public RentDTO(final Date dateFrom, final Date dateTo, final UserDTO userDTO, final CarDTO carDTO, final ParkingDTO parkingDTOFrom, final ParkingDTO parkingDTOTo, final Boolean isActive) {
+    public RentDTO(final LocalDateTime dateFrom, final LocalDateTime dateTo, final UserDTO userDTO, final CarDTO carDTO, final ParkingDTO parkingDTOFrom, final ParkingDTO parkingDTOTo, final Boolean isActive) {
         this.dateFrom = dateFrom;
         this.dateTo = dateTo;
         this.userDTO = userDTO;

@@ -5,7 +5,7 @@ import com.euvic.carrental.model.Rent;
 import com.euvic.carrental.responses.CarDTO;
 import com.euvic.carrental.responses.RentDTO;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface RentServiceInterface {
@@ -13,11 +13,11 @@ public interface RentServiceInterface {
 
     Rent getEntityById(Long id);
 
-    Rent getEntityByCarAndDateFrom(Car car, Date dateFrom);
+    Rent getEntityByCarAndDateFrom(Car car, LocalDateTime dateFrom);
 
     RentDTO getDTOById(Long id);
 
-    RentDTO getDTOByCarDTOAndDateFrom(CarDTO carDTO, Date dateFrom);
+    RentDTO getDTOByCarDTOAndDateFrom(CarDTO carDTO, LocalDateTime dateFrom);
 
     Rent mapRestModel(Long id, RentDTO rentDTO, Long parkingFromId, Long parkingToId);
 
