@@ -30,6 +30,7 @@ const UsersPassword = () => {
       <TextField
         onChange={handlePasswordChange}
         value={password}
+        placeholder="password"
         label="password"
         variant="filled"
         type="password"
@@ -38,6 +39,7 @@ const UsersPassword = () => {
       <TextField
         onChange={handleRePasswordChange}
         value={rePassword}
+        placeholder="repeatPassword"
         label="repeat password"
         variant="filled"
         type="password"

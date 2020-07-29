@@ -35,12 +35,14 @@ const UsersLogin = () => {
         onChange={handleEmailChange}
         value={email}
         label="email"
+        placeholder="email"
         variant="filled"
         type="email"
         required
       />
       <TextField
         onChange={handleLoginChange}
+        placeholder="login"
         value={login}
         label="login"
         variant="filled"
@@ -48,6 +50,7 @@ const UsersLogin = () => {
       />
       <TextField
         onChange={handlePhoneNumberChange}
+        placeholder="phoneNumber"
         value={phoneNumber}
         label="phone number"
         variant="filled"
