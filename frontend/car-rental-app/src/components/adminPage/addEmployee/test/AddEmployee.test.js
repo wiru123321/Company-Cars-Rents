@@ -1,46 +1,31 @@
 import React from "react";
-import { render, fireEvent } from "@testing-library/react";
-import "@testing-library/jest-dom/extend-expect";
+import { configure, render, mount } from "enzyme";
+import { useSelector } from "react-redux";
+import { selectAll } from "../../../../features/add-employees/addEmployeeSlice";
+import Adapter from "enzyme-adapter-react-16";
+import { shallow } from "enzyme";
 import AddEmployee from "../AddEmployee";
 import { Provider } from "react-redux";
 import store from "../../../../store/store";
+import { ExpansionPanelActions } from "@material-ui/core";
 
-const TestComponent = (
-  <Provider store={store}>
-    <AddEmployee />
-  </Provider>
-);
+configure({ adapter: new Adapter() });
 
-test("renders component", async () => {
-  const { getByText } = render(
-    <Provider store={store}>
-      <AddEmployee />
-    </Provider>
-  );
-  expect(getByText("Create account")).toBeInTheDocument();
-});
+describe("sum two numbers", () => {
+  it("should render component", () => {
+    const wrapper = render(
+      <Provider store={store}>
+        <AddEmployee />
+      </Provider>
+    );
+  });
+  it("should change input", () => {
+    const wrapper = mount(
+      <Provider store={store}>
+        <AddEmployee />
+      </Provider>
+    );
 
-test("contains all elements", async () => {
-  const { getByPlaceholderText } = render(
-    <Provider store={store}>
-      <AddEmployee />
-    </Provider>
-  );
-
-  const firstname = expect(getByPlaceholderText("firstname"));
-  const lastname = expect(getByPlaceholderText("lastname"));
-  const email = expect(getByPlaceholderText("email"));
-  const login = expect(getByPlaceholderText("login"));
-  const phoneNumber = expect(getByPlaceholderText("phoneNumber"));
-  const password = expect(getByPlaceholderText("password"));
-  const repeatPassword = expect(getByPlaceholderText("repeatPassword"));
-
-  /*fireEvent.change(firstname, { target: { value: "Jan" } });
-  fireEvent.change(lastname, { target: { value: "Kowalski" } });
-  fireEvent.change(email, { target: { value: "Jan.Kowalski@wp.pl" } });
-  fireEvent.change(login, { target: { value: "jkowal222" } });
-  fireEvent.change(phoneNumber, { target: { value: "123-456-789" } });
-  fireEvent.change(password, { target: { value: "jkwlwl" } });
-  fireEvent.change(repeatPassword, { target: { value: "jkwlwl" } });*/
-  //expect()
+    //const input = wrapper.find("input").at(0);
+  });
 });
