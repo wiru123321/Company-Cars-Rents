@@ -14,9 +14,8 @@ public class Rent {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    //TODO check date/time (get know how to use it, and format)
     @Column(nullable = false)
-    private LocalDateTime dateFrom; // Here must be date + time;
+    private LocalDateTime dateFrom;
 
     @Column(nullable = false)
     private LocalDateTime dateTo;

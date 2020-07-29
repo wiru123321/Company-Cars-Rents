@@ -292,7 +292,6 @@ public class RentServiceTest {
 
         final RentDTO rentDTO = rentService.getDTOById(rentId);
 
-        //TODO Poprawić date
         final Rent restModelToEntityModel = rentService.mapRestModel(null, rentDTO, parkingId1, null);
         assertAll(() -> {
             assertNotEquals(restModelToEntityModel.getId(), rent.getId());

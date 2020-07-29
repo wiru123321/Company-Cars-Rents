@@ -15,7 +15,7 @@ public class RentDTO {
     private ParkingDTO parkingDTOTo;
     private Boolean isActive;
 
-    public RentDTO(final Rent entityById) {
+    public RentDTO() {
 
     }
 

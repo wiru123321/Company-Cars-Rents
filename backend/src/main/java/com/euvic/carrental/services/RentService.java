@@ -42,7 +42,6 @@ public class RentService implements RentServiceInterface {
 
     @Override
     public Rent getEntityByCarAndDateFrom(final Car car, final LocalDateTime dateFrom) {
-
         return rentRepository.findByCarAndDateFrom(car, dateFrom);
     }
 
