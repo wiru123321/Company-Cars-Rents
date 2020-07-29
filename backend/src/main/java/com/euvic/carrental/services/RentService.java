@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@Service //TODO uzupelnic metody
+@Service
 public class RentService implements RentServiceInterface {
 
     final private RentRepository rentRepository;
@@ -43,7 +43,8 @@ public class RentService implements RentServiceInterface {
 
     @Override
     public Rent getEntityByCarAndDateFrom(final Car car, final Date dateFrom) {
-        return null;
+
+        return rentRepository.findByCarAndDateFrom(car, dateFrom);
     }
 
     @Override

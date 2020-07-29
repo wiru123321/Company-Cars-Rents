@@ -17,7 +17,6 @@ import java.util.List;
 @Component
 public class DatabaseLoader implements CommandLineRunner {
 
-    //TODO add services if needed
     private final CarRepository carRepository;
     private final ColourRepository colourRepository;
     private final FaultRepository faultRepository;
@@ -33,9 +32,7 @@ public class DatabaseLoader implements CommandLineRunner {
     private final TypeRepository typeRepository;
     private final UserRepository userRepository;
 
-
-    @Autowired
-    BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Value("${spring.datasource.username}")
     private String dataBase;
@@ -47,7 +44,7 @@ public class DatabaseLoader implements CommandLineRunner {
                           final RentHistoryRepository rentHistoryRepository, final RentRepository rentRepository,
                           final RoleRepository roleRepository, final TypeRepository typeRepository,
                           final UserRepository userRepository, final GearboxTypeRepository gearboxTypeRepository,
-                          final FuelTypeRepository fuelTypeRepository, final ParkingHistoryRepository parkingHistoryRepository) {
+                          final FuelTypeRepository fuelTypeRepository, final ParkingHistoryRepository parkingHistoryRepository, final BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.carRepository = carRepository;
         this.colourRepository = colourRepository;
         this.faultRepository = faultRepository;
@@ -62,6 +59,7 @@ public class DatabaseLoader implements CommandLineRunner {
         this.gearboxTypeRepository = gearboxTypeRepository;
         this.fuelTypeRepository = fuelTypeRepository;
         this.parkingHistoryRepository = parkingHistoryRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     @Override
