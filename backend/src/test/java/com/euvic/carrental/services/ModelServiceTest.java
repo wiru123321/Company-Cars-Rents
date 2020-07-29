@@ -54,7 +54,7 @@ public class ModelServiceTest {
     void whenModelDTOGiven_thenReturnModelEntity() {
         final Model model = new Model(null, "C350", markService.getEntityByName("Audi"));
         final ModelDTO modelDTO = new ModelDTO("C350", new MarkDTO("Audi"));
-        final Model restModelToEntityModel = modelService.mapRestModel(modelDTO);
+        final Model restModelToEntityModel = modelService.mapRestModel(null, modelDTO);
         assertAll(() -> {
             assertEquals(restModelToEntityModel.getId(), model.getId());
             assertEquals(restModelToEntityModel.getName(), model.getName());
@@ -112,7 +112,7 @@ public class ModelServiceTest {
 
     @Test
     void whenModelEntityGiven_shouldAddModelEntityToDB() {
-        final Model model = new Model(null,"C350", markService.getEntityByName("Audi"));
+        final Model model = new Model(null, "C350", markService.getEntityByName("Audi"));
         assertEquals(0, modelRepository.count());
         modelService.addEntityToDB(model);
         assertEquals(1, modelRepository.count());

@@ -15,11 +15,11 @@ public class RentDTO {
     private ParkingDTO parkingDTOTo;
     private Boolean isActive;
 
-    public RentDTO(){
+    public RentDTO(final Rent entityById) {
 
     }
 
-    public RentDTO(Date dateFrom, Date dateTo, UserDTO userDTO, CarDTO carDTO, ParkingDTO parkingDTOFrom, ParkingDTO parkingDTOTo, Boolean isActive){
+    public RentDTO(final Date dateFrom, final Date dateTo, final UserDTO userDTO, final CarDTO carDTO, final ParkingDTO parkingDTOFrom, final ParkingDTO parkingDTOTo, final Boolean isActive) {
         this.dateFrom = dateFrom;
         this.dateTo = dateTo;
         this.userDTO = userDTO;
@@ -29,7 +29,7 @@ public class RentDTO {
         this.isActive = isActive;
     }
 
-    public RentDTO(Rent rent, UserDTO userDTO, CarDTO carDTO, ParkingDTO parkingDTOFrom, ParkingDTO parkingDTOTo){
+    public RentDTO(final Rent rent, final UserDTO userDTO, final CarDTO carDTO, final ParkingDTO parkingDTOFrom, final ParkingDTO parkingDTOTo) {
         this.dateFrom = rent.getDateFrom();
         this.dateTo = rent.getDateTo();
         this.userDTO = userDTO;

@@ -9,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -33,13 +31,13 @@ public class ParkingServiceTest {
         final Parking parking = new Parking(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
         final ParkingDTO parkingDTO = new ParkingDTO("Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
         assertAll(() -> {
-            assertEquals(parkingService.mapRestModel(parkingDTO).getId(), parking.getId());
-            assertEquals(parkingService.mapRestModel(parkingDTO).getTown(), parking.getTown());
-            assertEquals(parkingService.mapRestModel(parkingDTO).getComment(), parking.getComment());
-            assertEquals(parkingService.mapRestModel(parkingDTO).getPostalCode(), parking.getPostalCode());
-            assertEquals(parkingService.mapRestModel(parkingDTO).getStreetName(), parking.getStreetName());
-            assertEquals(parkingService.mapRestModel(parkingDTO).getIsActive(), parking.getIsActive());
-            assertEquals(parkingService.mapRestModel(parkingDTO).getNumber(), parking.getNumber());
+            assertEquals(parkingService.mapRestModel(null, parkingDTO).getId(), parking.getId());
+            assertEquals(parkingService.mapRestModel(null, parkingDTO).getTown(), parking.getTown());
+            assertEquals(parkingService.mapRestModel(null, parkingDTO).getComment(), parking.getComment());
+            assertEquals(parkingService.mapRestModel(null, parkingDTO).getPostalCode(), parking.getPostalCode());
+            assertEquals(parkingService.mapRestModel(null, parkingDTO).getStreetName(), parking.getStreetName());
+            assertEquals(parkingService.mapRestModel(null, parkingDTO).getIsActive(), parking.getIsActive());
+            assertEquals(parkingService.mapRestModel(null, parkingDTO).getNumber(), parking.getNumber());
 
         });
     }
@@ -48,7 +46,7 @@ public class ParkingServiceTest {
     void shouldReturnDBParkingEntity() {
         final Parking parking = new Parking(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
         assertEquals(0, parkingRepository.count());
-        Long parkingId = parkingService.addEntityToDB(parking);
+        final Long parkingId = parkingService.addEntityToDB(parking);
         assertEquals(1, parkingRepository.count());
 
         final Parking serviceParking = parkingService.getEntityById(parkingId);
@@ -67,13 +65,13 @@ public class ParkingServiceTest {
     void shouldReturnDBParkingDTO() {
         final Parking parking = new Parking(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
         assertEquals(0, parkingRepository.count());
-        Long parkingId = parkingService.addEntityToDB(parking);
+        final Long parkingId = parkingService.addEntityToDB(parking);
         assertEquals(1, parkingRepository.count());
 
         final ParkingDTO parkingDTO1 = parkingService.getAllDTOsByTownName("Katowice").get(0);
         final ParkingDTO parkingDTO2 = parkingService.getDTOById(parkingId);
 
-        assertAll(()->{
+        assertAll(() -> {
             assertEquals(parking.getTown(), parkingDTO1.getTown());
             assertEquals(parking.getStreetName(), parkingDTO1.getStreetName());
             assertEquals(parking.getPostalCode(), parkingDTO1.getPostalCode());

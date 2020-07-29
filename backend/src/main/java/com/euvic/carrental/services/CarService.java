@@ -33,9 +33,9 @@ public class CarService implements CarServiceInterface {
         this.typeService = typeService;
     }
 
-    @Override //TODO change all mapRestModels to mapRestModel(Long id, final CarDTO carDTO, Long parkingId)
-    public Car mapRestModel(final CarDTO carDTO, Long parkingId) {
-        return new Car(null, carDTO, gearboxTypeService.getEntityByName(carDTO.getGearBoxTypeDTO().getName()),
+    @Override
+    public Car mapRestModel(final Long id, final CarDTO carDTO, final Long parkingId) {
+        return new Car(id, carDTO, gearboxTypeService.getEntityByName(carDTO.getGearBoxTypeDTO().getName()),
                 fuelTypeService.getEntityByName(carDTO.getFuelTypeDTO().getName()),
                 modelService.getEntityByName(carDTO.getModelDTO().getName()),
                 parkingService.getEntityById(parkingId),
@@ -58,12 +58,13 @@ public class CarService implements CarServiceInterface {
         final Colour colour = car.getColour();
         final Type type = car.getType();
         return new CarDTO(car, gearboxTypeService.getDTOByName(gearboxType.getName()), fuelTypeService.getDTOByName(fuelType.getName())
-                , modelService.getDTOByName(model.getName()), parkingService.getAllDTOsByTownName(parking.getTown()).get(0)
+                , modelService.getDTOByName(model.getName()), parkingService.getDTOById(car.getParking().getId())
                 , colourService.getDTOByName(colour.getName()), typeService.getDTOByName(type.getName()));
     }
 
     @Override
     public List<CarDTO> getAllDTOs() {
+        //TODO Sprawdz Rafal czy nie lepiej castowac
         final ArrayList<Car> carList = new ArrayList<>();
         carRepository.findAll().forEach(carList::add);
 

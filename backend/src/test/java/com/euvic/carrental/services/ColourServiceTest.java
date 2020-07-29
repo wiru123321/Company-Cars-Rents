@@ -33,20 +33,20 @@ public class ColourServiceTest {
         final Colour colour = new Colour(null, "Red");
         final ColourDTO colourDTO = new ColourDTO("Red");
         assertAll(() -> {
-            assertEquals(colourService.mapRestModel(colourDTO).getName(), colour.getName());
-            assertEquals(colourService.mapRestModel(colourDTO).getId(), colour.getId());
+            assertEquals(colourService.mapRestModel(null, colourDTO).getName(), colour.getName());
+            assertEquals(colourService.mapRestModel(null, colourDTO).getId(), colour.getId());
         });
     }
 
     @Test
-    void returnDBColourEntity(){
+    void returnDBColourEntity() {
         final Colour colour = new Colour(null, "Red");
         assertEquals(0, colourRepository.count());
         colourRepository.save(colour);
         assertEquals(1, colourRepository.count());
-        Colour serviceColour = colourService.getEntityByName("Red");
+        final Colour serviceColour = colourService.getEntityByName("Red");
 
-        assertAll(()->{
+        assertAll(() -> {
             assertEquals(colour.getName(), serviceColour.getName());
             assertNotEquals(null, serviceColour.getId());
         });

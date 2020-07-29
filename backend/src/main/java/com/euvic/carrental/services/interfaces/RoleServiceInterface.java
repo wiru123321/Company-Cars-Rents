@@ -6,7 +6,7 @@ import com.euvic.carrental.responses.RoleDTO;
 import java.util.List;
 
 public interface RoleServiceInterface {
-    Role mapRestModel(final RoleDTO model);
+    Role mapRestModel(Long id, RoleDTO model);
 
     RoleDTO getDTOByRoleName(String name);
 

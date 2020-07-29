@@ -24,17 +24,17 @@ public class FuelTypeServiceTest {
     FuelTypeRepository fuelTypeRepository;
 
     @AfterEach
-    void tearDown(){
+    void tearDown() {
         fuelTypeRepository.deleteAll();
     }
 
     @Test
-    void whenFuelTypeDTOGiven_thenReturnFuelTypeEntity(){
-        final FuelType fuelType = new FuelType(null,"Gasoline");
+    void whenFuelTypeDTOGiven_thenReturnFuelTypeEntity() {
+        final FuelType fuelType = new FuelType(null, "Gasoline");
         final FuelTypeDTO fuelTypeDTO = new FuelTypeDTO("Gasoline");
         assertAll(() -> {
-            assertEquals(fuelTypeService.mapRestModel(fuelTypeDTO).getName(), fuelType.getName());
-            assertEquals(fuelTypeService.mapRestModel(fuelTypeDTO).getId(), fuelType.getId());
+            assertEquals(fuelTypeService.mapRestModel(null, fuelTypeDTO).getName(), fuelType.getName());
+            assertEquals(fuelTypeService.mapRestModel(null, fuelTypeDTO).getId(), fuelType.getId());
         });
     }
 
@@ -53,19 +53,19 @@ public class FuelTypeServiceTest {
     }
 
     @Test
-    void shouldReturnDBFuelTypeDTO(){
+    void shouldReturnDBFuelTypeDTO() {
         final FuelType fuelType = new FuelType(null, "Gasoline");
         assertEquals(0, fuelTypeRepository.count());
         fuelTypeRepository.save(fuelType);
         assertEquals(1, fuelTypeRepository.count());
 
-        FuelTypeDTO serviceFuelType = fuelTypeService.getDTOByName("Gasoline");
+        final FuelTypeDTO serviceFuelType = fuelTypeService.getDTOByName("Gasoline");
 
         assertEquals(fuelType.getName(), serviceFuelType.getName());
     }
 
     @Test
-    void shouldReturnAllDBFuelTypesDTO(){
+    void shouldReturnAllDBFuelTypesDTO() {
         final FuelType fuelType1 = new FuelType(null, "Gasoline");
         final FuelType fuelType2 = new FuelType(null, "Diesel");
         final FuelType fuelType3 = new FuelType(null, "Petrol");
@@ -75,7 +75,7 @@ public class FuelTypeServiceTest {
         fuelTypeRepository.save(fuelType3);
         assertEquals(3, fuelTypeRepository.count());
 
-        List<FuelTypeDTO> fuelTypeDTOList = fuelTypeService.getAllDTOs();
+        final List<FuelTypeDTO> fuelTypeDTOList = fuelTypeService.getAllDTOs();
 
         assertEquals(fuelTypeRepository.count(), fuelTypeDTOList.size());
     }

@@ -114,7 +114,7 @@ public class FaultServiceTest {
         final Parking parking2 = new Parking(null, "Radom", "40-222", "Jaka 32", "A-8", "Parking przy sklepie Tesco", true);
         final Parking parking3 = new Parking(null, "Kielce", "40-623", "Weteranow 54", "B-4", "Parking przy dworcu", true);
 
-        Long parkingId1 = parkingService.addEntityToDB(parking1);
+        final Long parkingId1 = parkingService.addEntityToDB(parking1);
 
         final Colour colour1 = new Colour(null, "Red");
         final Colour colour2 = new Colour(null, "Blue");
@@ -164,7 +164,7 @@ public class FaultServiceTest {
 
         final FaultDTO faultDTO = new FaultDTO(carDTO, "nothing", true);
 
-        final Fault restModelToEntityModel = faultService.mapRestModel(faultDTO);
+        final Fault restModelToEntityModel = faultService.mapRestModel(null, faultDTO);
         assertAll(() -> {
             assertEquals(restModelToEntityModel.getCar(), fault.getCar());
             assertEquals(restModelToEntityModel.getId(), fault.getId());
@@ -180,7 +180,7 @@ public class FaultServiceTest {
         final Fault fault = new Fault(null, car, "nothing", true);
 
         assertEquals(0, faultRepository.count());
-        Long faultId = faultService.addEntityToDB(fault);
+        final Long faultId = faultService.addEntityToDB(fault);
         assertEquals(1, faultRepository.count());
 
         final Fault serviceFault1 = faultService.getAllEntitiesByCar(car).get(0);
@@ -206,7 +206,7 @@ public class FaultServiceTest {
 
         final Fault fault = new Fault(null, car, "nothing", true);
         assertEquals(0, faultRepository.count());
-        Long faultId = faultService.addEntityToDB(fault);
+        final Long faultId = faultService.addEntityToDB(fault);
         assertEquals(1, faultRepository.count());
 
         final FaultDTO faultDTO1 = faultService.getAllDTOsByCar(car).get(0);

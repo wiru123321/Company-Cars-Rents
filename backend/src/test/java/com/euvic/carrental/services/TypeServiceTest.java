@@ -24,50 +24,50 @@ public class TypeServiceTest {
     private TypeRepository typeRepository;
 
     @AfterEach
-    void tearDown(){
+    void tearDown() {
         typeRepository.deleteAll();
     }
 
 
     @Test
-    void whenTypeDTOGiven_thenReturnTypeEntity(){
-        final Type type = new Type(null,"Sedan");
+    void whenTypeDTOGiven_thenReturnTypeEntity() {
+        final Type type = new Type(null, "Sedan");
         final TypeDTO typeDTO = new TypeDTO("Sedan");
         assertAll(() -> {
-            assertEquals(typeService.mapRestModel(typeDTO).getName(), type.getName());
-            assertEquals(typeService.mapRestModel(typeDTO).getId(), type.getId());
+            assertEquals(typeService.mapRestModel(null, typeDTO).getName(), type.getName());
+            assertEquals(typeService.mapRestModel(null, typeDTO).getId(), type.getId());
         });
     }
 
 
     @Test
-    void shouldReturnDBColourEntity(){
+    void shouldReturnDBColourEntity() {
         final Type type = new Type(null, "Sedan");
         assertEquals(0, typeRepository.count());
         typeRepository.save(type);
         assertEquals(1, typeRepository.count());
-        Type serviceType = typeService.getEntityByName("Sedan");
+        final Type serviceType = typeService.getEntityByName("Sedan");
 
-        assertAll(()->{
+        assertAll(() -> {
             assertEquals(type.getName(), serviceType.getName());
             assertNotEquals(null, serviceType.getId());
         });
     }
 
     @Test
-    void shouldReturnDBTypeDTO(){
+    void shouldReturnDBTypeDTO() {
         final Type type = new Type(null, "Sedan");
         assertEquals(0, typeRepository.count());
         typeRepository.save(type);
         assertEquals(1, typeRepository.count());
 
-        TypeDTO serviceTypeDTO = typeService.getDTOByName("Sedan");
+        final TypeDTO serviceTypeDTO = typeService.getDTOByName("Sedan");
 
         assertEquals(type.getName(), serviceTypeDTO.getName());
     }
 
     @Test
-    void shouldReturnAllDBTypesDTO(){
+    void shouldReturnAllDBTypesDTO() {
         final Type type1 = new Type(null, "Sedan");
         final Type type2 = new Type(null, "Coupe");
         final Type type3 = new Type(null, "Van");
@@ -77,7 +77,7 @@ public class TypeServiceTest {
         typeRepository.save(type3);
         assertEquals(3, typeRepository.count());
 
-        List<TypeDTO> typeDTOList = typeService.getAllDTOs();
+        final List<TypeDTO> typeDTOList = typeService.getAllDTOs();
 
         assertEquals(typeRepository.count(), typeDTOList.size());
     }

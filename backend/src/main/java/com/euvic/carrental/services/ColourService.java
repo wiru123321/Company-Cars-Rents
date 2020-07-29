@@ -20,7 +20,7 @@ public class ColourService implements ColourServiceInterface {
     }
 
     @Override
-    public Colour getEntityByName(String name) {
+    public Colour getEntityByName(final String name) {
         return colourRepository.getByName(name);
     }
 
@@ -35,8 +35,8 @@ public class ColourService implements ColourServiceInterface {
     }
 
     @Override
-    public Colour mapRestModel(final ColourDTO colour) {
-        return new Colour(null, colour.getName());
+    public Colour mapRestModel(final Long id, final ColourDTO colour) {
+        return new Colour(id, colour.getName());
     }
 
     @Override

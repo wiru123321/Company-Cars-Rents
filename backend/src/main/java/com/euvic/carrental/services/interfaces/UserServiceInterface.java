@@ -6,7 +6,7 @@ import com.euvic.carrental.responses.UserDTO;
 import java.util.List;
 
 public interface UserServiceInterface {
-    User mapRestModel(final UserDTO userDTO);
+    User mapRestModel(Long id, UserDTO userDTO);
 
     User getEntityByLogin(String name);
 
@@ -16,7 +16,7 @@ public interface UserServiceInterface {
 
     Long addEntityToDB(User user);
 
-    UserDTO getDTOByLogin(final String login);
+    UserDTO getDTOByLogin(String login);
 
     List<UserDTO> getAllDTOs();
 }

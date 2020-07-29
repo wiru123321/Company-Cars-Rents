@@ -20,8 +20,8 @@ public class GearboxTypeService implements GearboxTypeServiceInterface {
     }
 
     @Override
-    public GearboxType mapRestModel(final GearBoxTypeDTO model) {
-        return new GearboxType(null, model.getName());
+    public GearboxType mapRestModel(final Long id, final GearBoxTypeDTO model) {
+        return new GearboxType(id, model.getName());
     }
 
     @Override

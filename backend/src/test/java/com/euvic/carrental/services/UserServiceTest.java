@@ -59,7 +59,7 @@ public class UserServiceTest {
                 "Wojciech", "Waleszczyk", "700 100 110", true, roleService.getEntityByRoleName("User"));
         final UserDTO userDTO = new UserDTO("login1", "password1", "email@email.com",
                 "Wojciech", "Waleszczyk", "700 100 110", true, roleService.getDTOByRoleName("User"));
-        final User restModelToEntityUser = userService.mapRestModel(userDTO);
+        final User restModelToEntityUser = userService.mapRestModel(null, userDTO);
         assertAll(() -> {
             assertEquals(restModelToEntityUser.getLogin(), user.getLogin());
             assertEquals(restModelToEntityUser.getPassword(), user.getPassword());

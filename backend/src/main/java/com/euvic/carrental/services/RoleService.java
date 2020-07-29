@@ -20,8 +20,8 @@ public class RoleService implements RoleServiceInterface {
     }
 
     @Override
-    public Role mapRestModel(final RoleDTO model) {
-        return new Role(null, model.getName());
+    public Role mapRestModel(final Long id, final RoleDTO model) {
+        return new Role(id, model.getName());
     }
 
     @Override

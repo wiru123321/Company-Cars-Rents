@@ -6,8 +6,11 @@ import com.euvic.carrental.responses.MarkDTO;
 import java.util.List;
 
 public interface MarkServiceInterface {
-    Mark mapRestModel(final MarkDTO model);
+    Mark mapRestModel(Long id, MarkDTO model);
+
     Mark getEntityByName(String name);
+
     MarkDTO getDTOByName(String name);
+
     List<MarkDTO> getAllDTOs();
 }

@@ -23,8 +23,8 @@ public class ModelService implements ModelServiceInterface {
     }
 
     @Override
-    public Model mapRestModel(final ModelDTO modelDTO) {
-        return new Model(null, modelDTO.getName(), markService.getEntityByName(modelDTO.getMarkDTO().getName()));
+    public Model mapRestModel(final Long id, final ModelDTO modelDTO) {
+        return new Model(id, modelDTO.getName(), markService.getEntityByName(modelDTO.getMarkDTO().getName()));
     }
 
     @Override

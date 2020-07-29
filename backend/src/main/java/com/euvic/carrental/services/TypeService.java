@@ -20,12 +20,12 @@ public class TypeService implements TypeServiceInterface {
     }
 
     @Override
-    public Type mapRestModel(final TypeDTO model) {
-        return new Type(null, model.getName());
+    public Type mapRestModel(final Long id, final TypeDTO model) {
+        return new Type(id, model.getName());
     }
 
     @Override
-    public Type getEntityByName(String name) {
+    public Type getEntityByName(final String name) {
         return typeRepository.findByName(name);
     }
 

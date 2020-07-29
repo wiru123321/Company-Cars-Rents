@@ -20,14 +20,14 @@ public class ParkingService implements ParkingServiceInterface {
     }
 
     @Override
-    public Parking mapRestModel(final ParkingDTO parking) {
-        return new Parking(null, parking.getTown(), parking.getPostalCode(), parking.getStreetName(), parking.getNumber(), parking.getComment(), parking.getIsActive());
+    public Parking mapRestModel(final Long id, final ParkingDTO parking) {
+        return new Parking(id, parking.getTown(), parking.getPostalCode(), parking.getStreetName(), parking.getNumber(), parking.getComment(), parking.getIsActive());
     }
 
     @Override
     public List<ParkingDTO> getAllDTOsByTownName(final String name) {
         final ArrayList<Parking> parkingArrayList = new ArrayList<>();
-        parkingRepository.findByTown(name).forEach(parkingArrayList::add);
+        parkingArrayList.addAll(parkingRepository.findByTown(name));
 
         return parkingArrayList.stream()
                 .map(ParkingDTO::new)
@@ -35,13 +35,13 @@ public class ParkingService implements ParkingServiceInterface {
     }
 
     @Override
-    public Parking getEntityById(Long id) {
+    public Parking getEntityById(final Long id) {
         return parkingRepository.findById(id).get();
     }
 
     @Override
-    public ParkingDTO getDTOById(Long id) {
-        return new ParkingDTO(getEntityById(id));
+    public ParkingDTO getDTOById(final Long id) {
+        return new ParkingDTO(this.getEntityById(id));
     }
 
     @Override

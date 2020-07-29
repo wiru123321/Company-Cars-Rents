@@ -15,23 +15,23 @@ public class MarkService implements MarkServiceInterface {
 
     private final MarkRepository markRepository;
 
-    public MarkService(MarkRepository markRepository) {
+    public MarkService(final MarkRepository markRepository) {
         this.markRepository = markRepository;
     }
 
     @Override
-    public Mark mapRestModel(MarkDTO model) {
-        return new Mark(null, model.getName());
+    public Mark mapRestModel(final Long id, final MarkDTO model) {
+        return new Mark(id, model.getName());
     }
 
     @Override
-    public MarkDTO getDTOByName(String name) {
+    public MarkDTO getDTOByName(final String name) {
         final Mark mark = markRepository.findByName(name);
         return new MarkDTO(mark);
     }
 
     @Override
-    public Mark getEntityByName(String name) {
+    public Mark getEntityByName(final String name) {
         return markRepository.findByName(name);
     }
 

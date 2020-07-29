@@ -34,8 +34,8 @@ public class RoleServiceTest {
         final Role role = new Role(null, "Admin");
         final RoleDTO roleDTO = new RoleDTO("Admin");
         assertAll(() -> {
-            assertEquals(roleService.mapRestModel(roleDTO).getName(), role.getName());
-            assertEquals(roleService.mapRestModel(roleDTO).getId(), role.getId());
+            assertEquals(roleService.mapRestModel(null, roleDTO).getName(), role.getName());
+            assertEquals(roleService.mapRestModel(null, roleDTO).getId(), role.getId());
         });
     }
 

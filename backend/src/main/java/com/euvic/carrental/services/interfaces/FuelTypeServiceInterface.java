@@ -6,8 +6,11 @@ import com.euvic.carrental.responses.FuelTypeDTO;
 import java.util.List;
 
 public interface FuelTypeServiceInterface {
-    FuelType mapRestModel(final FuelTypeDTO model);
-    FuelType getEntityByName(final String name);
-    FuelTypeDTO getDTOByName(final String name);
+    FuelType mapRestModel(Long id, FuelTypeDTO model);
+
+    FuelType getEntityByName(String name);
+
+    FuelTypeDTO getDTOByName(String name);
+
     List<FuelTypeDTO> getAllDTOs();
 }

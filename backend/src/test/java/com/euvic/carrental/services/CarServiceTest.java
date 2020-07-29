@@ -120,9 +120,9 @@ public class CarServiceTest {
 
     @Test
     void whenCarDTOGiven_thenReturnCarEntity() {
-        final Parking parking1 = new Parking(null,"Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
+        final Parking parking1 = new Parking(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
 
-        Long parkingId1 = parkingService.addEntityToDB(parking1);
+        final Long parkingId1 = parkingService.addEntityToDB(parking1);
 
         final Car car = new Car(null, "photoNr1", "WN101", 100, 4, 5, 5,
                 gearboxTypeService.getEntityByName("Automatic"), fuelTypeService.getEntityByName("Gasoline"),
@@ -133,7 +133,7 @@ public class CarServiceTest {
                 gearboxTypeService.getDTOByName("Automatic"), fuelTypeService.getDTOByName("Gasoline"),
                 new Date(2000, 03, 25), 1990, true, true, 200000, modelService.getDTOByName("C350"),
                 parkingService.getDTOById(parkingId1), colourService.getDTOByName("Red"), typeService.getDTOByName("Sedan"));
-        final Car restModelToEntityModel = carService.mapRestModel(carDTO, parkingId1);
+        final Car restModelToEntityModel = carService.mapRestModel(null, carDTO, parkingId1);
         assertAll(() -> {
             assertEquals(restModelToEntityModel.getId(), car.getId());
             assertEquals(restModelToEntityModel.getPhotoInFolderName(), car.getPhotoInFolderName());
@@ -160,7 +160,7 @@ public class CarServiceTest {
     void shouldReturnDBCarEntity() {
         final Parking parking1 = new Parking(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
 
-        Long parkingId1 = parkingService.addEntityToDB(parking1);
+        final Long parkingId1 = parkingService.addEntityToDB(parking1);
 
         final Car car = new Car(null, "photoNr1", "WN101", 100, 4, 5, 5,
                 gearboxTypeService.getEntityByName("Automatic"), fuelTypeService.getEntityByName("Gasoline"),
@@ -198,7 +198,7 @@ public class CarServiceTest {
     void shouldReturnDBCarDTO() {
         final Parking parking1 = new Parking(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
 
-        Long parkingId1 = parkingService.addEntityToDB(parking1);
+        final Long parkingId1 = parkingService.addEntityToDB(parking1);
 
 
         final Car car = new Car(null, "photoNr1", "WN101", 100, 4, 5, 5,
@@ -238,9 +238,9 @@ public class CarServiceTest {
         final Parking parking2 = new Parking(null, "Radom", "40-222", "Jaka 32", "A-8", "Parking przy sklepie Tesco", true);
         final Parking parking3 = new Parking(null, "Kielce", "40-623", "Weteranow 54", "B-4", "Parking przy dworcu", true);
 
-        Long parkingId1 = parkingService.addEntityToDB(parking1);
-        Long parkingId2 = parkingService.addEntityToDB(parking2);
-        Long parkingId3 = parkingService.addEntityToDB(parking3);
+        final Long parkingId1 = parkingService.addEntityToDB(parking1);
+        final Long parkingId2 = parkingService.addEntityToDB(parking2);
+        final Long parkingId3 = parkingService.addEntityToDB(parking3);
 
 
         final Car car1 = new Car(null, "photoNr1", "WN101", 100, 4, 5, 5,
@@ -273,7 +273,7 @@ public class CarServiceTest {
     void whenCarEntityGiven_shouldAddCarEntityToDB() {
         final Parking parking = new Parking(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
 
-        Long parkingId = parkingService.addEntityToDB(parking);
+        final Long parkingId = parkingService.addEntityToDB(parking);
 
         final Car car = new Car(null, "photoNr1", "WN101", 100, 4, 5, 5,
                 gearboxTypeService.getEntityByName("Automatic"), fuelTypeService.getEntityByName("Gasoline"),

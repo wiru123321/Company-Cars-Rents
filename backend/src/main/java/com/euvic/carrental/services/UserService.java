@@ -23,8 +23,8 @@ public class UserService implements UserServiceInterface {
     }
 
     @Override
-    public User mapRestModel(final UserDTO userDTO) {
-        return new User(null, userDTO, roleService.getEntityByRoleName(userDTO.getRoleDTO().getName()));
+    public User mapRestModel(final Long id, final UserDTO userDTO) {
+        return new User(id, userDTO, roleService.getEntityByRoleName(userDTO.getRoleDTO().getName()));
     }
 
     @Override

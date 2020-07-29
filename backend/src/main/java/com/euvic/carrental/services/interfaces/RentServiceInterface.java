@@ -10,10 +10,16 @@ import java.util.List;
 
 public interface RentServiceInterface {
     Long addEntityToDB(Rent rent);
+
     Rent getEntityById(Long id);
+
     Rent getEntityByCarAndDateFrom(Car car, Date dateFrom);
+
     RentDTO getDTOById(Long id);
+
     RentDTO getDTOByCarDTOAndDateFrom(CarDTO carDTO, Date dateFrom);
-    Rent mapRestModel(RentDTO rentDTO);
+
+    Rent mapRestModel(Long id, RentDTO rentDTO, Long parkingFromId, Long parkingToId);
+
     List<RentDTO> getAllDTOs();
 }

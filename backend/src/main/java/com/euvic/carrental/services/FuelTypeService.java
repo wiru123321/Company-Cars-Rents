@@ -15,12 +15,12 @@ public class FuelTypeService implements FuelTypeServiceInterface {
 
     private final FuelTypeRepository fuelTypeRepository;
 
-    public FuelTypeService(FuelTypeRepository fuelTypeRepository) {
+    public FuelTypeService(final FuelTypeRepository fuelTypeRepository) {
         this.fuelTypeRepository = fuelTypeRepository;
     }
 
     @Override
-    public FuelType getEntityByName(String name) {
+    public FuelType getEntityByName(final String name) {
         return fuelTypeRepository.findByName(name);
     }
 
@@ -31,8 +31,8 @@ public class FuelTypeService implements FuelTypeServiceInterface {
     }
 
     @Override
-    public FuelType mapRestModel(final FuelTypeDTO model) {
-        return new FuelType(null, model.getName());
+    public FuelType mapRestModel(final Long id, final FuelTypeDTO model) {
+        return new FuelType(id, model.getName());
     }
 
     @Override

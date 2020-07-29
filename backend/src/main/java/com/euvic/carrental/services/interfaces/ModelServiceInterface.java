@@ -6,7 +6,7 @@ import com.euvic.carrental.responses.ModelDTO;
 import java.util.List;
 
 public interface ModelServiceInterface {
-    Model mapRestModel(final ModelDTO modelDTO);
+    Model mapRestModel(Long id, ModelDTO modelDTO);
 
     Model getEntityByName(String name);
 
