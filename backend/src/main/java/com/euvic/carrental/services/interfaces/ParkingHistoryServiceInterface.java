@@ -1,20 +1,22 @@
 package com.euvic.carrental.services.interfaces;
 
 import com.euvic.carrental.model.Parking;
+import com.euvic.carrental.model.ParkingHistory;
 import com.euvic.carrental.responses.ParkingDTO;
+import com.euvic.carrental.responses.ParkingHistoryDTO;
 
 import java.util.List;
 
 public interface ParkingHistoryServiceInterface {
-    Parking mapRestModel(Long id, ParkingDTO parking);
+    ParkingHistory mapRestModel(Long id, ParkingHistoryDTO parkingHistoryDTO);
 
-    List<ParkingDTO> getAllDTOsByTownName(String town);
+    List<ParkingHistoryDTO> getAllDTOsByTownName(String town);
 
-    List<ParkingDTO> getAllDTOs();
+    List<ParkingHistoryDTO> getAllDTOs();
 
-    Long addEntityToDB(Parking parking);
+    Long addEntityToDB(ParkingHistory parkingHistory);
 
-    Parking getEntityById(Long id);
+    ParkingHistory getEntityById(Long id);
 
-    ParkingDTO getDTOById(Long id);
+    ParkingHistoryDTO getDTOById(Long id);
 }

@@ -1,8 +1,10 @@
 package com.euvic.carrental.services;
 
 import com.euvic.carrental.model.Parking;
+import com.euvic.carrental.model.ParkingHistory;
 import com.euvic.carrental.repositories.ParkingHistoryRepository;
 import com.euvic.carrental.responses.ParkingDTO;
+import com.euvic.carrental.responses.ParkingHistoryDTO;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,73 +29,73 @@ public class ParkingHistoryServiceTest {
 
     @Test
     void whenParkingDTOGiven_thenReturnParkingEntity() {
-        final Parking parking = new Parking(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
-        final ParkingDTO parkingDTO = new ParkingDTO("Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
+        final ParkingHistory parkingHistory = new ParkingHistory(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
+        final ParkingHistoryDTO parkingHistoryDTO = new ParkingHistoryDTO("Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
         assertAll(() -> {
-            assertEquals(parkingHistoryService.mapRestModel(null, parkingDTO).getId(), parking.getId());
-            assertEquals(parkingHistoryService.mapRestModel(null, parkingDTO).getTown(), parking.getTown());
-            assertEquals(parkingHistoryService.mapRestModel(null, parkingDTO).getComment(), parking.getComment());
-            assertEquals(parkingHistoryService.mapRestModel(null, parkingDTO).getPostalCode(), parking.getPostalCode());
-            assertEquals(parkingHistoryService.mapRestModel(null, parkingDTO).getStreetName(), parking.getStreetName());
-            assertEquals(parkingHistoryService.mapRestModel(null, parkingDTO).getIsActive(), parking.getIsActive());
-            assertEquals(parkingHistoryService.mapRestModel(null, parkingDTO).getNumber(), parking.getNumber());
+            assertEquals(parkingHistoryService.mapRestModel(null, parkingHistoryDTO).getId(), parkingHistory.getId());
+            assertEquals(parkingHistoryService.mapRestModel(null, parkingHistoryDTO).getTown(), parkingHistory.getTown());
+            assertEquals(parkingHistoryService.mapRestModel(null, parkingHistoryDTO).getComment(), parkingHistory.getComment());
+            assertEquals(parkingHistoryService.mapRestModel(null, parkingHistoryDTO).getPostalCode(), parkingHistory.getPostalCode());
+            assertEquals(parkingHistoryService.mapRestModel(null, parkingHistoryDTO).getStreetName(), parkingHistory.getStreetName());
+            assertEquals(parkingHistoryService.mapRestModel(null, parkingHistoryDTO).getIsActive(), parkingHistory.getIsActive());
+            assertEquals(parkingHistoryService.mapRestModel(null, parkingHistoryDTO).getNumber(), parkingHistory.getNumber());
 
         });
     }
 
     @Test
     void shouldReturnDBParkingDTO() {
-        final Parking parking = new Parking(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
+        final ParkingHistory parkingHistory = new ParkingHistory(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
         assertEquals(0, parkingHistoryRepository.count());
-        final Long parkingId = parkingHistoryService.addEntityToDB(parking);
+        final Long parkingHistoryId = parkingHistoryService.addEntityToDB(parkingHistory);
         assertEquals(1, parkingHistoryRepository.count());
 
-        final ParkingDTO parkingDTO1 = parkingHistoryService.getAllDTOsByTownName("Katowice").get(0);
-        final ParkingDTO parkingDTO2 = parkingHistoryService.getDTOById(parkingId);
+        final ParkingHistoryDTO parkingHistoryDTO1 = parkingHistoryService.getAllDTOsByTownName("Katowice").get(0);
+        final ParkingHistoryDTO parkingHistoryDTO2 = parkingHistoryService.getDTOById(parkingHistoryId);
 
         assertAll(() -> {
-            assertEquals(parking.getTown(), parkingDTO1.getTown());
-            assertEquals(parking.getStreetName(), parkingDTO1.getStreetName());
-            assertEquals(parking.getPostalCode(), parkingDTO1.getPostalCode());
-            assertEquals(parking.getNumber(), parkingDTO1.getNumber());
-            assertEquals(parking.getComment(), parkingDTO1.getComment());
-            assertEquals(parking.getIsActive(), parkingDTO1.getIsActive());
+            assertEquals(parkingHistory.getTown(), parkingHistoryDTO1.getTown());
+            assertEquals(parkingHistory.getStreetName(), parkingHistoryDTO1.getStreetName());
+            assertEquals(parkingHistory.getPostalCode(), parkingHistoryDTO1.getPostalCode());
+            assertEquals(parkingHistory.getNumber(), parkingHistoryDTO1.getNumber());
+            assertEquals(parkingHistory.getComment(), parkingHistoryDTO1.getComment());
+            assertEquals(parkingHistory.getIsActive(), parkingHistoryDTO1.getIsActive());
 
 
-            assertEquals(parking.getTown(), parkingDTO2.getTown());
-            assertEquals(parking.getStreetName(), parkingDTO2.getStreetName());
-            assertEquals(parking.getPostalCode(), parkingDTO2.getPostalCode());
-            assertEquals(parking.getNumber(), parkingDTO2.getNumber());
-            assertEquals(parking.getComment(), parkingDTO2.getComment());
-            assertEquals(parking.getIsActive(), parkingDTO2.getIsActive());
+            assertEquals(parkingHistory.getTown(), parkingHistoryDTO2.getTown());
+            assertEquals(parkingHistory.getStreetName(), parkingHistoryDTO2.getStreetName());
+            assertEquals(parkingHistory.getPostalCode(), parkingHistoryDTO2.getPostalCode());
+            assertEquals(parkingHistory.getNumber(), parkingHistoryDTO2.getNumber());
+            assertEquals(parkingHistory.getComment(), parkingHistoryDTO2.getComment());
+            assertEquals(parkingHistory.getIsActive(), parkingHistoryDTO2.getIsActive());
         });
     }
 
     @Test
     void shouldReturnDBParkingEntity() {
-        final Parking parking = new Parking(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
+        final ParkingHistory parkingHistory = new ParkingHistory(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
         assertEquals(0, parkingHistoryRepository.count());
-        final Long parkingId = parkingHistoryService.addEntityToDB(parking);
+        final Long parkingHistoryId = parkingHistoryService.addEntityToDB(parkingHistory);
         assertEquals(1, parkingHistoryRepository.count());
 
-        final Parking serviceParking = parkingHistoryService.getEntityById(parkingId);
+        final ParkingHistory serviceParkingHistory = parkingHistoryService.getEntityById(parkingHistoryId);
         assertAll(() -> {
-            assertEquals(parking.getComment(), serviceParking.getComment());
-            assertEquals(parking.getIsActive(), serviceParking.getIsActive());
-            assertEquals(parking.getNumber(), serviceParking.getNumber());
-            assertEquals(parking.getPostalCode(), serviceParking.getPostalCode());
-            assertEquals(parking.getStreetName(), serviceParking.getStreetName());
-            assertEquals(parking.getTown(), serviceParking.getTown());
-            assertNotEquals(null, serviceParking.getId());
+            assertEquals(parkingHistory.getComment(), serviceParkingHistory.getComment());
+            assertEquals(parkingHistory.getIsActive(), serviceParkingHistory.getIsActive());
+            assertEquals(parkingHistory.getNumber(), serviceParkingHistory.getNumber());
+            assertEquals(parkingHistory.getPostalCode(), serviceParkingHistory.getPostalCode());
+            assertEquals(parkingHistory.getStreetName(), serviceParkingHistory.getStreetName());
+            assertEquals(parkingHistory.getTown(), serviceParkingHistory.getTown());
+            assertNotEquals(null, serviceParkingHistory.getId());
         });
     }
 
     @Test
     void whenParkingEntityGiven_shouldAddParkingEntityToDB() {
-        final Parking parking = new Parking(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
+        final ParkingHistory parkingHistory = new ParkingHistory(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
 
         assertEquals(0, parkingHistoryRepository.count());
-        parkingHistoryService.addEntityToDB(parking);
+        parkingHistoryService.addEntityToDB(parkingHistory);
         assertEquals(1, parkingHistoryRepository.count());
     }
 }
