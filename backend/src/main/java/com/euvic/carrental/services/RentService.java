@@ -23,7 +23,6 @@ public class RentService implements RentServiceInterface {
     final private CarService carService;
     final private ParkingService parkingService;
 
-
     public RentService(final RentRepository rentRepository, final UserService userService, final CarService carService, final ParkingService parkingService) {
         this.rentRepository = rentRepository;
         this.userService = userService;
@@ -54,36 +53,66 @@ public class RentService implements RentServiceInterface {
         final Car car = rent.getCar();
         final Parking parkingFrom = rent.getParkingFrom();
         final Parking parkingTo = rent.getParkingTo();
-        return new RentDTO(rent, userService.getDTOByLogin(user.getLogin()), carService.getDTOByLicensePlate(car.getLicensePlate())
-                , parkingService.getDTOById(parkingFrom.getId()), parkingService.getDTOById(parkingTo.getId()));
+        final RentDTO rentDTO;
+        if (rent.getParkingTo() != null) {
+            rentDTO = new RentDTO(rent, userService.getDTOByLogin(user.getLogin()), carService.getDTOByLicensePlate(car.getLicensePlate())
+                    , parkingService.getDTOById(parkingFrom.getId()), parkingService.getDTOById(parkingTo.getId()));
+        } else {
+            rentDTO = new RentDTO(rent, userService.getDTOByLogin(user.getLogin()), carService.getDTOByLicensePlate(car.getLicensePlate())
+                    , parkingService.getDTOById(parkingFrom.getId()), null);
+        }
+        return rentDTO;
     }
 
     @Override
     public RentDTO getDTOByCarDTOAndDateFrom(final CarDTO carDTO, final Date dateFrom) {
         final Car car = carService.getEntityByLicensePlate(carDTO.getLicensePlate());
         final Rent rent = rentRepository.findByCarAndDateFrom(car, dateFrom);
-
-        return new RentDTO(rent, userService.getDTOByLogin(rent.getUser().getLogin()), carDTO
-                , new ParkingDTO(rent.getParkingFrom()), new ParkingDTO(rent.getParkingTo()));
+        final RentDTO rentDTO;
+        if (rent.getParkingTo() != null) {
+            rentDTO = new RentDTO(rent, userService.getDTOByLogin(rent.getUser().getLogin()), carDTO
+                    , parkingService.getDTOById(rent.getParkingFrom().getId()), parkingService.getDTOById(rent.getParkingTo().getId()));
+        } else {
+            rentDTO = new RentDTO(rent, userService.getDTOByLogin(rent.getUser().getLogin()), carDTO
+                    , parkingService.getDTOById(rent.getParkingFrom().getId()), null);
+        }
+        return rentDTO;
     }
-
 
     public Rent mapRestModel(final Long id, final RentDTO rentDTO, final Long parkingFromId, final Long parkingToId) {
 
-        return new Rent(id, userService.getEntityByLogin(rentDTO.getUserDTO().getLogin()), carService.getEntityByLicensePlate(rentDTO.getCarDTO().getLicensePlate())
-                , rentDTO.getDateFrom(), rentDTO.getDateTo(), parkingService.getEntityById(parkingFromId), parkingService.getEntityById(parkingToId), rentDTO.getIsActive());
+        final Rent rent;
+        if (parkingToId != null) {
+            rent = new Rent(id, userService.getEntityByLogin(rentDTO.getUserDTO().getLogin()), carService.getEntityByLicensePlate(rentDTO.getCarDTO().getLicensePlate())
+                    , rentDTO.getDateFrom(), rentDTO.getDateTo(), parkingService.getEntityById(parkingFromId), parkingService.getEntityById(parkingToId), rentDTO.getIsActive());
+        } else {
+            rent = new Rent(id, userService.getEntityByLogin(rentDTO.getUserDTO().getLogin()), carService.getEntityByLicensePlate(rentDTO.getCarDTO().getLicensePlate())
+                    , rentDTO.getDateFrom(), rentDTO.getDateTo(), parkingService.getEntityById(parkingFromId), null, rentDTO.getIsActive());
+        }
+        return rent;
     }
 
     @Override
     public List<RentDTO> getAllDTOs() {
         final ArrayList<Rent> rentArrayList = new ArrayList<>();
         rentRepository.findAll().forEach(rentArrayList::add);
-
         final ArrayList<RentDTO> rentDTOArrayList = new ArrayList<>();
-        rentArrayList.stream().forEach(rent -> {
-            final RentDTO rentDTO = new RentDTO(rent, userService.getDTOByLogin(rent.getUser().getLogin()), carService.getDTOByLicensePlate(rent.getCar().getLicensePlate())
-                    , new ParkingDTO(rent.getParkingFrom()), new ParkingDTO((rent.getParkingTo())));
-        });
+
+        if (!rentArrayList.isEmpty()) {
+            if (rentArrayList.get(0).getParkingTo() != null) {
+                rentArrayList.stream().forEach(rent -> {
+                    final RentDTO rentDTO = new RentDTO(rent, userService.getDTOByLogin(rent.getUser().getLogin()), carService.getDTOByLicensePlate(rent.getCar().getLicensePlate())
+                            , new ParkingDTO(rent.getParkingFrom()), new ParkingDTO((rent.getParkingTo())));
+                    rentDTOArrayList.add(rentDTO);
+                });
+            } else {
+                rentArrayList.stream().forEach(rent -> {
+                    final RentDTO rentDTO = new RentDTO(rent, userService.getDTOByLogin(rent.getUser().getLogin()), carService.getDTOByLicensePlate(rent.getCar().getLicensePlate())
+                            , new ParkingDTO(rent.getParkingFrom()), null);
+                    rentDTOArrayList.add(rentDTO);
+                });
+            }
+        }
         return rentDTOArrayList;
     }
 }

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -257,7 +258,7 @@ public class RentServiceTest {
 
         final Car car = new Car(null, "photoNr2", "SBE33212", 120, 1, 4, 3,
                 gearboxTypeService.getEntityByName("Manual"), fuelTypeService.getEntityByName("Diesel"),
-                new Date(2000, 3, 25), 2000, true, true, 120000, modelService.getEntityByName("Astra"),
+                new Date(2000, Calendar.MARCH, 25), 2000, true, true, 120000, modelService.getEntityByName("Astra"),
                 parkingService.getEntityById(parkingId1), colourService.getEntityByName("Blue"), typeService.getEntityByName("Coupe"));
 
         carRepository.save(car);
@@ -277,12 +278,12 @@ public class RentServiceTest {
         final Rent rent = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlate("SBE33212"), dateFrom, dateTo, parkingService.getEntityById(parkingId1), null, true);
         final Long rentId = rentService.addEntityToDB(rent);
 
-
         final RentDTO rentDTO = rentService.getDTOById(rentId);
 
+        //TODO Poprawić date
         final Rent restModelToEntityModel = rentService.mapRestModel(null, rentDTO, parkingId1, null);
         assertAll(() -> {
-            assertEquals(restModelToEntityModel.getId(), rent.getId());
+            assertNotEquals(restModelToEntityModel.getId(), rent.getId());
             assertEquals(restModelToEntityModel.getUser(), rent.getUser());
             assertEquals(restModelToEntityModel.getCar(), rent.getCar());
             assertEquals(restModelToEntityModel.getDateFrom(), rent.getDateFrom());
@@ -334,7 +335,8 @@ public class RentServiceTest {
             assertEquals(rent.getDateFrom(), rentDTO1.getDateFrom());
             assertEquals(rent.getDateTo(), rentDTO1.getDateTo());
             assertEquals(rent.getParkingFrom().getTown(), rentDTO1.getParkingDTOFrom().getTown());
-            assertEquals(rent.getParkingTo().getTown(), rentDTO1.getParkingDTOTo().getTown());
+            if (rent.getParkingTo() != null)
+                assertEquals(rent.getParkingTo().getTown(), rentDTO1.getParkingDTOTo().getTown());
             assertEquals(rent.getIsActive(), rentDTO1.getIsActive());
         });
     }
@@ -369,8 +371,8 @@ public class RentServiceTest {
         final Date dateFrom = new Date(2000, 03, 25);
         final Date dateTo = new Date(2000, 03, 30);
         final Rent rent1 = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlate("SBE33212"), dateFrom, dateTo, parkingService.getEntityById(parkingId1), null, true);
-        final Rent rent2 = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlate("SBE33212"), dateFrom, dateTo, parkingService.getEntityById(parkingId1), null, true);
-        final Rent rent3 = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlate("SBE33212"), dateFrom, dateTo, parkingService.getEntityById(parkingId1), null, true);
+        final Rent rent2 = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlate("SBE33212"), dateFrom, dateTo, parkingService.getEntityById(parkingId2), null, true);
+        final Rent rent3 = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlate("SBE33212"), dateFrom, dateTo, parkingService.getEntityById(parkingId3), null, true);
 
         assertEquals(0, rentRepository.count());
         final Long rentId1 = rentService.addEntityToDB(rent1);
