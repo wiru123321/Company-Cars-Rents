@@ -1,8 +1,10 @@
 package com.euvic.carrental.services;
 
 import com.euvic.carrental.model.Parking;
+import com.euvic.carrental.model.ParkingHistory;
 import com.euvic.carrental.repositories.ParkingHistoryRepository;
 import com.euvic.carrental.responses.ParkingDTO;
+import com.euvic.carrental.responses.ParkingHistoryDTO;
 import com.euvic.carrental.services.interfaces.ParkingHistoryServiceInterface;
 import org.springframework.stereotype.Service;
 
@@ -20,42 +22,42 @@ public class ParkingHistoryService implements ParkingHistoryServiceInterface {
     }
 
     @Override
-    public Parking mapRestModel(final Long id, final ParkingDTO parking) {
-        return new Parking(id, parking.getTown(), parking.getPostalCode(), parking.getStreetName(), parking.getNumber(), parking.getComment(), parking.getIsActive());
+    public ParkingHistory mapRestModel(final Long id, final ParkingHistoryDTO parkingHistoryDTO) {
+        return new ParkingHistory(id, parkingHistoryDTO.getTown(), parkingHistoryDTO.getPostalCode(), parkingHistoryDTO.getStreetName(), parkingHistoryDTO.getNumber(), parkingHistoryDTO.getComment(), parkingHistoryDTO.getIsActive());
     }
 
     @Override
-    public List<ParkingDTO> getAllDTOsByTownName(final String town) {
-        final ArrayList<Parking> parkingArrayList = new ArrayList<>();
-        parkingArrayList.addAll(parkingHistoryRepository.findByTown(town));
+    public List<ParkingHistoryDTO> getAllDTOsByTownName(final String town) {
+        final ArrayList<ParkingHistory> parkingHistoryArrayList = new ArrayList<>();
+        parkingHistoryArrayList.addAll(parkingHistoryRepository.findByTown(town));
 
-        return parkingArrayList.stream()
-                .map(ParkingDTO::new)
+        return parkingHistoryArrayList.stream()
+                .map(ParkingHistoryDTO::new)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public Parking getEntityById(final Long id) {
+    public ParkingHistory getEntityById(final Long id) {
         return parkingHistoryRepository.findById(id).get();
     }
 
     @Override
-    public ParkingDTO getDTOById(final Long id) {
-        return new ParkingDTO(this.getEntityById(id));
+    public ParkingHistoryDTO getDTOById(final Long id) {
+        return new ParkingHistoryDTO(this.getEntityById(id));
     }
 
     @Override
-    public Long addEntityToDB(final Parking parking) {
-        return parkingHistoryRepository.save(parking).getId();
+    public Long addEntityToDB(final ParkingHistory parkingHistory) {
+        return parkingHistoryRepository.save(parkingHistory).getId();
     }
 
     @Override
-    public List<ParkingDTO> getAllDTOs() {
-        final ArrayList<Parking> parkingArrayList = new ArrayList<>();
-        parkingHistoryRepository.findAll().forEach(parkingArrayList::add);
+    public List<ParkingHistoryDTO> getAllDTOs() {
+        final ArrayList<ParkingHistory> parkingHistoryArrayList = new ArrayList<>();
+        parkingHistoryRepository.findAll().forEach(parkingHistoryArrayList::add);
 
-        return parkingArrayList.stream()
-                .map(ParkingDTO::new)
+        return parkingHistoryArrayList.stream()
+                .map(ParkingHistoryDTO::new)
                 .collect(Collectors.toList());
     }
 }
