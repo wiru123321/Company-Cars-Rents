@@ -18,7 +18,6 @@ const UsersLogin = ({
   handlePhoneNumberChange,
 }) => {
   const classes = useStyles();
-  const dispatch = useDispatch();
 
   return (
     <Grid
