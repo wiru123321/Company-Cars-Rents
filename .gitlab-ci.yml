@@ -24,6 +24,5 @@ build_develop:
       - docker-compose build
 
 deploy_develop:
-
-script:
-   - echo "docker-compose up"
+   script:
+      - echo "docker-compose up"
