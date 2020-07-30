@@ -6,7 +6,7 @@ configure({ adapter: new Adapter() });
 
 import InputControl from "../InputControl";
 
-describe("input control", () => {
+describe("Input control test suite", () => {
   it("should render withoout throwing error", () => {
     expect(shallow(<InputControl />));
   });

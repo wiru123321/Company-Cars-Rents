@@ -25,7 +25,5 @@ describe("sum two numbers", () => {
         <AddEmployee />
       </Provider>
     );
-
-    //const input = wrapper.find("input").at(0);
   });
 });
