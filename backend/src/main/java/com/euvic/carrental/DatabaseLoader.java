@@ -5,7 +5,6 @@ import com.euvic.carrental.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.nio.file.Files;
@@ -32,8 +31,6 @@ public class DatabaseLoader implements CommandLineRunner {
     private final TypeRepository typeRepository;
     private final UserRepository userRepository;
 
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
-
     @Value("${spring.datasource.username}")
     private String dataBase;
 
@@ -44,7 +41,7 @@ public class DatabaseLoader implements CommandLineRunner {
                           final RentHistoryRepository rentHistoryRepository, final RentRepository rentRepository,
                           final RoleRepository roleRepository, final TypeRepository typeRepository,
                           final UserRepository userRepository, final GearboxTypeRepository gearboxTypeRepository,
-                          final FuelTypeRepository fuelTypeRepository, final ParkingHistoryRepository parkingHistoryRepository, final BCryptPasswordEncoder bCryptPasswordEncoder) {
+                          final FuelTypeRepository fuelTypeRepository, final ParkingHistoryRepository parkingHistoryRepository) {
         this.carRepository = carRepository;
         this.colourRepository = colourRepository;
         this.faultRepository = faultRepository;
@@ -59,7 +56,6 @@ public class DatabaseLoader implements CommandLineRunner {
         this.gearboxTypeRepository = gearboxTypeRepository;
         this.fuelTypeRepository = fuelTypeRepository;
         this.parkingHistoryRepository = parkingHistoryRepository;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     @Override
@@ -108,6 +104,11 @@ public class DatabaseLoader implements CommandLineRunner {
                 colourRepository.save(new Colour(null, name));
             }
             stringList.clear();
+
+            //FOR SECURITY TESTS
+            //Haslo powinno byc encodowane wraz ze stworzeniem konta encrypter (Bcrypter) / powinniśmy zadbać żeby hasło zostało bezpiecznie przesłane do backendu
+            // login i password w bazie danych nie mogą się powtarzać
+            userRepository.save(new User(null, "login123", "password123", "email@emai.com", "Jan", "Kowalski", "123456789", true, roleRepository.findByName("ADMIN")));
         }
     }
 }
