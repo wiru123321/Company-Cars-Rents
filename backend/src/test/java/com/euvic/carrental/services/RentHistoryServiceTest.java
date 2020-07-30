@@ -314,7 +314,7 @@ public class RentHistoryServiceTest {
 
 
     @Test
-    void shouldReturnDBRentDTO() {
+    void shouldReturnDBRentHistoryDTO() { //TODO change name
         final Parking parking1 = new Parking(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
         final ParkingHistory parkingHistory1 = new ParkingHistory(null, "Radom", "40-222", "Jaka 32", "A-8", "Parking przy sklepie Tesco", true);
         final ParkingHistory parkingHistory2 = new ParkingHistory(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
@@ -366,14 +366,22 @@ public class RentHistoryServiceTest {
 
 
     @Test
-    void shouldReturnAllDBRentsDTO() {
+    void shouldReturnAllDBRentsHistoryDTO() {
         final Parking parking1 = new Parking(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
         final ParkingHistory parkingHistory1 = new ParkingHistory(null, "Radom", "40-222", "Jaka 32", "A-8", "Parking przy sklepie Tesco", true);
         final ParkingHistory parkingHistory2 = new ParkingHistory(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
+        final ParkingHistory parkingHistory3 = new ParkingHistory(null, "Radom", "40-222", "Jaka 32", "A-8", "Parking przy sklepie Tesco", true);
+        final ParkingHistory parkingHistory4 = new ParkingHistory(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
+        final ParkingHistory parkingHistory5 = new ParkingHistory(null, "Radom", "40-222", "Jaka 32", "A-8", "Parking przy sklepie Tesco", true);
+        final ParkingHistory parkingHistory6 = new ParkingHistory(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
 
         final Long parkingId1 = parkingService.addEntityToDB(parking1);
         final Long parkingHistoryId1 = parkingHistoryService.addEntityToDB(parkingHistory1);
         final Long parkingHistoryId2 = parkingHistoryService.addEntityToDB(parkingHistory2);
+        final Long parkingHistoryId3 = parkingHistoryService.addEntityToDB(parkingHistory3);
+        final Long parkingHistoryId4 = parkingHistoryService.addEntityToDB(parkingHistory4);
+        final Long parkingHistoryId5 = parkingHistoryService.addEntityToDB(parkingHistory4);
+        final Long parkingHistoryId6 = parkingHistoryService.addEntityToDB(parkingHistory5);
 
         final Car car = new Car(null, "photoNr2", "SBE33212", 120, 1, 4, 3,
                 gearboxTypeService.getEntityByName("Manual"), fuelTypeService.getEntityByName("Diesel"),
@@ -399,9 +407,9 @@ public class RentHistoryServiceTest {
         final RentHistory rentHistory1 = new RentHistory(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlate("SBE33212")
                 , dateFrom, dateTo, parkingHistoryService.getEntityById(parkingHistoryId1), parkingHistoryService.getEntityById(parkingHistoryId2), true);
         final RentHistory rentHistory2 = new RentHistory(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlate("SBE33212")
-                , dateFrom, dateTo, parkingHistoryService.getEntityById(parkingHistoryId1), parkingHistoryService.getEntityById(parkingHistoryId2), true);
+                , dateFrom, dateTo, parkingHistoryService.getEntityById(parkingHistoryId3), parkingHistoryService.getEntityById(parkingHistoryId4), true);
         final RentHistory rentHistory3 = new RentHistory(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlate("SBE33212")
-                , dateFrom, dateTo, parkingHistoryService.getEntityById(parkingHistoryId1), parkingHistoryService.getEntityById(parkingHistoryId2), true);
+                , dateFrom, dateTo, parkingHistoryService.getEntityById(parkingHistoryId5), parkingHistoryService.getEntityById(parkingHistoryId6), true);
 
         assertEquals(0, rentHistoryRepository.count());
         final Long rentHistoryId1 = rentHistoryService.addEntityToDB(rentHistory1);

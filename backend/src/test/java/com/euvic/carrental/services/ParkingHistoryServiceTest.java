@@ -28,7 +28,7 @@ public class ParkingHistoryServiceTest {
     }
 
     @Test
-    void whenParkingDTOGiven_thenReturnParkingEntity() {
+    void whenParkingHistoryDTOGiven_thenReturnParkingHistoryEntity() {
         final ParkingHistory parkingHistory = new ParkingHistory(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
         final ParkingHistoryDTO parkingHistoryDTO = new ParkingHistoryDTO("Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
         assertAll(() -> {
@@ -44,7 +44,7 @@ public class ParkingHistoryServiceTest {
     }
 
     @Test
-    void shouldReturnDBParkingDTO() {
+    void shouldReturnDBParkingHistoryDTO() {
         final ParkingHistory parkingHistory = new ParkingHistory(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
         assertEquals(0, parkingHistoryRepository.count());
         final Long parkingHistoryId = parkingHistoryService.addEntityToDB(parkingHistory);
@@ -72,7 +72,7 @@ public class ParkingHistoryServiceTest {
     }
 
     @Test
-    void shouldReturnDBParkingEntity() {
+    void shouldReturnDBParkingHistoryEntity() {
         final ParkingHistory parkingHistory = new ParkingHistory(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
         assertEquals(0, parkingHistoryRepository.count());
         final Long parkingHistoryId = parkingHistoryService.addEntityToDB(parkingHistory);
@@ -91,7 +91,7 @@ public class ParkingHistoryServiceTest {
     }
 
     @Test
-    void whenParkingEntityGiven_shouldAddParkingEntityToDB() {
+    void whenParkingHistoryEntityGiven_shouldAddParkingHistoryEntityToDB() {
         final ParkingHistory parkingHistory = new ParkingHistory(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
 
         assertEquals(0, parkingHistoryRepository.count());
