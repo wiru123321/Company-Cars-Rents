@@ -16,14 +16,14 @@ public class Model {
     @Column(nullable = false)
     private String name;
 
-    @ManyToOne()
-    @JoinColumn(name = "mark_id", nullable = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private Mark mark;
 
     public Model() {
     }
 
-    public Model(String name, Mark mark) {
+    public Model(Long id, String name, Mark mark) {
+        this.id = id;
         this.name = name;
         this.mark = mark;
     }

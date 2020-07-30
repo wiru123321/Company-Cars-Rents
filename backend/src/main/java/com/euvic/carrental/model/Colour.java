@@ -10,7 +10,7 @@ import javax.persistence.*;
 public class Colour {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(nullable = false)
     private String name;
@@ -18,7 +18,8 @@ public class Colour {
     public Colour() {
     }
 
-    public Colour(String name) {
+    public Colour(Long id, String name) {
         this.name = name;
+        this.id = id;
     }
 }

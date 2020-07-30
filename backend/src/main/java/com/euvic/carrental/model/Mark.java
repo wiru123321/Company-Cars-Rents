@@ -3,7 +3,6 @@ package com.euvic.carrental.model;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.Set;
 
 @Data
 @Table(name = "marks")
@@ -17,18 +16,12 @@ public class Mark {
     @Column(nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "marks")
-    private Set<Model> modelList;
+    public Mark(){
 
-    public Mark() {
     }
 
-    public Mark(String markName, Set<Model> modelList) {
-        this.name = markName;
-        this.modelList = modelList;
-    }
-
-    public Mark(String markName) {
-        this.name = markName;
+    public Mark(Long id, String name) {
+        this.id = id;
+        this.name = name;
     }
 }

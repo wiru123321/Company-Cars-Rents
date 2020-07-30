@@ -21,6 +21,9 @@ public class Parking {
     private String streetName;
 
     @Column(nullable = false)
+    private String number;
+
+    @Column(nullable = false)
     private String comment;
 
     @Column(nullable = false)
@@ -29,10 +32,12 @@ public class Parking {
     public Parking() {
     }
 
-    public Parking(String town, String postalCode, String streetName, String comment, Boolean isActive) {
+    public Parking(final Long id, final String town, final String postalCode, final String street, final String number, final String comment, final Boolean isActive) {
+        this.id = id;
         this.town = town;
         this.postalCode = postalCode;
-        this.streetName = streetName;
+        this.streetName = street;
+        this.number = number;
         this.comment = comment;
         this.isActive = isActive;
     }

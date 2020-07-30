@@ -3,7 +3,7 @@ package com.euvic.carrental.model;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Data
 @Table(name = "rents")
@@ -14,23 +14,22 @@ public class Rent {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    //TODO check date/time (get know how to use it, and format)
     @Column(nullable = false)
-    private Date dateFrom; // Here must be date + time;
+    private LocalDateTime dateFrom;
 
     @Column(nullable = false)
-    private Date dateTo;
+    private LocalDateTime dateTo;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private Car car;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @OneToOne(fetch = FetchType.EAGER, optional = false)
     private Parking parkingFrom;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @OneToOne(fetch = FetchType.EAGER, optional = true)
     private Parking parkingTo;
 
     @Column(nullable = false)
@@ -40,7 +39,9 @@ public class Rent {
 
     }
 
-    public Rent(User user, Car car, Date dateFrom, Date dateTo, Parking parkingFrom, Parking parkingTo, Boolean isActive) {
+    public Rent(final Long id, final User user, final Car car, final LocalDateTime dateFrom, final LocalDateTime dateTo, final Parking parkingFrom
+            , final Parking parkingTo, final Boolean isActive) {
+        this.id = id;
         this.user = user;
         this.car = car;
         this.dateFrom = dateFrom;

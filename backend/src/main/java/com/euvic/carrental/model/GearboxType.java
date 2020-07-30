@@ -19,7 +19,8 @@ public class GearboxType {
     public GearboxType() {
     }
 
-    public GearboxType(String name) {
+    public GearboxType(Long id, String name) {
+        this.id = id;
         this.name = name;
     }
 }

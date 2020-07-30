@@ -19,7 +19,8 @@ public class FuelType {
     public FuelType() {
     }
 
-    public FuelType(String name) {
+    public FuelType(Long id, String name) {
+        this.id = id;
         this.name = name;
     }
 }

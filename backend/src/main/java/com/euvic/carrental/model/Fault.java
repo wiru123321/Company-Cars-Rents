@@ -19,15 +19,17 @@ public class Fault {
     @Column(nullable = false)
     private Boolean isActive;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private Car car;
 
     public Fault() {
     }
 
-    public Fault(Car car, String describe, Boolean isActive) {
+    public Fault(final Long id,final Car car, final String describe, final Boolean isActive) {
+        this.id = id;
         this.car = car;
         this.describe = describe;
         this.isActive = isActive;
     }
+    
 }

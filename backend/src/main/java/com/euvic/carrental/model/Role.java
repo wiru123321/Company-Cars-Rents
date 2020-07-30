@@ -18,7 +18,8 @@ public class Role {
     public Role() {
     }
 
-    public Role(String name) {
+    public Role(final Long id, final String name) {
+        this.id = id;
         this.name = name;
     }
 }
