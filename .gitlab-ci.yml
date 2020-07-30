@@ -1,0 +1,41 @@
+image: docker/compose:latest
+
+services:
+
+   - docker:dind
+
+before_script:
+
+   - ls
+
+   - docker info
+
+   - docker-compose --version
+
+   - echo "preparation is done"
+
+
+before_script: 
+    - ls 
+    - docker info 
+    
+    - apk update 
+    - apk upgrade 
+    - apk add --update --no-cache curl gcc py-pip build-base libffi-dev openssl-dev make 
+    
+    - curl -L "https://github.com/docker/compose/releases/download/1.26.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose  
+    - chmod +x /usr/local/bin/docker-compose 
+    - ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose - docker-compose --version 
+    - echo "preparation is done"   
+
+build_develop:
+
+   script:
+
+      - echo "We are here"
+
+      - docker-compose down
+
+      - docker-compose build
+
+      - docker-compose up
