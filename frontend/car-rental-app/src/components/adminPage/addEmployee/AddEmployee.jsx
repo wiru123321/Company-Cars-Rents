@@ -2,6 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Grid } from "@material-ui/core";
 import {
+  firstnameChange,
+  lastnameChange,
+  emailChange,
+  loginChange,
+  phoneNumberChange,
+  passwordChange,
+  rePasswordChange,
   toggleDidSubmit,
   selectAll,
   reset,
@@ -19,7 +26,15 @@ const AddEmployee = () => {
   const [showSuccess, toggleShowSuccess] = useState(false);
   const [success, isSuccess] = useState(false);
   const employee = useSelector(selectAll);
-  const { password, rePassword } = employee;
+  const {
+    email,
+    login,
+    phoneNumber,
+    password,
+    rePassword,
+    firstname,
+    lastname,
+  } = employee;
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -30,6 +45,21 @@ const AddEmployee = () => {
       if (showSuccess === true) return clearTimeout(timer);
     };
   }, [success, showSuccess]);
+
+  const handleFirstnameChange = (event) =>
+    dispatch(firstnameChange(event.target.value));
+  const handleLastnameChange = (event) =>
+    dispatch(lastnameChange(event.target.value));
+  const handleEmailChange = (event) =>
+    dispatch(emailChange(event.target.value));
+  const handleLoginChange = (event) =>
+    dispatch(loginChange(event.target.value));
+  const handlePhoneNumberChange = (event) =>
+    dispatch(phoneNumberChange(event.target.value));
+  const handlePasswordChange = (event) =>
+    dispatch(passwordChange(event.target.value));
+  const handleRePasswordChange = (event) =>
+    dispatch(rePasswordChange(event.target.value));
 
   function toggleSubmit(toggleValue) {
     dispatch(toggleDidSubmit(toggleValue));
@@ -66,9 +96,26 @@ const AddEmployee = () => {
         justify="center"
         alignItems="center"
       >
-        <UsersPersonalData />
-        <UsersLogin />
-        <UsersPassword />
+        <UsersPersonalData
+          firstname={firstname}
+          lastname={lastname}
+          handleFirstnameChange={handleFirstnameChange}
+          handleLastnameChange={handleLastnameChange}
+        />
+        <UsersLogin
+          email={email}
+          login={login}
+          phoneNumber={phoneNumber}
+          handleEmailChange={handleEmailChange}
+          handleLoginChange={handleLoginChange}
+          handlePhoneNumberChange={handlePhoneNumberChange}
+        />
+        <UsersPassword
+          password={password}
+          rePassword={rePassword}
+          handlePasswordChange={handlePasswordChange}
+          handleRePasswordChange={handleRePasswordChange}
+        />
         <FormControlPanel success={success} showSuccess={showSuccess} />
       </Grid>
     </form>

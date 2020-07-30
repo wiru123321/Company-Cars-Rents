@@ -9,19 +9,16 @@ import {
 import { TextField, Grid } from "@material-ui/core";
 import useStyles from "./useStyles";
 
-const UsersLogin = () => {
+const UsersLogin = ({
+  email,
+  login,
+  phoneNumber,
+  handleEmailChange,
+  handleLoginChange,
+  handlePhoneNumberChange,
+}) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { email, login, phoneNumber } = useSelector(selectAll);
-
-  const handleEmailChange = (event) =>
-    dispatch(emailChange(event.target.value));
-
-  const handleLoginChange = (event) =>
-    dispatch(loginChange(event.target.value));
-
-  const handlePhoneNumberChange = (event) =>
-    dispatch(phoneNumberChange(event.target.value));
 
   return (
     <Grid

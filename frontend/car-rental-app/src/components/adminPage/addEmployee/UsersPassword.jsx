@@ -1,23 +1,14 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import {
-  passwordChange,
-  rePasswordChange,
-  selectAll,
-} from "../../../features/add-employees/addEmployeeSlice";
 import { TextField, Grid } from "@material-ui/core";
 import useStyles from "./useStyles";
 
-const UsersPassword = () => {
+const UsersPassword = ({
+  password,
+  rePassword,
+  handlePasswordChange,
+  handleRePasswordChange,
+}) => {
   const classes = useStyles();
-  const dispatch = useDispatch();
-
-  const { password, rePassword } = useSelector(selectAll);
-
-  const handlePasswordChange = (event) =>
-    dispatch(passwordChange(event.target.value));
-  const handleRePasswordChange = (event) =>
-    dispatch(rePasswordChange(event.target.value));
 
   return (
     <Grid

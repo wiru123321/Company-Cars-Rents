@@ -1,23 +1,15 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import {
-  firstnameChange,
-  lastnameChange,
-  selectAll,
-} from "../../../features/add-employees/addEmployeeSlice";
 import { TextField, Grid } from "@material-ui/core";
 import useStyles from "./useStyles";
 
-const UsersPersonalData = () => {
+const UsersPersonalData = ({
+  firstname,
+  lastname,
+  handleFirstnameChange,
+  handleLastnameChange,
+}) => {
   const classes = useStyles();
-  const dispatch = useDispatch();
 
-  const { firstname, lastname } = useSelector(selectAll);
-
-  const handleFirstnameChange = (event) =>
-    dispatch(firstnameChange(event.target.value));
-  const handleLastnameChange = (event) =>
-    dispatch(lastnameChange(event.target.value));
   return (
     <Grid
       className={classes.root}
@@ -29,7 +21,6 @@ const UsersPersonalData = () => {
       <TextField
         onChange={handleFirstnameChange}
         placeholder="firstname"
-        inputProps={{ "data-testid": "firstname" }}
         value={firstname}
         type="name"
         label="firstname"
