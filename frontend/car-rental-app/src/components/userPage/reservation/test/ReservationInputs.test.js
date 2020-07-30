@@ -46,4 +46,38 @@ describe("Reservation test suite", () => {
     expect(testState.firstname).toEqual(passedFname);
     expect(testState.lastname).toEqual(passedLname);
   });
+
+  it("should handle value change", () => {
+    const passedDate = "02-10-2020";
+    const passedHour = "16-40";
+
+    const testState = { date: "", hour: "" };
+
+    const handleDateChange = (event) => {
+      testState.date = event.target.value;
+    };
+    const handleHourChange = (event) => {
+      testState.hour = event.target.value;
+    };
+
+    const wrapper = mount(
+      <ReservationDate
+        handleDateChange={handleDateChange}
+        handleHourChange={handleHourChange}
+      />
+    );
+
+    const dateInput = wrapper.find("input").at(0);
+    const hourInput = wrapper.find("input").at(1);
+
+    dateInput.simulate("change", {
+      target: { name: "value", value: passedDate },
+    });
+    hourInput.simulate("change", {
+      target: { name: "value", value: passedHour },
+    });
+
+    expect(testState.date).toEqual(passedDate);
+    expect(testState.hour).toEqual(passedHour);
+  });
 });
