@@ -12,8 +12,9 @@ RUN npm install && \
     npm install @material-ui/core && \
     npm install @material-ui/icons && \
     npm install react-redux && \
-    npm install @reduxjs/toolkit
-
+    npm install @reduxjs/toolkit && \
+    npm install axios
+    
 COPY . .
 
 RUN react-scripts build

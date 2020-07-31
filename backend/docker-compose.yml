@@ -24,8 +24,6 @@ services:
       - "8080:8080"
     depends_on:
       - postgresdb
-    volumes: 
-      - app:/path/to/custom/cache/dir
 
 # Frontend Application image
   web:
@@ -34,10 +32,6 @@ services:
     build: ../frontend/car-rental-app/
     ports:
       - "8000:5000"
-    volumes: 
-      - web:/app
 
 volumes:
   postgres: 
-  app:
-  web:
