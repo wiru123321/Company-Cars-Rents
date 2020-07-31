@@ -12,6 +12,7 @@ before_script:
    - ls
    - docker info
    - docker-compose --version
+   - cd backend
    - echo "preparation is done"
 
 test: 
