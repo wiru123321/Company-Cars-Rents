@@ -24,17 +24,6 @@ public class LoginApi{
     @RequestMapping(method = RequestMethod.POST, value = "/logIn")
     public String get(@RequestBody User userLoginInfo){
 
-
-/*
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication().withUser(User.builder()
-                .username("username")
-                .password(getPasswordEncoder().encode("password"))
-                .roles("Admin"));
-    }
-*/
-
         long currentTimeMillis = System.currentTimeMillis();
         byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary("F~ak%+G=VJb=sjr");
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
