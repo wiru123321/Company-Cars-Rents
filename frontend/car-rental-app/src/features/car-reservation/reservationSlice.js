@@ -1,4 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
+import {} from "../../services/LoginService";
+
+const API_URL = "http://localhost:8080/";
 
 const json = [
   {
@@ -103,5 +107,16 @@ export const selectCar = (state) =>
   state.reservation.cars[state.reservation.choosenCar];
 export const selectChoose = (state) => state.reservation.choose;
 export const selectIsChoosen = (state) => state.reservation.isChoosen;
+
+export const fetchCars = async (dispatch) => {
+  try {
+    const response = await axios.get(`${API_URL}+a/cars`, {
+      headers: {
+        Authorization: "Bearer" + "",
+      },
+    });
+    console.log(response.data);
+  } catch (error) {}
+};
 
 export default reservationSlice.reducer;

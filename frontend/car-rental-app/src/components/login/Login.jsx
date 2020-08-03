@@ -6,7 +6,8 @@ import {
 } from "../../styles/styles.style";
 import InputControl from "./InputControl";
 import Submit from "./Submit";
-
+import { useDispatch } from "react-redux";
+import { login } from "../../features/authentication/authSlice";
 const Error = ({ message }) => {
   // TODO: Make separate component when integrated with Api.
   return <div style={{ color: "red" }}> {message}</div>;
@@ -28,15 +29,18 @@ const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [validate, setValidate] = useState(false);
-
+  const dispatch = useDispatch();
   return (
     <form
       onSubmit={(event) => {
         event.preventDefault();
-        if (username && password) {
+        const user = { login: username, password: password };
+        dispatch(login(user));
+
+        /*if (username && password) {
           alert("logged in");
         }
-        setValidate(true);
+        setValidate(true);*/
       }}
     >
       <Container width="40vw" height="40vh" bgr="#0e153a" col round>

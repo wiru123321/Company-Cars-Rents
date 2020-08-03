@@ -3,17 +3,39 @@ import LoginPage from "./components/login/Login";
 import UserPage from "./components/userPage/UserPage";
 import AdminPage from "./components/adminPage/AdminPage";
 
-import { Route, Switch, HashRouter } from "react-router-dom";
+import {
+  Route,
+  Switch,
+  BrowserRouter as Router,
+  Redirect,
+} from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { selectLoggedInStatus } from "./features/authentication/authSlice";
+
+function PrivateRoute({ component: Component, role, ...rest }) {
+  return (
+    <Route
+      {...rest}
+      render={() =>
+        localStorage.getItem("role") === role ? (
+          <Component {...rest} />
+        ) : (
+          <Redirect to="/login" />
+        )
+      }
+    />
+  );
+}
 
 function App() {
   return (
-    <HashRouter basename="/">
+    <Router basename="/">
       <Switch>
-        <Route exact path="/" component={LoginPage} />
-        <Route path="/userPage" component={UserPage} />
-        <Route path="/adminPage" component={AdminPage} />
+        <Route exact path="/login" component={LoginPage} />
+        <PrivateRoute path="/adminPage" role="ADMIN" component={AdminPage} />
+        <PrivateRoute path="/userPage" role="EMPLOYEE" component={UserPage} />
       </Switch>
-    </HashRouter>
+    </Router>
   );
 }
 export default App;

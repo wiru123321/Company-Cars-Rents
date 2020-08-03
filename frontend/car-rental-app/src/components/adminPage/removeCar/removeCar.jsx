@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import CarInfo from "../../carsListing/CarInfo";
 import CarImage from "../../carsListing/CarImage";
 import CarControlPanel from "./CarControlPanel";
 import { Container, List, ListItem } from "@material-ui/core";
-
+import { fetchCars } from "../../../features/car-reservation/reservationSlice";
 // Temporary json, has to be removed when connected with Api.
 const json = [
   {
@@ -43,6 +43,10 @@ const json = [
 
 const RemoveCar = () => {
   const [cars, setCars] = useState(json);
+
+  useEffect(() => {
+    fetchCars();
+  }, []);
 
   return (
     <Container>
