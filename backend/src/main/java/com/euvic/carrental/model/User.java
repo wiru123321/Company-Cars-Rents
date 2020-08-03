@@ -40,7 +40,7 @@ public class User {
     public User() {
     }
 
-    public User(Long id, final UserDTO userDTO, final Role role) {
+    public User(final Long id, final UserDTO userDTO, final Role role) {
         this.id = id;
         this.login = userDTO.getLogin();
         this.password = userDTO.getPassword();
@@ -53,7 +53,8 @@ public class User {
         this.id = null;
     }
 
-    public User(final Long id, final String login, final String password, final String email, final String name, final String surname, final String phoneNumber, final Boolean isActive, final Role role) {
+    public User(final Long id, final String login, final String password, final String email, final String name, final String surname, final String phoneNumber
+            , final Boolean isActive, final Role role) {
         this.id = id;
         this.login = login;
         this.password = password;

@@ -19,4 +19,6 @@ public interface UserServiceInterface {
     UserDTO getDTOByLogin(String login);
 
     List<UserDTO> getAllDTOs();
+
+    boolean checkCrudentials(String given, String actual);
 }

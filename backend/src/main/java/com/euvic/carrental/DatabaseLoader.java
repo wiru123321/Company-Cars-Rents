@@ -5,6 +5,7 @@ import com.euvic.carrental.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.nio.file.Files;
@@ -30,6 +31,9 @@ public class DatabaseLoader implements CommandLineRunner {
     private final RoleRepository roleRepository;
     private final TypeRepository typeRepository;
     private final UserRepository userRepository;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @Value("${spring.datasource.username}")
     private String dataBase;
@@ -108,8 +112,8 @@ public class DatabaseLoader implements CommandLineRunner {
             //FOR SECURITY TESTS
             //Haslo powinno byc encodowane wraz ze stworzeniem konta encrypter (Bcrypter) / powinniśmy zadbać żeby hasło zostało bezpiecznie przesłane do backendu
             // login i password w bazie danych nie mogą się powtarzać
-            userRepository.save(new User(null, "admin123", "apassword123", "admin@email.com", "Jan", "Kowalski", "123456789", true, roleRepository.findByName("ADMIN")));
-            userRepository.save(new User(null, "user123", "upassword123", "user@email.com", "Andrzej", "Wywrot", "123456798", true, roleRepository.findByName("EMPLOYEE")));
+            userRepository.save(new User(null, "admin123", passwordEncoder.encode("apassword123"), "admin@email.com", "Jan", "Kowalski", "123456789", true, roleRepository.findByName("ADMIN")));
+            userRepository.save(new User(null, "user123", passwordEncoder.encode("upassword123"), "user@email.com", "Andrzej", "Wywrot", "123456798", true, roleRepository.findByName("EMPLOYEE")));
         }
     }
 }

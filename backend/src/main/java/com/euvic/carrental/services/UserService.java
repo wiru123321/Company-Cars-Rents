@@ -5,6 +5,7 @@ import com.euvic.carrental.repositories.UserRepository;
 import com.euvic.carrental.responses.UserDTO;
 import com.euvic.carrental.services.interfaces.UserServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -13,13 +14,20 @@ import java.util.List;
 @Service
 public class UserService implements UserServiceInterface {
 
-    final UserRepository userRepository;
-    final RoleService roleService;
+    final protected UserRepository userRepository;
+    final protected RoleService roleService;
+    final protected PasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    public UserService(final UserRepository userRepository, final RoleService roleService) {
+    public UserService(final UserRepository userRepository, final RoleService roleService, final PasswordEncoder bCryptPasswordEncoder) {
         this.userRepository = userRepository;
         this.roleService = roleService;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    }
+
+    @Override
+    public boolean checkCrudentials(final String given, final String actual) {
+        return bCryptPasswordEncoder.matches(given, actual);
     }
 
     @Override
@@ -61,7 +69,7 @@ public class UserService implements UserServiceInterface {
         userRepository.findAll().forEach(userArrayList::add);
 
         final ArrayList<UserDTO> userDTOArrayList = new ArrayList<>();
-        userArrayList.stream().forEach((user) -> {
+        userArrayList.forEach((user) -> {
             final UserDTO userDTO = new UserDTO(user, roleService.getDTOByRoleName(user.getRole().getName()));
             userDTOArrayList.add(userDTO);
         });
