@@ -1,7 +1,9 @@
 package com.euvic.carrental.services;
 
+import com.euvic.carrental.model.Model;
 import com.euvic.carrental.model.Parking;
 import com.euvic.carrental.repositories.ParkingRepository;
+import com.euvic.carrental.responses.ModelDTO;
 import com.euvic.carrental.responses.ParkingDTO;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -96,5 +98,26 @@ public class ParkingServiceTest {
         assertEquals(0, parkingRepository.count());
         parkingService.addEntityToDB(parking);
         assertEquals(1, parkingRepository.count());
+    }
+
+    @Test
+    void whenParkingDTOGiven_shouldUpdateExistingDBParking() {
+        final Parking parking = new Parking(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
+
+        final ParkingDTO parkingDTO = new ParkingDTO("Chorzow", "40-321", "Jakas 23", "E-1", "Parking przy Tesco", true);
+        assertEquals(0, parkingRepository.count());
+        Long parkingId = parkingService.addEntityToDB(parking);
+        assertEquals(1, parkingRepository.count());
+        parkingService.updateParkingInDb(parkingId, parkingDTO);
+        final Parking updatedParking = parkingService.getEntityById(parkingId);
+        assertAll(()->{
+            assertEquals(1, parkingRepository.count());
+            assertEquals("Chorzow", updatedParking.getTown());
+            assertEquals("40-321", updatedParking.getPostalCode());
+            assertEquals("Jakas 23", updatedParking.getStreetName());
+            assertEquals("E-1", updatedParking.getNumber());
+            assertEquals("Parking przy Tesco", updatedParking.getComment());
+            assertTrue(updatedParking.getIsActive());
+        });
     }
 }

@@ -6,7 +6,7 @@ import com.euvic.carrental.responses.CarDTO;
 import java.util.List;
 
 public interface CarServiceInterface {
-    Car mapRestModel(Long id, CarDTO carDTO, Long parkingId);
+    Car mapRestModel(Long id, CarDTO carDTO, Long parkingId, Long modelId);
 
     Car getEntityByLicensePlate(String licensePlate);
 
@@ -15,4 +15,6 @@ public interface CarServiceInterface {
     List<CarDTO> getAllDTOs();
 
     Long addEntityToDB(Car car);
+
+    Long updateCarInDB(String oldCarLicensePlate, CarDTO newCarDTO);
 }

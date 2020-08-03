@@ -34,10 +34,10 @@ public class CarService implements CarServiceInterface {
     }
 
     @Override
-    public Car mapRestModel(final Long id, final CarDTO carDTO, final Long parkingId) {
+    public Car mapRestModel(final Long id, final CarDTO carDTO, final Long parkingId, final Long modelId) {
         return new Car(id, carDTO, gearboxTypeService.getEntityByName(carDTO.getGearBoxTypeDTO().getName()),
                 fuelTypeService.getEntityByName(carDTO.getFuelTypeDTO().getName()),
-                modelService.getEntityByName(carDTO.getModelDTO().getName()),
+                modelService.getEntityById(modelId),
                 parkingService.getEntityById(parkingId),
                 colourService.getEntityByName(carDTO.getColourDTO().getName()),
                 typeService.getEntityByName(carDTO.getTypeDTO().getName()));
@@ -58,7 +58,7 @@ public class CarService implements CarServiceInterface {
         final Colour colour = car.getColour();
         final Type type = car.getType();
         return new CarDTO(car, gearboxTypeService.getDTOByName(gearboxType.getName()), fuelTypeService.getDTOByName(fuelType.getName())
-                , modelService.getDTOByName(model.getName()), parkingService.getDTOById(car.getParking().getId())
+                , modelService.getDTOByName(model.getName()), parkingService.getDTOById(parking.getId())
                 , colourService.getDTOByName(colour.getName()), typeService.getDTOByName(type.getName()));
     }
 
@@ -81,5 +81,30 @@ public class CarService implements CarServiceInterface {
     @Override
     public Long addEntityToDB(final Car car) {
         return carRepository.save(car).getId();
+    }
+
+    @Override
+    public Long updateCarInDB(final String oldCarLicensePlate, final CarDTO newCarDTO) {
+        Car oldCar = getEntityByLicensePlate(oldCarLicensePlate);
+
+        oldCar.setPhotoInFolderName(newCarDTO.getPhotoInFolderName());
+        oldCar.setLicensePlate(newCarDTO.getLicensePlate());
+        oldCar.setEnginePower(newCarDTO.getEnginePower());
+        oldCar.setCapacityOfTrunkScale(newCarDTO.getCapacityOfTrunkScale());
+        oldCar.setCapacityOfPeople(newCarDTO.getCapacityOfPeople());
+        oldCar.setDoorsNumber(newCarDTO.getDoorsNumber());
+        oldCar.setGearboxType(gearboxTypeService.getEntityByName(newCarDTO.getGearBoxTypeDTO().getName()));
+        oldCar.setFuelType(fuelTypeService.getEntityByName(newCarDTO.getFuelTypeDTO().getName()));
+        oldCar.setLastInspection(newCarDTO.getLastInspection());
+        oldCar.setProductionYear(newCarDTO.getProductionYear());
+        oldCar.setIsActive(newCarDTO.getIsActive());
+        oldCar.setIsOnCompany(newCarDTO.getIsOnCompany());
+        oldCar.setMileage(newCarDTO.getMileage());
+        oldCar.setColour(colourService.getEntityByName(newCarDTO.getColourDTO().getName()));
+        oldCar.setType(typeService.getEntityByName(newCarDTO.getTypeDTO().getName()));
+        parkingService.updateParkingInDb(oldCar.getParking().getId(), newCarDTO.getParkingDTO());
+        modelService.updateModelInDb(oldCar.getModel().getId(), newCarDTO.getModelDTO());
+
+        return carRepository.save(oldCar).getId();
     }
 }

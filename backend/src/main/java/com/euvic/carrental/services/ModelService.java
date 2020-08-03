@@ -6,6 +6,7 @@ import com.euvic.carrental.repositories.ModelRepository;
 import com.euvic.carrental.responses.MarkDTO;
 import com.euvic.carrental.responses.ModelDTO;
 import com.euvic.carrental.services.interfaces.ModelServiceInterface;
+import org.dom4j.rule.Mode;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -32,6 +33,12 @@ public class ModelService implements ModelServiceInterface {
         return modelRepository.findByName(name);
     }
 
+
+    @Override
+    public Model getEntityById(final Long id) {
+        return modelRepository.findById(id).get();
+    }
+
     @Override
     public ModelDTO getDTOByName(final String name) {
         final Model model = modelRepository.findByName(name);
@@ -41,6 +48,13 @@ public class ModelService implements ModelServiceInterface {
 
     @Override
     public Long addEntityToDB(final Model model) {
+        List<Model> modelList = modelRepository.findAllByName(model.getName());
+
+        for(Model m : modelList){
+            if(model.getMark().getName() == m.getMark().getName()){
+                return m.getId();
+            }
+        }
         return modelRepository.save(model).getId();
     }
 
@@ -56,5 +70,11 @@ public class ModelService implements ModelServiceInterface {
         });
 
         return modelDTOList;
+    }
+
+    @Override
+    public void updateModelInDb(Long oldModelId, ModelDTO newModelDTO) {
+        Model updatedModel = mapRestModel(oldModelId, newModelDTO);
+        modelRepository.save(updatedModel);
     }
 }

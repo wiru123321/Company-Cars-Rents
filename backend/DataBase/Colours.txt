@@ -73,3 +73,6 @@ tomato
 violet
 white
 yellow
+Red
+Blue
+Green

@@ -81,14 +81,6 @@ public class CarServiceTest {
         markRepository.save(mark2);
         markRepository.save(mark3);
 
-        final Model model1 = new Model(null, "C350", markService.getEntityByName("Audi"));
-        final Model model2 = new Model(null, "Astra", markService.getEntityByName("Opel"));
-        final Model model3 = new Model(null, "M5", markService.getEntityByName("BMW"));
-
-        modelRepository.save(model1);
-        modelRepository.save(model2);
-        modelRepository.save(model3);
-
         final Colour colour1 = new Colour(null, "Red");
         final Colour colour2 = new Colour(null, "Blue");
         final Colour colour3 = new Colour(null, "Green");
@@ -120,6 +112,14 @@ public class CarServiceTest {
 
     @Test
     void whenCarDTOGiven_thenReturnCarEntity() {
+        final Model model1 = new Model(null, "C350", markService.getEntityByName("Audi"));
+        final Model model2 = new Model(null, "Astra", markService.getEntityByName("Opel"));
+        final Model model3 = new Model(null, "M5", markService.getEntityByName("BMW"));
+
+        Long modelId1 = modelService.addEntityToDB(model1);
+        Long modelId2 = modelService.addEntityToDB(model2);
+        Long modelId3 = modelService.addEntityToDB(model3);
+
         final Parking parking1 = new Parking(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
 
         final Long parkingId1 = parkingService.addEntityToDB(parking1);
@@ -133,7 +133,7 @@ public class CarServiceTest {
                 gearboxTypeService.getDTOByName("Automatic"), fuelTypeService.getDTOByName("Gasoline"),
                 LocalDateTime.of(2000, 3, 25, 0, 0), 1990, true, true, 200000, modelService.getDTOByName("C350"),
                 parkingService.getDTOById(parkingId1), colourService.getDTOByName("Red"), typeService.getDTOByName("Sedan"));
-        final Car restModelToEntityModel = carService.mapRestModel(null, carDTO, parkingId1);
+        final Car restModelToEntityModel = carService.mapRestModel(null, carDTO, parkingId1, modelId1);
         assertAll(() -> {
             assertEquals(restModelToEntityModel.getId(), car.getId());
             assertEquals(restModelToEntityModel.getPhotoInFolderName(), car.getPhotoInFolderName());
@@ -158,6 +158,14 @@ public class CarServiceTest {
 
     @Test
     void shouldReturnDBCarEntity() {
+        final Model model1 = new Model(null, "C350", markService.getEntityByName("Audi"));
+        final Model model2 = new Model(null, "Astra", markService.getEntityByName("Opel"));
+        final Model model3 = new Model(null, "M5", markService.getEntityByName("BMW"));
+
+        Long modelId1 = modelService.addEntityToDB(model1);
+        Long modelId2 = modelService.addEntityToDB(model2);
+        Long modelId3 = modelService.addEntityToDB(model3);
+
         final Parking parking1 = new Parking(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
 
         final Long parkingId1 = parkingService.addEntityToDB(parking1);
@@ -196,6 +204,14 @@ public class CarServiceTest {
 
     @Test
     void shouldReturnDBCarDTO() {
+        final Model model1 = new Model(null, "C350", markService.getEntityByName("Audi"));
+        final Model model2 = new Model(null, "Astra", markService.getEntityByName("Opel"));
+        final Model model3 = new Model(null, "M5", markService.getEntityByName("BMW"));
+
+        Long modelId1 = modelService.addEntityToDB(model1);
+        Long modelId2 = modelService.addEntityToDB(model2);
+        Long modelId3 = modelService.addEntityToDB(model3);
+
         final Parking parking1 = new Parking(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
 
         final Long parkingId1 = parkingService.addEntityToDB(parking1);
@@ -234,6 +250,15 @@ public class CarServiceTest {
 
     @Test
     void shouldReturnAllDBCarsDTO() {
+            final Model model1 = new Model(null, "C350", markService.getEntityByName("Audi"));
+        final Model model2 = new Model(null, "Astra", markService.getEntityByName("Opel"));
+        final Model model3 = new Model(null, "M5", markService.getEntityByName("BMW"));
+
+        Long modelId1 = modelService.addEntityToDB(model1);
+        Long modelId2 = modelService.addEntityToDB(model2);
+        Long modelId3 = modelService.addEntityToDB(model3);
+
+
         final Parking parking1 = new Parking(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
         final Parking parking2 = new Parking(null, "Radom", "40-222", "Jaka 32", "A-8", "Parking przy sklepie Tesco", true);
         final Parking parking3 = new Parking(null, "Kielce", "40-623", "Weteranow 54", "B-4", "Parking przy dworcu", true);
@@ -271,6 +296,15 @@ public class CarServiceTest {
 
     @Test
     void whenCarEntityGiven_shouldAddCarEntityToDB() {
+        final Model model1 = new Model(null, "C350", markService.getEntityByName("Audi"));
+        final Model model2 = new Model(null, "Astra", markService.getEntityByName("Opel"));
+        final Model model3 = new Model(null, "M5", markService.getEntityByName("BMW"));
+
+        Long modelId1 = modelService.addEntityToDB(model1);
+        Long modelId2 = modelService.addEntityToDB(model2);
+        Long modelId3 = modelService.addEntityToDB(model3);
+
+
         final Parking parking = new Parking(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
 
         final Long parkingId = parkingService.addEntityToDB(parking);
@@ -283,5 +317,58 @@ public class CarServiceTest {
         assertEquals(0, carRepository.count());
         carService.addEntityToDB(car);
         assertEquals(1, carRepository.count());
+    }
+
+    @Test
+    void whenCarDTOGiven_shouldUpdateExistingDBCar() {
+        final Model model1 = new Model(null, "C350", markService.getEntityByName("Audi"));
+        final Model model2 = new Model(null, "Astra", markService.getEntityByName("Opel"));
+        final Model model3 = new Model(null, "M5", markService.getEntityByName("BMW"));
+
+        Long modelId1 = modelService.addEntityToDB(model1);
+        Long modelId2 = modelService.addEntityToDB(model2);
+        Long modelId3 = modelService.addEntityToDB(model3);
+
+
+        final Parking parking1 = new Parking(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
+        final Parking parking2 = new Parking(null, "Chorzow", "40-201", "Bydgoska 30", "A-8", "Parking przy Biedronce", true);
+
+        final Long parkingId1 = parkingService.addEntityToDB(parking1);
+        final Long parkingId2 = parkingService.addEntityToDB(parking2);
+
+        final Car car = new Car(null, "photoNr1", "WN101", 100, 4, 5, 5,
+                gearboxTypeService.getEntityByName("Automatic"), fuelTypeService.getEntityByName("Gasoline"),
+                LocalDateTime.of(2000, 3, 25, 0, 0), 1990, true, true, 200000, modelService.getEntityByName("C350"),
+                parkingService.getEntityById(parkingId1), colourService.getEntityByName("Red"), typeService.getEntityByName("Sedan"));
+
+        final CarDTO carDTO = new CarDTO("photoNr5", "WN122", 122, 5, 6, 7,
+                gearboxTypeService.getDTOByName("Manual"), fuelTypeService.getDTOByName("Petrol"),
+                LocalDateTime.of(2020, 3, 25, 0, 0), 2000, true, true, 203230, modelService.getDTOByName("Astra"),
+                parkingService.getDTOById(parkingId2), colourService.getDTOByName("Blue"), typeService.getDTOByName("Coupe"));
+
+        assertEquals(0, carRepository.count());
+        Long carId = carService.addEntityToDB(car);
+        assertEquals(1, carRepository.count());
+        carService.updateCarInDB(car.getLicensePlate(), carDTO);
+        final Car updatedCar = carService.getEntityByLicensePlate("WN122");
+        assertAll(()->{
+            assertEquals(1, carRepository.count());
+            assertEquals("photoNr5", updatedCar.getPhotoInFolderName());
+            assertEquals("WN122", updatedCar.getLicensePlate());
+            assertEquals(122, updatedCar.getEnginePower());
+            assertEquals(5, updatedCar.getCapacityOfTrunkScale());
+            assertEquals(6, updatedCar.getCapacityOfPeople());
+            assertEquals(7, updatedCar.getDoorsNumber());
+            assertEquals("Manual", updatedCar.getGearboxType().getName());
+            assertEquals("Petrol", updatedCar.getFuelType().getName());
+            assertEquals(LocalDateTime.of(2020, 3, 25, 0, 0), updatedCar.getLastInspection());
+            assertEquals(2000, updatedCar.getProductionYear());
+            assertEquals(true, updatedCar.getIsActive());
+            assertEquals(203230, updatedCar.getMileage());
+            assertEquals(new Model(modelId1, "Astra", markService.getEntityByName("Opel")), updatedCar.getModel());
+            assertEquals(new Parking(parkingId1, "Chorzow", "40-201", "Bydgoska 30", "A-8", "Parking przy Biedronce", true), updatedCar.getParking());
+            assertEquals("Blue", updatedCar.getColour().getName());
+            assertEquals("Coupe", updatedCar.getType().getName());
+        });
     }
 }

@@ -59,4 +59,9 @@ public class ParkingService implements ParkingServiceInterface {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public void updateParkingInDb(Long oldParkingId, ParkingDTO newParkingDTO) {
+        Parking updatedParking = mapRestModel(oldParkingId, newParkingDTO);
+        parkingRepository.save(updatedParking);
+    }
 }

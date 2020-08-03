@@ -111,10 +111,29 @@ public class ModelServiceTest {
     }
 
     @Test
-    void whenModelEntityGiven_shouldAddModelEntityToDB() {
-        final Model model = new Model(null, "C350", markService.getEntityByName("Audi"));
+    void whenModelEntityGiven_shouldAddModelEntityToDB_And_ShouldNotAddDuplicate() {
+        final Model model1 = new Model(null, "C350", markService.getEntityByName("Audi"));
+        final Model model2 = new Model(null, "C350", markService.getEntityByName("Audi"));
         assertEquals(0, modelRepository.count());
-        modelService.addEntityToDB(model);
+        modelService.addEntityToDB(model1);
         assertEquals(1, modelRepository.count());
+        modelService.addEntityToDB(model2);
+        assertEquals(1, modelRepository.count());
+    }
+
+    @Test
+    void whenModelDTOGiven_shouldUpdateExistingDBModel() {
+        final Model model = new Model(null, "C350", markService.getEntityByName("Audi"));
+        final ModelDTO modelDTO = new ModelDTO("M5", markService.getDTOByName("BMW"));
+        assertEquals(0, modelRepository.count());
+        Long modelId = modelService.addEntityToDB(model);
+        assertEquals(1, modelRepository.count());
+        modelService.updateModelInDb(modelId, modelDTO);
+        final Model updatedModel = modelService.getEntityById(modelId);
+        assertAll(()->{
+            assertEquals(1, modelRepository.count());
+            assertEquals("M5", updatedModel.getName());
+            assertEquals("BMW", updatedModel.getMark().getName());
+        });
     }
 }
