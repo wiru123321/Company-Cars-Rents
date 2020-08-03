@@ -1,5 +1,6 @@
 import React from "react";
 import { Navbar, Nav, NavDropdown } from "react-bootstrap";
+import { logout } from "../../services/LoginService";
 import "./UserNavbar.css";
 
 const UserNavbar = () => {
@@ -48,6 +49,13 @@ const UserNavbar = () => {
               </NavDropdown.Item>
               <NavDropdown.Divider />
             </NavDropdown>
+            <Nav.Link
+              href="/login"
+              onClick={logout}
+              style={{ color: "red", fontSize: "25px" }}
+            >
+              Logout
+            </Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Navbar>

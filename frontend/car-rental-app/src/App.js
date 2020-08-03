@@ -2,15 +2,12 @@ import React from "react";
 import LoginPage from "./components/login/Login";
 import UserPage from "./components/userPage/UserPage";
 import AdminPage from "./components/adminPage/AdminPage";
-
 import {
   Route,
   Switch,
   BrowserRouter as Router,
   Redirect,
 } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { selectLoggedInStatus } from "./features/authentication/authSlice";
 
 function PrivateRoute({ component: Component, role, ...rest }) {
   return (

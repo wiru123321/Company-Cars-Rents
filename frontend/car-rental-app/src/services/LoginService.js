@@ -9,6 +9,11 @@ export const handleLogin = ({ login, password }) => {
   });
 };
 
+export const logout = () => {
+  localStorage.removeItem("token");
+  localStorage.removeItem("role");
+};
+
 const saveToken = (token) => {
   localStorage.setItem("token", token);
 };

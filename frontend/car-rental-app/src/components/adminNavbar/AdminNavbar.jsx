@@ -3,6 +3,7 @@ import RequestsPopover from "../adminPage/rentRequestsPopover/RequestsPopover";
 import { Navbar, Nav, NavDropdown } from "react-bootstrap";
 import "../userNavbar/UserNavbar.css";
 import RequestsNavLink from "../adminPage/rentRequestsPopover/RequestsNavLink";
+import { logout } from "../../services/LoginService";
 
 const AdminNavbar = () => {
   return (
@@ -57,6 +58,13 @@ const AdminNavbar = () => {
               style={{ color: "#f3f169", fontSize: "25px" }}
             >
               Parking
+            </Nav.Link>
+            <Nav.Link
+              href="/login"
+              onClick={logout}
+              style={{ color: "red", fontSize: "25px" }}
+            >
+              Logout
             </Nav.Link>
           </Nav>
         </Navbar.Collapse>
