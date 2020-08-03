@@ -2,6 +2,7 @@ package com.euvic.carrental;
 
 import com.euvic.carrental.model.*;
 import com.euvic.carrental.repositories.*;
+import com.euvic.carrental.services.GearboxTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
@@ -45,7 +46,7 @@ public class DatabaseLoader implements CommandLineRunner {
                           final RentHistoryRepository rentHistoryRepository, final RentRepository rentRepository,
                           final RoleRepository roleRepository, final TypeRepository typeRepository,
                           final UserRepository userRepository, final GearboxTypeRepository gearboxTypeRepository,
-                          final FuelTypeRepository fuelTypeRepository, final ParkingHistoryRepository parkingHistoryRepository) {
+                          final FuelTypeRepository fuelTypeRepository, final ParkingHistoryRepository parkingHistoryRepository, final GearboxTypeService gearboxTypeService) {
         this.carRepository = carRepository;
         this.colourRepository = colourRepository;
         this.faultRepository = faultRepository;
@@ -112,8 +113,10 @@ public class DatabaseLoader implements CommandLineRunner {
             //FOR SECURITY TESTS
             //Haslo powinno byc encodowane wraz ze stworzeniem konta encrypter (Bcrypter) / powinniśmy zadbać żeby hasło zostało bezpiecznie przesłane do backendu
             // login i password w bazie danych nie mogą się powtarzać
-            userRepository.save(new User(null, "admin123", passwordEncoder.encode("apassword123"), "admin@email.com", "Jan", "Kowalski", "123456789", true, roleRepository.findByName("ADMIN")));
-            userRepository.save(new User(null, "user123", passwordEncoder.encode("upassword123"), "user@email.com", "Andrzej", "Wywrot", "123456798", true, roleRepository.findByName("EMPLOYEE")));
+            userRepository.save(new User(null, "admin123", passwordEncoder.encode("apassword123"), "admin@email.com", "Jan"
+                    , "Kowalski", "123456789", true, roleRepository.findByName("ADMIN")));
+            userRepository.save(new User(null, "user123", passwordEncoder.encode("upassword123"), "user@email.com", "Andrzej"
+                    , "Wywrot", "123456798", true, roleRepository.findByName("EMPLOYEE")));
         }
     }
 }

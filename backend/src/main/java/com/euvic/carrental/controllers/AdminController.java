@@ -6,6 +6,8 @@ import com.euvic.carrental.model.Parking;
 import com.euvic.carrental.responses.*;
 import com.euvic.carrental.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,8 +32,8 @@ public class AdminController {
     private RoleService roleService;
     @Autowired
     private TypeService typeService;
-
-
+    @Autowired
+    private UserService userService;
     @Autowired
     private ParkingService parkingService;
     @Autowired
@@ -42,8 +44,13 @@ public class AdminController {
         return "Hello admin";
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/info")
+    ResponseEntity<?> returnAdmin() {
+        return ResponseEntity.ok(new UserInfoDTO(userService.getDTOByLogin(SecurityContextHolder.getContext().getAuthentication().getName())));
+    }
+
     //TODO
-    @RequestMapping(method = RequestMethod.POST, value = "/car")
+    @RequestMapping(method = RequestMethod.POST, value = "/addCar")
     public Long addCarToDatabase(@RequestBody final CarDTO carDTO) {
         //operacje zmienające obiekty DTO na Encje
         //dodawanie niezbędnych informacji do bazy danych

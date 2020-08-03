@@ -11,6 +11,7 @@ public class UserInfoDTO {
     private String name;
     private String surname;
     private String phoneNumber;
+    private String role;
 
     public UserInfoDTO() {
     }
@@ -21,6 +22,7 @@ public class UserInfoDTO {
         this.name = user.getName();
         this.surname = user.getSurname();
         this.phoneNumber = user.getPhoneNumber();
+        this.role = user.getRole().getName();
     }
 
     public UserInfoDTO(final UserDTO user) {
@@ -29,5 +31,6 @@ public class UserInfoDTO {
         this.name = user.getName();
         this.surname = user.getSurname();
         this.phoneNumber = user.getPhoneNumber();
+        this.role = user.getRoleDTO().getName();
     }
 }

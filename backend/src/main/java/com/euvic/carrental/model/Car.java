@@ -67,7 +67,9 @@ public class Car {
     public Car() {
     }
 
-    public Car(final Long id, final String photoInFolderName, final String licensePlate, final Integer enginePower, final Integer capacityOfTrunkScale, final Integer capacityOfPeople, final Integer doorsNumber, final GearboxType gearboxType, final FuelType fuelType, final LocalDateTime lastInspection, final Integer productionYear, final Boolean isActive, final Boolean isOnCompany, final Integer mileage, final Model model, final Parking parking, final Colour colour, final Type type) {
+    public Car(final Long id, final String photoInFolderName, final String licensePlate, final Integer enginePower, final Integer capacityOfTrunkScale, final Integer capacityOfPeople
+            , final Integer doorsNumber, final GearboxType gearboxType, final FuelType fuelType, final LocalDateTime lastInspection, final Integer productionYear, final Boolean isActive
+            , final Boolean isOnCompany, final Integer mileage, final Model model, final Parking parking, final Colour colour, final Type type) {
         this.id = id;
         this.photoInFolderName = photoInFolderName;
         this.licensePlate = licensePlate;
