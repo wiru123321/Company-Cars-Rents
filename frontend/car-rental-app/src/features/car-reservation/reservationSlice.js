@@ -110,13 +110,27 @@ export const selectIsChoosen = (state) => state.reservation.isChoosen;
 
 export const fetchCars = async (dispatch) => {
   try {
-    const response = await axios.get(`${API_URL}+a/cars`, {
+    const response = await axios.get(API_URL + "a/cars", {
       headers: {
-        Authorization: "Bearer" + "",
+        Authorization: "Bearer " + localStorage.getItem("token"),
       },
     });
     console.log(response.data);
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 };
 
+export const fetchMarks = async (dispatch) => {
+  try {
+    const response = await axios.get(API_URL + "a/marks", {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
+    console.log(response.data);
+  } catch (error) {
+    console.log(error);
+  }
+};
 export default reservationSlice.reducer;
