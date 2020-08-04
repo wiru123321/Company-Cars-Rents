@@ -31,7 +31,6 @@ public class FileController {
         } catch (final IOException ex) {
             return new ResponseEntity<>("Image is not uploaded", HttpStatus.BAD_REQUEST);
         }
-
     }
 
     private void makeDirectoryIfNotExist(final String imageDirectory) {
