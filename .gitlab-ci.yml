@@ -1,33 +1,18 @@
-image: docker/compose:latest
-
-services:
-   - docker:dind
-
 stages:
    - test
    - build
    - deploy
 
-before_script:
-   - ls
-   - docker info
-   - docker-compose --version
-   - cd backend
-   - echo "preparation is done"
-
 test: 
     script:
         - echo "Here goes test"
+#        - gradle test
 
 build_develop:
    script:
-
-      - echo "We are here"
-
-      - docker-compose down
-
       - docker-compose build
 
 deploy_develop:
    script:
-      - echo "docker-compose up"
+      - docker-compose down
+      - docker-compose up -d
