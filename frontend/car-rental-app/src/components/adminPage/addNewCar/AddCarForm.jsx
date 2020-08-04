@@ -51,13 +51,13 @@ export const AddCarForm = ({
       </Box>
       <Box display="flex" justifyContent="center" style={{ height: "10vh" }}>
         <Box>
-          <TextField label="Brand" onChange={() => handleBrandChange} />
+          <TextField label="Brand" onChange={handleBrandChange} />
         </Box>
         <Box>
           <TextField
             label="Type"
             style={{ marginLeft: "10%" }}
-            onChange={() => handletypeChange}
+            onChange={handletypeChange}
           />
         </Box>
       </Box>
@@ -65,69 +65,66 @@ export const AddCarForm = ({
         <Box>
           <TextField
             label="Licence Plate"
-            onChange={() => handlelicencePlateChange}
+            onChange={handlelicencePlateChange}
           />
         </Box>
         <Box>
           <TextField
             label="Fuel Type"
             style={{ marginLeft: "10%" }}
-            onChange={() => handlefuelTypeChange}
+            onChange={handlefuelTypeChange}
           />
         </Box>
       </Box>
       <Box display="flex" justifyContent="center" style={{ height: "10vh" }}>
         <Box>
-          <TextField label="Year" onChange={() => handleyearChange} />
+          <TextField label="Year" onChange={handleyearChange} />
         </Box>
         <Box>
           <TextField
             label="Mileage"
             style={{ marginLeft: "10%" }}
-            onChange={() => handleyearChange}
+            onChange={handleyearChange}
           />
         </Box>
         <Box>
           <TextField
             label="HP"
             style={{ marginLeft: "10%" }}
-            onChange={() => handlehpChange}
+            onChange={handlehpChange}
           />
         </Box>
         <Box>
           <TextField
             label="People Capacity"
             style={{ marginLeft: "10%" }}
-            onChange={() => handlepeopleCapacityChange}
+            onChange={handlepeopleCapacityChange}
           />
         </Box>
       </Box>
       <Box display="flex" justifyContent="center">
         <Box>
-          <TextField
-            label="Doors Number"
-            onChange={() => handledoorsNumberChange}
-          />
+          <TextField label="Doors Number" onChange={handledoorsNumberChange} />
         </Box>
         <Box>
           <TextField
             label="Color"
             style={{ marginLeft: "10%" }}
-            onChange={() => handlecolorChange}
+            onChange={handlecolorChange}
           />
         </Box>
         <Box>
           <TextField
             label="Gearbox Type"
             style={{ marginLeft: "10%" }}
-            onChange={() => handlegearboxTypeChange}
+            onChange={handlegearboxTypeChange}
           />
         </Box>
         <Box>
           <TextField
             label="Trunk Capacity"
             style={{ marginLeft: "10%" }}
-            onChange={() => handletrunkCapacityChange}
+            onChange={handletrunkCapacityChange}
           />
         </Box>
       </Box>
@@ -152,7 +149,7 @@ export const AddCarButton = ({ handleimageUrlChange }) => {
           id="contained-button-file"
           multiple
           type="file"
-          onChange={() => handleimageUrlChange}
+          onChange={handleimageUrlChange}
         />
         <label htmlFor="contained-button-file">
           <Button variant="contained" color="primary" component="span">

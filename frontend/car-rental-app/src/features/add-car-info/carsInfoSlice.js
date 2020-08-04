@@ -22,7 +22,6 @@ export const carsInfoSlice = createSlice({
   reducers: {
     brandChange: (state, action) => {
       state.brand = action.payload;
-      console.log(state.brand);
     },
     typeChange: (state, action) => {
       state.type = action.payload;
