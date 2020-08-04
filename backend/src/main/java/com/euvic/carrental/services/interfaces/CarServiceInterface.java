@@ -17,4 +17,6 @@ public interface CarServiceInterface {
     Long addEntityToDB(Car car);
 
     Long updateCarInDB(String oldCarLicensePlate, CarDTO newCarDTO);
+
+    Long setCarIsNotInCompany(String licensePlate);
 }

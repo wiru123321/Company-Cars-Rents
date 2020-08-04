@@ -107,4 +107,10 @@ public class CarService implements CarServiceInterface {
 
         return carRepository.save(oldCar).getId();
     }
+
+    public Long setCarIsNotInCompany(String licensePlate) {
+        Car car = getEntityByLicensePlate(licensePlate);
+        car.setIsOnCompany(false);
+        return carRepository.save(car).getId();
+    }
 }

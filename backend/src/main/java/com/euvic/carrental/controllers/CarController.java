@@ -14,14 +14,17 @@ import java.util.List;
 @RequestMapping(value = "/a")
 public class CarController {
     @Autowired private CarService carService;
-
-
     @Autowired private ParkingService parkingService;
     @Autowired private ModelService modelService;
 
     @RequestMapping(method = RequestMethod.GET,value = "/hello")
     public String sayHelloAdmin(){
         return "Hello admin";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/cars")
+    public List<CarDTO> getAllCars(){
+        return carService.getAllDTOs();
     }
 
     @RequestMapping(method = RequestMethod.POST,value = "/car")
@@ -40,8 +43,8 @@ public class CarController {
         return carService.updateCarInDB(licensePlate, newCarDTO);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/cars")
-    public List<CarDTO> getAllCars(){
-        return carService.getAllDTOs();
+    @RequestMapping(method = RequestMethod.DELETE, value = "/car/{licensePlate}")
+    public Long setCarAsDeletedInDB(@PathVariable String licensePlate){
+        return carService.setCarIsNotInCompany(licensePlate);
     }
 }

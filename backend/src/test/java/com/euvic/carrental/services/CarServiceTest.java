@@ -371,4 +371,33 @@ public class CarServiceTest {
             assertEquals("Coupe", updatedCar.getType().getName());
         });
     }
+
+    @Test
+    void whenCarLicensePlateGiven_shouldSetCarIsNotInCompany(){
+        final Model model1 = new Model(null, "C350", markService.getEntityByName("Audi"));
+        final Model model2 = new Model(null, "Astra", markService.getEntityByName("Opel"));
+        final Model model3 = new Model(null, "M5", markService.getEntityByName("BMW"));
+
+        Long modelId1 = modelService.addEntityToDB(model1);
+        Long modelId2 = modelService.addEntityToDB(model2);
+        Long modelId3 = modelService.addEntityToDB(model3);
+
+
+        final Parking parking = new Parking(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
+
+        final Long parkingId = parkingService.addEntityToDB(parking);
+
+        final Car car = new Car(null, "photoNr1", "WN101", 100, 4, 5, 5,
+                gearboxTypeService.getEntityByName("Automatic"), fuelTypeService.getEntityByName("Gasoline"),
+                LocalDateTime.of(2000, 3, 25, 0, 0), 1990, true, true, 200000, modelService.getEntityByName("C350"),
+                parkingService.getEntityById(parkingId), colourService.getEntityByName("Red"), typeService.getEntityByName("Sedan"));
+
+        assertEquals(0, carRepository.count());
+        carService.addEntityToDB(car);
+        assertEquals(1, carRepository.count());
+        assertTrue(car.getIsOnCompany());
+        carService.setCarIsNotInCompany(car.getLicensePlate());
+        Car updatedCar = carService.getEntityByLicensePlate(car.getLicensePlate());
+        assertFalse(updatedCar.getIsOnCompany());
+    }
 }
