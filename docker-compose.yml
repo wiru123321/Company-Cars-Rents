@@ -4,7 +4,7 @@ services:
   postgresdb:
     container_name: dbpostgres
     image: postgres
-    build: ../postgres/
+    build: ./postgres/
     #12.2
     ports:
       - "5432:5432"
@@ -16,22 +16,22 @@ services:
       - postgres:/var/lib/postgresql/data
 
 # Backend Application image
-  app:
-    image: app 
-    container_name: app
-    build: .
+  backend:
+    image: backend 
+    container_name: backend
+    build: ./backend
     ports:
-      - "8080:8080"
+      - "30083:30083"
     depends_on:
       - postgresdb
 
 # Frontend Application image
-  web:
-    image: web
-    container_name: web
-    build: ../frontend/car-rental-app/
+  frontend:
+    image: frontend
+    container_name: frontend
+    build: ./frontend/car-rental-app/
     ports:
-      - "8000:5000"
+      - "30084:5000"
 
 volumes:
   postgres: 
