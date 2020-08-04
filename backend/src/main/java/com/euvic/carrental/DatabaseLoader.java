@@ -67,7 +67,7 @@ public class DatabaseLoader implements CommandLineRunner {
                           final MarkService markService, final ModelService modelService, final ParkingService parkingService,
                           final ParkingHistoryService parkingHistoryService, final RentHistoryService rentHistoryService,
                           final RentService rentService, final RoleService roleService, final TypeService typeService,
-                          final UserService userService) {
+                          final UserService userService, final  PasswordEncoder passwordEncoder) {
         this.carRepository = carRepository;
         this.colourRepository = colourRepository;
         this.faultRepository = faultRepository;
@@ -97,6 +97,8 @@ public class DatabaseLoader implements CommandLineRunner {
         this.roleService = roleService;
         this.typeService = typeService;
         this.userService = userService;
+
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
