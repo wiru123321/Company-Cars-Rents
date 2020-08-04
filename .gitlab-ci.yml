@@ -4,21 +4,18 @@ stages:
    - deploy
 
 test: 
-   stage:
-      -test
+   stage: test
    script:
       - echo "Here goes test"
 #     - gradle test
 
 build_develop:
-   stage:
-      -build
+   stage: build
    script:
       - docker-compose build
 
 deploy_develop:
-   stage:
-      -deploy
+   stage: deploy
    script:
       - docker-compose down
       - docker-compose up -d
