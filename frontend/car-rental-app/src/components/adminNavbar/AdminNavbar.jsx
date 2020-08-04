@@ -3,9 +3,11 @@ import RequestsPopover from "../adminPage/rentRequestsPopover/RequestsPopover";
 import { Navbar, Nav, NavDropdown } from "react-bootstrap";
 import "../userNavbar/UserNavbar.css";
 import RequestsNavLink from "../adminPage/rentRequestsPopover/RequestsNavLink";
-import { logout } from "../../services/LoginService";
+import { logout } from "../../features/authentication/authSlice";
+import { useDispatch } from "react-redux";
 
 const AdminNavbar = () => {
+  const dispatch = useDispatch();
   return (
     <div>
       <Navbar
@@ -61,7 +63,7 @@ const AdminNavbar = () => {
             </Nav.Link>
             <Nav.Link
               href="/login"
-              onClick={logout}
+              onClick={() => dispatch(logout())}
               style={{ color: "red", fontSize: "25px" }}
             >
               Logout

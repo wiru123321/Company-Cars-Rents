@@ -1,9 +1,11 @@
 import React from "react";
 import { Navbar, Nav, NavDropdown } from "react-bootstrap";
-import { logout } from "../../services/LoginService";
+import { logout } from "../../features/authentication/authSlice";
+import { useDispatch } from "react-redux";
 import "./UserNavbar.css";
 
 const UserNavbar = () => {
+  const dispatch = useDispatch();
   return (
     <div>
       <Navbar
@@ -51,7 +53,7 @@ const UserNavbar = () => {
             </NavDropdown>
             <Nav.Link
               href="/login"
-              onClick={logout}
+              onClick={() => dispatch(logout())}
               style={{ color: "red", fontSize: "25px" }}
             >
               Logout
