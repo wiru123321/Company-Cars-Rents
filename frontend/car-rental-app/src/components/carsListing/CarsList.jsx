@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { List, ListItem, Box } from "@material-ui/core";
+
 import CarInfo from "./CarInfo";
 import CarImage from "./CarImage";
 // Temporary json, has to be removed when connected with Api.
@@ -41,6 +42,7 @@ const json = [
 
 const CarsList = () => {
   const [cars, setCars] = useState(json);
+
   return (
     <Box display="flex" justifyContent="center" alignItems="center">
       <List>
