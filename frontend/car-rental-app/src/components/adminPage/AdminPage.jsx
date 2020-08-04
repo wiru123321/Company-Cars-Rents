@@ -3,7 +3,7 @@ import { Route, Switch, HashRouter } from "react-router-dom";
 
 import UserNavbar from "../adminNavbar/AdminNavbar";
 import AddNewCar from "./addNewCar/AddNewCar";
-import RemoveCar from "./removeCar/RemoveCar";
+import RemoveCar from "./removeCar/removeCar";
 import AddEmployee from "./addEmployee/AddEmployee";
 import RemoveEmployer from "./removeEmployer/RemoveEmployer";
 import Parking from "./parking/Parking";

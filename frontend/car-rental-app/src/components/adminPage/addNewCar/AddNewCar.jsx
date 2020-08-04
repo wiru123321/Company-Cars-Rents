@@ -31,20 +31,46 @@ const AddNewCar = () => {
         <form style={{ width: "50vw", margin: "auto" }}>
           <div style={{ height: "5vh" }}></div>
           <AddCarForm
-            handleBrandChange={dispatch(brandChange())}
-            handletypeChange={dispatch(typeChange())}
-            handlelicencePlateChange={dispatch(licencePlateChange())}
-            handlefuelTypeChange={dispatch(fuelTypeChange())}
-            handleyearChange={dispatch(yearChange())}
-            handlemilageChange={dispatch(milageChange())}
-            handlehpChange={dispatch(hpChange())}
-            handlepeopleCapacityChange={dispatch(peopleCapacityChange())}
-            handledoorsNumberChange={dispatch(doorsNumberChange())}
-            handlecolorChange={dispatch(colorChange())}
-            handlegearboxTypeChange={dispatch(gearboxTypeChange())}
-            handletrunkCapacityChange={dispatch(trunkCapacityChange())}
+            handleBrandChange={(event) =>
+              dispatch(brandChange(event.target.value))
+            }
+            handletypeChange={(event) =>
+              dispatch(typeChange(event.target.value))
+            }
+            handlelicencePlateChange={(event) =>
+              dispatch(licencePlateChange(event.target.value))
+            }
+            handlefuelTypeChange={(event) =>
+              dispatch(fuelTypeChange(event.target.value))
+            }
+            handleyearChange={(event) =>
+              dispatch(yearChange(event.target.value))
+            }
+            handlemilageChange={(event) =>
+              dispatch(milageChange(event.target.value))
+            }
+            handlehpChange={(event) => dispatch(hpChange(event.target.value))}
+            handlepeopleCapacityChange={(event) =>
+              dispatch(peopleCapacityChange(event.target.value))
+            }
+            handledoorsNumberChange={(event) =>
+              dispatch(doorsNumberChange(event.target.value))
+            }
+            handlecolorChange={(event) =>
+              dispatch(colorChange(event.target.value))
+            }
+            handlegearboxTypeChange={(event) =>
+              dispatch(gearboxTypeChange(event.target.value))
+            }
+            handletrunkCapacityChange={(event) =>
+              dispatch(trunkCapacityChange(event.target.value))
+            }
           />
-          <AddCarButton handleimageUrlChange={dispatch(imageUrlChange())} />
+          <AddCarButton
+            handleimageUrlChange={(event) =>
+              dispatch(imageUrlChange(event.target.value))
+            }
+          />
         </form>
       </Typography>
     </Cointainer>
