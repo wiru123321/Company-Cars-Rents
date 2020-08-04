@@ -1,1 +1,0 @@
-INSERT INTO colours (name) Values ('Pink')

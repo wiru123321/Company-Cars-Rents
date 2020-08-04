@@ -1,9 +1,0 @@
-Sedan
-Coupe
-Station Wagon
-Convertible
-Sport Car
-Mini-van
-SUV
-Pickup Truck
-Van
