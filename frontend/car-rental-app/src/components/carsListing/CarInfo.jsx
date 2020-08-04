@@ -1,28 +1,42 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Container, List, ListItem, Link } from "@material-ui/core";
-
 const CarInfo = ({ car }) => {
-  const { mark, model, licensePlate, capacity, mileage, year, hp } = car;
+  const {
+    capacityOfPeople,
+    capacityOfTrunkScale,
+    doorsNumber,
+    licensePlate,
+    mileage,
+    modelDTO,
+    typeDTO,
+    enginePower,
+    productionYear,
+  } = car;
+  const { name, markDTO } = modelDTO;
+
   return (
     <Container>
       <h1 style={{ fontSize: "1.3rem" }}>
         <Link href="#">
-          {mark} {model}
+          {markDTO.name} {name}
         </Link>
       </h1>
       <h2>{licensePlate}</h2>
       <List>
         <ListItem>
-          <label>Year of production: {year}</label>
+          <label>Year of production: {productionYear}</label>
         </ListItem>
         <ListItem>
           <label>Mileage: {mileage}</label>
         </ListItem>
         <ListItem>
-          <label>Hp: {hp}</label>
+          <label>Hp: {enginePower}</label>
         </ListItem>
         <ListItem>
-          <label>Capacity: {capacity}</label>
+          <label>Capacity: {capacityOfPeople}</label>
+        </ListItem>
+        <ListItem>
+          <label>Type: {typeDTO.name}</label>
         </ListItem>
       </List>
     </Container>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import CarSuggestion from "./CarSuggestion";
 import useStyles from "./useStyles";
 import { Container, Grid, Button, Box } from "@material-ui/core";
@@ -11,11 +11,16 @@ import {
   beginHourChange,
   endDateChange,
   endHourChange,
+  fetchCars,
 } from "../../../features/car-reservation/reservationSlice";
 
 const Reservation = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    fetchCars(dispatch);
+  }, []);
 
   function handleFirstnameChange(event) {
     dispatch(firstnameChange(event.target.value));

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import CarImage from "../../carsListing/CarImage";
 import CarInfo from "../../carsListing/CarInfo";
 import { Grid, Button, Box, ListItem, List } from "@material-ui/core";
@@ -7,6 +7,7 @@ import {
   selectCars,
   chooseCar,
   toggleChoose,
+  fetchCars,
 } from "../../../features/car-reservation/reservationSlice";
 
 const CarsSelection = () => {
