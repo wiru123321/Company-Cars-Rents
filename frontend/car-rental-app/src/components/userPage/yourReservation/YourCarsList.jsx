@@ -8,6 +8,8 @@ import {
   chooseCar,
 } from "../../../features/your-cars/yourCarsSlice";
 
+// TODO Fetch users cars from api.
+
 const YourCarsList = () => {
   const dispatch = useDispatch();
   const cars = useSelector(selectCars);
@@ -19,8 +21,8 @@ const YourCarsList = () => {
           car.isEndOfRent ? (
             <ListItem key={car.src} style={{ backgroundColor: "#f56f42" }}>
               <Box display="flex">
-                <CarImage src={car.src} />
-                <CarInfo car={car} />
+                {/*<CarImage src={car.src} />
+                <CarInfo car={car} />*/}
               </Box>
               <Button
                 variant="outlined"
@@ -35,8 +37,8 @@ const YourCarsList = () => {
           ) : (
             <ListItem key={car.src}>
               <Box display="flex">
-                <CarImage src={car.src} />
-                <CarInfo car={car} />
+                {/*<CarImage src={car.src} />
+                <CarInfo car={car} />*/}
               </Box>
             </ListItem>
           )

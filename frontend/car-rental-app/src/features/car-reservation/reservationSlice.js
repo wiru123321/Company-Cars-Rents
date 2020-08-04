@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { useSelector } from "axios";
 import {} from "../../services/LoginService";
 
 const API_URL = "http://localhost:8080";
@@ -87,7 +88,6 @@ export const reservationSlice = createSlice({
     endHourChange: (state, action) => {
       state.reservationEndHour = action.payload;
     },
-
     setCars: (state, action) => {
       state.cars = action.payload;
     },
@@ -105,6 +105,7 @@ export const {
   endDateChange,
   endHourChange,
   setCars,
+  getCars,
 } = reservationSlice.actions;
 
 export const selectCars = (state) => state.reservation.cars;
@@ -113,30 +114,41 @@ export const selectCar = (state) =>
 export const selectChoose = (state) => state.reservation.choose;
 export const selectIsChoosen = (state) => state.reservation.isChoosen;
 
-export const fetchCars = async (dispatch) => {
+export const fetchCars = () => async (dispatch) => {
   try {
-    const response = await axios.get(API_URL + "/a/cars", {
+    const response = await axios.get(API_URL + "/ae/cars", {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     });
-    console.log(response.data);
     dispatch(setCars(response.data));
   } catch (error) {
     console.log(error);
   }
 };
 
-export const fetchMarks = async (dispatch) => {
+export const fetchMarks = () => async (dispatch) => {
   try {
-    const response = await axios.get(API_URL + "a/marks", {
+    const response = await axios.get(API_URL + "/ae/marks", {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     });
-    console.log(response.data);
   } catch (error) {
     console.log(error);
   }
 };
+
+export const deleteCar = (licensePlate) => async (dispatch) => {
+  try {
+    const response = await axios.delete(API_URL + `/a/car/${licensePlate}`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export default reservationSlice.reducer;
