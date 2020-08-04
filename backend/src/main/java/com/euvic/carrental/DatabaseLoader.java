@@ -6,6 +6,7 @@ import com.euvic.carrental.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.nio.file.Files;
@@ -47,6 +48,9 @@ public class DatabaseLoader implements CommandLineRunner {
     private final RoleService roleService;
     private final TypeService typeService;
     private final UserService userService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Value("${spring.datasource.username}")
     private String dataBase;
@@ -146,17 +150,17 @@ public class DatabaseLoader implements CommandLineRunner {
             //FOR SECURITY TESTS
             //Haslo powinno byc encodowane wraz ze stworzeniem konta encrypter (Bcrypter) / powinniśmy zadbać żeby hasło zostało bezpiecznie przesłane do backendu
             // login i password w bazie danych nie mogą się powtarzać
-            userRepository.save(new User(null, "admin123", "apassword123", "admin@email.com", "Jan", "Kowalski", "123456789", true, roleRepository.findByName("ADMIN")));
-            userRepository.save(new User(null, "user123", "upassword123", "user@email.com", "Andrzej", "Wywrot", "123456798", true, roleRepository.findByName("EMPLOYEE")));
+            userRepository.save(new User(null, "admin123", passwordEncoder.encode("apassword123"), "admin@email.com", "Jan", "Kowalski", "123456789", true, roleRepository.findByName("ADMIN")));
+            userRepository.save(new User(null, "user123", passwordEncoder.encode("upassword123"), "user@email.com", "Andrzej", "Wywrot", "123456798", true, roleRepository.findByName("EMPLOYEE")));
 
 
             final Model model1 = new Model(null, "C350", markService.getEntityByName("Audi"));
             final Model model2 = new Model(null, "Astra", markService.getEntityByName("Opel"));
             final Model model3 = new Model(null, "M5", markService.getEntityByName("BMW"));
 
-            Long modelId1 = modelService.addEntityToDB(model1);
-            Long modelId2 = modelService.addEntityToDB(model2);
-            Long modelId3 = modelService.addEntityToDB(model3);
+            final Long modelId1 = modelService.addEntityToDB(model1);
+            final Long modelId2 = modelService.addEntityToDB(model2);
+            final Long modelId3 = modelService.addEntityToDB(model3);
 
 
             final Parking parking1 = new Parking(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
