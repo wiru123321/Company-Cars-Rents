@@ -17,8 +17,8 @@ services:
 
 # Backend Application image
   backend:
-    image: backendCarRental 
-    container_name: backendCarRental
+    image: backend 
+    container_name: backend
     build: ./backend
     ports:
       - "30083:30083"
@@ -27,8 +27,8 @@ services:
 
 # Frontend Application image
   frontend:
-    image: frontendCarRental
-    container_name: frontendCarRental
+    image: frontend
+    container_name: frontend
     build: ./frontend/car-rental-app/
     ports:
       - "30084:5000"
