@@ -49,7 +49,6 @@ public class DatabaseLoader implements CommandLineRunner {
     private final TypeService typeService;
     private final UserService userService;
 
-    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Value("${spring.datasource.username}")
