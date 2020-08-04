@@ -68,4 +68,18 @@ public class UserService implements UserServiceInterface {
 
         return userDTOArrayList;
     }
+
+    @Override
+    public Long updateUserInDB(String login, UserDTO newUserDTO) {
+        Long oldUserId = getEntityByLogin(login).getId();
+        User newUser = mapRestModel(oldUserId, newUserDTO);
+        return userRepository.save(newUser).getId();
+    }
+
+    @Override
+    public Long setUserIsNotActive(String login) {
+        User user = getEntityByLogin(login);
+        user.setIsActive(false);
+        return user.getId();
+    }
 }

@@ -1,5 +1,6 @@
 package com.euvic.carrental.services;
 
+import com.euvic.carrental.model.Car;
 import com.euvic.carrental.model.Role;
 import com.euvic.carrental.model.User;
 import com.euvic.carrental.repositories.RoleRepository;
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
@@ -34,7 +36,7 @@ public class UserServiceTest {
     private RoleService roleService;
 
     @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private PasswordEncoder bCryptPasswordEncoder;
 
     @BeforeEach
     void setUp() {
@@ -167,5 +169,45 @@ public class UserServiceTest {
         assertEquals(0, userRepository.count());
         userService.addEntityToDB(user);
         assertEquals(1, userRepository.count());
+    }
+
+    @Test
+    void whenUserDTOGiven_shouldUpdateExistingDBUser(){
+        final User user = new User(null, "login1", bCryptPasswordEncoder.encode("password1"), "email@email.com",
+                "Wojciech", "Waleszczyk", "700 100 110", true, roleService.getEntityByRoleName("User"));
+        final UserDTO userDTO = new UserDTO("login2", bCryptPasswordEncoder.encode("password2"), "mail@email.com",
+                "Wojcieh", "Waleszcyk", "700 122 110", true, roleService.getDTOByRoleName("User"));
+
+        assertEquals(0, userRepository.count());
+        Long userId = userService.addEntityToDB(user);
+        assertEquals(1, userRepository.count());
+        userService.updateUserInDB(user.getLogin(), userDTO);
+        final User updatedUser = userService.getEntityByLogin("login2");
+
+        assertAll(()->{
+            assertEquals(userId, updatedUser.getId());
+            assertEquals("login2", updatedUser.getLogin());
+            assertEquals(bCryptPasswordEncoder.encode("password2"), updatedUser.getPassword());
+            assertEquals("mail@email.com", updatedUser.getEmail());
+            assertEquals("Wojcieh", updatedUser.getName());
+            assertEquals("Waleszcyk", updatedUser.getSurname());
+            assertEquals("700 122 110", updatedUser.getPhoneNumber());
+            assertEquals(true, updatedUser.getIsActive());
+            assertEquals(roleService.getEntityByRoleName("User"), updatedUser.getRole());
+        });
+    }
+
+    @Test
+    void whenUserLoginGiven_shouldSetUserIsNotActive(){
+        final User user = new User(null, "login1", bCryptPasswordEncoder.encode("password1"), "email@email.com",
+                "Wojciech", "Waleszczyk", "700 100 110", true, roleService.getEntityByRoleName("User"));
+
+        assertEquals(0, userRepository.count());
+        userService.addEntityToDB(user);
+        assertEquals(1, userRepository.count());
+        assertTrue(user.getIsActive());
+        userService.setUserIsNotActive(user.getLogin());
+        User updatedUser = userService.getEntityByLogin(user.getLogin());
+        assertFalse(updatedUser.getIsActive());
     }
 }
