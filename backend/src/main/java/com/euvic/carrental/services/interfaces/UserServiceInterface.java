@@ -19,4 +19,8 @@ public interface UserServiceInterface {
     UserDTO getDTOByLogin(String login);
 
     List<UserDTO> getAllDTOs();
+
+    Long updateUserInDB(String email, UserDTO newUserDTO);
+
+    Long setUserIsNotActive(String login);
 }

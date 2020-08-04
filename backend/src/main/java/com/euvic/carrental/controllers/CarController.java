@@ -44,7 +44,7 @@ public class CarController {
     }
 
     @RequestMapping(method = RequestMethod.PUT,value = "/a/car/{licensePlate}")
-    public Long updateDataBaseCar(@RequestBody CarDTO newCarDTO, @PathVariable String licensePlate){
+    public Long updateDataBaseCar(@PathVariable String licensePlate, @RequestBody CarDTO newCarDTO){
         return carService.updateCarInDB(licensePlate, newCarDTO);
     }
 

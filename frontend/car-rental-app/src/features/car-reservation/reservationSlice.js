@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import {} from "../../services/LoginService";
 
-const API_URL = "http://localhost:8080/";
+const API_URL = "http://localhost:8080";
 
 const json = [
   {
@@ -49,7 +49,7 @@ const initialState = {
   isChoosen: false,
   choose: false,
   choosenCar: 0,
-  cars: json,
+  cars: [],
 };
 
 export const reservationSlice = createSlice({
@@ -87,6 +87,10 @@ export const reservationSlice = createSlice({
     endHourChange: (state, action) => {
       state.reservationEndHour = action.payload;
     },
+
+    setCars: (state, action) => {
+      state.cars = action.payload;
+    },
   },
 });
 
@@ -100,6 +104,7 @@ export const {
   beginHourChange,
   endDateChange,
   endHourChange,
+  setCars,
 } = reservationSlice.actions;
 
 export const selectCars = (state) => state.reservation.cars;
@@ -110,12 +115,13 @@ export const selectIsChoosen = (state) => state.reservation.isChoosen;
 
 export const fetchCars = async (dispatch) => {
   try {
-    const response = await axios.get(API_URL + "a/cars", {
+    const response = await axios.get(API_URL + "/a/cars", {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     });
     console.log(response.data);
+    dispatch(setCars(response.data));
   } catch (error) {
     console.log(error);
   }
