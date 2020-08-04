@@ -352,6 +352,7 @@ public class CarServiceTest {
         carService.updateCarInDB(car.getLicensePlate(), carDTO);
         final Car updatedCar = carService.getEntityByLicensePlate("WN122");
         assertAll(()->{
+            assertEquals(carId, updatedCar.getId());
             assertEquals(1, carRepository.count());
             assertEquals("photoNr5", updatedCar.getPhotoInFolderName());
             assertEquals("WN122", updatedCar.getLicensePlate());
