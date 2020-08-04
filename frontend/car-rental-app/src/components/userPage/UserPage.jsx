@@ -1,0 +1,23 @@
+import React from "react";
+import { Route, Switch, HashRouter } from "react-router-dom";
+import YourReservation from "./yourReservation/YourReservation";
+import UserNavbar from "../userNavbar/UserNavbar";
+import ShowAllCars from "./showAllCars/ShowAllCars";
+import Reservation from "./reservation/Reservation";
+
+const UserPage = () => {
+  return (
+    <div>
+      <UserNavbar />
+      <HashRouter basename="/userPage">
+        <Switch>
+          <Route path="/yourReservation" component={YourReservation} />
+          <Route path="/showAllCars" component={ShowAllCars} />
+          <Route path="/reservation" component={Reservation} />
+        </Switch>
+      </HashRouter>
+    </div>
+  );
+};
+
+export default UserPage;

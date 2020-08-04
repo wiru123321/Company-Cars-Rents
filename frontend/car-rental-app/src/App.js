@@ -1,18 +1,38 @@
 import React from "react";
-import Navbar from "./components/navbar/navbar";
-import { Route, Switch, HashRouter } from "react-router-dom";
-import Login from "./components/login/Login";
+import LoginPage from "./components/login/Login";
+import UserPage from "./components/userPage/UserPage";
+import AdminPage from "./components/adminPage/AdminPage";
+import {
+  Route,
+  Switch,
+  BrowserRouter as Router,
+  Redirect,
+} from "react-router-dom";
+
+function PrivateRoute({ component: Component, role, ...rest }) {
+  return (
+    <Route
+      {...rest}
+      render={() =>
+        localStorage.getItem("role") === role ? (
+          <Component {...rest} />
+        ) : (
+          <Redirect to="/login" />
+        )
+      }
+    />
+  );
+}
 
 function App() {
   return (
-    <div>
-      <HashRouter basename="/">
-        <Switch>
-          <Route exact path="/" component={Login} />
-          <Route path="/userPage" component={Navbar} />
-        </Switch>
-      </HashRouter>
-    </div>
+    <Router basename="/">
+      <Switch>
+        <Route exact path="/login" component={LoginPage} />
+        <PrivateRoute path="/adminPage" role="ADMIN" component={AdminPage} />
+        <PrivateRoute path="/userPage" role="EMPLOYEE" component={UserPage} />
+      </Switch>
+    </Router>
   );
 }
 export default App;
