@@ -17,11 +17,13 @@ import {
   gearboxTypeChange,
   trunkCapacityChange,
   imageUrlChange,
+  fetchMarks,
 } from "../../../features/add-car-info/carsInfoSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const AddNewCar = () => {
   const dispatch = useDispatch();
+  const fetch = useSelector(fetchMarks);
   return (
     <Cointainer fixed>
       <Typography

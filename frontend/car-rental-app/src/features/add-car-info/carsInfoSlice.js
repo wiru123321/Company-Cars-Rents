@@ -1,4 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
+
+const API_URL = "http://localhost:8080/";
 
 const initialState = {
   brand: "",
@@ -14,14 +17,16 @@ const initialState = {
   gearboxType: "",
   trunkCapacity: "",
   imageUrl: "",
+  marks: [],
 };
 
 export const carsInfoSlice = createSlice({
-  name: "CarsInfo",
+  name: "carsInfo",
   initialState,
   reducers: {
     brandChange: (state, action) => {
       state.brand = action.payload;
+      console.log(state.marks);
     },
     typeChange: (state, action) => {
       state.type = action.payload;
@@ -60,6 +65,10 @@ export const carsInfoSlice = createSlice({
     imageUrlChange: (state, action) => {
       state.imageUrl = action.payload;
     },
+    marksLoader: (state, action) => {
+      console.log("in");
+      return { marks: [...state.marks, ...action.payload] };
+    },
   },
 });
 
@@ -77,6 +86,20 @@ export const {
   gearboxTypeChange,
   trunkCapacityChange,
   imageUrlChange,
+  marksLoader,
 } = carsInfoSlice.actions;
+
+export const fetchMarks = async (dispatch, state) => {
+  try {
+    const response = await axios.get(API_URL + "a/car-components/marks", {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
+    console.log(response.data);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export default carsInfoSlice.reducer;
