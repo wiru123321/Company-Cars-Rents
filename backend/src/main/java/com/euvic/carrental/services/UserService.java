@@ -25,7 +25,7 @@ public class UserService implements UserServiceInterface {
         this.roleService = roleService;
     }
 
-    @Override
+    @Override //NO PASSWORD MAPPING
     public User mapRestModel(final Long id, final UserDTO userDTO) {
         return new User(id, userDTO, roleService.getEntityByRoleName(userDTO.getRoleDTO().getName()));
     }
@@ -77,10 +77,11 @@ public class UserService implements UserServiceInterface {
         return mapRestList(userArrayList);
     }
 
-    @Override
+    @Override //NO PASSWORD CHANGE
     public Long updateUserInDB(String login, UserDTO newUserDTO) {
-        Long oldUserId = getEntityByLogin(login).getId();
-        User newUser = mapRestModel(oldUserId, newUserDTO);
+        User oldUser = getEntityByLogin(login);
+        User newUser = mapRestModel(oldUser.getId(), newUserDTO);
+        newUser.setPassword(oldUser.getPassword());
         return userRepository.save(newUser).getId();
     }
 
@@ -91,7 +92,7 @@ public class UserService implements UserServiceInterface {
         return userRepository.save(user).getId();
     }
 
-    private List<UserDTO> mapRestList(List<User> userArrayList){ //TODO tests? same method in cars
+    private List<UserDTO> mapRestList(List<User> userArrayList){
         final ArrayList<UserDTO> userDTOArrayList = new ArrayList<>();
         userArrayList.stream().forEach((user) -> {
             final UserDTO userDTO = new UserDTO(user, roleService.getDTOByRoleName(user.getRole().getName()));
