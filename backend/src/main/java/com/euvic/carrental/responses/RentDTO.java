@@ -1,6 +1,7 @@
 package com.euvic.carrental.responses;
 
 import com.euvic.carrental.model.Rent;
+import com.euvic.carrental.responses.User.UserDTO;
 import lombok.Data;
 
 import java.time.LocalDateTime;

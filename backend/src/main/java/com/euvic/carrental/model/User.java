@@ -1,6 +1,7 @@
 package com.euvic.carrental.model;
 
-import com.euvic.carrental.responses.UserDTO;
+import com.euvic.carrental.responses.User.UserCration;
+import com.euvic.carrental.responses.User.UserDTO;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -32,7 +33,7 @@ public class User {
     private String phoneNumber;
 
     @Column(nullable = false)
-    private Boolean isActive;
+    private Boolean isActive = true;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private Role role;
@@ -43,17 +44,26 @@ public class User {
     public User(Long id, final UserDTO userDTO, final Role role) {
         this.id = id;
         this.login = userDTO.getLogin();
-        this.password = userDTO.getPassword();
         this.email = userDTO.getEmail();
         this.name = userDTO.getName();
         this.surname = userDTO.getSurname();
         this.phoneNumber = userDTO.getPhoneNumber();
-        this.isActive = userDTO.getIsActive();
         this.role = role;
         this.id = null;
     }
 
-    public User(final Long id, final String login, final String password, final String email, final String name, final String surname, final String phoneNumber, final Boolean isActive, final Role role) {
+    public User(Long id, final UserCration userCration, final Role role) {
+        this.id = id;
+        this.login = userCration.getLogin();
+        this.password = userCration.getPassword();
+        this.email = userCration.getEmail();
+        this.name = userCration.getName();
+        this.surname = userCration.getSurname();
+        this.phoneNumber = userCration.getPhoneNumber();
+        this.role = role;
+    }
+
+    public User(final Long id, final String login, final String password, final String email, final String name, final String surname, final String phoneNumber, final Role role) {
         this.id = id;
         this.login = login;
         this.password = password;
@@ -61,7 +71,6 @@ public class User {
         this.name = name;
         this.surname = surname;
         this.phoneNumber = phoneNumber;
-        this.isActive = isActive;
         this.role = role;
     }
 }
