@@ -22,7 +22,7 @@ public interface CarServiceInterface {
 
     List<CarDTO> getInCompanyCarDTOs();
 
-    List<CarDTO> getActiveCarDTOs();
+    List<CarDTO> getInCompanyActiveCarDTOs();
 
-    List<CarDTO> getInActiveCarDTOs();
+    List<CarDTO> getInCompanyInActiveCarDTOs();
 }

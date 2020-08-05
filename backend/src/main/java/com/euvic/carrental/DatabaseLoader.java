@@ -150,7 +150,7 @@ public class DatabaseLoader implements CommandLineRunner {
 
             //FOR SECURITY TESTS
             //Haslo powinno byc encodowane wraz ze stworzeniem konta encrypter (Bcrypter) / powinniśmy zadbać żeby hasło zostało bezpiecznie przesłane do backendu
-            // login i password w bazie danych nie mogą się powtarzać
+            // login i password w bazie danych nie mogą się powtarzać //TODO
             userRepository.save(new User(null, "admin123", passwordEncoder.encode("apassword123"), "admin@email.com", "Jan", "Kowalski", "123456789", true, roleRepository.findByName("ADMIN")));
             userRepository.save(new User(null, "user123", passwordEncoder.encode("upassword123"), "user@email.com", "Andrzej", "Wywrot", "123456798", true, roleRepository.findByName("EMPLOYEE")));
 

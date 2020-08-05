@@ -36,12 +36,12 @@ public class CarController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/ae/active-cars")
     public List<CarDTO> getAllActiveCars(){
-        return carService.getActiveCarDTOs();
+        return carService.getInCompanyActiveCarDTOs();
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/a/inactive-cars")
     public List<CarDTO> getAllInActiveCars(){
-        return carService.getInActiveCarDTOs();
+        return carService.getInCompanyInActiveCarDTOs();
     }
 
     @RequestMapping(method = RequestMethod.POST,value = "/a/car")
