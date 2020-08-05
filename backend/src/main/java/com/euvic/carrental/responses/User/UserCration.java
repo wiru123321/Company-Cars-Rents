@@ -13,6 +13,10 @@ public class UserCration {
     private String phoneNumber;
     private RoleDTO roleDTO;
 
+    public  UserCration(){
+
+    }
+
     public UserCration(final User user, final RoleDTO roleDTO) {
         this.login = user.getLogin();
         this.password = user.getPassword();
