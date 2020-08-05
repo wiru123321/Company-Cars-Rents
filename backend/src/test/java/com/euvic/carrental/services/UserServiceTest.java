@@ -136,7 +136,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void shouldReturnAllDBUserDTO() {
+    void shouldReturnAllDBUserDTO_And_ActiveUserDTOs() {
         final User user1 = new User(null, "login1", bCryptPasswordEncoder.encode("password1"), "email@email.com",
                 "Wojciech", "Waleszczyk", "700 100 110", roleService.getEntityByRoleName("User"));
         final User user2 = new User(null, "login2", bCryptPasswordEncoder.encode("password1"), "email@email.com",
@@ -150,9 +150,12 @@ public class UserServiceTest {
         userRepository.save(user3);
         assertEquals(3, userRepository.count());
 
-        final List<UserDTO> userDTOList = userService.getAllDTOs();
+        final List<UserDTO> allUserDTOList = userService.getAllDTOs();
+        assertEquals(userRepository.count(), allUserDTOList.size());
 
-        assertEquals(userRepository.count(), userDTOList.size());
+        userService.setUserIsNotActive("login2");
+        final List<UserDTO> activeUserDTOList = userService.getAllDTOs();
+        assertEquals(2, activeUserDTOList.size());
     }
 
     @Test
