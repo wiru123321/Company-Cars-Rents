@@ -99,7 +99,6 @@ export const fetchAllUsers = () => async (dispatch) => {
 
 export const deleteUser = (login) => async (dispatch) => {
   try {
-    console.log(login);
     const deleteResponse = await axios.delete(API_URL + `/a/user/${login}`, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token"),
@@ -112,6 +111,18 @@ export const deleteUser = (login) => async (dispatch) => {
     });
     console.log(fetchResponse.data);
     dispatch(setUsers(fetchResponse.data));
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const addUser = (userCration) => async (dispatch) => {
+  try {
+    const response = await axios.post(API_URL + "/a/user", userCration, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
   } catch (error) {
     console.log(error);
   }

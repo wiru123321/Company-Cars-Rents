@@ -12,6 +12,7 @@ import {
   toggleDidSubmit,
   selectAll,
   reset,
+  addUser,
 } from "../../../features/add-employees/addEmployeeSlice";
 import FormControlPanel from "./FormControlPanel";
 import UsersLogin from "./UsersLogin";
@@ -70,8 +71,29 @@ const AddEmployee = () => {
 
   function submit(event) {
     event.preventDefault();
-    if (password === rePassword) {
+    let user = {
+      email: email,
+      login: login,
+      phoneNumber: phoneNumber,
+      password: password,
+      name: firstname,
+      surname: lastname,
+      roleDTO: { name: "EMPLOYEE" },
+    };
+    if (
+      password === rePassword &&
+      email &&
+      login &&
+      phoneNumber &&
+      password &&
+      rePassword &&
+      firstname &&
+      lastname
+    ) {
+      dispatch(addUser(user));
+      resetForm();
     }
+
     toggleSubmit(true);
   }
 
