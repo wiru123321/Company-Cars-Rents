@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
 
 const API_URL = "http://localhost:8080/";
 
@@ -17,7 +16,6 @@ const initialState = {
   gearboxType: "",
   trunkCapacity: "",
   imageUrl: "",
-  marks: [],
 };
 
 export const carsInfoSlice = createSlice({
@@ -26,7 +24,6 @@ export const carsInfoSlice = createSlice({
   reducers: {
     brandChange: (state, action) => {
       state.brand = action.payload;
-      console.log(state.marks);
     },
     typeChange: (state, action) => {
       state.type = action.payload;
@@ -39,7 +36,6 @@ export const carsInfoSlice = createSlice({
     },
     yearChange: (state, action) => {
       state.year = action.payload;
-      console.log(state.year);
     },
     milageChange: (state, action) => {
       state.milage = action.payload;
@@ -65,9 +61,20 @@ export const carsInfoSlice = createSlice({
     imageUrlChange: (state, action) => {
       state.imageUrl = action.payload;
     },
-    marksLoader: (state, action) => {
-      console.log("in");
-      return { marks: [...state.marks, ...action.payload] };
+    reset: (state) => {
+      state.brand = " ";
+      state.type = " ";
+      state.licencePlate = " ";
+      state.fuelType = "";
+      state.year = "";
+      state.milage = "";
+      state.hp = "";
+      state.peopleCapacity = "";
+      state.doorsNumber = "";
+      state.color = "";
+      state.gearboxType = "";
+      state.trunkCapacity = "";
+      state.imageUrl = "";
     },
   },
 });
@@ -86,20 +93,21 @@ export const {
   gearboxTypeChange,
   trunkCapacityChange,
   imageUrlChange,
-  marksLoader,
+  reset,
 } = carsInfoSlice.actions;
 
-export const fetchMarks = async (dispatch, state) => {
-  try {
-    const response = await axios.get(API_URL + "a/car-components/marks", {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("token"),
-      },
-    });
-    console.log(response.data);
-  } catch (error) {
-    console.log(error);
-  }
-};
+export const selectBrandValue = (state) => state.brand;
+export const selectTypeValue = (state) => state.type;
+export const selectLicencePlate = (state) => state.licencePlate;
+export const selectFuelTypeValue = (state) => state.fuelType;
+export const selectYear = (state) => state.year;
+export const selectMilage = (state) => state.milage;
+export const selectHp = (state) => state.hp;
+export const selectPeopleCapacity = (state) => state.peopleCapacity;
+export const selectDoorsNumber = (state) => state.doorsNumber;
+export const selectColorValue = (state) => state.color;
+export const selectGearboxTypeValue = (state) => state.gearboxType;
+export const selectTrunkCapacity = (state) => state.trunkCapacity;
+export const selectImageUrl = (state) => state.imageUrl;
 
 export default carsInfoSlice.reducer;

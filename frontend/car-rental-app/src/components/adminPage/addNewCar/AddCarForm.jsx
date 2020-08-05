@@ -8,7 +8,7 @@ import {
 } from "@material-ui/core";
 import { Save, Delete } from "@material-ui/icons";
 import { SelectBox } from "./SelectBox";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import {
   selectMarks,
   selectTypes,
@@ -16,6 +16,22 @@ import {
   selectColor,
   selectGearboxType,
 } from "../../../features/starting-car-parameter/startingCarParameterSlice";
+import {
+  selectYear,
+  selectGearboxTypeValue,
+  selectColorValue,
+  selectFuelTypeValue,
+  selectBrandValue,
+  selectDoorsNumber,
+  selectHp,
+  selectImageUrl,
+  selectLicencePlate,
+  selectMilage,
+  selectPeopleCapacity,
+  selectTrunkCapacity,
+  selectTypeValue,
+  reset,
+} from "../../../features/add-car-info/carsInfoSlice";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -50,6 +66,18 @@ export const AddCarForm = ({
   const FuelTypes = useSelector(selectFuelType);
   const Color = useSelector(selectColor);
   const GearboxType = useSelector(selectGearboxType);
+  const Year = useSelector(selectYear);
+  const DoorsNumber = useSelector(selectDoorsNumber);
+  const Hp = useSelector(selectHp);
+  const LicencePlate = useSelector(selectLicencePlate);
+  const Milage = useSelector(selectMilage);
+  const PeopleCapacity = useSelector(selectPeopleCapacity);
+  const TrunkCapacity = useSelector(selectTrunkCapacity);
+  const TypeValue = useSelector(selectTypeValue);
+  const BrandValue = useSelector(selectBrandValue);
+  const GearboxTypeValue = useSelector(selectGearboxTypeValue);
+  const ColorValue = useSelector(selectColorValue);
+  const FuelTypesValue = useSelector(selectFuelTypeValue);
   return (
     <div>
       <Box display="flex" justifyContent="center">
@@ -64,22 +92,45 @@ export const AddCarForm = ({
         </h3>
       </Box>
       <Box display="flex" justifyContent="center" style={{ height: "10vh" }}>
-        {/* <Box>
-          <TextField label="Brand" onChange={handleBrandChange} />
-        </Box> */}
-        <SelectBox SelectHandler={marks} NameHandler="Mark" />
-        <SelectBox SelectHandler={types} NameHandler="Type" />
+        <SelectBox
+          SelectHandler={marks}
+          NameHandler="Mark"
+          handleChange={handleBrandChange}
+          handlerValue={BrandValue}
+        />
+        <SelectBox
+          SelectHandler={types}
+          NameHandler="Type"
+          handleChange={handletypeChange}
+          handlerValue={TypeValue}
+        />
       </Box>
       <Box display="flex" justifyContent="center" style={{ height: "10vh" }}>
-        <SelectBox SelectHandler={FuelTypes} NameHandler="Fuel Type" />
-        <SelectBox SelectHandler={Color} NameHandler="Color" />
-        <SelectBox SelectHandler={GearboxType} NameHandler="Gearbox Type" />
+        <SelectBox
+          SelectHandler={FuelTypes}
+          NameHandler="Fuel Type"
+          handleChange={handlefuelTypeChange}
+          handlerValue={FuelTypesValue}
+        />
+        <SelectBox
+          SelectHandler={Color}
+          NameHandler="Color"
+          handleChange={handlecolorChange}
+          handlerValue={ColorValue}
+        />
+        <SelectBox
+          SelectHandler={GearboxType}
+          NameHandler="Gearbox Type"
+          handleChange={handlegearboxTypeChange}
+          handlerValue={GearboxTypeValue}
+        />
       </Box>
       <Box display="flex" justifyContent="center" style={{ height: "10vh" }}>
         <Box>
           <TextField
             label="Licence Plate"
             onChange={handlelicencePlateChange}
+            value={LicencePlate}
           />
         </Box>
         <Box>
@@ -87,13 +138,15 @@ export const AddCarForm = ({
             label="Year"
             onChange={handleyearChange}
             style={{ marginLeft: "10%" }}
+            value={Year}
           />
         </Box>
         <Box>
           <TextField
             label="Mileage"
             style={{ marginLeft: "10%" }}
-            onChange={handleyearChange}
+            onChange={handlemilageChange}
+            value={Milage}
           />
         </Box>
         <Box>
@@ -101,18 +154,24 @@ export const AddCarForm = ({
             label="HP"
             style={{ marginLeft: "10%" }}
             onChange={handlehpChange}
+            value={Hp}
           />
         </Box>
       </Box>
       <Box display="flex" justifyContent="center">
         <Box>
-          <TextField label="Doors Number" onChange={handledoorsNumberChange} />
+          <TextField
+            label="Doors Number"
+            onChange={handledoorsNumberChange}
+            value={DoorsNumber}
+          />
         </Box>
         <Box>
           <TextField
             label="People Capacity"
             style={{ marginLeft: "10%" }}
             onChange={handlepeopleCapacityChange}
+            value={PeopleCapacity}
           />
         </Box>
 
@@ -121,6 +180,7 @@ export const AddCarForm = ({
             label="Trunk Capacity"
             style={{ marginLeft: "10%" }}
             onChange={handletrunkCapacityChange}
+            value={TrunkCapacity}
           />
         </Box>
       </Box>
@@ -128,7 +188,9 @@ export const AddCarForm = ({
   );
 };
 
-export const AddCarButton = ({ handleimageUrlChange }) => {
+export const AddCarButton = ({ handleimageUrlChange, deletehandler }) => {
+  const ImageUrl = useSelector(selectImageUrl);
+  const dispatch = useDispatch();
   const classes = useStyles();
   return (
     <div>
@@ -146,6 +208,7 @@ export const AddCarButton = ({ handleimageUrlChange }) => {
           multiple
           type="file"
           onChange={handleimageUrlChange}
+          value={ImageUrl}
         />
         <label htmlFor="contained-button-file">
           <Button variant="contained" color="primary" component="span">
@@ -178,6 +241,7 @@ export const AddCarButton = ({ handleimageUrlChange }) => {
             color="secondary"
             className={classes.button}
             startIcon={<Delete />}
+            onClick={dispatch(reset())}
           >
             Delete
           </Button>
