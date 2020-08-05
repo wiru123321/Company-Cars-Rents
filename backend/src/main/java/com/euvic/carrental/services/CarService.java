@@ -108,9 +108,52 @@ public class CarService implements CarServiceInterface {
         return carRepository.save(oldCar).getId();
     }
 
+    //W ten sposób czy poprzez update
     public Long setCarIsNotInCompany(String licensePlate) {
         Car car = getEntityByLicensePlate(licensePlate);
         car.setIsOnCompany(false);
         return carRepository.save(car).getId();
+    }
+
+    @Override
+    public List<CarDTO> getInCompanyCarDTOs() {
+        final ArrayList<Car> carList = new ArrayList<>();
+        carRepository.findAllByIsOnCompany(true).forEach(carList::add);
+
+        final ArrayList<CarDTO> carDTOList = new ArrayList<>();
+        carList.stream().forEach((car) -> {
+            final CarDTO carDTO = new CarDTO(car, new GearBoxTypeDTO(car.getGearboxType()), new FuelTypeDTO(car.getFuelType()), new ModelDTO(car.getModel()),
+                    new ParkingDTO(car.getParking()), new ColourDTO(car.getColour()), new TypeDTO(car.getType()));
+            carDTOList.add(carDTO);
+        });
+        return carDTOList;
+    }
+
+    @Override
+    public List<CarDTO> getActiveCarDTOs() {
+        final ArrayList<Car> carList = new ArrayList<>();
+        carRepository.findAllByIsOnCompanyAndIsActive(true, true).forEach(carList::add);
+
+        final ArrayList<CarDTO> carDTOList = new ArrayList<>();
+        carList.stream().forEach((car) -> {
+            final CarDTO carDTO = new CarDTO(car, new GearBoxTypeDTO(car.getGearboxType()), new FuelTypeDTO(car.getFuelType()), new ModelDTO(car.getModel()),
+                    new ParkingDTO(car.getParking()), new ColourDTO(car.getColour()), new TypeDTO(car.getType()));
+            carDTOList.add(carDTO);
+        });
+        return carDTOList;
+    }
+
+    @Override
+    public List<CarDTO> getInActiveCarDTOs() {
+        final ArrayList<Car> carList = new ArrayList<>();
+        carRepository.findAllByIsOnCompanyAndIsActive(true, false).forEach(carList::add);
+
+        final ArrayList<CarDTO> carDTOList = new ArrayList<>();
+        carList.stream().forEach((car) -> {
+            final CarDTO carDTO = new CarDTO(car, new GearBoxTypeDTO(car.getGearboxType()), new FuelTypeDTO(car.getFuelType()), new ModelDTO(car.getModel()),
+                    new ParkingDTO(car.getParking()), new ColourDTO(car.getColour()), new TypeDTO(car.getType()));
+            carDTOList.add(carDTO);
+        });
+        return carDTOList;
     }
 }
