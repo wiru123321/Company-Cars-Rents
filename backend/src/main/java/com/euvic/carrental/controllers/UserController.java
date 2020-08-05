@@ -1,12 +1,17 @@
 package com.euvic.carrental.controllers;
 
 import com.euvic.carrental.model.User;
-import com.euvic.carrental.responses.UserDTO;
+import com.euvic.carrental.responses.User.UserCration;
+import com.euvic.carrental.responses.User.UserDTO;
 import com.euvic.carrental.services.UserService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+//TODO not giving in rest api password back and isactive
+//TODO checking while login that login isnt exist
+//TODO tylko zwraca userów, jest 1 admin i nie mozna go edytować
 
 @RestController
 @CrossOrigin
@@ -22,22 +27,22 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/users")
-    public List<UserDTO> getAllUsers(){
-        return userService.getAllDTOs();
+    public List<UserDTO> getAllActiveUsers(){
+        return userService.getAllActiveUserDTOs();
     }
 
     @RequestMapping(method = RequestMethod.POST,value = "/user")
-    public Long addUserToDatabase(@RequestBody UserDTO userDTO){
-        User user = userService.mapRestModel(null, userDTO);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+    public Long addUserToDatabase(@RequestBody UserCration userCration){
+        User user = userService.mapCreationModel(null, userCration);
+        user.setPassword(passwordEncoder.encode(userCration.getPassword()));
         return userService.addEntityToDB(user);
     }
 
     @RequestMapping(method = RequestMethod.PUT,value = "/user/{login}")
     public Long updateDataBaseUser(@PathVariable String login, @RequestBody UserDTO newUserDTO){
-        newUserDTO.setPassword(passwordEncoder.encode(newUserDTO.getPassword()));
         return userService.updateUserInDB(login, newUserDTO);
     }
+
     @RequestMapping(method = RequestMethod.DELETE, value = "/user/{login}")
     public Long setUserAsDeletedInDB(@PathVariable String login){
         return userService.setUserIsNotActive(login);
