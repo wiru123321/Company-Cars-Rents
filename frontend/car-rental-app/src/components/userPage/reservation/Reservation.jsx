@@ -11,7 +11,7 @@ import {
   beginHourChange,
   endDateChange,
   endHourChange,
-  fetchCars,
+  fetchActiveCars,
 } from "../../../features/car-reservation/reservationSlice";
 
 const Reservation = () => {
@@ -19,7 +19,7 @@ const Reservation = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchCars());
+    dispatch(fetchActiveCars());
   }, []);
 
   function handleFirstnameChange(event) {

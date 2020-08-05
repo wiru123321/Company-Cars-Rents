@@ -21,7 +21,6 @@ const RemoveCar = () => {
   const handleCarDelete = (index) => {
     let { licensePlate } = cars[index];
     dispatch(deleteCar(licensePlate));
-    dispatch(fetchCars());
   };
 
   return (

@@ -1,5 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { act } from "react-dom/test-utils";
+import axios from "axios";
+
+const API_URL = "http://localhost:8080";
 
 const initialState = {
   firstname: "",
@@ -11,6 +13,7 @@ const initialState = {
   rePassword: "",
   didSubmit: false,
   success: false,
+  users: [],
 };
 
 export const addEmployeeSlice = createSlice({
@@ -55,6 +58,10 @@ export const addEmployeeSlice = createSlice({
       state.didSubmit = false;
       state.success = false;
     },
+
+    setUsers: (state, action) => {
+      state.users = action.payload;
+    },
   },
 });
 
@@ -69,8 +76,25 @@ export const {
   toggleDidSubmit,
   toggleSuccess,
   reset,
+  setUsers,
 } = addEmployeeSlice.actions;
 
 export const selectAll = (state) => state.addEmployee;
+
+export const selectAllUsers = (state) => state.addEmployee.users;
+
+export const fetchAllUsers = () => async (dispatch) => {
+  try {
+    const response = await axios.get(API_URL + "/a/users", {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
+    console.log(response.data);
+    dispatch(setUsers(response.data));
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export default addEmployeeSlice.reducer;
