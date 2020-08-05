@@ -7,6 +7,9 @@ import {
   makeStyles,
 } from "@material-ui/core";
 import { Save, Delete } from "@material-ui/icons";
+import { SelectBox } from "./SelectBox";
+import { useSelector } from "react-redux";
+import { selectMarks } from "../../../features/starting-car-parameter/startingCarParameterSlice";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,6 +39,7 @@ export const AddCarForm = ({
   handlegearboxTypeChange,
   handletrunkCapacityChange,
 }) => {
+  const marks = useSelector(selectMarks);
   return (
     <div>
       <Box display="flex" justifyContent="center">
@@ -50,9 +54,10 @@ export const AddCarForm = ({
         </h3>
       </Box>
       <Box display="flex" justifyContent="center" style={{ height: "10vh" }}>
-        <Box>
+        {/* <Box>
           <TextField label="Brand" onChange={handleBrandChange} />
-        </Box>
+        </Box> */}
+        <SelectBox SelectHandler={marks} NameHandler="Marksss" />
         <Box>
           <TextField
             label="Type"
