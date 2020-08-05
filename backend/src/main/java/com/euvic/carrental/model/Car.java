@@ -47,7 +47,7 @@ public class Car {
     private Boolean isActive;
 
     @Column(nullable = false)
-    private Boolean isOnCompany;
+    private Boolean isOnCompany = true;
 
     @Column(nullable = false)
     private Integer mileage;
@@ -67,7 +67,7 @@ public class Car {
     public Car() {
     }
 
-    public Car(final Long id, final String photoInFolderName, final String licensePlate, final Integer enginePower, final Integer capacityOfTrunkScale, final Integer capacityOfPeople, final Integer doorsNumber, final GearboxType gearboxType, final FuelType fuelType, final LocalDateTime lastInspection, final Integer productionYear, final Boolean isActive, final Boolean isOnCompany, final Integer mileage, final Model model, final Parking parking, final Colour colour, final Type type) {
+    public Car(final Long id, final String photoInFolderName, final String licensePlate, final Integer enginePower, final Integer capacityOfTrunkScale, final Integer capacityOfPeople, final Integer doorsNumber, final GearboxType gearboxType, final FuelType fuelType, final LocalDateTime lastInspection, final Integer productionYear, final Boolean isActive, final Integer mileage, final Model model, final Parking parking, final Colour colour, final Type type) {
         this.id = id;
         this.photoInFolderName = photoInFolderName;
         this.licensePlate = licensePlate;
@@ -80,7 +80,6 @@ public class Car {
         this.lastInspection = lastInspection;
         this.productionYear = productionYear;
         this.isActive = isActive;
-        this.isOnCompany = isOnCompany;
         this.mileage = mileage;
         this.model = model;
         this.parking = parking;
@@ -101,7 +100,6 @@ public class Car {
         this.lastInspection = carDTO.getLastInspection();
         this.productionYear = carDTO.getProductionYear();
         this.isActive = carDTO.getIsActive();
-        this.isOnCompany = carDTO.getIsOnCompany();
         this.mileage = carDTO.getMileage();
         this.model = model;
         this.parking = parking;

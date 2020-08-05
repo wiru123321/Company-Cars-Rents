@@ -7,7 +7,6 @@ import {
   selectCars,
   chooseCar,
   toggleChoose,
-  fetchCars,
 } from "../../../features/car-reservation/reservationSlice";
 
 const CarsSelection = () => {
@@ -28,7 +27,7 @@ const CarsSelection = () => {
       </Button>
       <List>
         {cars.map((car, index) => (
-          <ListItem key={car.src}>
+          <ListItem key={index}>
             <Box display="flex">
               <CarImage src={car.src} />
               <CarInfo car={car} />

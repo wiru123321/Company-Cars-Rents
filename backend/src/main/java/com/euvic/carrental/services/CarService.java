@@ -68,14 +68,7 @@ public class CarService implements CarServiceInterface {
         final ArrayList<Car> carList = new ArrayList<>();
         carRepository.findAll().forEach(carList::add);
 
-        final ArrayList<CarDTO> carDTOList = new ArrayList<>();
-        carList.stream().forEach((car) -> {
-            final CarDTO carDTO = new CarDTO(car, new GearBoxTypeDTO(car.getGearboxType()), new FuelTypeDTO(car.getFuelType()), new ModelDTO(car.getModel()),
-                    new ParkingDTO(car.getParking()), new ColourDTO(car.getColour()), new TypeDTO(car.getType()));
-            carDTOList.add(carDTO);
-        });
-
-        return carDTOList;
+        return mapRestList(carList);
     }
 
     @Override
@@ -98,7 +91,6 @@ public class CarService implements CarServiceInterface {
         oldCar.setLastInspection(newCarDTO.getLastInspection());
         oldCar.setProductionYear(newCarDTO.getProductionYear());
         oldCar.setIsActive(newCarDTO.getIsActive());
-        oldCar.setIsOnCompany(newCarDTO.getIsOnCompany());
         oldCar.setMileage(newCarDTO.getMileage());
         oldCar.setColour(colourService.getEntityByName(newCarDTO.getColourDTO().getName()));
         oldCar.setType(typeService.getEntityByName(newCarDTO.getTypeDTO().getName()));
@@ -111,6 +103,41 @@ public class CarService implements CarServiceInterface {
     public Long setCarIsNotInCompany(String licensePlate) {
         Car car = getEntityByLicensePlate(licensePlate);
         car.setIsOnCompany(false);
+        car.setIsActive(false);
         return carRepository.save(car).getId();
+    }
+
+    @Override
+    public List<CarDTO> getInCompanyCarDTOs() {
+        final ArrayList<Car> carList = new ArrayList<>();
+        carRepository.findAllByIsOnCompany(true).forEach(carList::add);
+
+        return mapRestList(carList);
+    }
+
+    @Override
+    public List<CarDTO> getInCompanyActiveCarDTOs() {
+        final ArrayList<Car> carList = new ArrayList<>();
+        carRepository.findAllByIsOnCompanyAndIsActive(true, true).forEach(carList::add);
+
+        return mapRestList(carList);
+    }
+
+    @Override
+    public List<CarDTO> getInCompanyInActiveCarDTOs() {
+        final ArrayList<Car> carList = new ArrayList<>();
+        carRepository.findAllByIsOnCompanyAndIsActive(true, false).forEach(carList::add);
+
+        return mapRestList(carList);
+    }
+
+    private List<CarDTO> mapRestList(List<Car> carList){
+        final ArrayList<CarDTO> carDTOList = new ArrayList<>();
+        carList.stream().forEach((car) -> {
+            final CarDTO carDTO = new CarDTO(car, new GearBoxTypeDTO(car.getGearboxType()), new FuelTypeDTO(car.getFuelType()), new ModelDTO(car.getModel()),
+                    new ParkingDTO(car.getParking()), new ColourDTO(car.getColour()), new TypeDTO(car.getType()));
+            carDTOList.add(carDTO);
+        });
+        return carDTOList;
     }
 }

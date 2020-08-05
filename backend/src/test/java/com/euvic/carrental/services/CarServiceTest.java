@@ -126,12 +126,12 @@ public class CarServiceTest {
 
         final Car car = new Car(null, "photoNr1", "WN101", 100, 4, 5, 5,
                 gearboxTypeService.getEntityByName("Automatic"), fuelTypeService.getEntityByName("Gasoline"),
-                LocalDateTime.of(2000, 3, 25, 0, 0), 1990, true, true, 200000, modelService.getEntityByName("C350"),
+                LocalDateTime.of(2000, 3, 25, 0, 0), 1990, true, 200000, modelService.getEntityByName("C350"),
                 parkingService.getEntityById(parkingId1), colourService.getEntityByName("Red"), typeService.getEntityByName("Sedan"));
 
         final CarDTO carDTO = new CarDTO("photoNr1", "WN101", 100, 4, 5, 5,
                 gearboxTypeService.getDTOByName("Automatic"), fuelTypeService.getDTOByName("Gasoline"),
-                LocalDateTime.of(2000, 3, 25, 0, 0), 1990, true, true, 200000, modelService.getDTOByName("C350"),
+                LocalDateTime.of(2000, 3, 25, 0, 0), 1990, true, 200000, modelService.getDTOByName("C350"),
                 parkingService.getDTOById(parkingId1), colourService.getDTOByName("Red"), typeService.getDTOByName("Sedan"));
         final Car restModelToEntityModel = carService.mapRestModel(null, carDTO, parkingId1, modelId1);
         assertAll(() -> {
@@ -172,7 +172,7 @@ public class CarServiceTest {
 
         final Car car = new Car(null, "photoNr1", "WN101", 100, 4, 5, 5,
                 gearboxTypeService.getEntityByName("Automatic"), fuelTypeService.getEntityByName("Gasoline"),
-                LocalDateTime.of(2000, 3, 25, 0, 0), 1990, true, true, 200000, modelService.getEntityByName("C350"),
+                LocalDateTime.of(2000, 3, 25, 0, 0), 1990, true, 200000, modelService.getEntityByName("C350"),
                 parkingService.getEntityById(parkingId1), colourService.getEntityByName("Red"), typeService.getEntityByName("Sedan"));
 
         assertEquals(0, carRepository.count());
@@ -219,7 +219,7 @@ public class CarServiceTest {
 
         final Car car = new Car(null, "photoNr1", "WN101", 100, 4, 5, 5,
                 gearboxTypeService.getEntityByName("Automatic"), fuelTypeService.getEntityByName("Gasoline"),
-                LocalDateTime.of(2000, 03, 25, 00, 00), 1990, true, true, 200000, modelService.getEntityByName("C350"),
+                LocalDateTime.of(2000, 03, 25, 00, 00), 1990, true, 200000, modelService.getEntityByName("C350"),
                 parkingService.getEntityById(parkingId1), colourService.getEntityByName("Red"), typeService.getEntityByName("Sedan"));
         assertEquals(0, carRepository.count());
         carRepository.save(car);
@@ -239,7 +239,6 @@ public class CarServiceTest {
             assertEquals(car.getLastInspection(), serviceCarDTO.getLastInspection());
             assertEquals(car.getProductionYear(), serviceCarDTO.getProductionYear());
             assertEquals(car.getIsActive(), serviceCarDTO.getIsActive());
-            assertEquals(car.getIsOnCompany(), serviceCarDTO.getIsOnCompany());
             assertEquals(car.getMileage(), serviceCarDTO.getMileage());
             assertEquals(car.getModel().getName(), serviceCarDTO.getModelDTO().getName());
             assertEquals(car.getParking().getTown(), serviceCarDTO.getParkingDTO().getTown());
@@ -249,8 +248,8 @@ public class CarServiceTest {
     }
 
     @Test
-    void shouldReturnAllDBCarsDTO() {
-            final Model model1 = new Model(null, "C350", markService.getEntityByName("Audi"));
+    void shouldReturnAllDBCarsDTO_And_InCompanyCarDTOs_And_ActiveCarsDTO_And_InActiveCarsDTO() {
+        final Model model1 = new Model(null, "C350", markService.getEntityByName("Audi"));
         final Model model2 = new Model(null, "Astra", markService.getEntityByName("Opel"));
         final Model model3 = new Model(null, "M5", markService.getEntityByName("BMW"));
 
@@ -270,28 +269,38 @@ public class CarServiceTest {
 
         final Car car1 = new Car(null, "photoNr1", "WN101", 100, 4, 5, 5,
                 gearboxTypeService.getEntityByName("Automatic"), fuelTypeService.getEntityByName("Gasoline"),
-                LocalDateTime.of(2000, 3, 25, 0, 0), 1990, true, true, 200000, modelService.getEntityByName("C350"),
+                LocalDateTime.of(2000, 3, 25, 0, 0), 1990, true, 200000, modelService.getEntityByName("C350"),
                 parkingService.getEntityById(parkingId1), colourService.getEntityByName("Red"), typeService.getEntityByName("Sedan"));
 
         final Car car2 = new Car(null, "photoNr2", "SBE33212", 120, 1, 4, 3,
                 gearboxTypeService.getEntityByName("Manual"), fuelTypeService.getEntityByName("Diesel"),
-                LocalDateTime.of(2000, 3, 25, 0, 0), 2000, true, true, 120000, modelService.getEntityByName("Astra"),
+                LocalDateTime.of(2000, 3, 25, 0, 0), 2000, false, 120000, modelService.getEntityByName("Astra"),
                 parkingService.getEntityById(parkingId2), colourService.getEntityByName("Blue"), typeService.getEntityByName("Coupe"));
 
         final Car car3 = new Car(null, "photoNr3", "SBE11212", 250, 4, 5, 5,
                 gearboxTypeService.getEntityByName("Automatic"), fuelTypeService.getEntityByName("Diesel"),
-                LocalDateTime.of(2000, 3, 25, 0, 0), 2014, true, true, 100000, modelService.getEntityByName("M5"),
+                LocalDateTime.of(2000, 3, 25, 0, 0), 2014, true, 100000, modelService.getEntityByName("M5"),
                 parkingService.getEntityById(parkingId3), colourService.getEntityByName("Green"), typeService.getEntityByName("Sedan"));
 
         assertEquals(0, carRepository.count());
         carRepository.save(car1);
         carRepository.save(car2);
         carRepository.save(car3);
+        carService.setCarIsNotInCompany("SBE11212");
         assertEquals(3, carRepository.count());
 
-        final List<CarDTO> carDTOList = carService.getAllDTOs();
 
-        assertEquals(carRepository.count(), carDTOList.size());
+        final List<CarDTO> allCarDTOs = carService.getAllDTOs();
+        assertEquals(carRepository.count(), allCarDTOs.size());
+
+        final List<CarDTO> inCompanyCarDTOs = carService.getInCompanyCarDTOs();
+        assertEquals(2, inCompanyCarDTOs.size());
+
+        final List<CarDTO> inCompanyActiveCarDTOs = carService.getInCompanyActiveCarDTOs();
+        assertEquals(1, inCompanyActiveCarDTOs.size());
+
+        final List<CarDTO> inCompanyInActiveCarDTOs = carService.getInCompanyInActiveCarDTOs();
+        assertEquals(1, inCompanyInActiveCarDTOs.size());
     }
 
     @Test
@@ -311,7 +320,7 @@ public class CarServiceTest {
 
         final Car car = new Car(null, "photoNr1", "WN101", 100, 4, 5, 5,
                 gearboxTypeService.getEntityByName("Automatic"), fuelTypeService.getEntityByName("Gasoline"),
-                LocalDateTime.of(2000, 3, 25, 0, 0), 1990, true, true, 200000, modelService.getEntityByName("C350"),
+                LocalDateTime.of(2000, 3, 25, 0, 0), 1990, true, 200000, modelService.getEntityByName("C350"),
                 parkingService.getEntityById(parkingId), colourService.getEntityByName("Red"), typeService.getEntityByName("Sedan"));
 
         assertEquals(0, carRepository.count());
@@ -338,12 +347,12 @@ public class CarServiceTest {
 
         final Car car = new Car(null, "photoNr1", "WN101", 100, 4, 5, 5,
                 gearboxTypeService.getEntityByName("Automatic"), fuelTypeService.getEntityByName("Gasoline"),
-                LocalDateTime.of(2000, 3, 25, 0, 0), 1990, true, true, 200000, modelService.getEntityByName("C350"),
+                LocalDateTime.of(2000, 3, 25, 0, 0), 1990, true, 200000, modelService.getEntityByName("C350"),
                 parkingService.getEntityById(parkingId1), colourService.getEntityByName("Red"), typeService.getEntityByName("Sedan"));
 
         final CarDTO carDTO = new CarDTO("photoNr5", "WN122", 122, 5, 6, 7,
                 gearboxTypeService.getDTOByName("Manual"), fuelTypeService.getDTOByName("Petrol"),
-                LocalDateTime.of(2020, 3, 25, 0, 0), 2000, true, true, 203230, modelService.getDTOByName("Astra"),
+                LocalDateTime.of(2020, 3, 25, 0, 0), 2000, true, 203230, modelService.getDTOByName("Astra"),
                 parkingService.getDTOById(parkingId2), colourService.getDTOByName("Blue"), typeService.getDTOByName("Coupe"));
 
         assertEquals(0, carRepository.count());
@@ -374,7 +383,7 @@ public class CarServiceTest {
     }
 
     @Test
-    void whenCarLicensePlateGiven_shouldSetCarIsNotInCompany(){
+    void whenCarLicensePlateGiven_shouldSetCarIsNotInCompanyAndIsInActive(){
         final Model model1 = new Model(null, "C350", markService.getEntityByName("Audi"));
         final Model model2 = new Model(null, "Astra", markService.getEntityByName("Opel"));
         final Model model3 = new Model(null, "M5", markService.getEntityByName("BMW"));
@@ -390,7 +399,7 @@ public class CarServiceTest {
 
         final Car car = new Car(null, "photoNr1", "WN101", 100, 4, 5, 5,
                 gearboxTypeService.getEntityByName("Automatic"), fuelTypeService.getEntityByName("Gasoline"),
-                LocalDateTime.of(2000, 3, 25, 0, 0), 1990, true, true, 200000, modelService.getEntityByName("C350"),
+                LocalDateTime.of(2000, 3, 25, 0, 0), 1990, true, 200000, modelService.getEntityByName("C350"),
                 parkingService.getEntityById(parkingId), colourService.getEntityByName("Red"), typeService.getEntityByName("Sedan"));
 
         assertEquals(0, carRepository.count());
@@ -400,5 +409,6 @@ public class CarServiceTest {
         carService.setCarIsNotInCompany(car.getLicensePlate());
         Car updatedCar = carService.getEntityByLicensePlate(car.getLicensePlate());
         assertFalse(updatedCar.getIsOnCompany());
+        assertFalse(updatedCar.getIsActive());
     }
 }

@@ -19,4 +19,10 @@ public interface CarServiceInterface {
     Long updateCarInDB(String oldCarLicensePlate, CarDTO newCarDTO);
 
     Long setCarIsNotInCompany(String licensePlate);
+
+    List<CarDTO> getInCompanyCarDTOs();
+
+    List<CarDTO> getInCompanyActiveCarDTOs();
+
+    List<CarDTO> getInCompanyInActiveCarDTOs();
 }

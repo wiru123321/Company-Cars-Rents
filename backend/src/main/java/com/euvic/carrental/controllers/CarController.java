@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+//Wyswietla tylko samochody w firmie i takich co ich nie ma
+
 @RestController
 @CrossOrigin
 public class CarController {
@@ -27,9 +29,19 @@ public class CarController {
         return "Hello admin";
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/ae/cars")
-    public List<CarDTO> getAllCars(){
-        return carService.getAllDTOs();
+    @RequestMapping(method = RequestMethod.GET, value = "/a/cars")
+    public List<CarDTO> getAllInCompanyCars(){
+        return carService.getInCompanyCarDTOs();
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/ae/active-cars")
+    public List<CarDTO> getAllActiveCars(){
+        return carService.getInCompanyActiveCarDTOs();
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/a/inactive-cars")
+    public List<CarDTO> getAllInActiveCars(){
+        return carService.getInCompanyInActiveCarDTOs();
     }
 
     @RequestMapping(method = RequestMethod.POST,value = "/a/car")
