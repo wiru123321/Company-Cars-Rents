@@ -19,7 +19,7 @@ const Reservation = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    fetchCars(dispatch);
+    dispatch(fetchCars());
   }, []);
 
   function handleFirstnameChange(event) {
