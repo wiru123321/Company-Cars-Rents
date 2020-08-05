@@ -1,9 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Button, Box } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
-
+import { useSelector, useDispatch } from "react-redux";
 import EmployerInfo from "./removeEmployerComponent/RemoveEmployerComponent";
+import {
+  selectAllUsers,
+  fetchAllUsers,
+} from "../../../features/add-employees/addEmployeeSlice";
+
 const json = [
   {
     name: "Wojciech",
@@ -32,13 +37,19 @@ const json = [
 ];
 
 const RemoveEmployer = () => {
-  const [employers, setEmployers] = useState(json);
+  //const [employers, setEmployers] = useState(json);
+  const dispatch = useDispatch();
+  const employers = useSelector(selectAllUsers);
+
+  useEffect(() => {
+    dispatch(fetchAllUsers());
+  }, []);
 
   return (
     <Container flex style={{ width: "100vw" }}>
       {employers.map((employer, index) => {
         return (
-          <Container>
+          <Container key={index}>
             <Box
               display="flex"
               justifyContent="center"

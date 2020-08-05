@@ -5,6 +5,7 @@ import rentRequestSlice from "../features/rent-requests/rentRequestsSlice";
 import yourReservationReducer from "../features/your-cars/yourCarsSlice";
 import carsInfoReducer from "../features/add-car-info/carsInfoSlice";
 import authReducer from "../features/authentication/authSlice";
+import startingCarParameterReducer from "../features/starting-car-parameter/startingCarParameterSlice";
 
 export default configureStore({
   reducer: {
@@ -14,5 +15,6 @@ export default configureStore({
     auth: authReducer,
     YourReservation: yourReservationReducer,
     CarsInfo: carsInfoReducer,
+    startingCarParameter: startingCarParameterReducer,
   },
 });
