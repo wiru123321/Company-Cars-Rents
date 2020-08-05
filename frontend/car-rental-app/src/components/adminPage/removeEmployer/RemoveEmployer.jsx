@@ -7,6 +7,7 @@ import EmployerInfo from "./removeEmployerComponent/RemoveEmployerComponent";
 import {
   selectAllUsers,
   fetchAllUsers,
+  deleteUser,
 } from "../../../features/add-employees/addEmployeeSlice";
 
 const json = [
@@ -45,6 +46,9 @@ const RemoveEmployer = () => {
     dispatch(fetchAllUsers());
   }, []);
 
+  const handleDelete = (login) => {
+    dispatch(deleteUser(login));
+  };
   return (
     <Container flex style={{ width: "100vw" }}>
       {employers.map((employer, index) => {
@@ -75,6 +79,7 @@ const RemoveEmployer = () => {
                   color="secondary"
                   startIcon={<DeleteIcon />}
                   style={{ marginLeft: "2vw" }}
+                  onClick={(event) => handleDelete(employer.login)}
                 >
                   Remove
                 </Button>

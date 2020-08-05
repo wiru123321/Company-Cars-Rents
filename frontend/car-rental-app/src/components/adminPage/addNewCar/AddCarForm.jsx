@@ -9,7 +9,13 @@ import {
 import { Save, Delete } from "@material-ui/icons";
 import { SelectBox } from "./SelectBox";
 import { useSelector } from "react-redux";
-import { selectMarks } from "../../../features/starting-car-parameter/startingCarParameterSlice";
+import {
+  selectMarks,
+  selectTypes,
+  selectFuelType,
+  selectColor,
+  selectGearboxType,
+} from "../../../features/starting-car-parameter/startingCarParameterSlice";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,6 +46,10 @@ export const AddCarForm = ({
   handletrunkCapacityChange,
 }) => {
   const marks = useSelector(selectMarks);
+  const types = useSelector(selectTypes);
+  const FuelTypes = useSelector(selectFuelType);
+  const Color = useSelector(selectColor);
+  const GearboxType = useSelector(selectGearboxType);
   return (
     <div>
       <Box display="flex" justifyContent="center">
@@ -57,14 +67,13 @@ export const AddCarForm = ({
         {/* <Box>
           <TextField label="Brand" onChange={handleBrandChange} />
         </Box> */}
-        <SelectBox SelectHandler={marks} NameHandler="Marksss" />
-        <Box>
-          <TextField
-            label="Type"
-            style={{ marginLeft: "10%" }}
-            onChange={handletypeChange}
-          />
-        </Box>
+        <SelectBox SelectHandler={marks} NameHandler="Mark" />
+        <SelectBox SelectHandler={types} NameHandler="Type" />
+      </Box>
+      <Box display="flex" justifyContent="center" style={{ height: "10vh" }}>
+        <SelectBox SelectHandler={FuelTypes} NameHandler="Fuel Type" />
+        <SelectBox SelectHandler={Color} NameHandler="Color" />
+        <SelectBox SelectHandler={GearboxType} NameHandler="Gearbox Type" />
       </Box>
       <Box display="flex" justifyContent="center" style={{ height: "10vh" }}>
         <Box>
@@ -75,15 +84,10 @@ export const AddCarForm = ({
         </Box>
         <Box>
           <TextField
-            label="Fuel Type"
+            label="Year"
+            onChange={handleyearChange}
             style={{ marginLeft: "10%" }}
-            onChange={handlefuelTypeChange}
           />
-        </Box>
-      </Box>
-      <Box display="flex" justifyContent="center" style={{ height: "10vh" }}>
-        <Box>
-          <TextField label="Year" onChange={handleyearChange} />
         </Box>
         <Box>
           <TextField
@@ -99,13 +103,6 @@ export const AddCarForm = ({
             onChange={handlehpChange}
           />
         </Box>
-        <Box>
-          <TextField
-            label="People Capacity"
-            style={{ marginLeft: "10%" }}
-            onChange={handlepeopleCapacityChange}
-          />
-        </Box>
       </Box>
       <Box display="flex" justifyContent="center">
         <Box>
@@ -113,18 +110,12 @@ export const AddCarForm = ({
         </Box>
         <Box>
           <TextField
-            label="Color"
+            label="People Capacity"
             style={{ marginLeft: "10%" }}
-            onChange={handlecolorChange}
+            onChange={handlepeopleCapacityChange}
           />
         </Box>
-        <Box>
-          <TextField
-            label="Gearbox Type"
-            style={{ marginLeft: "10%" }}
-            onChange={handlegearboxTypeChange}
-          />
-        </Box>
+
         <Box>
           <TextField
             label="Trunk Capacity"
