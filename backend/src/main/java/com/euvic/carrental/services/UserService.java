@@ -1,8 +1,11 @@
 package com.euvic.carrental.services;
 
+import com.euvic.carrental.model.Car;
 import com.euvic.carrental.model.User;
 import com.euvic.carrental.repositories.UserRepository;
-import com.euvic.carrental.responses.UserDTO;
+import com.euvic.carrental.responses.CarDTO;
+import com.euvic.carrental.responses.User.UserCration;
+import com.euvic.carrental.responses.User.UserDTO;
 import com.euvic.carrental.services.interfaces.UserServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +28,11 @@ public class UserService implements UserServiceInterface {
     @Override
     public User mapRestModel(final Long id, final UserDTO userDTO) {
         return new User(id, userDTO, roleService.getEntityByRoleName(userDTO.getRoleDTO().getName()));
+    }
+
+    @Override //TODO tests
+    public User mapCreationModel(Long id, UserCration userCration) {
+        return new User(id, userCration, roleService.getEntityByRoleName(userCration.getRoleDTO().getName()));
     }
 
     @Override
@@ -59,14 +67,14 @@ public class UserService implements UserServiceInterface {
     public List<UserDTO> getAllDTOs() {
         final ArrayList<User> userArrayList = new ArrayList<>();
         userRepository.findAll().forEach(userArrayList::add);
+        return mapRestList(userArrayList);
+    }
 
-        final ArrayList<UserDTO> userDTOArrayList = new ArrayList<>();
-        userArrayList.stream().forEach((user) -> {
-            final UserDTO userDTO = new UserDTO(user, roleService.getDTOByRoleName(user.getRole().getName()));
-            userDTOArrayList.add(userDTO);
-        });
-
-        return userDTOArrayList;
+    @Override
+    public List<UserDTO> getAllActiveUserDTOs() {
+        final ArrayList<User> userArrayList = new ArrayList<>();
+        userRepository.findAllByIsActive(true).forEach(userArrayList::add);
+        return mapRestList(userArrayList);
     }
 
     @Override
@@ -80,6 +88,15 @@ public class UserService implements UserServiceInterface {
     public Long setUserIsNotActive(String login) {
         User user = getEntityByLogin(login);
         user.setIsActive(false);
-        return user.getId();
+        return userRepository.save(user).getId();
+    }
+
+    private List<UserDTO> mapRestList(List<User> userArrayList){ //TODO tests? same method in cars
+        final ArrayList<UserDTO> userDTOArrayList = new ArrayList<>();
+        userArrayList.stream().forEach((user) -> {
+            final UserDTO userDTO = new UserDTO(user, roleService.getDTOByRoleName(user.getRole().getName()));
+            userDTOArrayList.add(userDTO);
+        });
+        return userDTOArrayList;
     }
 }

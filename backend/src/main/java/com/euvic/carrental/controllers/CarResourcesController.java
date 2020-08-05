@@ -54,11 +54,6 @@ public class CarResourcesController {
         return markService.getAllDTOs();
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/roles")
-    public List<RoleDTO> getAllRoles(){
-        return roleService.getAllDTOs();
-    }
-
     @RequestMapping(method = RequestMethod.GET, value = "/types")
     public List<TypeDTO> getAllTypes(){
         return typeService.getAllDTOs();

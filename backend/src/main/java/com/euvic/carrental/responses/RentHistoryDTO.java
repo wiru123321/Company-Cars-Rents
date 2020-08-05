@@ -1,10 +1,10 @@
 package com.euvic.carrental.responses;
 
 import com.euvic.carrental.model.*;
+import com.euvic.carrental.responses.User.UserDTO;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Data
 public class RentHistoryDTO {

@@ -17,18 +17,18 @@ import {
   gearboxTypeChange,
   trunkCapacityChange,
   imageUrlChange,
-  fetchMarks,
 } from "../../../features/add-car-info/carsInfoSlice";
+import { fetchMarks } from "../../../features/starting-car-parameter/startingCarParameterSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 const AddNewCar = () => {
   const dispatch = useDispatch();
-  const fetch = useSelector(fetchMarks);
   return (
     <Cointainer fixed>
       <Typography
         component="div"
         style={{ backgroundColor: "#cfe8fc", height: "94.6vh", width: "100%" }}
+        onLoad={dispatch(fetchMarks())}
       >
         <form style={{ width: "50vw", margin: "auto" }}>
           <div style={{ height: "5vh" }}></div>

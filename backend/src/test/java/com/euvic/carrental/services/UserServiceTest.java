@@ -1,17 +1,15 @@
 package com.euvic.carrental.services;
 
-import com.euvic.carrental.model.Car;
 import com.euvic.carrental.model.Role;
 import com.euvic.carrental.model.User;
 import com.euvic.carrental.repositories.RoleRepository;
 import com.euvic.carrental.repositories.UserRepository;
-import com.euvic.carrental.responses.UserDTO;
+import com.euvic.carrental.responses.User.UserDTO;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 
