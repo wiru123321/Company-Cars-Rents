@@ -1,44 +1,47 @@
 import React from "react";
-import { Container, Card, CardContent, Typography } from "@material-ui/core";
+import { Typography, Divider } from "@material-ui/core";
+import PhoneIcon from "@material-ui/icons/Phone";
+import EmailIcon from "@material-ui/icons/Email";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import FingerprintIcon from "@material-ui/icons/Fingerprint";
 
-const RemoveEmployerComponent = ({ employer }) => {
-  const { name, surname, email, login, phoneNumber, roleDTO } = employer;
+const RemoveEmployerComponent = ({ employee }) => {
+  const { name, surname, email, login, phoneNumber, roleDTO } = employee;
   return (
-    <Card style={{ textAlign: "center" }}>
-      <CardContent>
-        <Typography gutterBottom variant="h5">
-          {name} {surname}
-        </Typography>
-        <Typography
-          variant="h5"
-          component="h2"
-          style={{ wordWrap: "break-word" }}
-        >
-          {login}
-        </Typography>
-        <Typography
-          variant="h5"
-          component="h2"
-          style={{ wordWrap: "break-word" }}
-        >
-          {email}
-        </Typography>
-        <Typography
-          variant="h5"
-          component="h2"
-          style={{ wordWrap: "break-word" }}
-        >
-          {phoneNumber}
-        </Typography>
-        <Typography
-          variant="h5"
-          component="h2"
-          style={{ wordWrap: "break-word" }}
-        >
-          {roleDTO.name}
-        </Typography>
-      </CardContent>
-    </Card>
+    <>
+      <Typography gutterBottom variant="h5">
+        {name} {surname}
+      </Typography>
+      <Divider />
+      <Typography
+        variant="h5"
+        component="h2"
+        style={{ wordWrap: "break-word" }}
+      >
+        <AccountCircleIcon /> {login}
+      </Typography>
+      <Typography
+        variant="h5"
+        component="h2"
+        style={{ wordWrap: "break-word" }}
+      >
+        <EmailIcon /> {email}
+      </Typography>
+      <Typography
+        variant="h5"
+        component="h2"
+        style={{ wordWrap: "break-word" }}
+      >
+        <PhoneIcon /> {phoneNumber}
+      </Typography>
+      <Typography
+        variant="h5"
+        component="h2"
+        style={{ wordWrap: "break-word" }}
+      >
+        <FingerprintIcon /> {roleDTO.name}
+      </Typography>
+    </>
   );
 };
 

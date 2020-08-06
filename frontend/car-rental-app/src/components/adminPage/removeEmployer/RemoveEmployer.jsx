@@ -1,46 +1,87 @@
 import React, { useState, useEffect } from "react";
-import { Container, Button, Box } from "@material-ui/core";
+import { Container, Button, Grid, Paper, Divider } from "@material-ui/core";
+import { useSelector, useDispatch } from "react-redux";
+import { makeStyles } from "@material-ui/core/styles";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
-import { useSelector, useDispatch } from "react-redux";
 import EmployerInfo from "./removeEmployerComponent/RemoveEmployerComponent";
 import {
   selectAllUsers,
   fetchAllUsers,
   deleteUser,
 } from "../../../features/add-employees/addEmployeeSlice";
+import EditEmployee from "./EditEmployee";
 
-const json = [
-  {
-    name: "Wojciech",
-    surname: "Waleszczyk",
-    number: "123-456-789",
-    email: "Wojciech@name.com",
+const useStyles = makeStyles({
+  paper: {
+    padding: "12px",
+    marginTop: "1%",
   },
-  {
-    name: "Kamil",
-    surname: "Susek",
-    number: "123-456-789",
-    email: "Kamil@name.com",
-  },
-  {
-    name: "Bartosz",
-    surname: "Czapiewski",
-    number: "123-456-789",
-    email: "Bartosz@name.com",
-  },
-  {
-    name: "Rafał",
-    surname: "Paprota",
-    number: "123-456-789",
-    email: "Rafał@name.com",
-  },
-];
+});
+
+const ControlPanel = ({ setEdit, handleDelete, edit }) => {
+  return (
+    <div>
+      <Button
+        variant="contained"
+        color="primary"
+        startIcon={<EditIcon />}
+        onClick={(event) => setEdit(!edit)}
+      >
+        Edit
+      </Button>
+      <Button
+        variant="contained"
+        color="secondary"
+        startIcon={<DeleteIcon />}
+        style={{ marginLeft: "2vw" }}
+        onClick={handleDelete}
+      >
+        Remove
+      </Button>
+    </div>
+  );
+};
+
+const Employee = ({ employee, handleDelete }) => {
+  const classes = useStyles();
+  const [edit, setEdit] = useState(false);
+
+  const deleteUser = () => {
+    handleDelete(employee.login);
+  };
+
+  return (
+    <Paper className={classes.paper}>
+      <Grid container justify="center" alignItems="center">
+        <Grid item xs={3}>
+          <EmployerInfo employee={employee} />
+        </Grid>
+        <Grid item xs={6}>
+          {edit && <EditEmployee employee={employee} />}
+        </Grid>
+        <Grid item xs={3}>
+          <Grid
+            container
+            direction="column"
+            justify="center"
+            alignItems="center"
+          >
+            <ControlPanel
+              edit={edit}
+              setEdit={setEdit}
+              handleDelete={deleteUser}
+            />
+          </Grid>
+        </Grid>
+      </Grid>
+    </Paper>
+  );
+};
 
 const RemoveEmployer = () => {
-  //const [employers, setEmployers] = useState(json);
   const dispatch = useDispatch();
-  const employers = useSelector(selectAllUsers);
+  const employees = useSelector(selectAllUsers);
 
   useEffect(() => {
     dispatch(fetchAllUsers());
@@ -49,45 +90,12 @@ const RemoveEmployer = () => {
   const handleDelete = (login) => {
     dispatch(deleteUser(login));
   };
+
   return (
-    <Container flex style={{ width: "100vw" }}>
-      {employers.map((employer, index) => {
-        return (
-          <Container key={index}>
-            <Box
-              display="flex"
-              justifyContent="center"
-              m={1}
-              p={1}
-              style={{ width: "80vw" }}
-            >
-              <Box style={{ width: "40vw" }}>
-                <EmployerInfo employer={employer} />
-              </Box>
-              <Box
-                style={{ marginTop: "4vh", marginLeft: "5vw", width: "40vw" }}
-              >
-                <Button
-                  variant="contained"
-                  color="primary"
-                  startIcon={<EditIcon />}
-                >
-                  Edit
-                </Button>
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  startIcon={<DeleteIcon />}
-                  style={{ marginLeft: "2vw" }}
-                  onClick={(event) => handleDelete(employer.login)}
-                >
-                  Remove
-                </Button>
-              </Box>
-            </Box>
-          </Container>
-        );
-      })}
+    <Container display="flex" style={{ width: "100vw" }}>
+      {employees.map((employee, index) => (
+        <Employee key={index} handleDelete={handleDelete} employee={employee} />
+      ))}
     </Container>
   );
 };

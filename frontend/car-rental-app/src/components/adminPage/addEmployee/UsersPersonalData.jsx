@@ -1,10 +1,17 @@
 import React from "react";
-import { TextField, Grid } from "@material-ui/core";
+import {
+  TextField,
+  Grid,
+  Select,
+  MenuItem,
+  InputLabel,
+} from "@material-ui/core";
 import useStyles from "./useStyles";
 
 const UsersPersonalData = ({
   firstname,
   lastname,
+  role,
   handleFirstnameChange,
   handleLastnameChange,
 }) => {

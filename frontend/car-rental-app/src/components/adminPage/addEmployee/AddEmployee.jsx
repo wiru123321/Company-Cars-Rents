@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Grid, Typography, Divider, Paper } from "@material-ui/core";
+import { Grid, Typography } from "@material-ui/core";
 import {
   firstnameChange,
   lastnameChange,
