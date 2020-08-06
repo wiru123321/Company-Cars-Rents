@@ -2,12 +2,18 @@ package com.euvic.carrental.controllers;
 
 import com.euvic.carrental.model.User;
 import com.euvic.carrental.responses.User.UserCreation;
+import com.euvic.carrental.responses.User.UserDTO;
+import com.euvic.carrental.responses.User.UserInfoDTO;
 import com.euvic.carrental.responses.User.UserUpdate;
 import com.euvic.carrental.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 //TODO tylko zwraca userów, jest 1 admin i nie mozna go edytować
@@ -28,8 +34,10 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/users")
-    public ResponseEntity getAllActiveUsers(){
-        return ResponseEntity.ok(userService.getAllActiveUserDTOs());
+    public ResponseEntity getAllActiveUsersExceptCurrent(){
+        List<UserDTO> userDTOList = userService.getAllActiveUserDTOs();
+        userDTOList.remove(userService.getDTOByLogin(SecurityContextHolder.getContext().getAuthentication().getName()));
+        return ResponseEntity.ok(userDTOList);
     }
 
     @RequestMapping(method = RequestMethod.POST,value = "/user")
