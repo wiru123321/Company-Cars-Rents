@@ -124,12 +124,12 @@ public class CarServiceTest {
 
         final Long parkingId1 = parkingService.addEntityToDB(parking1);
 
-        final Car car = new Car(null, "photoNr1", "WN101", 100, 4, 5, 5,
+        final Car car = new Car(null, "WN101", 100, 4, 5, 5,
                 gearboxTypeService.getEntityByName("Automatic"), fuelTypeService.getEntityByName("Gasoline"),
                 LocalDateTime.of(2000, 3, 25, 0, 0), 1990, true, 200000, modelService.getEntityByName("C350"),
                 parkingService.getEntityById(parkingId1), colourService.getEntityByName("Red"), typeService.getEntityByName("Sedan"));
 
-        final CarDTO carDTO = new CarDTO("photoNr1", "WN101", 100, 4, 5, 5,
+        final CarDTO carDTO = new CarDTO("WN101", 100, 4, 5, 5,
                 gearboxTypeService.getDTOByName("Automatic"), fuelTypeService.getDTOByName("Gasoline"),
                 LocalDateTime.of(2000, 3, 25, 0, 0), 1990, true, 200000, modelService.getDTOByName("C350"),
                 parkingService.getDTOById(parkingId1), colourService.getDTOByName("Red"), typeService.getDTOByName("Sedan"));
@@ -170,7 +170,7 @@ public class CarServiceTest {
 
         final Long parkingId1 = parkingService.addEntityToDB(parking1);
 
-        final Car car = new Car(null, "photoNr1", "WN101", 100, 4, 5, 5,
+        final Car car = new Car(null, "WN101", 100, 4, 5, 5,
                 gearboxTypeService.getEntityByName("Automatic"), fuelTypeService.getEntityByName("Gasoline"),
                 LocalDateTime.of(2000, 3, 25, 0, 0), 1990, true, 200000, modelService.getEntityByName("C350"),
                 parkingService.getEntityById(parkingId1), colourService.getEntityByName("Red"), typeService.getEntityByName("Sedan"));
@@ -217,7 +217,7 @@ public class CarServiceTest {
         final Long parkingId1 = parkingService.addEntityToDB(parking1);
 
 
-        final Car car = new Car(null, "photoNr1", "WN101", 100, 4, 5, 5,
+        final Car car = new Car(null, "WN101", 100, 4, 5, 5,
                 gearboxTypeService.getEntityByName("Automatic"), fuelTypeService.getEntityByName("Gasoline"),
                 LocalDateTime.of(2000, 3, 25, 0, 0), 1990, true, 200000, modelService.getEntityByName("C350"),
                 parkingService.getEntityById(parkingId1), colourService.getEntityByName("Red"), typeService.getEntityByName("Sedan"));
@@ -228,7 +228,6 @@ public class CarServiceTest {
         final CarDTO serviceCarDTO = carService.getDTOByLicensePlate("WN101");
 
         assertAll(() -> {
-            assertEquals(car.getPhotoInFolderName(), serviceCarDTO.getPhotoInFolderName());
             assertEquals(car.getLicensePlate(), serviceCarDTO.getLicensePlate());
             assertEquals(car.getEnginePower(), serviceCarDTO.getEnginePower());
             assertEquals(car.getCapacityOfTrunkScale(), serviceCarDTO.getCapacityOfTrunkScale());
@@ -267,17 +266,17 @@ public class CarServiceTest {
         final Long parkingId3 = parkingService.addEntityToDB(parking3);
 
 
-        final Car car1 = new Car(null, "photoNr1", "WN101", 100, 4, 5, 5,
+        final Car car1 = new Car(null, "WN101", 100, 4, 5, 5,
                 gearboxTypeService.getEntityByName("Automatic"), fuelTypeService.getEntityByName("Gasoline"),
                 LocalDateTime.of(2000, 3, 25, 0, 0), 1990, true, 200000, modelService.getEntityByName("C350"),
                 parkingService.getEntityById(parkingId1), colourService.getEntityByName("Red"), typeService.getEntityByName("Sedan"));
 
-        final Car car2 = new Car(null, "photoNr2", "SBE33212", 120, 1, 4, 3,
+        final Car car2 = new Car(null, "SBE33212", 120, 1, 4, 3,
                 gearboxTypeService.getEntityByName("Manual"), fuelTypeService.getEntityByName("Diesel"),
                 LocalDateTime.of(2000, 3, 25, 0, 0), 2000, false, 120000, modelService.getEntityByName("Astra"),
                 parkingService.getEntityById(parkingId2), colourService.getEntityByName("Blue"), typeService.getEntityByName("Coupe"));
 
-        final Car car3 = new Car(null, "photoNr3", "SBE11212", 250, 4, 5, 5,
+        final Car car3 = new Car(null, "SBE11212", 250, 4, 5, 5,
                 gearboxTypeService.getEntityByName("Automatic"), fuelTypeService.getEntityByName("Diesel"),
                 LocalDateTime.of(2000, 3, 25, 0, 0), 2014, true, 100000, modelService.getEntityByName("M5"),
                 parkingService.getEntityById(parkingId3), colourService.getEntityByName("Green"), typeService.getEntityByName("Sedan"));
@@ -318,7 +317,7 @@ public class CarServiceTest {
 
         final Long parkingId = parkingService.addEntityToDB(parking);
 
-        final Car car = new Car(null, "photoNr1", "WN101", 100, 4, 5, 5,
+        final Car car = new Car(null, "WN101", 100, 4, 5, 5,
                 gearboxTypeService.getEntityByName("Automatic"), fuelTypeService.getEntityByName("Gasoline"),
                 LocalDateTime.of(2000, 3, 25, 0, 0), 1990, true, 200000, modelService.getEntityByName("C350"),
                 parkingService.getEntityById(parkingId), colourService.getEntityByName("Red"), typeService.getEntityByName("Sedan"));
@@ -345,12 +344,12 @@ public class CarServiceTest {
         final Long parkingId1 = parkingService.addEntityToDB(parking1);
         final Long parkingId2 = parkingService.addEntityToDB(parking2);
 
-        final Car car = new Car(null, "photoNr1", "WN101", 100, 4, 5, 5,
+        final Car car = new Car(null, "WN101", 100, 4, 5, 5,
                 gearboxTypeService.getEntityByName("Automatic"), fuelTypeService.getEntityByName("Gasoline"),
                 LocalDateTime.of(2000, 3, 25, 0, 0), 1990, true, 200000, modelService.getEntityByName("C350"),
                 parkingService.getEntityById(parkingId1), colourService.getEntityByName("Red"), typeService.getEntityByName("Sedan"));
 
-        final CarDTO carDTO = new CarDTO("photoNr5", "WN122", 122, 5, 6, 7,
+        final CarDTO carDTO = new CarDTO("WN122", 122, 5, 6, 7,
                 gearboxTypeService.getDTOByName("Manual"), fuelTypeService.getDTOByName("Petrol"),
                 LocalDateTime.of(2020, 3, 25, 0, 0), 2000, true, 203230, modelService.getDTOByName("Astra"),
                 parkingService.getDTOById(parkingId2), colourService.getDTOByName("Blue"), typeService.getDTOByName("Coupe"));
@@ -363,7 +362,7 @@ public class CarServiceTest {
         assertAll(() -> {
             assertEquals(carId, updatedCar.getId());
             assertEquals(1, carRepository.count());
-            assertEquals("photoNr5", updatedCar.getPhotoInFolderName());
+            assertEquals(null, updatedCar.getPhotoInFolderName());
             assertEquals("WN122", updatedCar.getLicensePlate());
             assertEquals(122, updatedCar.getEnginePower());
             assertEquals(5, updatedCar.getCapacityOfTrunkScale());
@@ -397,7 +396,7 @@ public class CarServiceTest {
 
         final Long parkingId = parkingService.addEntityToDB(parking);
 
-        final Car car = new Car(null, "photoNr1", "WN101", 100, 4, 5, 5,
+        final Car car = new Car(null, "WN101", 100, 4, 5, 5,
                 gearboxTypeService.getEntityByName("Automatic"), fuelTypeService.getEntityByName("Gasoline"),
                 LocalDateTime.of(2000, 3, 25, 0, 0), 1990, true, 200000, modelService.getEntityByName("C350"),
                 parkingService.getEntityById(parkingId), colourService.getEntityByName("Red"), typeService.getEntityByName("Sedan"));
