@@ -1,0 +1,29 @@
+stages:
+   - build
+   - test
+   - deploy
+
+test: 
+   stage: test
+   script:
+      - echo "Here goes test"
+#     - gradle test
+#     - npm test
+#     How to run it?
+   tags:
+      - test
+
+build_develop:
+   stage: build
+   script:
+      - docker-compose build
+   tags:
+      - build
+
+deploy_develop:
+   stage: deploy
+   script:
+      - docker-compose down
+      - docker-compose up -d
+   tags: 
+      - deploy

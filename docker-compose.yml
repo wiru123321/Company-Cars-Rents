@@ -1,0 +1,37 @@
+version: '3.3'
+services:
+# Data Base image
+  postgresdb:
+    container_name: dbpostgres
+    image: postgres
+    build: ./postgres/
+    #12.2
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=polska525
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=car_rental
+    volumes:
+      - postgres:/var/lib/postgresql/data
+
+# Backend Application image
+  backend:
+    image: backend 
+    container_name: backend
+    build: ./backend
+    ports:
+      - "30083:30083"
+    depends_on:
+      - postgresdb
+
+# Frontend Application image
+  frontend:
+    image: frontend
+    container_name: frontend
+    build: ./frontend/car-rental-app/
+    ports:
+      - "30084:5000"
+
+volumes:
+  postgres: 
