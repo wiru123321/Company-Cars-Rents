@@ -7,7 +7,6 @@ import {
   makeStyles,
 } from "@material-ui/core";
 import { Save, Delete } from "@material-ui/icons";
-import { SelectBox } from "./SelectBox";
 import { useSelector, useDispatch } from "react-redux";
 import {
   selectMarks,
@@ -17,41 +16,39 @@ import {
   selectGearboxType,
 } from "../../../features/starting-car-parameter/startingCarParameterSlice";
 import {
-  selectImageUrl,
-  reset,
   selectAll,
   addCar,
+  brandChange,
+  typeChange,
+  licencePlateChange,
+  fuelTypeChange,
+  yearChange,
+  milageChange,
+  hpChange,
+  peopleCapacityChange,
+  doorsNumberChange,
+  colorChange,
+  gearboxTypeChange,
+  trunkCapacityChange,
+  imageUrlChange,
 } from "../../../features/add-car-info/carsInfoSlice";
+import SelectBoxForm from "./SelectBoxForm";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    "& > *": {
+const AddCarForm = () => {
+  const useStyles = makeStyles((theme) => ({
+    root: {
+      "& > *": {
+        margin: theme.spacing(1),
+      },
+    },
+    input: {
+      display: "none",
+    },
+    button: {
       margin: theme.spacing(1),
     },
-  },
-  input: {
-    display: "none",
-  },
-  button: {
-    margin: theme.spacing(1),
-  },
-}));
+  }));
 
-export const AddCarForm = ({
-  handleBrandChange,
-  handletypeChange,
-  handlelicencePlateChange,
-  handlefuelTypeChange,
-  handleyearChange,
-  handlemilageChange,
-  handlehpChange,
-  handlepeopleCapacityChange,
-  handledoorsNumberChange,
-  handlecolorChange,
-  handlegearboxTypeChange,
-  handletrunkCapacityChange,
-  handleimageUrlChange,
-}) => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const marks = useSelector(selectMarks);
@@ -62,20 +59,49 @@ export const AddCarForm = ({
   const CarInfo = useSelector(selectAll);
 
   const {
-    brand,
-    type,
-    licencePlate,
-    fuelType,
-    year,
-    milage,
-    hp,
-    color,
-    peopleCapacity,
+    modelDTO,
+    typeDTO,
+    licensePlate,
+    fuelTypeDTO,
+    productionYear,
+    mileage,
+    enginePower,
+    capacityOfPeople,
     doorsNumber,
-    gearboxType,
-    trunkCapacity,
-    imageUrl,
+    colourDTO,
+    gearBoxTypeDTO,
+    capacityOfTrunkScale,
+    photoInFolderName,
   } = CarInfo;
+
+  function submit(event) {
+    event.preventDefault();
+    let car = {
+      licensePlate: licensePlate,
+      enginePower: enginePower,
+      capacityOfTrunkScale: capacityOfTrunkScale,
+      capacityOfPeople: capacityOfPeople,
+      doorsNumber: doorsNumber,
+      gearBoxTypeDTO: { name: gearBoxTypeDTO },
+      fuelTypeDTO: { name: fuelTypeDTO },
+      lastInspection: "2000-03-25T00:00:00",
+      productionYear: productionYear,
+      isActive: true,
+      mileage: mileage,
+      modelDTO: { modelDTO, markDTO: { name: modelDTO } },
+      parkingDTO: {
+        town: "Katowice",
+        postalCode: "40-001",
+        streetName: "Norweska 3",
+        number: "E-6",
+        comment: "Parking przy sklepiku Avea",
+        isActive: true,
+      },
+      colourDTO: { name: colourDTO },
+      typeDTO: { name: typeDTO },
+    };
+    dispatch(addCar(car));
+  }
 
   return (
     <div>
@@ -90,70 +116,45 @@ export const AddCarForm = ({
           Add car form.
         </h3>
       </Box>
-      <Box display="flex" justifyContent="center" style={{ height: "10vh" }}>
-        <SelectBox
-          SelectHandler={marks}
-          NameHandler="Mark"
-          handleChange={handleBrandChange}
-          handlerValue={brand}
-        />
-        <SelectBox
-          SelectHandler={types}
-          NameHandler="Type"
-          handleChange={handletypeChange}
-          handlerValue={type}
-        />
-      </Box>
-      <Box display="flex" justifyContent="center" style={{ height: "10vh" }}>
-        <SelectBox
-          SelectHandler={FuelTypes}
-          NameHandler="Fuel Type"
-          handleChange={handlefuelTypeChange}
-          handlerValue={fuelType}
-        />
-        <SelectBox
-          SelectHandler={ColorTypes}
-          NameHandler="Color"
-          handleChange={handlecolorChange}
-          handlerValue={color}
-        />
-        <SelectBox
-          SelectHandler={GearboxType}
-          NameHandler="Gearbox Type"
-          handleChange={handlegearboxTypeChange}
-          handlerValue={gearboxType}
-        />
-      </Box>
+      <SelectBoxForm
+        modelDTO={modelDTO}
+        typeDTO={typeDTO}
+        fuelTypeDTO={fuelTypeDTO}
+        colourDTO={colourDTO}
+        gearBoxTypeDTO={gearBoxTypeDTO}
+      />
       <Box display="flex" justifyContent="center" style={{ height: "10vh" }}>
         <Box>
           <TextField
             label="Licence Plate"
-            onChange={handlelicencePlateChange}
-            value={licencePlate}
+            onChange={(event) =>
+              dispatch(licencePlateChange(event.target.value))
+            }
+            value={licensePlate}
           />
         </Box>
         <Box>
           <TextField
             label="Year"
-            onChange={handleyearChange}
+            onChange={(event) => dispatch(yearChange(event.target.value))}
             style={{ marginLeft: "10%" }}
-            value={year}
+            value={productionYear}
           />
         </Box>
         <Box>
           <TextField
             label="Mileage"
             style={{ marginLeft: "10%" }}
-            onChange={handlemilageChange}
-            value={milage}
+            onChange={(event) => dispatch(milageChange(event.target.value))}
+            value={mileage}
           />
         </Box>
         <Box>
           <TextField
             label="HP"
             style={{ marginLeft: "10%" }}
-            onChange={handlehpChange}
-            value={hp}
+            onChange={(event) => dispatch(hpChange(event.target.value))}
+            value={enginePower}
           />
         </Box>
       </Box>
@@ -161,7 +162,9 @@ export const AddCarForm = ({
         <Box>
           <TextField
             label="Doors Number"
-            onChange={handledoorsNumberChange}
+            onChange={(event) =>
+              dispatch(doorsNumberChange(event.target.value))
+            }
             value={doorsNumber}
           />
         </Box>
@@ -169,8 +172,10 @@ export const AddCarForm = ({
           <TextField
             label="People Capacity"
             style={{ marginLeft: "10%" }}
-            onChange={handlepeopleCapacityChange}
-            value={peopleCapacity}
+            onChange={(event) =>
+              dispatch(peopleCapacityChange(event.target.value))
+            }
+            value={capacityOfPeople}
           />
         </Box>
 
@@ -178,8 +183,10 @@ export const AddCarForm = ({
           <TextField
             label="Trunk Capacity"
             style={{ marginLeft: "10%" }}
-            onChange={handletrunkCapacityChange}
-            value={trunkCapacity}
+            onChange={(event) =>
+              dispatch(trunkCapacityChange(event.target.value))
+            }
+            value={capacityOfTrunkScale}
           />
         </Box>
       </Box>
@@ -196,8 +203,8 @@ export const AddCarForm = ({
           id="contained-button-file"
           multiple
           type="file"
-          onChange={handleimageUrlChange}
-          value={imageUrl}
+          onChange={(event) => dispatch(imageUrlChange(event.target.value))}
+          value={photoInFolderName}
         />
         <label htmlFor="contained-button-file">
           <Button variant="contained" color="primary" component="span">
@@ -221,7 +228,7 @@ export const AddCarForm = ({
             className={classes.button}
             startIcon={<Save />}
             type="submit"
-            onClick={dispatch(addCar(CarInfo))}
+            onClick={submit}
           >
             Save
           </Button>
@@ -241,3 +248,5 @@ export const AddCarForm = ({
     </div>
   );
 };
+
+export default AddCarForm;

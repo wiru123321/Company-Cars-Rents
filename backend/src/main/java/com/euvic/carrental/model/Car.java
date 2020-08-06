@@ -14,7 +14,7 @@ public class Car {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    private String photoInFolderName;
+    private String photoInFolderName = null;
 
     @Column(nullable = false)
     private String licensePlate;
@@ -67,9 +67,8 @@ public class Car {
     public Car() {
     }
 
-    public Car(final Long id, final String photoInFolderName, final String licensePlate, final Integer enginePower, final Integer capacityOfTrunkScale, final Integer capacityOfPeople, final Integer doorsNumber, final GearboxType gearboxType, final FuelType fuelType, final LocalDateTime lastInspection, final Integer productionYear, final Boolean isActive, final Integer mileage, final Model model, final Parking parking, final Colour colour, final Type type) {
+    public Car(final Long id, final String licensePlate, final Integer enginePower, final Integer capacityOfTrunkScale, final Integer capacityOfPeople, final Integer doorsNumber, final GearboxType gearboxType, final FuelType fuelType, final LocalDateTime lastInspection, final Integer productionYear, final Boolean isActive, final Integer mileage, final Model model, final Parking parking, final Colour colour, final Type type) {
         this.id = id;
-        this.photoInFolderName = photoInFolderName;
         this.licensePlate = licensePlate;
         this.enginePower = enginePower;
         this.capacityOfTrunkScale = capacityOfTrunkScale;
@@ -89,7 +88,6 @@ public class Car {
 
     public Car(final Long id, final CarDTO carDTO, final GearboxType gearboxType, final FuelType fuelType, final Model model, final Parking parking, final Colour colour, final Type type) {
         this.id = id;
-        this.photoInFolderName = carDTO.getPhotoInFolderName();
         this.licensePlate = carDTO.getLicensePlate();
         this.enginePower = carDTO.getEnginePower();
         this.capacityOfTrunkScale = carDTO.getCapacityOfTrunkScale();

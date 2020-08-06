@@ -2,8 +2,9 @@ package com.euvic.carrental.services;
 
 import com.euvic.carrental.model.User;
 import com.euvic.carrental.repositories.UserRepository;
-import com.euvic.carrental.responses.User.UserCration;
+import com.euvic.carrental.responses.User.UserCreation;
 import com.euvic.carrental.responses.User.UserDTO;
+import com.euvic.carrental.responses.User.UserUpdate;
 import com.euvic.carrental.services.interfaces.UserServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -34,9 +35,9 @@ public class UserService implements UserServiceInterface {
         return new User(id, userDTO, roleService.getEntityByRoleName(userDTO.getRoleDTO().getName()));
     }
 
-    @Override //TODO tests
-    public User mapCreationModel(final Long id, final UserCration userCration) {
-        return new User(id, userCration, roleService.getEntityByRoleName(userCration.getRoleDTO().getName()));
+    @Override
+    public User mapCreationModel(final Long id, final UserCreation userCreation) {
+        return new User(id, userCreation, roleService.getEntityByRoleName(userCreation.getRoleDTO().getName()));
     }
 
     @Override
@@ -76,17 +77,18 @@ public class UserService implements UserServiceInterface {
 
     @Override
     public List<UserDTO> getAllActiveUserDTOs() {
-        final ArrayList<User> userArrayList = new ArrayList<>();
-        userArrayList.addAll(userRepository.findAllByIsActive(true));
+        final ArrayList<User> userArrayList = new ArrayList<>(userRepository.findAllByIsActive(true));
         return this.mapRestList(userArrayList);
     }
 
     @Override //NO PASSWORD CHANGE
-    public Long updateUserInDB(final String login, final UserDTO newUserDTO) {
+    public Long updateUserInDB(final String login, final UserUpdate userUpdate) {
         final User oldUser = this.getEntityByLogin(login);
-        final User newUser = this.mapRestModel(oldUser.getId(), newUserDTO);
-        newUser.setPassword(oldUser.getPassword());
-        return userRepository.save(newUser).getId();
+        oldUser.setName(userUpdate.getName());
+        oldUser.setSurname(userUpdate.getSurname());
+        oldUser.setEmail(userUpdate.getEmail());
+        oldUser.setPhoneNumber(userUpdate.getPhoneNumber());
+        return userRepository.save(oldUser).getId();
     }
 
     @Override
@@ -96,10 +98,11 @@ public class UserService implements UserServiceInterface {
         return userRepository.save(user).getId();
     }
 
-    @Override //test it TODO
+    @Override
     public Boolean checkIfUserWithLoginExists(final String login) {
         return userRepository.existsByLogin(login);
     }
+
 
     private List<UserDTO> mapRestList(final List<User> userArrayList) {
         final ArrayList<UserDTO> userDTOArrayList = new ArrayList<>();
@@ -110,38 +113,38 @@ public class UserService implements UserServiceInterface {
         return userDTOArrayList;
     }
 
-    //test it TODO
+    @Override
     public void changePassword(final User user, final String password) {
         user.setPassword(bCryptPasswordEncoder.encode(password));
         userRepository.save(user);
     }
 
-    //test it TODO
+    @Override
     public void changeEmail(final User user, final String email) {
         user.setEmail(email);
         userRepository.save(user);
     }
 
-    //test it TODO
+    @Override
     public void changePhoneNumber(final User user, final String phoneNumber) {
         user.setPhoneNumber(phoneNumber);
         userRepository.save(user);
     }
 
-    //test it TODO
+    @Override
     public boolean checkPassword(final String given, final String actual) {
         return bCryptPasswordEncoder.matches(given, actual);
     }
 
-    //test it TODO
+    @Override
     public boolean checkEmail(final String email) {
-        final String regex = "^(.+)@(.+)$";
+        final String regex = "^[\\w-\\+]+(\\.[\\w]+)*@[\\w-]+(\\.[\\w]+)*(\\.[a-z]{2,})$";
         final Pattern pattern = Pattern.compile(regex);
         final Matcher matcher = pattern.matcher(email);
         return matcher.matches();
     }
 
-    //test it TODO
+    @Override
     public boolean checkPhoneNumber(final String phoneNumber) {
 
         final String regex = "[5-9][0-9]{8}";

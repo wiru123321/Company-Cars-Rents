@@ -165,7 +165,7 @@ public class RentServiceTest {
         final Long parkingId2 = parkingService.addEntityToDB(parking2);
         final Long parkingId3 = parkingService.addEntityToDB(parking3);
 
-        final Car car = new Car(null, "photoNr2", "SBE33212", 120, 1, 4, 3,
+        final Car car = new Car(null, "SBE33212", 120, 1, 4, 3,
                 gearboxTypeService.getEntityByName("Manual"), fuelTypeService.getEntityByName("Diesel"),
                 LocalDateTime.of(2000, 3, 25, 0, 0), 2000
                 , true, 120000, modelService.getEntityByName("Astra"),
@@ -203,7 +203,7 @@ public class RentServiceTest {
         final Long parkingId2 = parkingService.addEntityToDB(parking2);
         final Long parkingId3 = parkingService.addEntityToDB(parking3);
 
-        final Car car = new Car(null, "photoNr2", "SBE33212", 120, 1, 4, 3,
+        final Car car = new Car(null, "SBE33212", 120, 1, 4, 3,
                 gearboxTypeService.getEntityByName("Manual"), fuelTypeService.getEntityByName("Diesel"),
                 LocalDateTime.of(2000, 3, 25, 0, 0), 2000, true, 120000
                 , modelService.getEntityByName("Astra"),
@@ -263,7 +263,7 @@ public class RentServiceTest {
         final Long parkingId2 = parkingService.addEntityToDB(parking2);
         final Long parkingId3 = parkingService.addEntityToDB(parking3);
 
-        final Car car = new Car(null, "photoNr2", "SBE33212", 120, 1, 4, 3,
+        final Car car = new Car(null, "SBE33212", 120, 1, 4, 3,
                 gearboxTypeService.getEntityByName("Manual"), fuelTypeService.getEntityByName("Diesel"),
                 LocalDateTime.of(2000, 3, 25, 0, 0), 2000, true, 120000
                 , modelService.getEntityByName("Astra"),
@@ -315,7 +315,7 @@ public class RentServiceTest {
         final Long parkingId2 = parkingService.addEntityToDB(parking2);
         final Long parkingId3 = parkingService.addEntityToDB(parking3);
 
-        final Car car = new Car(null, "photoNr2", "SBE33212", 120, 1, 4, 3,
+        final Car car = new Car(null, "SBE33212", 120, 1, 4, 3,
                 gearboxTypeService.getEntityByName("Manual"), fuelTypeService.getEntityByName("Diesel"),
                 LocalDateTime.of(2000, 3, 25, 0, 0), 2000, true, 120000
                 , modelService.getEntityByName("Astra"),
@@ -365,7 +365,7 @@ public class RentServiceTest {
         final Long parkingId2 = parkingService.addEntityToDB(parking2);
         final Long parkingId3 = parkingService.addEntityToDB(parking3);
 
-        final Car car = new Car(null, "photoNr2", "SBE33212", 120, 1, 4, 3,
+        final Car car = new Car(null, "SBE33212", 120, 1, 4, 3,
                 gearboxTypeService.getEntityByName("Manual"), fuelTypeService.getEntityByName("Diesel"),
                 LocalDateTime.of(2000, 3, 25, 0, 0), 2000, true, 120000
                 , modelService.getEntityByName("Astra"),

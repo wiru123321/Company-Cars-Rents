@@ -1,8 +1,10 @@
 package com.euvic.carrental.model;
 
-import com.euvic.carrental.responses.User.UserCration;
+import com.euvic.carrental.responses.User.UserCreation;
 import com.euvic.carrental.responses.User.UserDTO;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -51,14 +53,14 @@ public class User {
         this.role = role;
     }
 
-    public User(Long id, final UserCration userCration, final Role role) {
+    public User(Long id, final UserCreation userCreation, final Role role) {
         this.id = id;
-        this.login = userCration.getLogin();
-        this.password = userCration.getPassword();
-        this.email = userCration.getEmail();
-        this.name = userCration.getName();
-        this.surname = userCration.getSurname();
-        this.phoneNumber = userCration.getPhoneNumber();
+        this.login = userCreation.getLogin();
+        this.password = userCreation.getPassword();
+        this.email = userCreation.getEmail();
+        this.name = userCreation.getName();
+        this.surname = userCreation.getSurname();
+        this.phoneNumber = userCreation.getPhoneNumber();
         this.role = role;
     }
 

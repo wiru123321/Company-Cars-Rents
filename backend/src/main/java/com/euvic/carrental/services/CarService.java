@@ -80,7 +80,6 @@ public class CarService implements CarServiceInterface {
     public Long updateCarInDB(final String oldCarLicensePlate, final CarDTO newCarDTO) {
         Car oldCar = getEntityByLicensePlate(oldCarLicensePlate);
 
-        oldCar.setPhotoInFolderName(newCarDTO.getPhotoInFolderName());
         oldCar.setLicensePlate(newCarDTO.getLicensePlate());
         oldCar.setEnginePower(newCarDTO.getEnginePower());
         oldCar.setCapacityOfTrunkScale(newCarDTO.getCapacityOfTrunkScale());

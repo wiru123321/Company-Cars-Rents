@@ -8,7 +8,6 @@ import java.time.LocalDateTime;
 @Data
 public class CarDTO {
 
-    private String photoInFolderName;
     private String licensePlate;
     private Integer enginePower;
     private Integer capacityOfTrunkScale;
@@ -30,7 +29,6 @@ public class CarDTO {
     }
 
     public CarDTO(final Car entity, final GearBoxTypeDTO gearBoxTypeDTO, final FuelTypeDTO fuelTypeDTO, final ModelDTO modelDTO, final ParkingDTO parkingDTO, final ColourDTO colourDTO, final TypeDTO typeDTO) {
-        this.photoInFolderName = entity.getPhotoInFolderName();
         this.licensePlate = entity.getLicensePlate();
         this.enginePower = entity.getEnginePower();
         this.capacityOfTrunkScale = entity.getCapacityOfTrunkScale();
@@ -48,8 +46,7 @@ public class CarDTO {
         this.typeDTO = typeDTO;
     }
 
-    public CarDTO(final String photoInFolderName, final String licensePlate, final Integer enginePower, final Integer capacityOfTrunkScale, final Integer capacityOfPeople, final Integer doorsNumber, final GearBoxTypeDTO gearBoxTypeDTO, final FuelTypeDTO fuelTypeDTO, final LocalDateTime lastInspection, final Integer productionYear, final Boolean isActive, final Integer mileage, final ModelDTO modelDTO, final ParkingDTO parkingDTO, final ColourDTO colourDTO, final TypeDTO typeDTO) {
-        this.photoInFolderName = photoInFolderName;
+    public CarDTO(final String licensePlate, final Integer enginePower, final Integer capacityOfTrunkScale, final Integer capacityOfPeople, final Integer doorsNumber, final GearBoxTypeDTO gearBoxTypeDTO, final FuelTypeDTO fuelTypeDTO, final LocalDateTime lastInspection, final Integer productionYear, final Boolean isActive, final Integer mileage, final ModelDTO modelDTO, final ParkingDTO parkingDTO, final ColourDTO colourDTO, final TypeDTO typeDTO) {
         this.licensePlate = licensePlate;
         this.enginePower = enginePower;
         this.capacityOfTrunkScale = capacityOfTrunkScale;

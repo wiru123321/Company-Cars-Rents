@@ -8,7 +8,5 @@ public class EditAccount {
     private String email;
     private String password;
     private String phoneNumber;
-    private String newEmail;
     private String newPassword;
-    private String newPhoneNumber;
 }
