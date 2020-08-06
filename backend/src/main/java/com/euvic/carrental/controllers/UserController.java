@@ -11,9 +11,9 @@ import java.util.List;
 
 //TODO NAPRAW TESTY PAPROTA !!!!!!!!!!!
 
-//TODO not giving in rest api password back and isactive
 //TODO checking while login that login isnt exist
 //TODO tylko zwraca userów, jest 1 admin i nie mozna go edytować
+//TODO admin nie usuwa samego siebie
 
 @RestController
 @CrossOrigin
