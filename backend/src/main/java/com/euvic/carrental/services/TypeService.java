@@ -4,6 +4,7 @@ import com.euvic.carrental.model.Type;
 import com.euvic.carrental.repositories.TypeRepository;
 import com.euvic.carrental.responses.TypeDTO;
 import com.euvic.carrental.services.interfaces.TypeServiceInterface;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -13,8 +14,10 @@ import java.util.stream.Collectors;
 @Service
 public class TypeService implements TypeServiceInterface {
 
+
     private final TypeRepository typeRepository;
 
+    @Autowired
     public TypeService(final TypeRepository typeRepository) {
         this.typeRepository = typeRepository;
     }

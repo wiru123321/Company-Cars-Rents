@@ -1,13 +1,12 @@
 package com.euvic.carrental.services;
 
-import com.euvic.carrental.model.Car;
 import com.euvic.carrental.model.User;
 import com.euvic.carrental.repositories.UserRepository;
-import com.euvic.carrental.responses.CarDTO;
 import com.euvic.carrental.responses.User.UserCration;
 import com.euvic.carrental.responses.User.UserDTO;
 import com.euvic.carrental.services.interfaces.UserServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,11 +17,13 @@ public class UserService implements UserServiceInterface {
 
     final UserRepository userRepository;
     final RoleService roleService;
+    final PasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    public UserService(final UserRepository userRepository, final RoleService roleService) {
+    public UserService(final UserRepository userRepository, final RoleService roleService, final PasswordEncoder bCryptPasswordEncoder) {
         this.userRepository = userRepository;
         this.roleService = roleService;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     @Override //NO PASSWORD MAPPING
@@ -31,7 +32,7 @@ public class UserService implements UserServiceInterface {
     }
 
     @Override //TODO tests
-    public User mapCreationModel(Long id, UserCration userCration) {
+    public User mapCreationModel(final Long id, final UserCration userCration) {
         return new User(id, userCration, roleService.getEntityByRoleName(userCration.getRoleDTO().getName()));
     }
 
@@ -67,37 +68,62 @@ public class UserService implements UserServiceInterface {
     public List<UserDTO> getAllDTOs() {
         final ArrayList<User> userArrayList = new ArrayList<>();
         userRepository.findAll().forEach(userArrayList::add);
-        return mapRestList(userArrayList);
+        return this.mapRestList(userArrayList);
     }
 
     @Override
     public List<UserDTO> getAllActiveUserDTOs() {
         final ArrayList<User> userArrayList = new ArrayList<>();
-        userRepository.findAllByIsActive(true).forEach(userArrayList::add);
-        return mapRestList(userArrayList);
+        userArrayList.addAll(userRepository.findAllByIsActive(true));
+        return this.mapRestList(userArrayList);
     }
 
     @Override //NO PASSWORD CHANGE
-    public Long updateUserInDB(String login, UserDTO newUserDTO) {
-        User oldUser = getEntityByLogin(login);
-        User newUser = mapRestModel(oldUser.getId(), newUserDTO);
+    public Long updateUserInDB(final String login, final UserDTO newUserDTO) {
+        final User oldUser = this.getEntityByLogin(login);
+        final User newUser = this.mapRestModel(oldUser.getId(), newUserDTO);
         newUser.setPassword(oldUser.getPassword());
         return userRepository.save(newUser).getId();
     }
 
     @Override
-    public Long setUserIsNotActive(String login) {
-        User user = getEntityByLogin(login);
+    public Long setUserIsNotActive(final String login) {
+        final User user = this.getEntityByLogin(login);
         user.setIsActive(false);
         return userRepository.save(user).getId();
     }
 
-    private List<UserDTO> mapRestList(List<User> userArrayList){
+    @Override //test it TODO
+    public Boolean checkIfUserWithLoginExists(final String login) {
+        return userRepository.existsByLogin(login);
+    }
+
+    private List<UserDTO> mapRestList(final List<User> userArrayList) {
         final ArrayList<UserDTO> userDTOArrayList = new ArrayList<>();
-        userArrayList.stream().forEach((user) -> {
+        userArrayList.forEach((user) -> {
             final UserDTO userDTO = new UserDTO(user, roleService.getDTOByRoleName(user.getRole().getName()));
             userDTOArrayList.add(userDTO);
         });
         return userDTOArrayList;
+    }
+
+
+    public void changePassword(final User user, final String password) {
+        user.setPassword(bCryptPasswordEncoder.encode(password));
+        userRepository.save(user);
+    }
+
+    public void changeEmail(final User user, final String email) {
+        user.setEmail(email);
+        userRepository.save(user);
+    }
+
+    public void changePhoneNumber(final User user, final String phoneNumber) {
+        user.setPhoneNumber(phoneNumber);
+        userRepository.save(user);
+    }
+
+    public boolean checkPassword(final String given, final String actual) {
+        return bCryptPasswordEncoder.matches(given, actual);
     }
 }

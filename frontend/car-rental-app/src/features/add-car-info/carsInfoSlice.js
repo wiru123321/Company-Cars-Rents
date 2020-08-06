@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
 
-const API_URL = "http://localhost:8080/";
+const API_URL = "http://localhost:8080";
 
 const initialState = {
   brand: "",
@@ -96,18 +97,44 @@ export const {
   reset,
 } = carsInfoSlice.actions;
 
-export const selectBrandValue = (state) => state.brand;
-export const selectTypeValue = (state) => state.type;
-export const selectLicencePlate = (state) => state.licencePlate;
-export const selectFuelTypeValue = (state) => state.fuelType;
-export const selectYear = (state) => state.year;
-export const selectMilage = (state) => state.milage;
-export const selectHp = (state) => state.hp;
-export const selectPeopleCapacity = (state) => state.peopleCapacity;
-export const selectDoorsNumber = (state) => state.doorsNumber;
-export const selectColorValue = (state) => state.color;
-export const selectGearboxTypeValue = (state) => state.gearboxType;
-export const selectTrunkCapacity = (state) => state.trunkCapacity;
-export const selectImageUrl = (state) => state.imageUrl;
+export const selectAll = (state) => state.carsInfo;
+
+export const selectBrandValue = (state) => state.carsInfo.brand;
+
+export const selectTypeValue = (state) => state.carsInfo.type;
+
+export const selectLicencePlate = (state) => state.carsInfo.licencePlate;
+
+export const selectFuelTypeValue = (state) => state.carsInfo.fuelType;
+
+export const selectYear = (state) => state.carsInfo.year;
+
+export const selectMilage = (state) => state.carsInfo.milage;
+
+export const selectHp = (state) => state.carsInfo.hp;
+
+export const selectPeopleCapacity = (state) => state.carsInfo.peopleCapacity;
+
+export const selectDoorsNumber = (state) => state.carsInfo.doorsNumber;
+
+export const selectColorValue = (state) => state.carsInfo.color;
+
+export const selectGearboxTypeValue = (state) => state.carsInfo.gearboxType;
+
+export const selectTrunkCapacity = (state) => state.carsInfo.trunkCapacity;
+
+export const selectImageUrl = (state) => state.carsInfo.imageUrl;
+
+export const addCar = (carCration) => async (dispatch) => {
+  try {
+    const response = await axios.post(API_URL + "/a/car", carCration, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export default carsInfoSlice.reducer;

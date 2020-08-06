@@ -154,7 +154,7 @@ public class UserServiceTest {
         assertEquals(userRepository.count(), allUserDTOList.size());
 
         userService.setUserIsNotActive("login2");
-        final List<UserDTO> activeUserDTOList = userService.getAllDTOs();
+        final List<UserDTO> activeUserDTOList = userService.getAllActiveUserDTOs();
         assertEquals(2, activeUserDTOList.size());
     }
 
@@ -183,7 +183,6 @@ public class UserServiceTest {
         assertAll(()->{
             assertEquals(userId, updatedUser.getId());
             assertEquals("login2", updatedUser.getLogin());
-            assertEquals(bCryptPasswordEncoder.encode("password1"), updatedUser.getPassword());
             assertEquals("mail@email.com", updatedUser.getEmail());
             assertEquals("Wojcieh", updatedUser.getName());
             assertEquals("Waleszcyk", updatedUser.getSurname());

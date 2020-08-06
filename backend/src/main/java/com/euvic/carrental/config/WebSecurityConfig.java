@@ -1,8 +1,6 @@
 package com.euvic.carrental.config;
 
 import com.euvic.carrental.JwtFilter;
-import com.euvic.carrental.services.UserDetailsServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,12 +22,6 @@ import org.springframework.web.filter.CorsFilter;
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private UserDetailsServiceImpl userDetailsService;
-
-    @Autowired
-    protected PasswordEncoder passwordEncoder;
-
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         http.csrf().disable().authorizeRequests()
@@ -44,7 +36,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     @Bean
-    public PasswordEncoder getPasswordEncoder() {
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
@@ -81,4 +73,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         bean.setOrder(-110);
         return bean;
     }
+
 }

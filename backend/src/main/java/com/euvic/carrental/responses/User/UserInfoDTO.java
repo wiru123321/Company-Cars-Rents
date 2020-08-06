@@ -1,7 +1,6 @@
-package com.euvic.carrental.responses;
+package com.euvic.carrental.responses.User;
 
 import com.euvic.carrental.model.User;
-import com.euvic.carrental.responses.User.UserDTO;
 import lombok.Data;
 
 @Data

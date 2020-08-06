@@ -28,4 +28,8 @@ public interface UserServiceInterface {
     User mapCreationModel(Long id, UserCration userCration);
 
     List<UserDTO> getAllActiveUserDTOs();
+
+    Boolean checkIfUserWithLoginExists(String login);
+
+    boolean checkPassword(String given, String actual);
 }

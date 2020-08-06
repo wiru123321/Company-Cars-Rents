@@ -116,9 +116,9 @@ public class CarServiceTest {
         final Model model2 = new Model(null, "Astra", markService.getEntityByName("Opel"));
         final Model model3 = new Model(null, "M5", markService.getEntityByName("BMW"));
 
-        Long modelId1 = modelService.addEntityToDB(model1);
-        Long modelId2 = modelService.addEntityToDB(model2);
-        Long modelId3 = modelService.addEntityToDB(model3);
+        final Long modelId1 = modelService.addEntityToDB(model1);
+        final Long modelId2 = modelService.addEntityToDB(model2);
+        final Long modelId3 = modelService.addEntityToDB(model3);
 
         final Parking parking1 = new Parking(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
 
@@ -162,9 +162,9 @@ public class CarServiceTest {
         final Model model2 = new Model(null, "Astra", markService.getEntityByName("Opel"));
         final Model model3 = new Model(null, "M5", markService.getEntityByName("BMW"));
 
-        Long modelId1 = modelService.addEntityToDB(model1);
-        Long modelId2 = modelService.addEntityToDB(model2);
-        Long modelId3 = modelService.addEntityToDB(model3);
+        final Long modelId1 = modelService.addEntityToDB(model1);
+        final Long modelId2 = modelService.addEntityToDB(model2);
+        final Long modelId3 = modelService.addEntityToDB(model3);
 
         final Parking parking1 = new Parking(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
 
@@ -208,9 +208,9 @@ public class CarServiceTest {
         final Model model2 = new Model(null, "Astra", markService.getEntityByName("Opel"));
         final Model model3 = new Model(null, "M5", markService.getEntityByName("BMW"));
 
-        Long modelId1 = modelService.addEntityToDB(model1);
-        Long modelId2 = modelService.addEntityToDB(model2);
-        Long modelId3 = modelService.addEntityToDB(model3);
+        final Long modelId1 = modelService.addEntityToDB(model1);
+        final Long modelId2 = modelService.addEntityToDB(model2);
+        final Long modelId3 = modelService.addEntityToDB(model3);
 
         final Parking parking1 = new Parking(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
 
@@ -219,7 +219,7 @@ public class CarServiceTest {
 
         final Car car = new Car(null, "photoNr1", "WN101", 100, 4, 5, 5,
                 gearboxTypeService.getEntityByName("Automatic"), fuelTypeService.getEntityByName("Gasoline"),
-                LocalDateTime.of(2000, 03, 25, 00, 00), 1990, true, 200000, modelService.getEntityByName("C350"),
+                LocalDateTime.of(2000, 3, 25, 0, 0), 1990, true, 200000, modelService.getEntityByName("C350"),
                 parkingService.getEntityById(parkingId1), colourService.getEntityByName("Red"), typeService.getEntityByName("Sedan"));
         assertEquals(0, carRepository.count());
         carRepository.save(car);
@@ -253,9 +253,9 @@ public class CarServiceTest {
         final Model model2 = new Model(null, "Astra", markService.getEntityByName("Opel"));
         final Model model3 = new Model(null, "M5", markService.getEntityByName("BMW"));
 
-        Long modelId1 = modelService.addEntityToDB(model1);
-        Long modelId2 = modelService.addEntityToDB(model2);
-        Long modelId3 = modelService.addEntityToDB(model3);
+        final Long modelId1 = modelService.addEntityToDB(model1);
+        final Long modelId2 = modelService.addEntityToDB(model2);
+        final Long modelId3 = modelService.addEntityToDB(model3);
 
 
         final Parking parking1 = new Parking(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
@@ -309,9 +309,9 @@ public class CarServiceTest {
         final Model model2 = new Model(null, "Astra", markService.getEntityByName("Opel"));
         final Model model3 = new Model(null, "M5", markService.getEntityByName("BMW"));
 
-        Long modelId1 = modelService.addEntityToDB(model1);
-        Long modelId2 = modelService.addEntityToDB(model2);
-        Long modelId3 = modelService.addEntityToDB(model3);
+        final Long modelId1 = modelService.addEntityToDB(model1);
+        final Long modelId2 = modelService.addEntityToDB(model2);
+        final Long modelId3 = modelService.addEntityToDB(model3);
 
 
         final Parking parking = new Parking(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
@@ -334,9 +334,9 @@ public class CarServiceTest {
         final Model model2 = new Model(null, "Astra", markService.getEntityByName("Opel"));
         final Model model3 = new Model(null, "M5", markService.getEntityByName("BMW"));
 
-        Long modelId1 = modelService.addEntityToDB(model1);
-        Long modelId2 = modelService.addEntityToDB(model2);
-        Long modelId3 = modelService.addEntityToDB(model3);
+        final Long modelId1 = modelService.addEntityToDB(model1);
+        final Long modelId2 = modelService.addEntityToDB(model2);
+        final Long modelId3 = modelService.addEntityToDB(model3);
 
 
         final Parking parking1 = new Parking(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
@@ -356,11 +356,11 @@ public class CarServiceTest {
                 parkingService.getDTOById(parkingId2), colourService.getDTOByName("Blue"), typeService.getDTOByName("Coupe"));
 
         assertEquals(0, carRepository.count());
-        Long carId = carService.addEntityToDB(car);
+        final Long carId = carService.addEntityToDB(car);
         assertEquals(1, carRepository.count());
         carService.updateCarInDB(car.getLicensePlate(), carDTO);
         final Car updatedCar = carService.getEntityByLicensePlate("WN122");
-        assertAll(()->{
+        assertAll(() -> {
             assertEquals(carId, updatedCar.getId());
             assertEquals(1, carRepository.count());
             assertEquals("photoNr5", updatedCar.getPhotoInFolderName());
@@ -383,14 +383,14 @@ public class CarServiceTest {
     }
 
     @Test
-    void whenCarLicensePlateGiven_shouldSetCarIsNotInCompanyAndIsInActive(){
+    void whenCarLicensePlateGiven_shouldSetCarIsNotInCompanyAndIsInActive() {
         final Model model1 = new Model(null, "C350", markService.getEntityByName("Audi"));
         final Model model2 = new Model(null, "Astra", markService.getEntityByName("Opel"));
         final Model model3 = new Model(null, "M5", markService.getEntityByName("BMW"));
 
-        Long modelId1 = modelService.addEntityToDB(model1);
-        Long modelId2 = modelService.addEntityToDB(model2);
-        Long modelId3 = modelService.addEntityToDB(model3);
+        final Long modelId1 = modelService.addEntityToDB(model1);
+        final Long modelId2 = modelService.addEntityToDB(model2);
+        final Long modelId3 = modelService.addEntityToDB(model3);
 
 
         final Parking parking = new Parking(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
@@ -407,7 +407,7 @@ public class CarServiceTest {
         assertEquals(1, carRepository.count());
         assertTrue(car.getIsOnCompany());
         carService.setCarIsNotInCompany(car.getLicensePlate());
-        Car updatedCar = carService.getEntityByLicensePlate(car.getLicensePlate());
+        final Car updatedCar = carService.getEntityByLicensePlate(car.getLicensePlate());
         assertFalse(updatedCar.getIsOnCompany());
         assertFalse(updatedCar.getIsActive());
     }

@@ -17,20 +17,10 @@ import {
   selectGearboxType,
 } from "../../../features/starting-car-parameter/startingCarParameterSlice";
 import {
-  selectYear,
-  selectGearboxTypeValue,
-  selectColorValue,
-  selectFuelTypeValue,
-  selectBrandValue,
-  selectDoorsNumber,
-  selectHp,
   selectImageUrl,
-  selectLicencePlate,
-  selectMilage,
-  selectPeopleCapacity,
-  selectTrunkCapacity,
-  selectTypeValue,
   reset,
+  selectAll,
+  addCar,
 } from "../../../features/add-car-info/carsInfoSlice";
 
 const useStyles = makeStyles((theme) => ({
@@ -60,24 +50,33 @@ export const AddCarForm = ({
   handlecolorChange,
   handlegearboxTypeChange,
   handletrunkCapacityChange,
+  handleimageUrlChange,
 }) => {
+  const dispatch = useDispatch();
+  const classes = useStyles();
   const marks = useSelector(selectMarks);
   const types = useSelector(selectTypes);
   const FuelTypes = useSelector(selectFuelType);
-  const Color = useSelector(selectColor);
+  const ColorTypes = useSelector(selectColor);
   const GearboxType = useSelector(selectGearboxType);
-  const Year = useSelector(selectYear);
-  const DoorsNumber = useSelector(selectDoorsNumber);
-  const Hp = useSelector(selectHp);
-  const LicencePlate = useSelector(selectLicencePlate);
-  const Milage = useSelector(selectMilage);
-  const PeopleCapacity = useSelector(selectPeopleCapacity);
-  const TrunkCapacity = useSelector(selectTrunkCapacity);
-  const TypeValue = useSelector(selectTypeValue);
-  const BrandValue = useSelector(selectBrandValue);
-  const GearboxTypeValue = useSelector(selectGearboxTypeValue);
-  const ColorValue = useSelector(selectColorValue);
-  const FuelTypesValue = useSelector(selectFuelTypeValue);
+  const CarInfo = useSelector(selectAll);
+
+  const {
+    brand,
+    type,
+    licencePlate,
+    fuelType,
+    year,
+    milage,
+    hp,
+    color,
+    peopleCapacity,
+    doorsNumber,
+    gearboxType,
+    trunkCapacity,
+    imageUrl,
+  } = CarInfo;
+
   return (
     <div>
       <Box display="flex" justifyContent="center">
@@ -96,13 +95,13 @@ export const AddCarForm = ({
           SelectHandler={marks}
           NameHandler="Mark"
           handleChange={handleBrandChange}
-          handlerValue={BrandValue}
+          handlerValue={brand}
         />
         <SelectBox
           SelectHandler={types}
           NameHandler="Type"
           handleChange={handletypeChange}
-          handlerValue={TypeValue}
+          handlerValue={type}
         />
       </Box>
       <Box display="flex" justifyContent="center" style={{ height: "10vh" }}>
@@ -110,19 +109,19 @@ export const AddCarForm = ({
           SelectHandler={FuelTypes}
           NameHandler="Fuel Type"
           handleChange={handlefuelTypeChange}
-          handlerValue={FuelTypesValue}
+          handlerValue={fuelType}
         />
         <SelectBox
-          SelectHandler={Color}
+          SelectHandler={ColorTypes}
           NameHandler="Color"
           handleChange={handlecolorChange}
-          handlerValue={ColorValue}
+          handlerValue={color}
         />
         <SelectBox
           SelectHandler={GearboxType}
           NameHandler="Gearbox Type"
           handleChange={handlegearboxTypeChange}
-          handlerValue={GearboxTypeValue}
+          handlerValue={gearboxType}
         />
       </Box>
       <Box display="flex" justifyContent="center" style={{ height: "10vh" }}>
@@ -130,7 +129,7 @@ export const AddCarForm = ({
           <TextField
             label="Licence Plate"
             onChange={handlelicencePlateChange}
-            value={LicencePlate}
+            value={licencePlate}
           />
         </Box>
         <Box>
@@ -138,7 +137,7 @@ export const AddCarForm = ({
             label="Year"
             onChange={handleyearChange}
             style={{ marginLeft: "10%" }}
-            value={Year}
+            value={year}
           />
         </Box>
         <Box>
@@ -146,7 +145,7 @@ export const AddCarForm = ({
             label="Mileage"
             style={{ marginLeft: "10%" }}
             onChange={handlemilageChange}
-            value={Milage}
+            value={milage}
           />
         </Box>
         <Box>
@@ -154,7 +153,7 @@ export const AddCarForm = ({
             label="HP"
             style={{ marginLeft: "10%" }}
             onChange={handlehpChange}
-            value={Hp}
+            value={hp}
           />
         </Box>
       </Box>
@@ -163,7 +162,7 @@ export const AddCarForm = ({
           <TextField
             label="Doors Number"
             onChange={handledoorsNumberChange}
-            value={DoorsNumber}
+            value={doorsNumber}
           />
         </Box>
         <Box>
@@ -171,7 +170,7 @@ export const AddCarForm = ({
             label="People Capacity"
             style={{ marginLeft: "10%" }}
             onChange={handlepeopleCapacityChange}
-            value={PeopleCapacity}
+            value={peopleCapacity}
           />
         </Box>
 
@@ -180,20 +179,10 @@ export const AddCarForm = ({
             label="Trunk Capacity"
             style={{ marginLeft: "10%" }}
             onChange={handletrunkCapacityChange}
-            value={TrunkCapacity}
+            value={trunkCapacity}
           />
         </Box>
       </Box>
-    </div>
-  );
-};
-
-export const AddCarButton = ({ handleimageUrlChange, deletehandler }) => {
-  const ImageUrl = useSelector(selectImageUrl);
-  const dispatch = useDispatch();
-  const classes = useStyles();
-  return (
-    <div>
       <Box
         display="flex"
         justifyContent="center"
@@ -208,7 +197,7 @@ export const AddCarButton = ({ handleimageUrlChange, deletehandler }) => {
           multiple
           type="file"
           onChange={handleimageUrlChange}
-          value={ImageUrl}
+          value={imageUrl}
         />
         <label htmlFor="contained-button-file">
           <Button variant="contained" color="primary" component="span">
@@ -231,6 +220,8 @@ export const AddCarButton = ({ handleimageUrlChange, deletehandler }) => {
             size="normal"
             className={classes.button}
             startIcon={<Save />}
+            type="submit"
+            onClick={dispatch(addCar(CarInfo))}
           >
             Save
           </Button>
@@ -241,7 +232,7 @@ export const AddCarButton = ({ handleimageUrlChange, deletehandler }) => {
             color="secondary"
             className={classes.button}
             startIcon={<Delete />}
-            onClick={dispatch(reset())}
+            type="submit"
           >
             Delete
           </Button>
