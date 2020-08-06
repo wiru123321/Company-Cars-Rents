@@ -3,6 +3,8 @@ package com.euvic.carrental.model;
 import com.euvic.carrental.responses.User.UserCration;
 import com.euvic.carrental.responses.User.UserDTO;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 

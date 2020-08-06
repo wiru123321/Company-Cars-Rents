@@ -3,8 +3,12 @@ package com.euvic.carrental.responses.User;
 import com.euvic.carrental.model.User;
 import com.euvic.carrental.responses.RoleDTO;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @Data
+@Getter
+@Setter
 public class UserDTO {
     private String login;
     private String email;
