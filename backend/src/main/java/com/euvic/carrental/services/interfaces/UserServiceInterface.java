@@ -30,4 +30,6 @@ public interface UserServiceInterface {
     List<UserDTO> getAllActiveUserDTOs();
 
     Boolean checkIfUserWithLoginExists(String login);
+
+    boolean checkPassword(String given, String actual);
 }
