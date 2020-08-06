@@ -1,39 +1,14 @@
 import React from "react";
-import {
-  TextField,
-  Box,
-  Button,
-  IconButton,
-  makeStyles,
-} from "@material-ui/core";
+import { Box, Button, makeStyles } from "@material-ui/core";
 import { Save, Delete } from "@material-ui/icons";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  selectMarks,
-  selectTypes,
-  selectFuelType,
-  selectColor,
-  selectGearboxType,
-} from "../../../features/starting-car-parameter/startingCarParameterSlice";
-import {
   selectAll,
   addCar,
-  brandChange,
-  typeChange,
-  licencePlateChange,
-  fuelTypeChange,
-  yearChange,
-  milageChange,
-  hpChange,
-  peopleCapacityChange,
-  doorsNumberChange,
-  colorChange,
-  gearboxTypeChange,
-  trunkCapacityChange,
-  imageUrlChange,
   reset,
 } from "../../../features/add-car-info/carsInfoSlice";
 import SelectBoxForm from "./SelectBoxForm";
+import BoxPanel from "./BoxPanel";
 
 const AddCarForm = () => {
   const useStyles = makeStyles((theme) => ({
@@ -52,11 +27,6 @@ const AddCarForm = () => {
 
   const dispatch = useDispatch();
   const classes = useStyles();
-  const marks = useSelector(selectMarks);
-  const types = useSelector(selectTypes);
-  const FuelTypes = useSelector(selectFuelType);
-  const ColorTypes = useSelector(selectColor);
-  const GearboxType = useSelector(selectGearboxType);
   const CarInfo = useSelector(selectAll);
 
   const {
@@ -124,73 +94,16 @@ const AddCarForm = () => {
         colourDTO={colourDTO}
         gearBoxTypeDTO={gearBoxTypeDTO}
       />
-      <Box display="flex" justifyContent="center" style={{ height: "10vh" }}>
-        <Box>
-          <TextField
-            label="Licence Plate"
-            onChange={(event) =>
-              dispatch(licencePlateChange(event.target.value))
-            }
-            value={licensePlate}
-          />
-        </Box>
-        <Box>
-          <TextField
-            label="Year"
-            onChange={(event) => dispatch(yearChange(event.target.value))}
-            style={{ marginLeft: "10%" }}
-            value={productionYear}
-          />
-        </Box>
-        <Box>
-          <TextField
-            label="Mileage"
-            style={{ marginLeft: "10%" }}
-            onChange={(event) => dispatch(milageChange(event.target.value))}
-            value={mileage}
-          />
-        </Box>
-        <Box>
-          <TextField
-            label="HP"
-            style={{ marginLeft: "10%" }}
-            onChange={(event) => dispatch(hpChange(event.target.value))}
-            value={enginePower}
-          />
-        </Box>
-      </Box>
-      <Box display="flex" justifyContent="center">
-        <Box>
-          <TextField
-            label="Doors Number"
-            onChange={(event) =>
-              dispatch(doorsNumberChange(event.target.value))
-            }
-            value={doorsNumber}
-          />
-        </Box>
-        <Box>
-          <TextField
-            label="People Capacity"
-            style={{ marginLeft: "10%" }}
-            onChange={(event) =>
-              dispatch(peopleCapacityChange(event.target.value))
-            }
-            value={capacityOfPeople}
-          />
-        </Box>
+      <BoxPanel
+        mileage={mileage}
+        enginePower={enginePower}
+        licensePlate={licensePlate}
+        productionYear={productionYear}
+        capacityOfPeople={capacityOfPeople}
+        doorsNumber={doorsNumber}
+        capacityOfTrunkScale={capacityOfTrunkScale}
+      />
 
-        <Box>
-          <TextField
-            label="Trunk Capacity"
-            style={{ marginLeft: "10%" }}
-            onChange={(event) =>
-              dispatch(trunkCapacityChange(event.target.value))
-            }
-            value={capacityOfTrunkScale}
-          />
-        </Box>
-      </Box>
       <Box display="flex" justifyContent="center" m={1} p={1}>
         <Box>
           <Button

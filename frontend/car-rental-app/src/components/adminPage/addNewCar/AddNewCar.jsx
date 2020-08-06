@@ -47,45 +47,7 @@ const AddNewCar = () => {
       >
         <form style={{ width: "50vw", margin: "auto" }} onSubmit={addCar}>
           <div style={{ height: "5vh" }}></div>
-          <AddCarForm
-            handleBrandChange={(event) =>
-              dispatch(brandChange(event.target.value))
-            }
-            handletypeChange={(event) =>
-              dispatch(typeChange(event.target.value))
-            }
-            handlelicencePlateChange={(event) =>
-              dispatch(licencePlateChange(event.target.value))
-            }
-            handlefuelTypeChange={(event) =>
-              dispatch(fuelTypeChange(event.target.value))
-            }
-            handleyearChange={(event) =>
-              dispatch(yearChange(event.target.value))
-            }
-            handlemilageChange={(event) =>
-              dispatch(milageChange(event.target.value))
-            }
-            handlehpChange={(event) => dispatch(hpChange(event.target.value))}
-            handlepeopleCapacityChange={(event) =>
-              dispatch(peopleCapacityChange(event.target.value))
-            }
-            handledoorsNumberChange={(event) =>
-              dispatch(doorsNumberChange(event.target.value))
-            }
-            handlecolorChange={(event) =>
-              dispatch(colorChange(event.target.value))
-            }
-            handlegearboxTypeChange={(event) =>
-              dispatch(gearboxTypeChange(event.target.value))
-            }
-            handletrunkCapacityChange={(event) =>
-              dispatch(trunkCapacityChange(event.target.value))
-            }
-            handleimageUrlChange={(event) =>
-              dispatch(imageUrlChange(event.target.value))
-            }
-          />
+          <AddCarForm />
         </form>
       </Typography>
     </Cointainer>
