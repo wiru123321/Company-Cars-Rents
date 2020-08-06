@@ -6,8 +6,8 @@ stages:
 test: 
    stage: test
    script:
-      - docker exec backend gradle test
-      - docker exec frontend npm test
+      - gradle test
+      - npm test
       - echo "Success"
    tags:
       - test
