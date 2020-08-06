@@ -6,11 +6,14 @@ stages:
 test: 
    stage: test
    script:
-      - echo "Here goes test"
-      - docker exec -d backend gradle test
-      - echo "Backedn test ended"
-#     Frontend      
-      - docker exec -d frontend npm test
+      - echo "Tests"
+      - docker run -d backend 
+      - docker exec backend gradle test
+      - docker rm backend -f 
+#     Frontend
+      - docker run -d frontend 
+      - docker exec frontend npm
+      - docker rm frontend -f 
       - echo "Success"
    tags:
       - test
