@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Grid } from "@material-ui/core";
+import { Grid, Typography, Divider, Paper } from "@material-ui/core";
 import {
   firstnameChange,
   lastnameChange,
@@ -92,9 +92,14 @@ const AddEmployee = () => {
     ) {
       dispatch(addUser(user));
       resetForm();
+      isSuccess(true);
+      toggleShowSuccess(true);
+      toggleSubmit(false);
+    } else {
+      isSuccess(false);
+      toggleShowSuccess(true);
+      toggleSubmit(true);
     }
-
-    toggleSubmit(true);
   }
 
   return (
@@ -106,6 +111,7 @@ const AddEmployee = () => {
         justify="center"
         alignItems="center"
       >
+        <Typography variant="h2">Register user</Typography>
         <UsersPersonalData
           firstname={firstname}
           lastname={lastname}

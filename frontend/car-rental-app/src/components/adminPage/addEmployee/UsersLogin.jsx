@@ -20,14 +20,9 @@ const UsersLogin = ({
   const classes = useStyles();
 
   return (
-    <Grid
-      className={classes.root}
-      container
-      direction="column"
-      justify="center"
-      alignItems="center"
-    >
+    <Grid container direction="column" justify="center" alignItems="center">
       <TextField
+        className={classes.textArea}
         onChange={handleEmailChange}
         value={email}
         label="email"
@@ -37,6 +32,7 @@ const UsersLogin = ({
         required
       />
       <TextField
+        className={classes.textArea}
         onChange={handleLoginChange}
         placeholder="login"
         value={login}
@@ -45,6 +41,7 @@ const UsersLogin = ({
         required
       />
       <TextField
+        className={classes.textArea}
         onChange={handlePhoneNumberChange}
         placeholder="phoneNumber"
         value={phoneNumber}
