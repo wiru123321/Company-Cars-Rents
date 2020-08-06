@@ -172,17 +172,17 @@ public class DatabaseLoader implements CommandLineRunner {
             final Long parkingId3 = parkingService.addEntityToDB(parking3);
 
 
-            final Car car1 = new Car(null, "photoNr1", "WN101", 100, 4, 5, 5,
+            final Car car1 = new Car(null, "WN101", 100, 4, 5, 5,
                     gearboxTypeService.getEntityByName("Automatic"), fuelTypeService.getEntityByName("Gasoline"),
                     LocalDateTime.of(2000, 3, 25, 0, 0), 1990, true, 200000, modelService.getEntityById(modelId1),
                     parkingService.getEntityById(parkingId1), colourService.getEntityByName("Red"), typeService.getEntityByName("Sedan"));
 
-            final Car car2 = new Car(null, "photoNr2", "SBE33212", 120, 1, 4, 3,
+            final Car car2 = new Car(null, "SBE33212", 120, 1, 4, 3,
                     gearboxTypeService.getEntityByName("Manual"), fuelTypeService.getEntityByName("Diesel"),
                     LocalDateTime.of(2000, 3, 25, 0, 0), 2000, true, 120000, modelService.getEntityById(modelId2),
                     parkingService.getEntityById(parkingId2), colourService.getEntityByName("Blue"), typeService.getEntityByName("Coupe"));
 
-            final Car car3 = new Car(null, "photoNr3", "SBE11212", 250, 4, 5, 5,
+            final Car car3 = new Car(null, "SBE11212", 250, 4, 5, 5,
                     gearboxTypeService.getEntityByName("Automatic"), fuelTypeService.getEntityByName("Diesel"),
                     LocalDateTime.of(2000, 3, 25, 0, 0), 2014, true, 100000, modelService.getEntityById(modelId3),
                     parkingService.getEntityById(parkingId3), colourService.getEntityByName("Green"), typeService.getEntityByName("Sedan"));

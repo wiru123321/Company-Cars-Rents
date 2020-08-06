@@ -4,7 +4,7 @@ import com.euvic.carrental.responses.RoleDTO;
 import lombok.Data;
 
 @Data
-public class UserCration {
+public class UserCreation {
     private String login;
     private String email;
     private String password;
@@ -13,11 +13,11 @@ public class UserCration {
     private String phoneNumber;
     private RoleDTO roleDTO;
 
-    public  UserCration(){
+    public UserCreation(){
 
     }
 
-    public UserCration(final User user, final RoleDTO roleDTO) {
+    public UserCreation(final User user, final RoleDTO roleDTO) {
         this.login = user.getLogin();
         this.password = user.getPassword();
         this.email = user.getEmail();
@@ -27,7 +27,7 @@ public class UserCration {
         this.roleDTO = roleDTO;
     }
 
-    public UserCration(final String login, final String password, final String email, final String name, final String surname, final String phoneNumber, final RoleDTO roleDTO) {
+    public UserCreation(final String login, final String password, final String email, final String name, final String surname, final String phoneNumber, final RoleDTO roleDTO) {
         this.login = login;
         this.password = password;
         this.email = email;
