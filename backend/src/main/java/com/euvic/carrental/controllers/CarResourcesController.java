@@ -110,7 +110,7 @@ public class CarResourcesController {
         return ResponseEntity.status(responseCode).body(id);
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/addGearboxType")
+    @RequestMapping(method = RequestMethod.POST, value = "/addType")
     public ResponseEntity<?> addType(@RequestBody final TypeDTO typeDTO) {
         typeDTO.setName(typeDTO.getName().toLowerCase());
         final Type type = typeService.getEntityByName(typeDTO.getName());
