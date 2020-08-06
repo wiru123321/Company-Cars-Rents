@@ -3,6 +3,7 @@ package com.euvic.carrental.controllers;
 import com.euvic.carrental.responses.*;
 import com.euvic.carrental.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -35,27 +36,27 @@ public class CarResourcesController {
 
 
     @RequestMapping(method = RequestMethod.GET, value = "/colours")
-    public List<ColourDTO> getAllColours(){
-        return colourService.getAllDTOs();
+    public ResponseEntity getAllColours(){
+        return ResponseEntity.ok(colourService.getAllDTOs());
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/fuelTypes")
-    public List<FuelTypeDTO> getAllFuelTypes(){
-        return fuelTypeService.getAllDTOs();
+    public ResponseEntity getAllFuelTypes(){
+        return ResponseEntity.ok(fuelTypeService.getAllDTOs());
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/gearboxTypes")
-    public List<GearBoxTypeDTO> getAllGearboxTypes(){
-        return gearboxTypeService.getAllDTOs();
+    public ResponseEntity getAllGearboxTypes(){
+        return ResponseEntity.ok(gearboxTypeService.getAllDTOs());
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/marks")
-    public List<MarkDTO> getAllMarks(){
-        return markService.getAllDTOs();
+    public ResponseEntity getAllMarks(){
+        return ResponseEntity.ok(markService.getAllDTOs());
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/types")
-    public List<TypeDTO> getAllTypes(){
-        return typeService.getAllDTOs();
+    public ResponseEntity getAllTypes(){
+        return ResponseEntity.ok(typeService.getAllDTOs());
     }
 }

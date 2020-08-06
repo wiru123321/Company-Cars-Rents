@@ -11,11 +11,11 @@ const FormControlPanel = ({ success, showSuccess }) => {
   const { password, rePassword, didSubmit } = useSelector(selectAll);
   return (
     <Grid
-      className={classes.root}
       container
       direction="column"
       justify="center"
       alignItems="center"
+      className={classes.buttonArea}
     >
       <Button variant="contained" type="submit">
         Create account
@@ -23,8 +23,12 @@ const FormControlPanel = ({ success, showSuccess }) => {
       {didSubmit && password !== rePassword && (
         <Alert severity="error">Passwords are not matching</Alert>
       )}
-      {showSuccess && success && <Alert severity="success">Success</Alert>}
-      {showSuccess && !success && <Alert severity="error">Error</Alert>}
+      {showSuccess && success && (
+        <Alert severity="success">User was succesfully registered!</Alert>
+      )}
+      {showSuccess && !success && (
+        <Alert severity="error">Failed to register!</Alert>
+      )}
     </Grid>
   );
 };

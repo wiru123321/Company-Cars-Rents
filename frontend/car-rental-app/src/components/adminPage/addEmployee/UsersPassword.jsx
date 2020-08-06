@@ -11,14 +11,9 @@ const UsersPassword = ({
   const classes = useStyles();
 
   return (
-    <Grid
-      className={classes.root}
-      container
-      direction="column"
-      justify="center"
-      alignItems="center"
-    >
+    <Grid container direction="column" justify="center" alignItems="center">
       <TextField
+        className={classes.textArea}
         onChange={handlePasswordChange}
         value={password}
         placeholder="password"
@@ -28,6 +23,7 @@ const UsersPassword = ({
         required
       />
       <TextField
+        className={classes.textArea}
         onChange={handleRePasswordChange}
         value={rePassword}
         placeholder="repeatPassword"

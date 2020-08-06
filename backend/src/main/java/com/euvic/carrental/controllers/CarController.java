@@ -5,6 +5,7 @@ import com.euvic.carrental.model.Model;
 import com.euvic.carrental.model.Parking;
 import com.euvic.carrental.responses.*;
 import com.euvic.carrental.services.*;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,38 +31,38 @@ public class CarController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/a/cars")
-    public List<CarDTO> getAllInCompanyCars(){
-        return carService.getInCompanyCarDTOs();
+    public ResponseEntity getAllInCompanyCars(){
+        return ResponseEntity.ok(carService.getInCompanyCarDTOs());
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/ae/active-cars")
-    public List<CarDTO> getAllActiveCars(){
-        return carService.getInCompanyActiveCarDTOs();
+    public ResponseEntity getAllActiveCars(){
+        return ResponseEntity.ok(carService.getInCompanyActiveCarDTOs());
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/a/inactive-cars")
-    public List<CarDTO> getAllInActiveCars(){
-        return carService.getInCompanyInActiveCarDTOs();
+    public ResponseEntity getAllInActiveCars(){
+        return ResponseEntity.ok(carService.getInCompanyInActiveCarDTOs());
     }
 
     @RequestMapping(method = RequestMethod.POST,value = "/a/car")
-    public Long addCarToDatabase(@RequestBody CarDTO carDTO){
+    public ResponseEntity addCarToDatabase(@RequestBody CarDTO carDTO){
         Parking parking = parkingService.mapRestModel(null, carDTO.getParkingDTO());
         Long parkingId = parkingService.addEntityToDB(parking);
         Model model = modelService.mapRestModel(null, carDTO.getModelDTO());
         Long modelId = modelService.addEntityToDB(model);
 
         Car car = carService.mapRestModel(null, carDTO, parkingId, modelId);
-        return carService.addEntityToDB(car);
+        return ResponseEntity.ok(carService.addEntityToDB(car));
     }
 
     @RequestMapping(method = RequestMethod.PUT,value = "/a/car/{licensePlate}")
-    public Long updateDataBaseCar(@PathVariable String licensePlate, @RequestBody CarDTO newCarDTO){
-        return carService.updateCarInDB(licensePlate, newCarDTO);
+    public ResponseEntity updateDataBaseCar(@PathVariable String licensePlate, @RequestBody CarDTO newCarDTO){
+        return ResponseEntity.ok(carService.updateCarInDB(licensePlate, newCarDTO));
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/a/car/{licensePlate}")
-    public Long setCarAsDeletedInDB(@PathVariable String licensePlate){
-        return carService.setCarIsNotInCompany(licensePlate);
+    public ResponseEntity setCarAsDeletedInDB(@PathVariable String licensePlate){
+        return ResponseEntity.ok(carService.setCarIsNotInCompany(licensePlate));
     }
 }

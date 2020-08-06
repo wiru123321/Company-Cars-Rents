@@ -11,14 +11,9 @@ const UsersPersonalData = ({
   const classes = useStyles();
 
   return (
-    <Grid
-      className={classes.root}
-      container
-      direction="column"
-      justify="center"
-      alignItems="center"
-    >
+    <Grid container direction="column" justify="center" alignItems="center">
       <TextField
+        className={classes.textArea}
         onChange={handleFirstnameChange}
         placeholder="firstname"
         value={firstname}
@@ -28,6 +23,7 @@ const UsersPersonalData = ({
         required
       />
       <TextField
+        className={classes.textArea}
         onChange={handleLastnameChange}
         placeholder="lastname"
         value={lastname}
