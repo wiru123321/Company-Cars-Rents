@@ -99,7 +99,7 @@ public class UserService implements UserServiceInterface {
         return userRepository.save(user).getId();
     }
 
-    @Override //test it TODO
+    @Override
     public Boolean checkIfUserWithLoginExists(final String login) {
         return userRepository.existsByLogin(login);
     }
