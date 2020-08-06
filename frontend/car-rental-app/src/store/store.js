@@ -6,6 +6,7 @@ import yourReservationReducer from "../features/your-cars/yourCarsSlice";
 import carsInfoReducer from "../features/add-car-info/carsInfoSlice";
 import authReducer from "../features/authentication/authSlice";
 import startingCarParameterReducer from "../features/starting-car-parameter/startingCarParameterSlice";
+import userSettingsReducer from "../features/user-settings/userSettingsSlice";
 
 export default configureStore({
   reducer: {
@@ -16,5 +17,6 @@ export default configureStore({
     YourReservation: yourReservationReducer,
     carsInfo: carsInfoReducer,
     startingCarParameter: startingCarParameterReducer,
+    userSettings: userSettingsReducer,
   },
 });
