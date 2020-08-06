@@ -33,4 +33,14 @@ public interface UserServiceInterface {
     Boolean checkIfUserWithLoginExists(String login);
 
     boolean checkPassword(String given, String actual);
+
+    void changePassword(User user, String password);
+
+    void changeEmail(User user, String email);
+
+    void changePhoneNumber(User user, String phoneNumber);
+
+    boolean checkEmail(String email);
+
+    boolean checkPhoneNumber(String phoneNumber);
 }

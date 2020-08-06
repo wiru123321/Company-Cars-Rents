@@ -59,9 +59,9 @@ public class UserServiceTest {
     void whenUserDTO_And_UserCreation_Given_thenReturnUserEntity() {
         final User user = new User(null, "login1", "password1", "email@email.com",
                 "Wojciech", "Waleszczyk", "700 100 110", roleService.getEntityByRoleName("User"));
-        final UserDTO userDTO = new UserDTO("login1","email@email.com",
+        final UserDTO userDTO = new UserDTO("login1", "email@email.com",
                 "Wojciech", "Waleszczyk", "700 100 110", roleService.getDTOByRoleName("User"));
-        final UserCreation userCreation = new UserCreation("login1", bCryptPasswordEncoder.encode("password"),"email@email.com",
+        final UserCreation userCreation = new UserCreation("login1", bCryptPasswordEncoder.encode("password"), "email@email.com",
                 "Wojciech", "Waleszczyk", "700 100 110", roleService.getDTOByRoleName("User"));
         final User restModelToEntityUser = userService.mapRestModel(null, userDTO);
         final User updateModelToEntityUser = userService.mapCreationModel(null, userCreation);
@@ -183,19 +183,19 @@ public class UserServiceTest {
     }
 
     @Test
-    void whenUserDTOGiven_shouldUpdateExistingDBUserExceptPassword(){
+    void whenUserDTOGiven_shouldUpdateExistingDBUserExceptPassword() {
         final User user = new User(null, "login1", bCryptPasswordEncoder.encode("password1"), "email@email.com",
                 "Wojciech", "Waleszczyk", "700 100 110", roleService.getEntityByRoleName("User"));
         final UserUpdate userUpdate = new UserUpdate("mail@email.com",
                 "Wojcieh", "Waleszcyk", "700 122 110");
 
         assertEquals(0, userRepository.count());
-        Long userId = userService.addEntityToDB(user);
+        final Long userId = userService.addEntityToDB(user);
         assertEquals(1, userRepository.count());
         userService.updateUserInDB(user.getLogin(), userUpdate);
         final User updatedUser = userService.getEntityByLogin("login1");
 
-        assertAll(()->{
+        assertAll(() -> {
             assertEquals(userId, updatedUser.getId());
             assertEquals("login1", updatedUser.getLogin());
             assertEquals("mail@email.com", updatedUser.getEmail());
@@ -208,7 +208,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void whenUserLoginGiven_shouldSetUserIsNotActive(){
+    void whenUserLoginGiven_shouldSetUserIsNotActive() {
         final User user = new User(null, "login1", bCryptPasswordEncoder.encode("password1"), "email@email.com",
                 "Wojciech", "Waleszczyk", "700 100 110", roleService.getEntityByRoleName("User"));
 
@@ -217,12 +217,12 @@ public class UserServiceTest {
         assertEquals(1, userRepository.count());
         assertTrue(user.getIsActive());
         userService.setUserIsNotActive(user.getLogin());
-        User updatedUser = userService.getEntityByLogin(user.getLogin());
+        final User updatedUser = userService.getEntityByLogin(user.getLogin());
         assertFalse(updatedUser.getIsActive());
     }
 
     @Test
-    void shouldCheckIfUserInDBExists(){
+    void shouldCheckIfUserInDBExists() {
         final User user1 = new User(null, "login1", bCryptPasswordEncoder.encode("password1"), "email@email.com",
                 "Wojciech", "Waleszczyk", "700 100 110", roleService.getEntityByRoleName("User"));
 
@@ -235,4 +235,80 @@ public class UserServiceTest {
         assertTrue(userService.checkIfUserWithLoginExists("login1"));
         assertFalse(userService.checkIfUserWithLoginExists("login2"));
     }
+
+    @Test
+    void whenNewPasswordGiven_shouldSetNewPasswordToUser() {
+        final User user1 = new User(null, "login1", bCryptPasswordEncoder.encode("password1"), "email@email.com",
+                "Wojciech", "Waleszczyk", "700 100 110", roleService.getEntityByRoleName("User"));
+
+        final String password = "password1";
+        final String newPassword = "newPassword";
+
+        assertTrue(userService.checkPassword(password, user1.getPassword()));
+
+        userService.changePassword(user1, newPassword);
+
+        final User user2 = userService.getEntityByLogin("login1");
+
+        assertTrue(userService.checkPassword(newPassword, user2.getPassword()));
+    }
+
+    @Test
+    void whenNewEmailGiven_shouldSetNewEmailToUser() {
+        final User user1 = new User(null, "login1", bCryptPasswordEncoder.encode("password1"), "email@email.com",
+                "Wojciech", "Waleszczyk", "700 100 110", roleService.getEntityByRoleName("User"));
+
+        final String password = "password1";
+        final String oldEmail = "email@email.com";
+        final String newEmail = "sdsdsd@email.com";
+
+        assertEquals(oldEmail, user1.getEmail());
+
+        userService.changeEmail(user1, newEmail);
+
+        final User user2 = userService.getEntityByLogin("login1");
+
+        assertEquals(newEmail, user2.getEmail());
+    }
+
+    @Test
+    void whenNewPhoneNumberGiven_shouldSetNewPhoneNumberToUser() {
+        final User user1 = new User(null, "login1", bCryptPasswordEncoder.encode("password1"), "email@email.com",
+                "Wojciech", "Waleszczyk", "700100110", roleService.getEntityByRoleName("User"));
+
+        final String password = "password1";
+        final String oldNumber = "700100110";
+        final String newNumber = "800100110";
+
+        assertEquals(oldNumber, user1.getPhoneNumber());
+
+        userService.changePhoneNumber(user1, newNumber);
+
+        final User user2 = userService.getEntityByLogin("login1");
+
+        assertEquals(newNumber, user2.getPhoneNumber());
+    }
+
+    @Test
+    void whenGoodFormatEmail_shouldReturnTrue() {
+        final String goodEmail = "user@user.com";
+        final String wrongEmail1 = "ddd...ds.pl";
+        final String wrongEmail2 = "ddd..@@.ds.pl";
+
+        assertTrue(userService.checkEmail(goodEmail));
+        assertNotEquals(true, userService.checkEmail(wrongEmail1));
+        assertNotEquals(true, userService.checkEmail(wrongEmail2));
+    }
+
+    @Test
+    void whenGoodFormatPhoneNumber_shouldReturnTrue() {
+        final String goodPhoneNumber = "508376153";
+        final String wrongPhoneNumber1 = "344555777";
+        final String wrongPhoneNumber2 = "32wr4343";
+
+        assertTrue(userService.checkPhoneNumber(goodPhoneNumber));
+        assertNotEquals(true, userService.checkPhoneNumber(wrongPhoneNumber1));
+        assertNotEquals(true, userService.checkPhoneNumber(wrongPhoneNumber2));
+    }
+
 }

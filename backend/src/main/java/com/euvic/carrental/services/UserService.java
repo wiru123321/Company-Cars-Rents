@@ -77,8 +77,7 @@ public class UserService implements UserServiceInterface {
 
     @Override
     public List<UserDTO> getAllActiveUserDTOs() {
-        final ArrayList<User> userArrayList = new ArrayList<>();
-        userArrayList.addAll(userRepository.findAllByIsActive(true));
+        final ArrayList<User> userArrayList = new ArrayList<>(userRepository.findAllByIsActive(true));
         return this.mapRestList(userArrayList);
     }
 
@@ -104,6 +103,7 @@ public class UserService implements UserServiceInterface {
         return userRepository.existsByLogin(login);
     }
 
+
     private List<UserDTO> mapRestList(final List<User> userArrayList) {
         final ArrayList<UserDTO> userDTOArrayList = new ArrayList<>();
         userArrayList.forEach((user) -> {
@@ -113,38 +113,38 @@ public class UserService implements UserServiceInterface {
         return userDTOArrayList;
     }
 
-    //test it TODO
+    @Override
     public void changePassword(final User user, final String password) {
         user.setPassword(bCryptPasswordEncoder.encode(password));
         userRepository.save(user);
     }
 
-    //test it TODO
+    @Override
     public void changeEmail(final User user, final String email) {
         user.setEmail(email);
         userRepository.save(user);
     }
 
-    //test it TODO
+    @Override
     public void changePhoneNumber(final User user, final String phoneNumber) {
         user.setPhoneNumber(phoneNumber);
         userRepository.save(user);
     }
 
-    //test it TODO
+    @Override
     public boolean checkPassword(final String given, final String actual) {
         return bCryptPasswordEncoder.matches(given, actual);
     }
 
-    //test it TODO
+    @Override
     public boolean checkEmail(final String email) {
-        final String regex = "^(.+)@(.+)$";
+        final String regex = "^[\\w-\\+]+(\\.[\\w]+)*@[\\w-]+(\\.[\\w]+)*(\\.[a-z]{2,})$";
         final Pattern pattern = Pattern.compile(regex);
         final Matcher matcher = pattern.matcher(email);
         return matcher.matches();
     }
 
-    //test it TODO
+    @Override
     public boolean checkPhoneNumber(final String phoneNumber) {
 
         final String regex = "[5-9][0-9]{8}";
