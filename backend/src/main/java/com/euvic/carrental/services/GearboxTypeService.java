@@ -25,6 +25,11 @@ public class GearboxTypeService implements GearboxTypeServiceInterface {
     }
 
     @Override
+    public Long addEntityToDB(final GearboxType gearboxType) {
+        return gearboxTypeRepository.save(gearboxType).getId();
+    }
+
+    @Override
     public GearboxType getEntityByName(final String name) {
         return gearboxTypeRepository.findByName(name);
     }

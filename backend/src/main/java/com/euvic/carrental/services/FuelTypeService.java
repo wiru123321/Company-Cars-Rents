@@ -20,6 +20,11 @@ public class FuelTypeService implements FuelTypeServiceInterface {
     }
 
     @Override
+    public Long addEntityToDB(final FuelType fuelType) {
+        return fuelTypeRepository.save(fuelType).getId();
+    }
+
+    @Override
     public FuelType getEntityByName(final String name) {
         return fuelTypeRepository.findByName(name);
     }
@@ -42,4 +47,5 @@ public class FuelTypeService implements FuelTypeServiceInterface {
 
         return fuelTypeList.stream().map(FuelTypeDTO::new).collect(Collectors.toList());
     }
+
 }
