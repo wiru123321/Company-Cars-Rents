@@ -17,6 +17,8 @@ import {
   gearboxTypeChange,
   trunkCapacityChange,
   imageUrlChange,
+  reset,
+  addCar,
 } from "../../../features/add-car-info/carsInfoSlice";
 import {
   fetchMarks,
@@ -29,6 +31,9 @@ import { useDispatch } from "react-redux";
 
 const AddNewCar = () => {
   const dispatch = useDispatch();
+  function addCar() {
+    dispatch(reset());
+  }
   return (
     <Cointainer fixed>
       <Typography
@@ -40,7 +45,7 @@ const AddNewCar = () => {
         onLoad={dispatch(fetchColor())}
         onLoad={dispatch(fetchGearboxType())}
       >
-        <form style={{ width: "50vw", margin: "auto" }}>
+        <form style={{ width: "50vw", margin: "auto" }} onSubmit={addCar}>
           <div style={{ height: "5vh" }}></div>
           <AddCarForm
             handleBrandChange={(event) =>
@@ -77,8 +82,6 @@ const AddNewCar = () => {
             handletrunkCapacityChange={(event) =>
               dispatch(trunkCapacityChange(event.target.value))
             }
-          />
-          <AddCarButton
             handleimageUrlChange={(event) =>
               dispatch(imageUrlChange(event.target.value))
             }

@@ -14,7 +14,7 @@ export default configureStore({
     rentRequest: rentRequestSlice,
     auth: authReducer,
     YourReservation: yourReservationReducer,
-    CarsInfo: carsInfoReducer,
+    carsInfo: carsInfoReducer,
     startingCarParameter: startingCarParameterReducer,
   },
 });
