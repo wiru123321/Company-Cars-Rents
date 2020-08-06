@@ -3,7 +3,7 @@ import { Input, Grid, Button } from "@material-ui/core";
 import PhoneIcon from "@material-ui/icons/Phone";
 import EmailIcon from "@material-ui/icons/Email";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import FingerprintIcon from "@material-ui/icons/Fingerprint";
+import SystemUpdateAltIcon from "@material-ui/icons/SystemUpdateAlt";
 
 const EditEmployer = ({ employee }) => {
   const { name, surname, email, phoneNumber } = employee;
@@ -35,7 +35,7 @@ const EditEmployer = ({ employee }) => {
         </Grid>
         <Grid item>
           <Button type="submit">
-            <FingerprintIcon />
+            <SystemUpdateAltIcon />
             Edit
           </Button>
         </Grid>
