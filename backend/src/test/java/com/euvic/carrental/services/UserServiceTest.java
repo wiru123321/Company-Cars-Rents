@@ -5,6 +5,7 @@ import com.euvic.carrental.model.User;
 import com.euvic.carrental.repositories.RoleRepository;
 import com.euvic.carrental.repositories.UserRepository;
 import com.euvic.carrental.responses.User.UserDTO;
+import com.euvic.carrental.responses.User.UserUpdate;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -171,18 +172,18 @@ public class UserServiceTest {
     void whenUserDTOGiven_shouldUpdateExistingDBUserExceptPassword(){
         final User user = new User(null, "login1", bCryptPasswordEncoder.encode("password1"), "email@email.com",
                 "Wojciech", "Waleszczyk", "700 100 110", roleService.getEntityByRoleName("User"));
-        final UserDTO userDTO = new UserDTO("login2", "mail@email.com",
-                "Wojcieh", "Waleszcyk", "700 122 110", roleService.getDTOByRoleName("User"));
+        final UserUpdate userUpdate = new UserUpdate("mail@email.com",
+                "Wojcieh", "Waleszcyk", "700 122 110");
 
         assertEquals(0, userRepository.count());
         Long userId = userService.addEntityToDB(user);
         assertEquals(1, userRepository.count());
-        userService.updateUserInDB(user.getLogin(), userDTO);
-        final User updatedUser = userService.getEntityByLogin("login2");
+        userService.updateUserInDB(user.getLogin(), userUpdate);
+        final User updatedUser = userService.getEntityByLogin("login1");
 
         assertAll(()->{
             assertEquals(userId, updatedUser.getId());
-            assertEquals("login2", updatedUser.getLogin());
+            assertEquals("login1", updatedUser.getLogin());
             assertEquals("mail@email.com", updatedUser.getEmail());
             assertEquals("Wojcieh", updatedUser.getName());
             assertEquals("Waleszcyk", updatedUser.getSurname());

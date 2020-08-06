@@ -2,18 +2,14 @@ package com.euvic.carrental.controllers;
 
 import com.euvic.carrental.model.User;
 import com.euvic.carrental.responses.User.UserCration;
-import com.euvic.carrental.responses.User.UserDTO;
+import com.euvic.carrental.responses.User.UserUpdate;
 import com.euvic.carrental.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.lang.invoke.WrongMethodTypeException;
 
-//TODO NAPRAW TESTY PAPROTA !!!!!!!!!!!
-
-//TODO checking while login that login isnt exist
 //TODO tylko zwraca userów, jest 1 admin i nie mozna go edytować
 //TODO admin nie usuwa samego siebie
 //TODO walidacja
@@ -48,8 +44,8 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.PUT,value = "/user/{login}")
-    public ResponseEntity updateDataBaseUser(@PathVariable String login, @RequestBody UserDTO newUserDTO){
-        return ResponseEntity.ok(userService.updateUserInDB(login, newUserDTO));
+    public ResponseEntity updateDataBaseUser(@PathVariable String login, @RequestBody UserUpdate userUpdate){
+        return ResponseEntity.ok(userService.updateUserInDB(login, userUpdate));
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/user/{login}")

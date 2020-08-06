@@ -3,6 +3,7 @@ package com.euvic.carrental.services.interfaces;
 import com.euvic.carrental.model.User;
 import com.euvic.carrental.responses.User.UserCration;
 import com.euvic.carrental.responses.User.UserDTO;
+import com.euvic.carrental.responses.User.UserUpdate;
 
 import java.util.List;
 
@@ -21,7 +22,7 @@ public interface UserServiceInterface {
 
     List<UserDTO> getAllDTOs();
 
-    Long updateUserInDB(String email, UserDTO newUserDTO);
+    Long updateUserInDB(String login, UserUpdate userUpdate);
 
     Long setUserIsNotActive(String login);
 

@@ -4,6 +4,7 @@ import com.euvic.carrental.model.User;
 import com.euvic.carrental.repositories.UserRepository;
 import com.euvic.carrental.responses.User.UserCration;
 import com.euvic.carrental.responses.User.UserDTO;
+import com.euvic.carrental.responses.User.UserUpdate;
 import com.euvic.carrental.services.interfaces.UserServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -82,11 +83,13 @@ public class UserService implements UserServiceInterface {
     }
 
     @Override //NO PASSWORD CHANGE
-    public Long updateUserInDB(final String login, final UserDTO newUserDTO) {
+    public Long updateUserInDB(final String login, final UserUpdate userUpdate) {
         final User oldUser = this.getEntityByLogin(login);
-        final User newUser = this.mapRestModel(oldUser.getId(), newUserDTO);
-        newUser.setPassword(oldUser.getPassword());
-        return userRepository.save(newUser).getId();
+        oldUser.setName(userUpdate.getName());
+        oldUser.setSurname(userUpdate.getSurname());
+        oldUser.setEmail(userUpdate.getEmail());
+        oldUser.setPhoneNumber(userUpdate.getPhoneNumber());
+        return userRepository.save(oldUser).getId();
     }
 
     @Override
