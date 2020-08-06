@@ -8,6 +8,8 @@ test:
    script:
       - echo "Here goes test"
 #     - gradle test
+#     - npm test
+#     How to run it?
    tags:
       - test
 
