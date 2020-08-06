@@ -12,5 +12,7 @@ public interface GearboxTypeServiceInterface {
 
     GearboxType mapRestModel(Long id, GearBoxTypeDTO model);
 
+    Long addEntityToDB(GearboxType gearboxType);
+
     List<GearBoxTypeDTO> getAllDTOs();
 }

@@ -12,5 +12,7 @@ public interface TypeServiceInterface {
 
     TypeDTO getDTOByName(String name);
 
+    Long addEntityToDB(Type type);
+
     List<TypeDTO> getAllDTOs();
 }

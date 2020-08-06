@@ -8,6 +8,8 @@ import java.util.List;
 public interface FuelTypeServiceInterface {
     FuelType mapRestModel(Long id, FuelTypeDTO model);
 
+    Long addEntityToDB(FuelType fuelType);
+
     FuelType getEntityByName(String name);
 
     FuelTypeDTO getDTOByName(String name);

@@ -57,9 +57,11 @@ const Employee = ({ employee, handleDelete }) => {
         <Grid item xs={3}>
           <EmployerInfo employee={employee} />
         </Grid>
-        <Grid item xs={6}>
-          {edit && <EditEmployee employee={employee} />}
-        </Grid>
+        {edit && (
+          <Grid item xs={6}>
+            <EditEmployee employee={employee} />
+          </Grid>
+        )}
         <Grid item xs={3}>
           <Grid
             container

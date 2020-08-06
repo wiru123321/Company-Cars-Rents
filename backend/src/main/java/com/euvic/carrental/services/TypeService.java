@@ -23,6 +23,11 @@ public class TypeService implements TypeServiceInterface {
     }
 
     @Override
+    public Long addEntityToDB(final Type type) {
+        return typeRepository.save(type).getId();
+    }
+
+    @Override
     public Type mapRestModel(final Long id, final TypeDTO model) {
         return new Type(id, model.getName());
     }

@@ -12,5 +12,7 @@ public interface MarkServiceInterface {
 
     MarkDTO getDTOByName(String name);
 
+    Long addEntityToDB(Mark mark);
+
     List<MarkDTO> getAllDTOs();
 }
