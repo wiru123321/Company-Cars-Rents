@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @CrossOrigin
 @RequestMapping(value = "/e")
-public class EmployeeController {
+public class AccountController {
 
     private final UserService userService;
 
     @Autowired
-    public EmployeeController(final UserService userService) {
+    public AccountController(final UserService userService) {
         this.userService = userService;
     }
 
@@ -53,6 +53,9 @@ public class EmployeeController {
         } else {
             responseCode = 406;
         }
+
+        editAccount.setPassword("");
+        editAccount.setNewPassword("");
         return ResponseEntity.status(responseCode).body(editAccount);
     }
 
@@ -68,11 +71,18 @@ public class EmployeeController {
         final int responseCode;
 
         if (userService.checkPassword(editAccount.getPassword(), user.getPassword())) {
-            userService.changeEmail(user, editAccount.getEmail());
-            responseCode = 200;
+            if (userService.checkEmail(editAccount.getEmail())) {
+                userService.changeEmail(user, editAccount.getEmail());
+                responseCode = 200;
+            } else {
+                responseCode = 400;
+            }
+
         } else {
             responseCode = 406;
         }
+        editAccount.setPassword("");
+        editAccount.setNewPassword("");
         return ResponseEntity.status(responseCode).body(editAccount);
     }
 
@@ -88,11 +98,17 @@ public class EmployeeController {
         final int responseCode;
 
         if (userService.checkPassword(editAccount.getPassword(), user.getPassword())) {
-            userService.changePhoneNumber(user, editAccount.getPhoneNumber());
-            responseCode = 200;
+            if (userService.checkPhoneNumber(editAccount.getPhoneNumber())) {
+                userService.changePhoneNumber(user, editAccount.getPhoneNumber());
+                responseCode = 200;
+            } else {
+                responseCode = 400;
+            }
         } else {
             responseCode = 406;
         }
+        editAccount.setPassword("");
+        editAccount.setNewPassword("");
         return ResponseEntity.status(responseCode).body(editAccount);
     }
 }
