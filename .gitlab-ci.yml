@@ -7,10 +7,10 @@ test:
    stage: test
    script:
       - echo "Here goes test"
-      - docker exec -d carrentalbackend gradle test
+      - docker exec -d backend gradle test
       - echo "Backedn test ended"
 #     Frontend      
-      - docker exec -d carrentalfrontend npm test
+      - docker exec -d frontend npm test
       - echo "Success"
    tags:
       - test
