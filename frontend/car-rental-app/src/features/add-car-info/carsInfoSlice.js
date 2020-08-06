@@ -4,19 +4,22 @@ import axios from "axios";
 const API_URL = "http://localhost:8080";
 
 const initialState = {
-  brand: "",
-  type: "",
-  licencePlate: "",
-  fuelType: "",
-  year: "",
-  milage: "",
-  hp: "",
-  peopleCapacity: "",
+  modelDTO: "",
+  typeDTO: "",
+  licensePlate: "",
+  fuelTypeDTO: "",
+  productionYear: "",
+  mileage: "",
+  enginePower: "",
+  capacityOfPeople: "",
   doorsNumber: "",
-  color: "",
-  gearboxType: "",
-  trunkCapacity: "",
-  imageUrl: "",
+  colourDTO: "",
+  gearBoxTypeDTO: "",
+  capacityOfTrunkScale: "",
+  photoInFolderName: "",
+  lastInspection: "",
+  isActive: false,
+  parkingDTO: "",
 };
 
 export const carsInfoSlice = createSlice({
@@ -24,58 +27,58 @@ export const carsInfoSlice = createSlice({
   initialState,
   reducers: {
     brandChange: (state, action) => {
-      state.brand = action.payload;
+      state.modelDTO = action.payload;
     },
     typeChange: (state, action) => {
-      state.type = action.payload;
+      state.typeDTO = action.payload;
     },
     licencePlateChange: (state, action) => {
-      state.licencePlate = action.payload;
+      state.licensePlate = action.payload;
     },
     fuelTypeChange: (state, action) => {
-      state.fuelType = action.payload;
+      state.fuelTypeDTO = action.payload;
     },
     yearChange: (state, action) => {
-      state.year = action.payload;
+      state.productionYear = action.payload;
     },
     milageChange: (state, action) => {
-      state.milage = action.payload;
+      state.mileage = action.payload;
     },
     hpChange: (state, action) => {
-      state.hp = action.payload;
+      state.enginePower = action.payload;
     },
     peopleCapacityChange: (state, action) => {
-      state.peopleCapacity = action.payload;
+      state.capacityOfPeople = action.payload;
     },
     doorsNumberChange: (state, action) => {
       state.doorsNumber = action.payload;
     },
     colorChange: (state, action) => {
-      state.color = action.payload;
+      state.colourDTO = action.payload;
     },
     gearboxTypeChange: (state, action) => {
-      state.gearboxType = action.payload;
+      state.gearBoxTypeDTO = action.payload;
     },
     trunkCapacityChange: (state, action) => {
-      state.trunkCapacity = action.payload;
+      state.capacityOfTrunkScale = action.payload;
     },
     imageUrlChange: (state, action) => {
-      state.imageUrl = action.payload;
+      state.photoInFolderName = action.payload;
     },
     reset: (state) => {
-      state.brand = " ";
-      state.type = " ";
-      state.licencePlate = " ";
-      state.fuelType = "";
-      state.year = "";
-      state.milage = "";
-      state.hp = "";
-      state.peopleCapacity = "";
+      state.modelDTO = " ";
+      state.typeDTO = " ";
+      state.licensePlate = " ";
+      state.fuelTypeDTO = "";
+      state.productionYear = "";
+      state.mileage = "";
+      state.enginePower = "";
+      state.capacityOfPeople = "";
       state.doorsNumber = "";
-      state.color = "";
-      state.gearboxType = "";
-      state.trunkCapacity = "";
-      state.imageUrl = "";
+      state.colourDTO = "";
+      state.gearBoxTypeDTO = "";
+      state.capacityOfTrunkScale = "";
+      state.photoInFolderName = "";
     },
   },
 });
@@ -99,35 +102,9 @@ export const {
 
 export const selectAll = (state) => state.carsInfo;
 
-export const selectBrandValue = (state) => state.carsInfo.brand;
-
-export const selectTypeValue = (state) => state.carsInfo.type;
-
-export const selectLicencePlate = (state) => state.carsInfo.licencePlate;
-
-export const selectFuelTypeValue = (state) => state.carsInfo.fuelType;
-
-export const selectYear = (state) => state.carsInfo.year;
-
-export const selectMilage = (state) => state.carsInfo.milage;
-
-export const selectHp = (state) => state.carsInfo.hp;
-
-export const selectPeopleCapacity = (state) => state.carsInfo.peopleCapacity;
-
-export const selectDoorsNumber = (state) => state.carsInfo.doorsNumber;
-
-export const selectColorValue = (state) => state.carsInfo.color;
-
-export const selectGearboxTypeValue = (state) => state.carsInfo.gearboxType;
-
-export const selectTrunkCapacity = (state) => state.carsInfo.trunkCapacity;
-
-export const selectImageUrl = (state) => state.carsInfo.imageUrl;
-
-export const addCar = (carCration) => async (dispatch) => {
+export const addCar = (carDTO) => async (dispatch) => {
   try {
-    const response = await axios.post(API_URL + "/a/car", carCration, {
+    const response = await axios.post(API_URL + "/a/car", carDTO, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
