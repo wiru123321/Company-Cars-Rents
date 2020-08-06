@@ -5,8 +5,6 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
-import { useSelector } from "react-redux";
-import { selectMarks } from "../../../features/starting-car-parameter/startingCarParameterSlice";
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -18,14 +16,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const SelectBox = ({ SelectHandler, NameHandler }) => {
+export const SelectBox = ({
+  SelectHandler,
+  NameHandler,
+  handleChange,
+  handlerValue,
+}) => {
   const classes = useStyles();
-  const marks = useSelector(selectMarks);
-  const [age, setAge] = React.useState("");
-
-  const handleChange = (event) => {
-    setAge(event.target.value);
-  };
 
   return (
     <div>
@@ -34,7 +31,7 @@ export const SelectBox = ({ SelectHandler, NameHandler }) => {
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={age}
+          value={handlerValue}
           onChange={handleChange}
         >
           {SelectHandler.map((select, index) => (
