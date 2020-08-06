@@ -1,7 +1,7 @@
 package com.euvic.carrental.services.interfaces;
 
 import com.euvic.carrental.model.User;
-import com.euvic.carrental.responses.User.UserCration;
+import com.euvic.carrental.responses.User.UserCreation;
 import com.euvic.carrental.responses.User.UserDTO;
 import com.euvic.carrental.responses.User.UserUpdate;
 
@@ -26,7 +26,7 @@ public interface UserServiceInterface {
 
     Long setUserIsNotActive(String login);
 
-    User mapCreationModel(Long id, UserCration userCration);
+    User mapCreationModel(Long id, UserCreation userCreation);
 
     List<UserDTO> getAllActiveUserDTOs();
 

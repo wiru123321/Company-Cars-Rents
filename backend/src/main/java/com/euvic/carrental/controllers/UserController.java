@@ -1,7 +1,7 @@
 package com.euvic.carrental.controllers;
 
 import com.euvic.carrental.model.User;
-import com.euvic.carrental.responses.User.UserCration;
+import com.euvic.carrental.responses.User.UserCreation;
 import com.euvic.carrental.responses.User.UserUpdate;
 import com.euvic.carrental.services.UserService;
 import org.springframework.http.HttpStatus;
@@ -33,13 +33,13 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.POST,value = "/user")
-    public ResponseEntity addUserToDatabase(@RequestBody UserCration userCration){
-        if(userService.checkIfUserWithLoginExists(userCration.getLogin())){
+    public ResponseEntity addUserToDatabase(@RequestBody UserCreation userCreation){
+        if(userService.checkIfUserWithLoginExists(userCreation.getLogin())){
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Existing login given.");
         }
 
-        User user = userService.mapCreationModel(null, userCration);
-        user.setPassword(passwordEncoder.encode(userCration.getPassword()));
+        User user = userService.mapCreationModel(null, userCreation);
+        user.setPassword(passwordEncoder.encode(userCreation.getPassword()));
         return ResponseEntity.ok(userService.addEntityToDB(user));
     }
 

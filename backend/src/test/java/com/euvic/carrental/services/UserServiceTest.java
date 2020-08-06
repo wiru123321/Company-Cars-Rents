@@ -4,6 +4,7 @@ import com.euvic.carrental.model.Role;
 import com.euvic.carrental.model.User;
 import com.euvic.carrental.repositories.RoleRepository;
 import com.euvic.carrental.repositories.UserRepository;
+import com.euvic.carrental.responses.User.UserCreation;
 import com.euvic.carrental.responses.User.UserDTO;
 import com.euvic.carrental.responses.User.UserUpdate;
 import org.junit.jupiter.api.AfterEach;
@@ -55,12 +56,15 @@ public class UserServiceTest {
     }
 
     @Test
-    void whenUserDTOGiven_thenReturnUserEntity() {
+    void whenUserDTO_And_UserCreation_Given_thenReturnUserEntity() {
         final User user = new User(null, "login1", "password1", "email@email.com",
                 "Wojciech", "Waleszczyk", "700 100 110", roleService.getEntityByRoleName("User"));
         final UserDTO userDTO = new UserDTO("login1","email@email.com",
                 "Wojciech", "Waleszczyk", "700 100 110", roleService.getDTOByRoleName("User"));
+        final UserCreation userCreation = new UserCreation("login1", bCryptPasswordEncoder.encode("password"),"email@email.com",
+                "Wojciech", "Waleszczyk", "700 100 110", roleService.getDTOByRoleName("User"));
         final User restModelToEntityUser = userService.mapRestModel(null, userDTO);
+        final User updateModelToEntityUser = userService.mapCreationModel(null, userCreation);
         assertAll(() -> {
             assertEquals(restModelToEntityUser.getLogin(), user.getLogin());
             assertEquals(restModelToEntityUser.getEmail(), user.getEmail());
@@ -70,6 +74,16 @@ public class UserServiceTest {
             assertEquals(restModelToEntityUser.getIsActive(), user.getIsActive());
             assertEquals(restModelToEntityUser.getRole(), user.getRole());
             assertEquals(restModelToEntityUser.getId(), user.getId());
+
+
+            assertEquals(updateModelToEntityUser.getLogin(), user.getLogin());
+            assertEquals(updateModelToEntityUser.getEmail(), user.getEmail());
+            assertEquals(updateModelToEntityUser.getName(), user.getName());
+            assertEquals(updateModelToEntityUser.getSurname(), user.getSurname());
+            assertEquals(updateModelToEntityUser.getPhoneNumber(), user.getPhoneNumber());
+            assertEquals(updateModelToEntityUser.getIsActive(), user.getIsActive());
+            assertEquals(updateModelToEntityUser.getRole(), user.getRole());
+            assertEquals(updateModelToEntityUser.getId(), user.getId());
         });
     }
 
@@ -205,5 +219,20 @@ public class UserServiceTest {
         userService.setUserIsNotActive(user.getLogin());
         User updatedUser = userService.getEntityByLogin(user.getLogin());
         assertFalse(updatedUser.getIsActive());
+    }
+
+    @Test
+    void shouldCheckIfUserInDBExists(){
+        final User user1 = new User(null, "login1", bCryptPasswordEncoder.encode("password1"), "email@email.com",
+                "Wojciech", "Waleszczyk", "700 100 110", roleService.getEntityByRoleName("User"));
+
+        final User user2 = new User(null, "login2", bCryptPasswordEncoder.encode("password2"), "mail@email.com",
+                "Wojcieh", "Waleszcyk", "700 120 110", roleService.getEntityByRoleName("User"));
+
+        assertEquals(0, userRepository.count());
+        userService.addEntityToDB(user1);
+        assertEquals(1, userRepository.count());
+        assertTrue(userService.checkIfUserWithLoginExists("login1"));
+        assertFalse(userService.checkIfUserWithLoginExists("login2"));
     }
 }

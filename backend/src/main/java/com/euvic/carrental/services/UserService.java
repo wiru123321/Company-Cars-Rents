@@ -2,7 +2,7 @@ package com.euvic.carrental.services;
 
 import com.euvic.carrental.model.User;
 import com.euvic.carrental.repositories.UserRepository;
-import com.euvic.carrental.responses.User.UserCration;
+import com.euvic.carrental.responses.User.UserCreation;
 import com.euvic.carrental.responses.User.UserDTO;
 import com.euvic.carrental.responses.User.UserUpdate;
 import com.euvic.carrental.services.interfaces.UserServiceInterface;
@@ -35,9 +35,9 @@ public class UserService implements UserServiceInterface {
         return new User(id, userDTO, roleService.getEntityByRoleName(userDTO.getRoleDTO().getName()));
     }
 
-    @Override //TODO tests
-    public User mapCreationModel(final Long id, final UserCration userCration) {
-        return new User(id, userCration, roleService.getEntityByRoleName(userCration.getRoleDTO().getName()));
+    @Override
+    public User mapCreationModel(final Long id, final UserCreation userCreation) {
+        return new User(id, userCreation, roleService.getEntityByRoleName(userCreation.getRoleDTO().getName()));
     }
 
     @Override
