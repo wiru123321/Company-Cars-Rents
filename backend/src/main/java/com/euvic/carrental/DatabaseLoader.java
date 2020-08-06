@@ -49,7 +49,8 @@ public class DatabaseLoader implements CommandLineRunner {
     private final TypeService typeService;
     private final UserService userService;
 
-    private PasswordEncoder passwordEncoder;
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @Value("${spring.datasource.username}")
     private String dataBase;
@@ -67,7 +68,7 @@ public class DatabaseLoader implements CommandLineRunner {
                           final MarkService markService, final ModelService modelService, final ParkingService parkingService,
                           final ParkingHistoryService parkingHistoryService, final RentHistoryService rentHistoryService,
                           final RentService rentService, final RoleService roleService, final TypeService typeService,
-                          final UserService userService, final  PasswordEncoder passwordEncoder) {
+                          final UserService userService) {
         this.carRepository = carRepository;
         this.colourRepository = colourRepository;
         this.faultRepository = faultRepository;
@@ -97,8 +98,6 @@ public class DatabaseLoader implements CommandLineRunner {
         this.roleService = roleService;
         this.typeService = typeService;
         this.userService = userService;
-
-        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
