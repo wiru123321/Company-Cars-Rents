@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 
 @Service
 public class UserService implements UserServiceInterface {
@@ -107,23 +110,43 @@ public class UserService implements UserServiceInterface {
         return userDTOArrayList;
     }
 
-
+    //test it TODO
     public void changePassword(final User user, final String password) {
         user.setPassword(bCryptPasswordEncoder.encode(password));
         userRepository.save(user);
     }
 
+    //test it TODO
     public void changeEmail(final User user, final String email) {
         user.setEmail(email);
         userRepository.save(user);
     }
 
+    //test it TODO
     public void changePhoneNumber(final User user, final String phoneNumber) {
         user.setPhoneNumber(phoneNumber);
         userRepository.save(user);
     }
 
+    //test it TODO
     public boolean checkPassword(final String given, final String actual) {
         return bCryptPasswordEncoder.matches(given, actual);
+    }
+
+    //test it TODO
+    public boolean checkEmail(final String email) {
+        final String regex = "^(.+)@(.+)$";
+        final Pattern pattern = Pattern.compile(regex);
+        final Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
+
+    //test it TODO
+    public boolean checkPhoneNumber(final String phoneNumber) {
+
+        final String regex = "[5-9][0-9]{8}";
+        final Pattern pattern = Pattern.compile(regex);
+        final Matcher matcher = pattern.matcher(phoneNumber);
+        return matcher.matches();
     }
 }
