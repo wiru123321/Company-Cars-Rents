@@ -49,7 +49,6 @@ public class User {
         this.surname = userDTO.getSurname();
         this.phoneNumber = userDTO.getPhoneNumber();
         this.role = role;
-        this.id = null;
     }
 
     public User(Long id, final UserCration userCration, final Role role) {

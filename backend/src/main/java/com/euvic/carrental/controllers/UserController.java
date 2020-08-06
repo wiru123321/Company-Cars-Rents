@@ -4,16 +4,19 @@ import com.euvic.carrental.model.User;
 import com.euvic.carrental.responses.User.UserCration;
 import com.euvic.carrental.responses.User.UserDTO;
 import com.euvic.carrental.services.UserService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.lang.invoke.WrongMethodTypeException;
 
 //TODO NAPRAW TESTY PAPROTA !!!!!!!!!!!
 
 //TODO checking while login that login isnt exist
 //TODO tylko zwraca userów, jest 1 admin i nie mozna go edytować
 //TODO admin nie usuwa samego siebie
+//TODO walidacja
 
 @RestController
 @CrossOrigin
@@ -29,24 +32,28 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/users")
-    public List<UserDTO> getAllActiveUsers(){
-        return userService.getAllActiveUserDTOs();
+    public ResponseEntity getAllActiveUsers(){
+        return ResponseEntity.ok(userService.getAllActiveUserDTOs());
     }
 
     @RequestMapping(method = RequestMethod.POST,value = "/user")
-    public Long addUserToDatabase(@RequestBody UserCration userCration){
+    public ResponseEntity addUserToDatabase(@RequestBody UserCration userCration){
+        if(userService.checkIfUserWithLoginExists(userCration.getLogin())){
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Existing login given.");
+        }
+
         User user = userService.mapCreationModel(null, userCration);
         user.setPassword(passwordEncoder.encode(userCration.getPassword()));
-        return userService.addEntityToDB(user);
+        return ResponseEntity.ok(userService.addEntityToDB(user));
     }
 
     @RequestMapping(method = RequestMethod.PUT,value = "/user/{login}")
-    public Long updateDataBaseUser(@PathVariable String login, @RequestBody UserDTO newUserDTO){
-        return userService.updateUserInDB(login, newUserDTO);
+    public ResponseEntity updateDataBaseUser(@PathVariable String login, @RequestBody UserDTO newUserDTO){
+        return ResponseEntity.ok(userService.updateUserInDB(login, newUserDTO));
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/user/{login}")
-    public Long setUserAsDeletedInDB(@PathVariable String login){
-        return userService.setUserIsNotActive(login);
+    public ResponseEntity setUserAsDeletedInDB(@PathVariable String login){
+        return ResponseEntity.ok(userService.setUserIsNotActive(login));
     }
 }

@@ -92,6 +92,11 @@ public class UserService implements UserServiceInterface {
         return userRepository.save(user).getId();
     }
 
+    @Override //test it TODO
+    public Boolean checkIfUserWithLoginExists(String login) {
+        return userRepository.existsByLogin(login);
+    }
+
     private List<UserDTO> mapRestList(List<User> userArrayList){
         final ArrayList<UserDTO> userDTOArrayList = new ArrayList<>();
         userArrayList.stream().forEach((user) -> {
