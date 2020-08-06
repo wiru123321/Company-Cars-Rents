@@ -5,8 +5,10 @@ stages:
 
 test: 
    stage: test
+   before_script:
+      - docker info
    script:
-      - gradle test
+#      - gradle test
       - npm test
       - echo "Success"
    tags:
