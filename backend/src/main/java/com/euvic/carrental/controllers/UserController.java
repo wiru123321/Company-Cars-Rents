@@ -13,11 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-
-//TODO tylko zwraca userów, jest 1 admin i nie mozna go edytować
-//TODO admin nie usuwa samego siebie
 //TODO walidacja
 
 @RestController
