@@ -6,19 +6,8 @@ stages:
 test: 
    stage: test
    script:
-      - echo "Tests"
-      - cd backend
-      - docker run -d backend 
       - docker exec backend gradle test
-      - docker rm backend -f 
-      - cd ..
-#     Frontend
-      - cd frontend/car-rental-app/
-      - docker run -d frontend 
-      - docker exec frontend npm
-      - docker rm frontend -f 
-      - cd ..
-      - cd ..
+      - docker exec frontend npm test
       - echo "Success"
    tags:
       - test
