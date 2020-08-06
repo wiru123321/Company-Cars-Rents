@@ -31,6 +31,7 @@ import {
   gearboxTypeChange,
   trunkCapacityChange,
   imageUrlChange,
+  reset,
 } from "../../../features/add-car-info/carsInfoSlice";
 import SelectBoxForm from "./SelectBoxForm";
 
@@ -71,7 +72,6 @@ const AddCarForm = () => {
     colourDTO,
     gearBoxTypeDTO,
     capacityOfTrunkScale,
-    photoInFolderName,
   } = CarInfo;
 
   function submit(event) {
@@ -88,7 +88,7 @@ const AddCarForm = () => {
       productionYear: productionYear,
       isActive: true,
       mileage: mileage,
-      modelDTO: { modelDTO, markDTO: { name: modelDTO } },
+      modelDTO: { name: modelDTO, markDTO: { name: modelDTO } },
       parkingDTO: {
         town: "Katowice",
         postalCode: "40-001",
@@ -101,6 +101,7 @@ const AddCarForm = () => {
       typeDTO: { name: typeDTO },
     };
     dispatch(addCar(car));
+    dispatch(reset());
   }
 
   return (
@@ -189,35 +190,6 @@ const AddCarForm = () => {
             value={capacityOfTrunkScale}
           />
         </Box>
-      </Box>
-      <Box
-        display="flex"
-        justifyContent="center"
-        m={1}
-        p={1}
-        className={classes.root}
-      >
-        <input
-          accept="image/*"
-          className={classes.input}
-          id="contained-button-file"
-          multiple
-          type="file"
-          onChange={(event) => dispatch(imageUrlChange(event.target.value))}
-          value={photoInFolderName}
-        />
-        <label htmlFor="contained-button-file">
-          <Button variant="contained" color="primary" component="span">
-            Upload
-          </Button>
-        </label>
-        <label htmlFor="icon-button-file">
-          <IconButton
-            color="primary"
-            aria-label="upload picture"
-            component="span"
-          ></IconButton>
-        </label>
       </Box>
       <Box display="flex" justifyContent="center" m={1} p={1}>
         <Box>
