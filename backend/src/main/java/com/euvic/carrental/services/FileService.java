@@ -1,12 +1,9 @@
-package com.euvic.carrental.controllers;
+package com.euvic.carrental.services;
 
 import com.euvic.carrental.model.Car;
-import com.euvic.carrental.services.CarService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -15,27 +12,18 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-@RestController
-@RequestMapping("file/")
-@CrossOrigin
-public class FileController {
+@Service
+public class FileService {
 
+    //TODO tests
     private static final String IMAGE_DIRECTORY = System.getProperty("user.dir") + "/images";
     private static final String CAR_IMAGE_DIRECTORY = System.getProperty("user.dir") + "/images/cars";
 
-    @Autowired CarService carService;
-
-    @RequestMapping(method = RequestMethod.POST, value = "/upload-car-image/{licensePlate}", produces = {MediaType.IMAGE_PNG_VALUE, "application/json"})
-    public ResponseEntity<?> uploadCarImage(@RequestParam("imageFile") final MultipartFile file, @PathVariable final String licensePlate) {
-        setUpDirectories();
-
+    public ResponseEntity<?> uploadCarImage(MultipartFile file) {
         final Path fileNamePath = Paths.get(CAR_IMAGE_DIRECTORY, generateNextInDirFileName(CAR_IMAGE_DIRECTORY,"car_image"));
+        setUpDirectories();
         try {
             Files.write(fileNamePath, file.getBytes());
-            Car car = carService.getEntityByLicensePlate(licensePlate);
-            car.setPhotoFolderPath(fileNamePath.toString());
-            carService.addEntityToDB(car);
-
             return new ResponseEntity<>(fileNamePath, HttpStatus.CREATED);
         } catch (final IOException ex) {
             return new ResponseEntity<>("Image is not uploaded", HttpStatus.BAD_REQUEST);

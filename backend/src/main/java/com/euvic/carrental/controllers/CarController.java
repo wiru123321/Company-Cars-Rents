@@ -5,12 +5,18 @@ import com.euvic.carrental.model.Model;
 import com.euvic.carrental.model.Parking;
 import com.euvic.carrental.responses.CarDTO;
 import com.euvic.carrental.services.CarService;
+import com.euvic.carrental.services.FileService;
 import com.euvic.carrental.services.ModelService;
 import com.euvic.carrental.services.ParkingService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-//Wyswietla tylko samochody w firmie i takich co ich nie ma
+import java.lang.reflect.Executable;
+
 
 @RestController
 @CrossOrigin
@@ -18,11 +24,13 @@ public class CarController {
     private final CarService carService;
     private final ParkingService parkingService;
     private final ModelService modelService;
+    private final FileService fileService;
 
-    public CarController(final CarService carService, final ParkingService parkingService, final ModelService modelService) {
+    public CarController(final CarService carService, final ParkingService parkingService, final ModelService modelService, final  FileService fileService) {
         this.carService = carService;
         this.parkingService = parkingService;
         this.modelService = modelService;
+        this.fileService = fileService;
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/a/hello")
@@ -64,5 +72,21 @@ public class CarController {
     @RequestMapping(method = RequestMethod.DELETE, value = "/a/car/{licensePlate}")
     public ResponseEntity setCarAsDeletedInDB(@PathVariable final String licensePlate) {
         return ResponseEntity.ok(carService.setCarIsNotInCompany(licensePlate));
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/a/car/upload-car-image/{licensePlate}", produces = {MediaType.IMAGE_PNG_VALUE, "application/json"})
+    public ResponseEntity<?> uploadCarImageForExistingCar(@RequestParam("imageFile") final MultipartFile file, @PathVariable final String licensePlate){
+
+        if(!carService.checkIfCarWithLicensePlateExists(licensePlate)){
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Car with given license plate doesn't exist.");
+        }
+
+        ResponseEntity carImageUploadResponse = fileService.uploadCarImage(file);
+        if(carImageUploadResponse.getStatusCode() == HttpStatus.BAD_REQUEST){
+            return carImageUploadResponse;
+        }
+
+        String carImagePath = carImageUploadResponse.getBody().toString();
+        return ResponseEntity.ok(carService.addExistingImageToExistingCar(carImagePath, licensePlate));
     }
 }

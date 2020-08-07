@@ -242,7 +242,7 @@ public class UserServiceTest {
                 "Wojciech", "Waleszczyk", "700 100 110", roleService.getEntityByRoleName("User"));
 
         final String password = "password1";
-        final String newPassword = "newPassword";
+        final String newPassword = "newPassw_ord23";
 
         assertTrue(userService.checkPassword(password, user1.getPassword()));
 

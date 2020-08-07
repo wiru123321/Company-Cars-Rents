@@ -34,7 +34,7 @@ public class LoginApi {
     public ResponseEntity<?> login(@RequestBody final User userDTO) throws Exception {
 
         System.out.println(userDTO.getLogin() + " " + userDTO.getPassword());
-        final User user = userService.getEntityByLogin(userDTO.getLogin());
+        final User user = userService.getEntityByLoginAndisActive(userDTO.getLogin(), true);
 
         final Authentication authentication;
 

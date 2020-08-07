@@ -8,6 +8,10 @@ const useStyles = makeStyles((theme) => ({
     marginTop: "1%",
     width: "60ch",
   },
+  selectArea: {
+    marginTop: "1%",
+    width: "55ch",
+  },
   buttonArea: {
     marginTop: "1%",
   },

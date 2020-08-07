@@ -1,19 +1,13 @@
 import React, { useState } from "react";
 import { Grid, Paper, Typography, Button } from "@material-ui/core";
-import { useSelector, useDispatch } from "react-redux";
+import ChangeEmail from "./ChangeEmail";
+import ChangePassword from "./ChangePassword";
+import ChangePhoneNumber from "./ChangePhoneNumber";
 import {
-  toggleForm,
   updateEmail,
-  updatePhoneNumber,
   updatePassword,
-  setNewEmail,
-  setNewPassword,
-  setPassword,
-  setNewPhoneNumber,
-  selectAll,
-} from "../../../features/user-settings/userSettingsSlice";
-import ChangeSettingsForm from "./ChangeSettingsForm";
-import SettingsIcon from "@material-ui/icons/Settings";
+  updatePhoneNumber,
+} from "../../../services/UserSettingsService";
 
 const ChangeHeader = () => (
   <Grid
@@ -30,68 +24,18 @@ const ChangeHeader = () => (
 );
 
 const AccountSettings = () => {
-  const dispatch = useDispatch();
-  const {
-    changeFormId,
-    password,
-    newEmail,
-    newPassword,
-    newPhoneNumber,
-  } = useSelector(selectAll);
-
-  const handleEmailSubmit = () => {
-    dispatch(updateEmail({ password, newEmail }));
-  };
-  const handlePhoneNumberSubmit = () => {
-    dispatch(updatePhoneNumber({ password, newPhoneNumber }));
-  };
-  const handlePasswordSubmit = () => {
-    dispatch(updatePassword({ password, newPassword }));
-  };
+  const [formId, setFormId] = useState(0);
 
   const getFormById = () => {
-    switch (changeFormId) {
+    switch (formId) {
       case 0:
         return <ChangeHeader />;
       case 1:
-        return (
-          <ChangeSettingsForm
-            changeItem="email"
-            type="email"
-            password={password}
-            item={newEmail}
-            itemId={1}
-            onSubmit={handleEmailSubmit}
-            onPasswordChange={(value) => dispatch(setPassword(value))}
-            onItemchange={(value) => dispatch(setNewEmail(value))}
-          />
-        );
+        return <ChangeEmail />;
       case 2:
-        return (
-          <ChangeSettingsForm
-            changeItem="phone-number"
-            type="number"
-            password={password}
-            item={newPhoneNumber}
-            itemId={2}
-            onSubmit={handlePhoneNumberSubmit}
-            onPasswordChange={(value) => dispatch(setPassword(value))}
-            onItemchange={(value) => dispatch(setNewPhoneNumber(value))}
-          />
-        );
+        return <ChangePhoneNumber />;
       case 3:
-        return (
-          <ChangeSettingsForm
-            changeItem="password"
-            type="password"
-            password={password}
-            item={newPassword}
-            itemId={3}
-            onSubmit={handlePasswordSubmit}
-            onPasswordChange={(value) => dispatch(setPassword(value))}
-            onItemchange={(value) => dispatch(setNewPassword(value))}
-          />
-        );
+        return <ChangePassword />;
       default:
         return <ChangeHeader />;
     }
@@ -108,19 +52,13 @@ const AccountSettings = () => {
       <Paper style={{ padding: "8px", height: "50vh", width: "50vw" }}>
         <Paper style={{ padding: "4px" }}>
           <Grid container justify="space-around" alignItems="center">
-            <Button onClick={() => dispatch(toggleForm(1))}>
-              Change email
-            </Button>
-            <Button onClick={() => dispatch(toggleForm(2))}>
-              Change phone number
-            </Button>
-            <Button onClick={() => dispatch(toggleForm(3))}>
-              Change password
-            </Button>
+            <Button onClick={() => setFormId(1)}>Change email</Button>
+            <Button onClick={() => setFormId(2)}>Change phone number</Button>
+            <Button onClick={() => setFormId(3)}>Change password</Button>
           </Grid>
         </Paper>
+
         {getFormById()}
-        {/**TODO: ADD VALIDATION INFO */}
       </Paper>
     </Grid>
   );
