@@ -45,6 +45,10 @@ const AddCarForm = () => {
     gearBoxTypeDTO,
     capacityOfTrunkScale,
     imageFile,
+    lastInspection,
+    streetName,
+    number,
+    comment,
   } = CarInfo;
 
   function submit(event) {

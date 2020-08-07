@@ -19,8 +19,15 @@ const initialState = {
   photoInFolderName: "",
   lastInspection: "",
   isActive: false,
+  lastInspection: "",
   parkingDTO: "",
   imageFile: "",
+  parkingDTO: "",
+  town: "",
+  postalCode: "",
+  streetName: "",
+  number: "",
+  comment: "",
 };
 
 export const carsInfoSlice = createSlice({
@@ -63,6 +70,24 @@ export const carsInfoSlice = createSlice({
     trunkCapacityChange: (state, action) => {
       state.capacityOfTrunkScale = action.payload;
     },
+    townChange: (state, action) => {
+      state.capacityOfTrunkScale = action.payload;
+    },
+    postalCodeChange: (state, action) => {
+      state.capacityOfTrunkScale = action.payload;
+    },
+    streetNameChange: (state, action) => {
+      state.capacityOfTrunkScale = action.payload;
+    },
+    numberChange: (state, action) => {
+      state.capacityOfTrunkScale = action.payload;
+    },
+    commentChange: (state, action) => {
+      state.capacityOfTrunkScale = action.payload;
+    },
+    lastInspectionChange: (state, action) => {
+      state.capacityOfTrunkScale = action.payload;
+    },
     reset: (state) => {
       state.modelDTO = " ";
       state.typeDTO = " ";
@@ -101,6 +126,12 @@ export const {
   imageUrlChange,
   reset,
   imageFileChange,
+  lastInspectionChange,
+  commentChange,
+  townChange,
+  postalCodeChange,
+  streetNameChange,
+  numberChange,
 } = carsInfoSlice.actions;
 
 export const selectAll = (state) => state.carsInfo;
