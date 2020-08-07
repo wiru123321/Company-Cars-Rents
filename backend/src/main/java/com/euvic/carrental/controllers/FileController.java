@@ -1,5 +1,8 @@
 package com.euvic.carrental.controllers;
 
+import com.euvic.carrental.model.Car;
+import com.euvic.carrental.services.CarService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -17,20 +20,31 @@ import java.nio.file.Paths;
 @CrossOrigin
 public class FileController {
 
-    private static final String imageDirectory = System.getProperty("user.dir") + "/images/";
+    private static final String IMAGE_DIRECTORY = System.getProperty("user.dir") + "/images";
+    private static final String CAR_IMAGE_DIRECTORY = System.getProperty("user.dir") + "/images/cars";
 
-    @RequestMapping(method = RequestMethod.POST, value = "/upload", produces = {MediaType.IMAGE_PNG_VALUE, "application/json"})
-    public ResponseEntity<?> uploadImage(@RequestParam("imageFile") final MultipartFile file,
-                                         @RequestParam("imageName") final String name) {
-        this.makeDirectoryIfNotExist(imageDirectory);
-        final Path fileNamePath = Paths.get(imageDirectory, name);
+    @Autowired CarService carService;
 
+    @RequestMapping(method = RequestMethod.POST, value = "/upload-car-image/{licensePlate}", produces = {MediaType.IMAGE_PNG_VALUE, "application/json"})
+    public ResponseEntity<?> uploadCarImage(@RequestParam("imageFile") final MultipartFile file, @PathVariable final String licensePlate) {
+        setUpDirectories();
+
+        final Path fileNamePath = Paths.get(CAR_IMAGE_DIRECTORY, generateNextInDirFileName(CAR_IMAGE_DIRECTORY,"car_image"));
         try {
             Files.write(fileNamePath, file.getBytes());
-            return new ResponseEntity<>(name, HttpStatus.CREATED);
+            Car car = carService.getEntityByLicensePlate(licensePlate);
+            car.setPhotoFolderPath(fileNamePath.toString());
+            carService.addEntityToDB(car);
+
+            return new ResponseEntity<>(fileNamePath, HttpStatus.CREATED);
         } catch (final IOException ex) {
             return new ResponseEntity<>("Image is not uploaded", HttpStatus.BAD_REQUEST);
         }
+    }
+
+    private void setUpDirectories(){
+        this.makeDirectoryIfNotExist(IMAGE_DIRECTORY);
+        this.makeDirectoryIfNotExist(CAR_IMAGE_DIRECTORY);
     }
 
     private void makeDirectoryIfNotExist(final String imageDirectory) {
@@ -38,5 +52,11 @@ public class FileController {
         if (!directory.exists()) {
             directory.mkdir();
         }
+    }
+
+    private String generateNextInDirFileName(String dirPath, String mainNamePart){
+        int inDirPhotoNumber = new File(dirPath).list().length+1;
+        String photoName = String.format("%s%d.png", mainNamePart, inDirPhotoNumber);
+        return photoName;
     }
 }
