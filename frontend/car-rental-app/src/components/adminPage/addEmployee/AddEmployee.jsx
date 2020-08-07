@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Grid, Typography } from "@material-ui/core";
+import { Grid, Typography, Select, MenuItem } from "@material-ui/core";
 import {
   firstnameChange,
   lastnameChange,
@@ -9,6 +9,7 @@ import {
   phoneNumberChange,
   passwordChange,
   rePasswordChange,
+  roleChange,
   toggleDidSubmit,
   selectAll,
   reset,
@@ -34,6 +35,7 @@ const AddEmployee = () => {
     rePassword,
     firstname,
     lastname,
+    role,
   } = employee;
 
   useEffect(() => {
@@ -78,7 +80,7 @@ const AddEmployee = () => {
       password: password,
       name: firstname,
       surname: lastname,
-      roleDTO: { name: "EMPLOYEE" },
+      roleDTO: { name: role },
     };
     if (
       password === rePassword &&
@@ -126,6 +128,15 @@ const AddEmployee = () => {
           handleLoginChange={handleLoginChange}
           handlePhoneNumberChange={handlePhoneNumberChange}
         />
+        <Select
+          className={classes.selectArea}
+          required
+          onChange={(event) => dispatch(roleChange(event.target.value))}
+          value={role}
+        >
+          <MenuItem value="EMPLOYEE">Employee</MenuItem>
+          <MenuItem value="ADMIN">Admin</MenuItem>
+        </Select>
         <UsersPassword
           password={password}
           rePassword={rePassword}

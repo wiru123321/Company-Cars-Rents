@@ -11,6 +11,7 @@ const initialState = {
   phoneNumber: "",
   password: "",
   rePassword: "",
+  role: "EMPLOYEE",
   didSubmit: false,
   success: false,
   users: [],
@@ -40,6 +41,9 @@ export const addEmployeeSlice = createSlice({
     },
     rePasswordChange: (state, action) => {
       state.rePassword = action.payload;
+    },
+    roleChange: (state, action) => {
+      state.role = action.payload;
     },
     toggleDidSubmit: (state, action) => {
       state.didSubmit = action.payload;
@@ -73,6 +77,7 @@ export const {
   phoneNumberChange,
   passwordChange,
   rePasswordChange,
+  roleChange,
   toggleDidSubmit,
   toggleSuccess,
   reset,
