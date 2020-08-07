@@ -65,6 +65,19 @@ public class CarResourcesController {
 
     //POSTs
 
+    @RequestMapping(method = RequestMethod.POST, value = "/addModel")
+    public ResponseEntity<?> addNewModel(@RequestBody final ModelDTO modelDTO) {
+        modelDTO.setName(modelDTO.getName().toLowerCase());
+        final Model model = modelService.getEntityByName(modelDTO.getName().toLowerCase());
+        Long id = null;
+        int responseCode = 400;
+        if (model == null) {
+            responseCode = 200;
+            id = modelService.addEntityToDB(modelService.mapRestModel(null, modelDTO));
+        }
+        return ResponseEntity.status(responseCode).body(id);
+    }
+
     @RequestMapping(method = RequestMethod.POST, value = "/addColour")
     public ResponseEntity<?> addNewColour(@RequestBody final ColourDTO colourDTO) {
         colourDTO.setName(colourDTO.getName().toLowerCase());
@@ -132,8 +145,22 @@ public class CarResourcesController {
 
     //PUTs
 
+    @RequestMapping(method = RequestMethod.PUT, value = "/editModel/{model}")
+    public ResponseEntity<?> editModel(@PathVariable final String model, @RequestBody final ModelDTO modelDTO) {
+        int responseCode;
+        Long id;
+        try {
+            id = modelService.updateModelInDbFromFront(model, modelDTO);
+            responseCode = 200;
+        } catch (final NullPointerException e) {
+            responseCode = 400;
+            id = null;
+        }
+        return ResponseEntity.status(responseCode).body(id);
+    }
+
     @RequestMapping(method = RequestMethod.PUT, value = "/editColour/{colour}")
-    public ResponseEntity<?> addType(@PathVariable final String colour, @RequestBody final ColourDTO colourDTO) {
+    public ResponseEntity<?> editColour(@PathVariable final String colour, @RequestBody final ColourDTO colourDTO) {
         int responseCode;
         Long id;
         try {
@@ -147,7 +174,7 @@ public class CarResourcesController {
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/editFuelType/{fuelType}")
-    public ResponseEntity<?> addType(@PathVariable final String fuelType, @RequestBody final FuelTypeDTO fuelTypeDTO) {
+    public ResponseEntity<?> editFuelType(@PathVariable final String fuelType, @RequestBody final FuelTypeDTO fuelTypeDTO) {
         int responseCode;
         Long id;
         try {
@@ -161,7 +188,7 @@ public class CarResourcesController {
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/editGearboxType/{gearboxType}")
-    public ResponseEntity<?> addType(@PathVariable final String gearboxType, @RequestBody final GearBoxTypeDTO gearBoxTypeDTO) {
+    public ResponseEntity<?> editGearboxType(@PathVariable final String gearboxType, @RequestBody final GearBoxTypeDTO gearBoxTypeDTO) {
         int responseCode;
         Long id;
         try {
@@ -175,7 +202,7 @@ public class CarResourcesController {
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/editMark/{mark}")
-    public ResponseEntity<?> addType(@PathVariable final String mark, @RequestBody final MarkDTO markDTO) {
+    public ResponseEntity<?> editMark(@PathVariable final String mark, @RequestBody final MarkDTO markDTO) {
         int responseCode;
         Long id;
         try {
@@ -189,7 +216,7 @@ public class CarResourcesController {
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/editType/{type}")
-    public ResponseEntity<?> addType(@PathVariable final String type, @RequestBody final TypeDTO typeDTO) {
+    public ResponseEntity<?> editType(@PathVariable final String type, @RequestBody final TypeDTO typeDTO) {
         int responseCode;
         Long id;
         try {
