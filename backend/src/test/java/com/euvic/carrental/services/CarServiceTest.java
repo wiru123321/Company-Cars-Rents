@@ -298,7 +298,7 @@ public class CarServiceTest {
         final List<CarDTO> inCompanyActiveCarDTOs = carService.getInCompanyActiveCarDTOs();
         assertEquals(1, inCompanyActiveCarDTOs.size());
 
-        final List<CarDTO> inCompanyInActiveCarDTOs = carService.getInCompanyInActiveCarDTOs();
+        final List<CarDTO> inCompanyInActiveCarDTOs = carService.getInCompanyInactiveCarDTOs();
         assertEquals(1, inCompanyInActiveCarDTOs.size());
     }
 
@@ -362,7 +362,7 @@ public class CarServiceTest {
         assertAll(() -> {
             assertEquals(carId, updatedCar.getId());
             assertEquals(1, carRepository.count());
-            assertEquals(null, updatedCar.getPhotoInFolderName());
+            assertNull(updatedCar.getPhotoInFolderName());
             assertEquals("WN122", updatedCar.getLicensePlate());
             assertEquals(122, updatedCar.getEnginePower());
             assertEquals(5, updatedCar.getCapacityOfTrunkScale());

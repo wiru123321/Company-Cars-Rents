@@ -120,7 +120,7 @@ public class CarService implements CarServiceInterface {
     }
 
     @Override
-    public List<CarDTO> getInCompanyInActiveCarDTOs() {
+    public List<CarDTO> getInCompanyInactiveCarDTOs() {
         final ArrayList<Car> carList = new ArrayList<>(carRepository.findAllByIsOnCompanyAndIsActive(true, false));
 
         return this.mapRestList(carList);
