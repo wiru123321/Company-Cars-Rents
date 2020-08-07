@@ -14,7 +14,7 @@ test:
       - docker build -t frontendtest .
       - docker run -d --name fronttest frontendtest 
       - docker exec -d fronttest npm test 
-      - docker rm frontendtest -f
+      - docker rm fronttest -f
       
       - cd ..
       - cd ..
@@ -23,7 +23,7 @@ test:
       - docker build -t backendtest .
       - docker run -d --name backtest backendtest
       - docker exec -d backtest gradle test 
-      - docker rm backendtest -f 
+      - docker rm backtest -f 
 
       - cd ..
       - (pwd && ls)
