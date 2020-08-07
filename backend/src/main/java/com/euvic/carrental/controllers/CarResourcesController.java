@@ -3,6 +3,7 @@ package com.euvic.carrental.controllers;
 import com.euvic.carrental.model.*;
 import com.euvic.carrental.responses.*;
 import com.euvic.carrental.services.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,44 +16,50 @@ public class CarResourcesController {
     private final FuelTypeService fuelTypeService;
     private final GearboxTypeService gearboxTypeService;
     private final MarkService markService;
-    private final RoleService roleService;
     private final TypeService typeService;
+    private final ModelService modelService;
 
+    @Autowired
     public CarResourcesController(final ColourService colourService, final FuelTypeService fuelTypeService,
                                   final GearboxTypeService gearboxTypeService, final MarkService markService,
-                                  final RoleService roleService, final TypeService typeService) {
+                                  final TypeService typeService, final ModelService modelService) {
         this.colourService = colourService;
         this.fuelTypeService = fuelTypeService;
         this.gearboxTypeService = gearboxTypeService;
         this.markService = markService;
-        this.roleService = roleService;
         this.typeService = typeService;
+        this.modelService = modelService;
     }
 
     //GETs
 
+    @RequestMapping(method = RequestMethod.GET, value = "/models")
+    public ResponseEntity<?> getAllModels() {
+        return ResponseEntity.ok(modelService.getAllDTOs());
+    }
+
     @RequestMapping(method = RequestMethod.GET, value = "/colours")
-    public ResponseEntity getAllColours() {
+    public ResponseEntity<?> getAllColours() {
         return ResponseEntity.ok(colourService.getAllDTOs());
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/fuelTypes")
-    public ResponseEntity getAllFuelTypes() {
+    public ResponseEntity<?> getAllFuelTypes() {
         return ResponseEntity.ok(fuelTypeService.getAllDTOs());
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/gearboxTypes")
-    public ResponseEntity getAllGearboxTypes() {
+    public ResponseEntity<?> getAllGearboxTypes() {
         return ResponseEntity.ok(gearboxTypeService.getAllDTOs());
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/marks")
-    public ResponseEntity getAllMarks() {
+    public ResponseEntity<?> getAllMarks() {
         return ResponseEntity.ok(markService.getAllDTOs());
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/types")
-    public ResponseEntity getAllTypes() {
+    public ResponseEntity<?> getAllTypes() {
         return ResponseEntity.ok(typeService.getAllDTOs());
     }
 
