@@ -14,5 +14,7 @@ public interface MarkServiceInterface {
 
     Long addEntityToDB(Mark mark);
 
+    Long updateMarkInDB(String oldMarkName, MarkDTO markDTO);
+
     List<MarkDTO> getAllDTOs();
 }

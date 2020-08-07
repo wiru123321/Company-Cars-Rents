@@ -24,5 +24,5 @@ public interface CarServiceInterface {
 
     List<CarDTO> getInCompanyActiveCarDTOs();
 
-    List<CarDTO> getInCompanyInActiveCarDTOs();
+    List<CarDTO> getInCompanyInactiveCarDTOs();
 }
