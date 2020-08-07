@@ -19,8 +19,15 @@ const initialState = {
   photoInFolderName: "",
   lastInspection: "",
   isActive: false,
+  lastInspection: "",
   parkingDTO: "",
-  isFormGood: true,
+  imageFile: "",
+  parkingDTO: "",
+  town: "",
+  postalCode: "",
+  streetName: "",
+  number: "",
+  comment: "",
 };
 
 export const carsInfoSlice = createSlice({
@@ -63,8 +70,23 @@ export const carsInfoSlice = createSlice({
     trunkCapacityChange: (state, action) => {
       state.capacityOfTrunkScale = action.payload;
     },
-    imageUrlChange: (state, action) => {
-      state.photoInFolderName = action.payload;
+    townChange: (state, action) => {
+      state.capacityOfTrunkScale = action.payload;
+    },
+    postalCodeChange: (state, action) => {
+      state.capacityOfTrunkScale = action.payload;
+    },
+    streetNameChange: (state, action) => {
+      state.capacityOfTrunkScale = action.payload;
+    },
+    numberChange: (state, action) => {
+      state.capacityOfTrunkScale = action.payload;
+    },
+    commentChange: (state, action) => {
+      state.capacityOfTrunkScale = action.payload;
+    },
+    lastInspectionChange: (state, action) => {
+      state.capacityOfTrunkScale = action.payload;
     },
     reset: (state) => {
       state.modelDTO = " ";
@@ -81,11 +103,9 @@ export const carsInfoSlice = createSlice({
       state.capacityOfTrunkScale = "";
       state.photoInFolderName = "";
     },
-    formChangeFalse: (state) => {
-      state.isFormGood = false;
-    },
-    formChangeTrue: (state) => {
-      state.isFormGood = true;
+    imageFileChange: (state, action) => {
+      state.imageFile = action.payload;
+      console.log(state.imageFile);
     },
   },
 });
@@ -105,13 +125,16 @@ export const {
   trunkCapacityChange,
   imageUrlChange,
   reset,
-  formChangeTrue,
-  formChangeFalse,
+  imageFileChange,
+  lastInspectionChange,
+  commentChange,
+  townChange,
+  postalCodeChange,
+  streetNameChange,
+  numberChange,
 } = carsInfoSlice.actions;
 
 export const selectAll = (state) => state.carsInfo;
-
-export const selectForm = (state) => state.carsInfo.isFormGood;
 
 export const addCar = (carDTO) => async (dispatch) => {
   try {
@@ -120,6 +143,28 @@ export const addCar = (carDTO) => async (dispatch) => {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const addImage = (file, licensePlate) => async (dispatch) => {
+  try {
+    const json = JSON.stringify(file);
+    const blob = new Blob([json], {
+      type: "application/json",
+    });
+    const data = new FormData();
+    data.append("imageFile", blob);
+    const response = await axios.post(
+      API_URL + "/file/upload-car-image/" + licensePlate,
+      data,
+      {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      }
+    );
   } catch (error) {
     console.log(error);
   }

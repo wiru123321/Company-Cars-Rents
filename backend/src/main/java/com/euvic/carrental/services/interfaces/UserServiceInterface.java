@@ -34,7 +34,7 @@ public interface UserServiceInterface {
 
     boolean checkPassword(String given, String actual);
 
-    void changePassword(User user, String password);
+    boolean changePassword(User user, String password);
 
     void changeEmail(User user, String email);
 
@@ -43,4 +43,6 @@ public interface UserServiceInterface {
     boolean checkEmail(String email);
 
     boolean checkPhoneNumber(String phoneNumber);
+
+    User getEntityByLoginAndisActive(final String login, final Boolean isActive);
 }

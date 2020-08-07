@@ -45,6 +45,11 @@ public class UserService implements UserServiceInterface {
         return userRepository.findByLogin(login);
     }
 
+    @Override   //TODO test it
+    public User getEntityByLoginAndisActive(final String login, final Boolean isActive) {
+        return userRepository.findByLoginAndIsActive(login, isActive);
+    }
+
     @Override
     public UserDTO getDTOByLogin(final String login) {
         final User user = userRepository.findByLogin(login);
@@ -83,7 +88,7 @@ public class UserService implements UserServiceInterface {
 
     @Override //NO PASSWORD CHANGE
     public Long updateUserInDB(final String login, final UserUpdate userUpdate) {
-        final User oldUser = this.getEntityByLogin(login);
+        final User oldUser = this.getEntityByLoginAndisActive(login, true);
         oldUser.setName(userUpdate.getName());
         oldUser.setSurname(userUpdate.getSurname());
         oldUser.setEmail(userUpdate.getEmail());
@@ -114,9 +119,17 @@ public class UserService implements UserServiceInterface {
     }
 
     @Override
-    public void changePassword(final User user, final String password) {
-        user.setPassword(bCryptPasswordEncoder.encode(password));
-        userRepository.save(user);
+    public boolean changePassword(final User user, final String password) {
+        final String regex = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[_.@#$%^&+=])(?=\\S+$).{8,}";
+        final Pattern pattern = Pattern.compile(regex);
+        final Matcher matcher = pattern.matcher(password);
+        System.out.println(matcher.matches());
+        System.out.println(password);
+        if (matcher.matches()) {
+            user.setPassword(bCryptPasswordEncoder.encode(password));
+            userRepository.save(user);
+        }
+        return matcher.matches();
     }
 
     @Override
