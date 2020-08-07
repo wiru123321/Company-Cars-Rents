@@ -6,8 +6,9 @@ import yourReservationReducer from "../features/your-cars/yourCarsSlice";
 import carsInfoReducer from "../features/add-car-info/carsInfoSlice";
 import authReducer from "../features/authentication/authSlice";
 import startingCarParameterReducer from "../features/starting-car-parameter/startingCarParameterSlice";
-import userSettingsReducer from "../features/user-settings/userSettingsSlice";
-
+import userEmailSettingsReducer from "../features/user-settings/userEmailSettingsSlice";
+import userPasswordSettingsReducer from "../features/user-settings/userPasswordSettingsSlice";
+import userPhoneNumberSettingsReducer from "../features/user-settings/userPhoneNumberSettingsSlice";
 export default configureStore({
   reducer: {
     reservation: reservationReducer,
@@ -17,6 +18,8 @@ export default configureStore({
     YourReservation: yourReservationReducer,
     carsInfo: carsInfoReducer,
     startingCarParameter: startingCarParameterReducer,
-    userSettings: userSettingsReducer,
+    userEmailSettings: userEmailSettingsReducer,
+    userPasswordSettings: userPasswordSettingsReducer,
+    userPhoneNumberSettings: userPhoneNumberSettingsReducer,
   },
 });
