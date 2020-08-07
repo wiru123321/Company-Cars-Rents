@@ -114,9 +114,17 @@ public class UserService implements UserServiceInterface {
     }
 
     @Override
-    public void changePassword(final User user, final String password) {
-        user.setPassword(bCryptPasswordEncoder.encode(password));
-        userRepository.save(user);
+    public boolean changePassword(final User user, final String password) {
+        final String regex = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[_.@#$%^&+=])(?=\\S+$).{8,}";
+        final Pattern pattern = Pattern.compile(regex);
+        final Matcher matcher = pattern.matcher(password);
+        System.out.println(matcher.matches());
+        System.out.println(password);
+        if (matcher.matches()) {
+            user.setPassword(bCryptPasswordEncoder.encode(password));
+            userRepository.save(user);
+        }
+        return matcher.matches();
     }
 
     @Override

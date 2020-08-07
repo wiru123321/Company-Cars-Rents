@@ -48,8 +48,11 @@ public class AccountController {
         final int responseCode;
 
         if (userService.checkPassword(editAccount.getPassword(), user.getPassword())) {
-            userService.changePassword(user, editAccount.getNewPassword());
-            responseCode = 200;
+            if (userService.changePassword(user, editAccount.getNewPassword())) {
+                responseCode = 200;
+            } else {
+                responseCode = 400;
+            }
         } else {
             responseCode = 406;
         }
