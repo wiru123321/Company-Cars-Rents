@@ -20,9 +20,7 @@ const initialState = {
   lastInspection: "",
   isActive: false,
   lastInspection: "",
-  parkingDTO: "",
   imageFile: "",
-  parkingDTO: "",
   town: "",
   postalCode: "",
   streetName: "",
@@ -71,22 +69,22 @@ export const carsInfoSlice = createSlice({
       state.capacityOfTrunkScale = action.payload;
     },
     townChange: (state, action) => {
-      state.capacityOfTrunkScale = action.payload;
+      state.town = action.payload;
     },
     postalCodeChange: (state, action) => {
-      state.capacityOfTrunkScale = action.payload;
+      state.postalCode = action.payload;
     },
     streetNameChange: (state, action) => {
-      state.capacityOfTrunkScale = action.payload;
+      state.streetName = action.payload;
     },
     numberChange: (state, action) => {
-      state.capacityOfTrunkScale = action.payload;
+      state.number = action.payload;
     },
     commentChange: (state, action) => {
-      state.capacityOfTrunkScale = action.payload;
+      state.comment = action.payload;
     },
     lastInspectionChange: (state, action) => {
-      state.capacityOfTrunkScale = action.payload;
+      state.lastInspection = action.payload;
     },
     reset: (state) => {
       state.modelDTO = " ";
