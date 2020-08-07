@@ -10,10 +10,18 @@ test:
       - ls
    script:
 #      - gradle test
-      - cd frontend/car-rental-app
-      - docker run -d frontend 
-      - docker exec -d frontend npm test
-      - docker rm frontend -f
+      - (cd frontend/car-rental-app && \
+         docker build -t frontendtest . && \
+         docker run -d frontendtest && \
+         docker exec -d frontendtest npm test && \
+         docker rm frontendtest -f
+         )
+      - (cd backend && \
+         docker build -t backendtest . && \
+         docker run -d backendtest && \
+         docker exec -d backendtest gradle test && \
+         docker rm backendtest -f
+         )
       - echo "Success"
    tags:
       - test
