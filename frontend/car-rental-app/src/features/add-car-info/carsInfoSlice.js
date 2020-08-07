@@ -20,7 +20,7 @@ const initialState = {
   lastInspection: "",
   isActive: false,
   parkingDTO: "",
-  isFormGood: true,
+  imageFile: "",
 };
 
 export const carsInfoSlice = createSlice({
@@ -63,9 +63,6 @@ export const carsInfoSlice = createSlice({
     trunkCapacityChange: (state, action) => {
       state.capacityOfTrunkScale = action.payload;
     },
-    imageUrlChange: (state, action) => {
-      state.photoInFolderName = action.payload;
-    },
     reset: (state) => {
       state.modelDTO = " ";
       state.typeDTO = " ";
@@ -81,11 +78,9 @@ export const carsInfoSlice = createSlice({
       state.capacityOfTrunkScale = "";
       state.photoInFolderName = "";
     },
-    formChangeFalse: (state) => {
-      state.isFormGood = false;
-    },
-    formChangeTrue: (state) => {
-      state.isFormGood = true;
+    imageFileChange: (state, action) => {
+      state.imageFile = action.payload;
+      console.log(state.imageFile);
     },
   },
 });
@@ -105,13 +100,10 @@ export const {
   trunkCapacityChange,
   imageUrlChange,
   reset,
-  formChangeTrue,
-  formChangeFalse,
+  imageFileChange,
 } = carsInfoSlice.actions;
 
 export const selectAll = (state) => state.carsInfo;
-
-export const selectForm = (state) => state.carsInfo.isFormGood;
 
 export const addCar = (carDTO) => async (dispatch) => {
   try {
@@ -120,6 +112,28 @@ export const addCar = (carDTO) => async (dispatch) => {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const addImage = (file, licensePlate) => async (dispatch) => {
+  try {
+    const json = JSON.stringify(file);
+    const blob = new Blob([json], {
+      type: "application/json",
+    });
+    const data = new FormData();
+    data.append("imageFile", blob);
+    const response = await axios.post(
+      API_URL + "/file/upload-car-image/" + licensePlate,
+      data,
+      {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      }
+    );
   } catch (error) {
     console.log(error);
   }

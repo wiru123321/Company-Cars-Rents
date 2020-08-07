@@ -6,6 +6,8 @@ import {
   selectAll,
   addCar,
   reset,
+  imageFileChange,
+  addImage,
 } from "../../../features/add-car-info/carsInfoSlice";
 import SelectBoxForm from "./SelectBoxForm";
 import BoxPanel from "./BoxPanel";
@@ -42,6 +44,7 @@ const AddCarForm = () => {
     colourDTO,
     gearBoxTypeDTO,
     capacityOfTrunkScale,
+    imageFile,
   } = CarInfo;
 
   function submit(event) {
@@ -70,7 +73,11 @@ const AddCarForm = () => {
       colourDTO: { name: colourDTO },
       typeDTO: { name: typeDTO },
     };
+    let image = {
+      imageFile: imageFile,
+    };
     dispatch(addCar(car));
+    dispatch(addImage(image, licensePlate));
     dispatch(reset());
   }
 
@@ -107,6 +114,22 @@ const AddCarForm = () => {
         doorsNumber={doorsNumber}
         capacityOfTrunkScale={capacityOfTrunkScale}
       />
+      <Box display="flex" justifyContent="center" m={1} p={1}>
+        <input
+          accept="image/*"
+          className={classes.input}
+          id="contained-button-file"
+          multiple
+          type="file"
+          value={imageFile}
+          onChange={(event) => dispatch(imageFileChange(event.target.value))}
+        />
+        <label htmlFor="contained-button-file">
+          <Button variant="contained" color="primary" component="span">
+            Upload Photo
+          </Button>
+        </label>
+      </Box>
 
       <Box display="flex" justifyContent="center" m={1} p={1}>
         <Box>
