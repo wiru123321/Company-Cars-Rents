@@ -6,10 +6,14 @@ stages:
 test: 
    stage: test
    before_script:
-      - docker info
+      - pwd
+      - ls
    script:
 #      - gradle test
-      - npm test
+      - cd frontend/car-rental-app
+      - docker run -d frontend 
+      - docker exec frontend npm test
+      - docker rm frontend -f
       - echo "Success"
    tags:
       - test
