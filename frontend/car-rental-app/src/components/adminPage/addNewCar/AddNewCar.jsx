@@ -28,6 +28,7 @@ import {
   fetchGearboxType,
 } from "../../../features/starting-car-parameter/startingCarParameterSlice";
 import { useDispatch } from "react-redux";
+import { ValidatorForm } from "react-material-ui-form-validator";
 
 const AddNewCar = () => {
   const dispatch = useDispatch();
@@ -45,10 +46,13 @@ const AddNewCar = () => {
         onLoad={dispatch(fetchColor())}
         onLoad={dispatch(fetchGearboxType())}
       >
-        <form style={{ width: "50vw", margin: "auto" }} onSubmit={addCar}>
+        <ValidatorForm
+          onSubmit={addCar}
+          style={{ width: "50vw", margin: "auto" }}
+        >
           <div style={{ height: "5vh" }}></div>
           <AddCarForm />
-        </form>
+        </ValidatorForm>
       </Typography>
     </Cointainer>
   );
