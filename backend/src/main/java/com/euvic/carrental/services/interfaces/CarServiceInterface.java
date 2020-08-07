@@ -25,4 +25,8 @@ public interface CarServiceInterface {
     List<CarDTO> getInCompanyActiveCarDTOs();
 
     List<CarDTO> getInCompanyInactiveCarDTOs();
+
+    Long addExistingImageToExistingCar(String carImagePath, String licensePlate);
+
+    Boolean checkIfCarWithLicensePlateExists(String licensePlate);
 }

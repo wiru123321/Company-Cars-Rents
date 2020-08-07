@@ -135,4 +135,16 @@ public class CarService implements CarServiceInterface {
         });
         return carDTOList;
     }
+
+    @Override //TODO tests
+    public Long addExistingImageToExistingCar(String carImagePath, String licensePlate) {
+        Car car = getEntityByLicensePlate(licensePlate);
+        car.setPhotoFolderPath(carImagePath);
+        return addEntityToDB(car);
+    }
+
+    @Override //TODO tests
+    public Boolean checkIfCarWithLicensePlateExists(final String licensePlate) {
+        return carRepository.existsByLicensePlate(licensePlate);
+    }
 }

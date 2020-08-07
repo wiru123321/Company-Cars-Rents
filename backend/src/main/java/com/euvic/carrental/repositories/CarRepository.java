@@ -11,4 +11,5 @@ public interface CarRepository extends CrudRepository<Car, Long> {
     Car findByLicensePlate(String licensePlate);
     List<Car> findAllByIsOnCompany(Boolean isOnCompany);
     List<Car> findAllByIsOnCompanyAndIsActive(Boolean isOnCompany, Boolean isActive);
+    Boolean existsByLicensePlate(String licensePlate);
 }
