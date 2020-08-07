@@ -11,19 +11,19 @@ test:
    script:
 #      - gradle test
       - cd frontend/car-rental-app
-      - docker build -t frontendtest . /frontend/car-rental-app/
-      - docker run -d frontendtest /frontend/car-rental-app/
-      - docker exec -d frontendtest npm test /frontend/car-rental-app/
-      - docker rm frontendtest -f /frontend/car-rental-app/
+      - docker build -t frontendtest .
+      - docker run -d frontendtest 
+      - docker exec -d frontendtest npm test 
+      - docker rm frontendtest -f
       
       - cd ..
       - cd ..
 
       - cd backend
-      - docker build -t backendtest . /backend/
-      - docker run -d backendtest /backend/
-      - docker exec -d backendtest gradle test /backend/
-      - docker rm backendtest -f /backend/
+      - docker build -t backendtest .
+      - docker run -d backendtest
+      - docker exec -d backendtest gradle test 
+      - docker rm backendtest -f 
 
       - cd ..
       - (pwd && ls)
