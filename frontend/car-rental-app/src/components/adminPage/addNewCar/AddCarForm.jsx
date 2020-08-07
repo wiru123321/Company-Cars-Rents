@@ -74,6 +74,10 @@ const AddCarForm = () => {
     dispatch(reset());
   }
 
+  function resetf() {
+    dispatch(reset());
+  }
+
   return (
     <div>
       <Box display="flex" justifyContent="center">
@@ -125,6 +129,7 @@ const AddCarForm = () => {
             className={classes.button}
             startIcon={<Delete />}
             type="submit"
+            onClick={resetf}
           >
             Delete
           </Button>
