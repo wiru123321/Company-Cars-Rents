@@ -12,7 +12,7 @@ test:
 #      - gradle test
       - cd frontend/car-rental-app
       - docker run -d frontend 
-      - docker exec frontend npm test
+      - docker exec -d frontend npm test
       - docker rm frontend -f
       - echo "Success"
    tags:
