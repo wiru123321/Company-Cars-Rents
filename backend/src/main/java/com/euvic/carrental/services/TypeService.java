@@ -44,6 +44,13 @@ public class TypeService implements TypeServiceInterface {
     }
 
     @Override
+    public Long updateTypeInDB(final String oldTypeName, final TypeDTO typeDTO) {
+        final Type oldType = this.getEntityByName(oldTypeName);
+        oldType.setName(typeDTO.getName());
+        return typeRepository.save(oldType).getId();
+    }
+
+    @Override
     public List<TypeDTO> getAllDTOs() {
         final ArrayList<Type> typeList = new ArrayList<>();
         typeRepository.findAll().forEach(typeList::add);

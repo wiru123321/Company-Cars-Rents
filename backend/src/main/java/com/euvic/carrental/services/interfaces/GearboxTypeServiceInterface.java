@@ -14,5 +14,7 @@ public interface GearboxTypeServiceInterface {
 
     Long addEntityToDB(GearboxType gearboxType);
 
+    Long updateGearboxTypeInDB(String oldGearboxTypeName, GearBoxTypeDTO gearBoxTypeDTO);
+
     List<GearBoxTypeDTO> getAllDTOs();
 }

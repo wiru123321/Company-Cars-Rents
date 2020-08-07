@@ -125,12 +125,68 @@ public class CarResourcesController {
 
     //PUTs
 
-    @RequestMapping(method = RequestMethod.PUT, value = "/editColour/{colourName}")
-    public ResponseEntity<?> addType(@PathVariable final String colourName, @RequestBody final ColourDTO colourDTO) {
+    @RequestMapping(method = RequestMethod.PUT, value = "/editColour/{colour}")
+    public ResponseEntity<?> addType(@PathVariable final String colour, @RequestBody final ColourDTO colourDTO) {
         int responseCode;
         Long id;
         try {
-            id = colourService.updateColourInDB(colourName, colourDTO);
+            id = colourService.updateColourInDB(colour, colourDTO);
+            responseCode = 200;
+        } catch (final NullPointerException e) {
+            responseCode = 400;
+            id = null;
+        }
+        return ResponseEntity.status(responseCode).body(id);
+    }
+
+    @RequestMapping(method = RequestMethod.PUT, value = "/editFuelType/{fuelType}")
+    public ResponseEntity<?> addType(@PathVariable final String fuelType, @RequestBody final FuelTypeDTO fuelTypeDTO) {
+        int responseCode;
+        Long id;
+        try {
+            id = fuelTypeService.updateFuelTypeInDB(fuelType, fuelTypeDTO);
+            responseCode = 200;
+        } catch (final NullPointerException e) {
+            responseCode = 400;
+            id = null;
+        }
+        return ResponseEntity.status(responseCode).body(id);
+    }
+
+    @RequestMapping(method = RequestMethod.PUT, value = "/editGearboxType/{gearboxType}")
+    public ResponseEntity<?> addType(@PathVariable final String gearboxType, @RequestBody final GearBoxTypeDTO gearBoxTypeDTO) {
+        int responseCode;
+        Long id;
+        try {
+            id = gearboxTypeService.updateGearboxTypeInDB(gearboxType, gearBoxTypeDTO);
+            responseCode = 200;
+        } catch (final NullPointerException e) {
+            responseCode = 400;
+            id = null;
+        }
+        return ResponseEntity.status(responseCode).body(id);
+    }
+
+    @RequestMapping(method = RequestMethod.PUT, value = "/editMark/{mark}")
+    public ResponseEntity<?> addType(@PathVariable final String mark, @RequestBody final MarkDTO markDTO) {
+        int responseCode;
+        Long id;
+        try {
+            id = markService.updateMarkInDB(mark, markDTO);
+            responseCode = 200;
+        } catch (final NullPointerException e) {
+            responseCode = 400;
+            id = null;
+        }
+        return ResponseEntity.status(responseCode).body(id);
+    }
+
+    @RequestMapping(method = RequestMethod.PUT, value = "/editType/{type}")
+    public ResponseEntity<?> addType(@PathVariable final String type, @RequestBody final TypeDTO typeDTO) {
+        int responseCode;
+        Long id;
+        try {
+            id = typeService.updateTypeInDB(type, typeDTO);
             responseCode = 200;
         } catch (final NullPointerException e) {
             responseCode = 400;
