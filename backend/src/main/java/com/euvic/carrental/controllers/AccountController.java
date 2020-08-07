@@ -71,8 +71,8 @@ public class AccountController {
         final int responseCode;
 
         if (userService.checkPassword(editAccount.getPassword(), user.getPassword())) {
-            if (userService.checkEmail(editAccount.getEmail())) {
-                userService.changeEmail(user, editAccount.getEmail());
+            if (userService.checkEmail(editAccount.getNewEmail())) {
+                userService.changeEmail(user, editAccount.getNewEmail());
                 responseCode = 200;
             } else {
                 responseCode = 400;
@@ -98,8 +98,8 @@ public class AccountController {
         final int responseCode;
 
         if (userService.checkPassword(editAccount.getPassword(), user.getPassword())) {
-            if (userService.checkPhoneNumber(editAccount.getPhoneNumber())) {
-                userService.changePhoneNumber(user, editAccount.getPhoneNumber());
+            if (userService.checkPhoneNumber(editAccount.getNewPhoneNumber())) {
+                userService.changePhoneNumber(user, editAccount.getNewPhoneNumber());
                 responseCode = 200;
             } else {
                 responseCode = 400;

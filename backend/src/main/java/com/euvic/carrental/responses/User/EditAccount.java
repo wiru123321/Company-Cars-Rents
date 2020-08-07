@@ -5,8 +5,8 @@ import lombok.Data;
 @Data
 public class EditAccount {
 
-    private String email;
+    private String newEmail;
     private String password;
-    private String phoneNumber;
+    private String newPhoneNumber;
     private String newPassword;
 }
