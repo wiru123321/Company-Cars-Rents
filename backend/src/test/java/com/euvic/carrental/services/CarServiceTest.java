@@ -136,7 +136,6 @@ public class CarServiceTest {
         final Car restModelToEntityModel = carService.mapRestModel(null, carDTO, parkingId1, modelId1);
         assertAll(() -> {
             assertEquals(restModelToEntityModel.getId(), car.getId());
-            assertEquals(restModelToEntityModel.getPhotoInFolderName(), car.getPhotoInFolderName());
             assertEquals(restModelToEntityModel.getLicensePlate(), car.getLicensePlate());
             assertEquals(restModelToEntityModel.getEnginePower(), car.getEnginePower());
             assertEquals(restModelToEntityModel.getCapacityOfTrunkScale(), car.getCapacityOfTrunkScale());
@@ -182,7 +181,6 @@ public class CarServiceTest {
 
         assertAll(() -> {
             assertNotEquals(null, serviceCar.getId());
-            assertEquals(car.getPhotoInFolderName(), serviceCar.getPhotoInFolderName());
             assertEquals(car.getLicensePlate(), serviceCar.getLicensePlate());
             assertEquals(car.getEnginePower(), serviceCar.getEnginePower());
             assertEquals(car.getCapacityOfTrunkScale(), serviceCar.getCapacityOfTrunkScale());
@@ -362,7 +360,6 @@ public class CarServiceTest {
         assertAll(() -> {
             assertEquals(carId, updatedCar.getId());
             assertEquals(1, carRepository.count());
-            assertNull(updatedCar.getPhotoInFolderName());
             assertEquals("WN122", updatedCar.getLicensePlate());
             assertEquals(122, updatedCar.getEnginePower());
             assertEquals(5, updatedCar.getCapacityOfTrunkScale());
@@ -409,5 +406,61 @@ public class CarServiceTest {
         final Car updatedCar = carService.getEntityByLicensePlate(car.getLicensePlate());
         assertFalse(updatedCar.getIsOnCompany());
         assertFalse(updatedCar.getIsActive());
+    }
+
+    @Test
+    void whenDBCarExists_shouldAddPhotoNamePathToThisCar(){
+        final Model model1 = new Model(null, "C350", markService.getEntityByName("Audi"));
+        final Model model2 = new Model(null, "Astra", markService.getEntityByName("Opel"));
+        final Model model3 = new Model(null, "M5", markService.getEntityByName("BMW"));
+
+        final Long modelId1 = modelService.addEntityToDB(model1);
+        final Long modelId2 = modelService.addEntityToDB(model2);
+        final Long modelId3 = modelService.addEntityToDB(model3);
+
+
+        final Parking parking = new Parking(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
+
+        final Long parkingId = parkingService.addEntityToDB(parking);
+
+        final Car car = new Car(null, "WN101", 100, 4, 5, 5,
+                gearboxTypeService.getEntityByName("Automatic"), fuelTypeService.getEntityByName("Gasoline"),
+                LocalDateTime.of(2000, 3, 25, 0, 0), 1990, true, 200000, modelService.getEntityByName("C350"),
+                parkingService.getEntityById(parkingId), colourService.getEntityByName("Red"), typeService.getEntityByName("Sedan"));
+
+        carService.addEntityToDB(car);
+
+        assertNull(car.getPhotoFolderPath());
+        carService.addExistingImageToExistingCar("D:/computer/files/carphoto.png", car.getLicensePlate());
+        final Car dbCar = carService.getEntityByLicensePlate(car.getLicensePlate());
+        assertEquals("D:/computer/files/carphoto.png", dbCar.getPhotoFolderPath());
+    }
+
+    @Test
+    void shouldCheckIfCarWithLicensePlateExistsInDB(){
+        final Model model1 = new Model(null, "C350", markService.getEntityByName("Audi"));
+        final Model model2 = new Model(null, "Astra", markService.getEntityByName("Opel"));
+        final Model model3 = new Model(null, "M5", markService.getEntityByName("BMW"));
+
+        final Long modelId1 = modelService.addEntityToDB(model1);
+        final Long modelId2 = modelService.addEntityToDB(model2);
+        final Long modelId3 = modelService.addEntityToDB(model3);
+
+
+        final Parking parking = new Parking(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
+
+        final Long parkingId = parkingService.addEntityToDB(parking);
+
+        final Car car = new Car(null, "WN101", 100, 4, 5, 5,
+                gearboxTypeService.getEntityByName("Automatic"), fuelTypeService.getEntityByName("Gasoline"),
+                LocalDateTime.of(2000, 3, 25, 0, 0), 1990, true, 200000, modelService.getEntityByName("C350"),
+                parkingService.getEntityById(parkingId), colourService.getEntityByName("Red"), typeService.getEntityByName("Sedan"));
+
+        carService.addEntityToDB(car);
+
+        assertAll(()->{
+            assertFalse(carService.checkIfCarWithLicensePlateExists("WN102"));
+            assertTrue(carService.checkIfCarWithLicensePlateExists("WN101"));
+        });
     }
 }
