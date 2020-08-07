@@ -36,6 +36,13 @@ public class FuelTypeService implements FuelTypeServiceInterface {
     }
 
     @Override
+    public Long updateFuelTypeInDB(final String oldFuelTypeName, final FuelTypeDTO fuelTypeDTO) {
+        final FuelType oldFuelType = this.getEntityByName(oldFuelTypeName);
+        oldFuelType.setName(fuelTypeDTO.getName());
+        return fuelTypeRepository.save(oldFuelType).getId();
+    }
+
+    @Override
     public FuelType mapRestModel(final Long id, final FuelTypeDTO model) {
         return new FuelType(id, model.getName());
     }

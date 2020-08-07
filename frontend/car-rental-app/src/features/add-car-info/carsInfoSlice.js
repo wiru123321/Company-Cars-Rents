@@ -20,6 +20,7 @@ const initialState = {
   lastInspection: "",
   isActive: false,
   parkingDTO: "",
+  isFormGood: true,
 };
 
 export const carsInfoSlice = createSlice({
@@ -80,6 +81,12 @@ export const carsInfoSlice = createSlice({
       state.capacityOfTrunkScale = "";
       state.photoInFolderName = "";
     },
+    formChangeFalse: (state) => {
+      state.isFormGood = false;
+    },
+    formChangeTrue: (state) => {
+      state.isFormGood = true;
+    },
   },
 });
 
@@ -98,9 +105,13 @@ export const {
   trunkCapacityChange,
   imageUrlChange,
   reset,
+  formChangeTrue,
+  formChangeFalse,
 } = carsInfoSlice.actions;
 
 export const selectAll = (state) => state.carsInfo;
+
+export const selectForm = (state) => state.carsInfo.isFormGood;
 
 export const addCar = (carDTO) => async (dispatch) => {
   try {

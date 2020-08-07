@@ -30,6 +30,13 @@ public class ColourService implements ColourServiceInterface {
     }
 
     @Override
+    public Long updateColourInDB(final String oldColourName, final ColourDTO colourDTO) {
+        final Colour oldColour = this.getEntityByName(oldColourName);
+        oldColour.setName(colourDTO.getName());
+        return colourRepository.save(oldColour).getId();
+    }
+
+    @Override
     public Long addEntityToDB(final Colour colour) {
         return colourRepository.save(colour).getId();
     }
