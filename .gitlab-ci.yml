@@ -12,8 +12,8 @@ test:
 #      - gradle test
       - cd frontend/car-rental-app
       - docker build -t frontendtest .
-      - docker run -d frontendtest 
-      - docker exec -d frontendtest npm test 
+      - docker run -d --name fronttest frontendtest 
+      - docker exec -d fronttest npm test 
       - docker rm frontendtest -f
       
       - cd ..
@@ -21,8 +21,8 @@ test:
 
       - cd backend
       - docker build -t backendtest .
-      - docker run -d backendtest
-      - docker exec -d backendtest gradle test 
+      - docker run -d --name backtest backendtest
+      - docker exec -d backtest gradle test 
       - docker rm backendtest -f 
 
       - cd ..
