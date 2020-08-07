@@ -6,7 +6,6 @@ import com.euvic.carrental.repositories.ModelRepository;
 import com.euvic.carrental.responses.MarkDTO;
 import com.euvic.carrental.responses.ModelDTO;
 import com.euvic.carrental.services.interfaces.ModelServiceInterface;
-import org.dom4j.rule.Mode;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -48,10 +47,10 @@ public class ModelService implements ModelServiceInterface {
 
     @Override
     public Long addEntityToDB(final Model model) {
-        List<Model> modelList = modelRepository.findAllByName(model.getName());
+        final List<Model> modelList = modelRepository.findAllByName(model.getName());
 
-        for(Model m : modelList){
-            if(model.getMark().getName() == m.getMark().getName()){
+        for (final Model m : modelList) {
+            if (model.getMark().getName().equals(m.getMark().getName())) {
                 return m.getId();
             }
         }
@@ -64,7 +63,7 @@ public class ModelService implements ModelServiceInterface {
         modelRepository.findAll().forEach(modelList::add);
 
         final ArrayList<ModelDTO> modelDTOList = new ArrayList<>();
-        modelList.stream().forEach((model) -> {
+        modelList.forEach((model) -> {
             final ModelDTO modelDTO = new ModelDTO(model.getName(), new MarkDTO(model.getMark().getName()));
             modelDTOList.add(modelDTO);
         });
@@ -72,9 +71,25 @@ public class ModelService implements ModelServiceInterface {
         return modelDTOList;
     }
 
+
     @Override
-    public void updateModelInDb(Long oldModelId, ModelDTO newModelDTO) {
-        Model updatedModel = mapRestModel(oldModelId, newModelDTO);
+    public void updateModelInDb(final Long oldModelId, final ModelDTO newModelDTO) {
+        final Model updatedModel = this.mapRestModel(oldModelId, newModelDTO);
         modelRepository.save(updatedModel);
+    }
+
+    @Override
+    public Long updateModelInDbFromFront(final String oldModelName, final ModelDTO newModelDTO) {
+        final Model oldModel = this.getEntityByName(oldModelName);
+        final Mark mark = markService.getEntityByName(newModelDTO.getMarkDTO().getName());
+        final Long id;
+        if (mark != null) {
+            oldModel.setMark(mark);
+            oldModel.setName(newModelDTO.getName());
+            id = modelRepository.save(oldModel).getId();
+        } else {
+            throw new NullPointerException();
+        }
+        return id;
     }
 }
