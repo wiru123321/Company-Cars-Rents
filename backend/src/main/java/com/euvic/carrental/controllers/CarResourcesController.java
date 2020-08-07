@@ -122,4 +122,20 @@ public class CarResourcesController {
         }
         return ResponseEntity.status(responseCode).body(id);
     }
+
+    //PUTs
+
+    @RequestMapping(method = RequestMethod.PUT, value = "/editColour/{colourName}")
+    public ResponseEntity<?> addType(@PathVariable final String colourName, @RequestBody final ColourDTO colourDTO) {
+        int responseCode;
+        Long id;
+        try {
+            id = colourService.updateColourInDB(colourName, colourDTO);
+            responseCode = 200;
+        } catch (final NullPointerException e) {
+            responseCode = 400;
+            id = null;
+        }
+        return ResponseEntity.status(responseCode).body(id);
+    }
 }
