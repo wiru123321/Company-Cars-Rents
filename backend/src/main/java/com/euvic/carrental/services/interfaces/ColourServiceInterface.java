@@ -14,5 +14,7 @@ public interface ColourServiceInterface {
 
     Colour mapRestModel(Long id, ColourDTO colour);
 
+    Long updateColourInDB(String oldColourName, ColourDTO colourDTO);
+
     List<ColourDTO> getAllDTOs();
 }

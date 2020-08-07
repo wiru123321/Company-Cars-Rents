@@ -41,6 +41,13 @@ public class GearboxTypeService implements GearboxTypeServiceInterface {
     }
 
     @Override
+    public Long updateGearboxTypeInDB(final String oldGearboxTypeName, final GearBoxTypeDTO gearBoxTypeDTO) {
+        final GearboxType oldGearboxType = this.getEntityByName(oldGearboxTypeName);
+        oldGearboxType.setName(gearBoxTypeDTO.getName());
+        return gearboxTypeRepository.save(oldGearboxType).getId();
+    }
+
+    @Override
     public List<GearBoxTypeDTO> getAllDTOs() {
         final ArrayList<GearboxType> gearboxTypes = new ArrayList<>();
         gearboxTypeRepository.findAll().forEach(gearboxTypes::add);

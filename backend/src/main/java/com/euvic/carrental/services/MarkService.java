@@ -41,6 +41,13 @@ public class MarkService implements MarkServiceInterface {
     }
 
     @Override
+    public Long updateMarkInDB(final String oldMarkName, final MarkDTO markDTO) {
+        final Mark oldMark = this.getEntityByName(oldMarkName);
+        oldMark.setName(markDTO.getName());
+        return markRepository.save(oldMark).getId();
+    }
+
+    @Override
     public List<MarkDTO> getAllDTOs() {
         final ArrayList<Mark> markList = new ArrayList<>();
         markRepository.findAll().forEach(markList::add);

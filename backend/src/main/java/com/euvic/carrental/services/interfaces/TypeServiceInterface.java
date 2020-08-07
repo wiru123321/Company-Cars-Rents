@@ -14,5 +14,7 @@ public interface TypeServiceInterface {
 
     Long addEntityToDB(Type type);
 
+    Long updateTypeInDB(String oldTypeName, TypeDTO typeDTO);
+
     List<TypeDTO> getAllDTOs();
 }

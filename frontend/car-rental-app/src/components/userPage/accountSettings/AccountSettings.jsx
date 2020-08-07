@@ -60,6 +60,7 @@ const AccountSettings = () => {
             type="email"
             password={password}
             item={newEmail}
+            itemId={1}
             onSubmit={handleEmailSubmit}
             onPasswordChange={(value) => dispatch(setPassword(value))}
             onItemchange={(value) => dispatch(setNewEmail(value))}
@@ -72,6 +73,7 @@ const AccountSettings = () => {
             type="number"
             password={password}
             item={newPhoneNumber}
+            itemId={2}
             onSubmit={handlePhoneNumberSubmit}
             onPasswordChange={(value) => dispatch(setPassword(value))}
             onItemchange={(value) => dispatch(setNewPhoneNumber(value))}
@@ -84,6 +86,7 @@ const AccountSettings = () => {
             type="password"
             password={password}
             item={newPassword}
+            itemId={3}
             onSubmit={handlePasswordSubmit}
             onPasswordChange={(value) => dispatch(setPassword(value))}
             onItemchange={(value) => dispatch(setNewPassword(value))}
@@ -117,6 +120,7 @@ const AccountSettings = () => {
           </Grid>
         </Paper>
         {getFormById()}
+        {/**TODO: ADD VALIDATION INFO */}
       </Paper>
     </Grid>
   );

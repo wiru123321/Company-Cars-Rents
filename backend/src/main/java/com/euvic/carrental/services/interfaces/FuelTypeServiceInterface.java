@@ -15,4 +15,6 @@ public interface FuelTypeServiceInterface {
     FuelTypeDTO getDTOByName(String name);
 
     List<FuelTypeDTO> getAllDTOs();
+
+    Long updateFuelTypeInDB(String oldFuelTypeName, FuelTypeDTO fuelTypeDTO);
 }
