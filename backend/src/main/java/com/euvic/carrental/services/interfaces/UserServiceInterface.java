@@ -34,7 +34,7 @@ public interface UserServiceInterface {
 
     boolean checkPassword(String given, String actual);
 
-    void changePassword(User user, String password);
+    boolean changePassword(User user, String password);
 
     void changeEmail(User user, String email);
 
