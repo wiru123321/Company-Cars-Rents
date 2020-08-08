@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { TextField, Box } from "@material-ui/core";
+import { Box } from "@material-ui/core";
 import {
   licencePlateChange,
   yearChange,
@@ -9,9 +9,7 @@ import {
   peopleCapacityChange,
   doorsNumberChange,
   trunkCapacityChange,
-  formChangeTrue,
-  formChangeFalse,
-  selectForm,
+  lastInspectionChange,
 } from "../../../features/add-car-info/carsInfoSlice";
 import { TextValidator } from "react-material-ui-form-validator";
 
@@ -23,6 +21,7 @@ const BoxPanel = ({
   doorsNumber,
   capacityOfPeople,
   capacityOfTrunkScale,
+  lastInspection,
 }) => {
   const dispatch = useDispatch();
   return (
@@ -134,6 +133,20 @@ const BoxPanel = ({
               "Must be a number",
               "Length is wrong",
             ]}
+          />
+        </Box>
+        <Box>
+          <TextValidator
+            label="Last Inspection"
+            style={{ marginLeft: "10%" }}
+            type="date"
+            defaultValue="2020-01-01"
+            onChange={(event) =>
+              dispatch(lastInspectionChange(event.target.value))
+            }
+            value={lastInspection}
+            validators={["required"]}
+            errorMessages={["this field is required"]}
           />
         </Box>
       </Box>

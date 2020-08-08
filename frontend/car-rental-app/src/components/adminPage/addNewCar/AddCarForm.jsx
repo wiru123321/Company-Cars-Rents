@@ -11,6 +11,7 @@ import {
 } from "../../../features/add-car-info/carsInfoSlice";
 import SelectBoxForm from "./SelectBoxForm";
 import BoxPanel from "./BoxPanel";
+import ParkingForm from "./ParkingForm";
 
 const AddCarForm = () => {
   const useStyles = makeStyles((theme) => ({
@@ -46,9 +47,11 @@ const AddCarForm = () => {
     capacityOfTrunkScale,
     imageFile,
     lastInspection,
+    town,
     streetName,
     number,
     comment,
+    postalCode,
   } = CarInfo;
 
   function submit(event) {
@@ -61,17 +64,17 @@ const AddCarForm = () => {
       doorsNumber: doorsNumber,
       gearBoxTypeDTO: { name: gearBoxTypeDTO },
       fuelTypeDTO: { name: fuelTypeDTO },
-      lastInspection: "2000-03-25T00:00:00",
+      lastInspection: lastInspection,
       productionYear: productionYear,
       isActive: true,
       mileage: mileage,
       modelDTO: { name: modelDTO, markDTO: { name: modelDTO } },
       parkingDTO: {
-        town: "Katowice",
-        postalCode: "40-001",
-        streetName: "Norweska 3",
-        number: "E-6",
-        comment: "Parking przy sklepiku Avea",
+        town: town,
+        postalCode: postalCode,
+        streetName: streetName,
+        number: number,
+        comment: comment,
         isActive: true,
       },
       colourDTO: { name: colourDTO },
@@ -117,6 +120,14 @@ const AddCarForm = () => {
         capacityOfPeople={capacityOfPeople}
         doorsNumber={doorsNumber}
         capacityOfTrunkScale={capacityOfTrunkScale}
+      />
+      <div style={{ height: "5vh" }}></div>
+      <ParkingForm
+        town={town}
+        postalCode={postalCode}
+        streetName={streetName}
+        number={number}
+        comment={comment}
       />
       <Box display="flex" justifyContent="center" m={1} p={1}>
         <input
