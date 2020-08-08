@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { Container, Button, Grid, Paper, Divider } from "@material-ui/core";
+import { Container, Grid, Paper } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
-import EditIcon from "@material-ui/icons/Edit";
-import DeleteIcon from "@material-ui/icons/Delete";
-import EmployerInfo from "./removeEmployerComponent/RemoveEmployerComponent";
 import {
   selectAllUsers,
   fetchAllUsers,
   deleteUser,
 } from "../../../features/add-employees/addEmployeeSlice";
+import EmployerInfo from "./removeEmployerComponent/RemoveEmployerComponent";
 import EditEmployee from "./EditEmployee";
+import ControlPanel from "./ControlPanel";
 
 const useStyles = makeStyles({
   paper: {
@@ -18,30 +17,6 @@ const useStyles = makeStyles({
     marginTop: "1%",
   },
 });
-
-const ControlPanel = ({ setEdit, handleDelete, edit }) => {
-  return (
-    <div>
-      <Button
-        variant="contained"
-        color="primary"
-        startIcon={<EditIcon />}
-        onClick={(event) => setEdit(!edit)}
-      >
-        Edit
-      </Button>
-      <Button
-        variant="contained"
-        color="secondary"
-        startIcon={<DeleteIcon />}
-        style={{ marginLeft: "2vw" }}
-        onClick={handleDelete}
-      >
-        Remove
-      </Button>
-    </div>
-  );
-};
 
 const Employee = ({ employee, handleDelete }) => {
   const classes = useStyles();

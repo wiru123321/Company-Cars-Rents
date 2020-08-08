@@ -13,7 +13,6 @@ const AdminPage = () => {
   return (
     <div>
       <UserNavbar />
-
       <HashRouter basename="/adminPage">
         <Switch>
           <Route path="/" exact component={AddNewCar} />
