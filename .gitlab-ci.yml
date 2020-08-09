@@ -1,21 +1,22 @@
 stages:
-   - build
    - test
-   - deploy
+   - build_develop
+   - deploy_develop
+   - build_deploy
+   - deploy_deploy
+   - build_prod
+   - deploy_prod
 
 test: 
    stage: test
-   before_script:
-      - pwd
-      - ls
    script:
-#      - gradle test
       - cd frontend/car-rental-app
       - docker build -t frontendtest .
       - docker run -d --name fronttest frontendtest 
       - docker exec -d fronttest npm test 
       - docker rm fronttest -f
-      
+    
+#   Return to main directory
       - cd ..
       - cd ..
 
@@ -26,22 +27,70 @@ test:
       - docker rm backtest -f 
 
       - cd ..
-      - (pwd && ls)
-      - echo "Success"
+      - echo "Success :D"
    tags:
       - test
 
+#   Develop
+
 build_develop:
-   stage: build
-   script:
-      - docker-compose build
-   tags:
-      - build
+    stage: build_develop
+    script:
+        - docker-compose build
+    tags:
+        - build_develop
+    only:
+        - Docker
 
 deploy_develop:
-   stage: deploy
-   script:
-      - docker-compose down
-      - docker-compose up -d
-   tags: 
-      - deploy
+    stage: deploy_develop
+    script:
+        - docker-compose down
+        - docker-compose up -d
+    tags: 
+        - deploy_develop
+    only:
+        - Docker
+
+#   Deploy
+
+build_deploy:
+    stage: build_deploy
+    script:
+        - docker-compose -f docker-compose.yml -f docker-compose.deploy.yml build
+    tags:
+        - build_deploy
+    only:
+        - deploy
+
+deploy_deploy:
+    stage: deploy_deploy
+    script:
+        - docker-compose down
+        - docker-compose -f docker-compose.yml -f docker-compose.deploy.yml up -d
+    tags: 
+        - deploy_deploy
+    only: 
+        - deploy
+
+#   Production
+docker-compose -f docker-compose.yml -f docker-compose.admin.yml run
+
+build_production:
+    stage: build_prod
+    script:
+        - docker-compose -f docker-compose.yml -f docker-compose.prod.yml  build 
+    tags:
+        - build_prod
+    only:
+        - master
+        
+deploy_production:
+    stage: deploy_prod
+    script:
+        - docker-compose down
+        - docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+    tags: 
+        - deploy_prod
+    only: 
+        - master
