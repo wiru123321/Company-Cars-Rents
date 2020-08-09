@@ -32,7 +32,6 @@ test:
       - test
 
 #   Develop
-
 build_develop:
     stage: build_develop
     script:
@@ -53,7 +52,6 @@ deploy_develop:
         - Docker
 
 #   Deploy
-
 build_deploy:
     stage: build_deploy
     script:
@@ -74,8 +72,6 @@ deploy_deploy:
         - deploy
 
 #   Production
-docker-compose -f docker-compose.yml -f docker-compose.admin.yml run
-
 build_production:
     stage: build_prod
     script:
