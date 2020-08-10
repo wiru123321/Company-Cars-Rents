@@ -54,9 +54,10 @@ build_docker:
 deploy_docker:
    stage: deploy
    script:
-       - docker-compose down car_rental_backend
-       - docker-compose down car_rental_frontend
-       - docker-compose down car_rental_dbpostgres
+       - docker-compose stop car_rental_backend
+       - docker-compose stop car_rental_frontend
+       - docker-compose stop car_rental_dbpostgres
+       - docker-compose rm 
        - docker-compose up -d
    tags: 
        - deploy
