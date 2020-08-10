@@ -126,7 +126,8 @@ public class CarService implements CarServiceInterface {
         return this.mapRestList(carList);
     }
 
-    private List<CarDTO> mapRestList(final List<Car> carList) {
+    //change to private TODO
+    public List<CarDTO> mapRestList(final List<Car> carList) {
         final ArrayList<CarDTO> carDTOList = new ArrayList<>();
         carList.forEach((car) -> {
             final CarDTO carDTO = new CarDTO(car, new GearBoxTypeDTO(car.getGearboxType()), new FuelTypeDTO(car.getFuelType()), new ModelDTO(car.getModel()),
