@@ -20,6 +20,9 @@ public class Rent {
     @Column(nullable = false)
     private LocalDateTime dateTo;
 
+    @Column()
+    private String comment;
+
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private User user;
 
@@ -29,7 +32,7 @@ public class Rent {
     @OneToOne(fetch = FetchType.EAGER, optional = false)
     private Parking parkingFrom;
 
-    @OneToOne(fetch = FetchType.EAGER, optional = true)
+    @OneToOne(fetch = FetchType.EAGER, optional = false)
     private Parking parkingTo;
 
     @Column(nullable = false)
@@ -40,7 +43,7 @@ public class Rent {
     }
 
     public Rent(final Long id, final User user, final Car car, final LocalDateTime dateFrom, final LocalDateTime dateTo, final Parking parkingFrom
-            , final Parking parkingTo, final Boolean isActive) {
+            , final Parking parkingTo, final Boolean isActive, final String comment) {
         this.id = id;
         this.user = user;
         this.car = car;
@@ -49,5 +52,6 @@ public class Rent {
         this.parkingFrom = parkingFrom;
         this.parkingTo = parkingTo;
         this.isActive = isActive;
+        this.comment = comment;
     }
 }
