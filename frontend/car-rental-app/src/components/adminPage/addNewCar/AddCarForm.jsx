@@ -100,7 +100,6 @@ const AddCarForm = () => {
     )
       toggleshowAddPhotoButton(true);
     dispatch(addCar(car));
-    dispatch(reset());
   }
 
   function submitImage(event) {
@@ -109,6 +108,7 @@ const AddCarForm = () => {
       imageFile: imageFile,
     };
     dispatch(addImage(image, licensePlate));
+    dispatch(reset());
   }
 
   return (
