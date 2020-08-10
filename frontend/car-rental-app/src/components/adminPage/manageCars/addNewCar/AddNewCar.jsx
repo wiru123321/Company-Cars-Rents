@@ -19,14 +19,14 @@ import {
   imageUrlChange,
   reset,
   addCar,
-} from "../../../features/add-car-info/carsInfoSlice";
+} from "../../../../features/add-car-info/carsInfoSlice";
 import {
   fetchMarks,
   fetchTypes,
   fetchFuelType,
   fetchColor,
   fetchGearboxType,
-} from "../../../features/starting-car-parameter/startingCarParameterSlice";
+} from "../../../../features/starting-car-parameter/startingCarParameterSlice";
 import { useDispatch } from "react-redux";
 import { ValidatorForm } from "react-material-ui-form-validator";
 

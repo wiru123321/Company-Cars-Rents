@@ -126,8 +126,13 @@ public class CarService implements CarServiceInterface {
         return this.mapRestList(carList);
     }
 
-    //change to private TODO
-    public List<CarDTO> mapRestList(final List<Car> carList) {
+    @Override
+    public CarDTO mapToCarDTO(final Car car) {
+        return new CarDTO(car, new GearBoxTypeDTO(car.getGearboxType()), new FuelTypeDTO(car.getFuelType()), new ModelDTO(car.getModel()),
+                new ParkingDTO(car.getParking()), new ColourDTO(car.getColour()), new TypeDTO(car.getType()));
+    }
+
+    private List<CarDTO> mapRestList(final List<Car> carList) {
         final ArrayList<CarDTO> carDTOList = new ArrayList<>();
         carList.forEach((car) -> {
             final CarDTO carDTO = new CarDTO(car, new GearBoxTypeDTO(car.getGearboxType()), new FuelTypeDTO(car.getFuelType()), new ModelDTO(car.getModel()),
@@ -138,9 +143,9 @@ public class CarService implements CarServiceInterface {
     }
 
     @Override //TODO tests
-    public Long addExistingImageToExistingCar(String carImagePath, String licensePlate) {
+    public Long addExistingImageToExistingCar(String carImageName, String licensePlate) {
         Car car = getEntityByLicensePlate(licensePlate);
-        car.setPhotoFolderPath(carImagePath);
+        car.setImageName(carImageName);
         return addEntityToDB(car);
     }
 

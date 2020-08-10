@@ -1,8 +1,8 @@
 import React from "react";
 import { Route, Switch, HashRouter } from "react-router-dom";
 
-import UserNavbar from "../adminNavbar/AdminNavbar";
-import AddNewCar from "./addNewCar/AddNewCar";
+import UserNavbar from "./adminNavbar/AdminNavbar";
+import AddNewCar from "./manageCars/addNewCar/AddNewCar";
 import RemoveCar from "./manageCars/removeCar/RemoveCar";
 import AddEmployee from "./addEmployee/AddEmployee";
 import RemoveEmployer from "./removeEmployer/RemoveEmployer";

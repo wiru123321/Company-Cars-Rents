@@ -8,6 +8,8 @@ import java.util.List;
 public interface CarServiceInterface {
     Car mapRestModel(Long id, CarDTO carDTO, Long parkingId, Long modelId);
 
+    CarDTO mapToCarDTO(Car car);
+
     Car getEntityByLicensePlate(String licensePlate);
 
     CarDTO getDTOByLicensePlate(String licensePlate);
