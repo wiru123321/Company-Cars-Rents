@@ -54,7 +54,9 @@ build_docker:
 deploy_docker:
    stage: deploy
    script:
-       - docker-compose down
+       - docker-compose down car_rental_backend
+       - docker-compose down car_rental_frontend
+       - docker-compose down car_rental_dbpostgres
        - docker-compose up -d
    tags: 
        - deploy
@@ -74,7 +76,9 @@ build_develop:
 deploy_develop:
     stage: deploy_develop
     script:
-        - docker-compose -f docker-compose.yml -f docker-compose.develop.yml down
+        - docker-compose down car_rent_back_dev
+        - docker-compose down car_rent_front_dev
+        - docker-compose down car_rent_postgres_dev
         - docker-compose -f docker-compose.yml -f docker-compose.develop.yml up -d
     tags: 
         - deploy_develop
@@ -94,7 +98,9 @@ build_deploy:
 deploy_deploy:
     stage: deploy_deploy
     script:
-        - docker-compose -f docker-compose.yml -f docker-compose.deploy.yml down
+        - docker-compose down car_rent_back_dep
+        - docker-compose down car_rent_front_dep
+        - docker-compose down car_rent_postgres_dep
         - docker-compose -f docker-compose.yml -f docker-compose.deploy.yml up -d
     tags: 
         - deploy_deploy
@@ -114,7 +120,9 @@ build_production:
 deploy_production:
     stage: deploy_prod
     script:
-        - docker-compose -f docker-compose.yml -f docker-compose.deploy.yml down
+        - docker-compose down car_rent_back_prod
+        - docker-compose down car_rent_front_prod
+        - docker-compose down car_rent_postgres_prod
         - docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
     tags: 
         - deploy_prod
