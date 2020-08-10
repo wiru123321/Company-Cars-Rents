@@ -50,31 +50,3 @@ const UsersLogin = ({
 };
 
 export default UsersLogin;
-/***<TextValidator
-        className={classes.textArea}
-        onChange={handleEmailChange}
-        value={email}
-        label="email"
-        placeholder="email"
-        variant="filled"
-        type="email"
-        required
-      />
-      <TextValidator
-        className={classes.textArea}
-        onChange={handleLoginChange}
-        placeholder="login"
-        value={login}
-        label="login"
-        variant="filled"
-        required
-      />
-      <TextValidator
-        className={classes.textArea}
-        onChange={handlePhoneNumberChange}
-        placeholder="phoneNumber"
-        value={phoneNumber}
-        label="phone number"
-        variant="filled"
-        required
-      /> */

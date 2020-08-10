@@ -1,15 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import { Input, Grid, Button } from "@material-ui/core";
 import PhoneIcon from "@material-ui/icons/Phone";
 import EmailIcon from "@material-ui/icons/Email";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import SystemUpdateAltIcon from "@material-ui/icons/SystemUpdateAlt";
 
-const EditEmployer = ({ employee }) => {
-  const { name, surname, email, phoneNumber } = employee;
+const EditEmployer = ({ employee, updateUser }) => {
+  const { login } = employee;
+  const [name, setName] = useState(employee.name);
+  const [surname, setSurname] = useState(employee.surname);
+  const [email, setEmail] = useState(employee.email);
+  const [phoneNumber, setPhoneNumber] = useState(employee.phoneNumber);
 
   return (
-    <form onSubmit={(event) => event.preventDefault()}>
+    <form
+      onSubmit={(event) => {
+        event.preventDefault();
+        updateUser(login, {
+          email: email,
+          name: name,
+          surname: surname,
+          phoneNumber: phoneNumber,
+        });
+      }}
+    >
       <Grid
         container
         direction="column"
@@ -19,19 +33,39 @@ const EditEmployer = ({ employee }) => {
       >
         <Grid item>
           <AccountCircleIcon />
-          <Input placeholder="Firstname" value={name} required />
+          <Input
+            placeholder="Firstname"
+            value={name}
+            onChange={(event) => setName(event.target.value)}
+            required
+          />
         </Grid>
         <Grid item>
           <AccountCircleIcon />
-          <Input placeholder="Lastname" value={surname} required />
+          <Input
+            placeholder="Lastname"
+            value={surname}
+            onChange={(event) => setSurname(event.target.value)}
+            required
+          />
         </Grid>
         <Grid item>
           <EmailIcon />
-          <Input placeholder="Email" value={email} required />
+          <Input
+            placeholder="Email"
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+            required
+          />
         </Grid>
         <Grid item>
           <PhoneIcon />
-          <Input placeholder="Phone number" value={phoneNumber} required />
+          <Input
+            placeholder="Phone number"
+            value={phoneNumber}
+            onChange={(event) => setPhoneNumber(event.target.value)}
+            required
+          />
         </Grid>
         <Grid item>
           <Button type="submit">
