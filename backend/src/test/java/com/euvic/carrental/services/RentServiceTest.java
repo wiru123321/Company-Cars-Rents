@@ -186,7 +186,7 @@ public class RentServiceTest {
 
         final Rent rent = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlate("SBE33212")
                 , LocalDateTime.of(2000, 3, 25, 10, 0), LocalDateTime.of(2000, 3, 25, 18, 0)
-                , parkingService.getEntityById(parkingId1), null, true);
+                , parkingService.getEntityById(parkingId1), parkingService.getEntityById(parkingId2), true, null);
 
         assertEquals(0, rentRepository.count());
         rentService.addEntityToDB(rent);
@@ -224,7 +224,7 @@ public class RentServiceTest {
 
         final Rent rent = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlate("SBE33212")
                 , LocalDateTime.of(2000, 3, 25, 10, 0), LocalDateTime.of(2000, 3, 25, 18, 0)
-                , parkingService.getEntityById(parkingId1), null, true);
+                , parkingService.getEntityById(parkingId1), parkingService.getEntityById(parkingId1), true, null);
 
         assertEquals(0, rentRepository.count());
         final Long rentId = rentService.addEntityToDB(rent);
@@ -287,12 +287,12 @@ public class RentServiceTest {
         final LocalDateTime dateFrom = LocalDateTime.of(2000, 3, 25, 0, 0);
         final LocalDateTime dateTo = LocalDateTime.of(2000, 3, 30, 0, 0);
         final Rent rent = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlate("SBE33212"), dateFrom, dateTo
-                , parkingService.getEntityById(parkingId1), null, true);
+                , parkingService.getEntityById(parkingId1), parkingService.getEntityById(parkingId2), true, null);
         final Long rentId = rentService.addEntityToDB(rent);
 
         final RentDTO rentDTO = rentService.getDTOById(rentId);
 
-        final Rent restModelToEntityModel = rentService.mapRestModel(null, rentDTO, parkingId1, null);
+        final Rent restModelToEntityModel = rentService.mapRestModel(null, rentDTO, parkingId1, parkingId2);
         assertAll(() -> {
             assertNotEquals(restModelToEntityModel.getId(), rent.getId());
             assertEquals(restModelToEntityModel.getUser(), rent.getUser());
@@ -338,7 +338,7 @@ public class RentServiceTest {
         final LocalDateTime dateFrom = LocalDateTime.of(2000, 3, 25, 0, 0);
         final LocalDateTime dateTo = LocalDateTime.of(2000, 3, 30, 0, 0);
         final Rent rent = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlate("SBE33212"), dateFrom, dateTo
-                , parkingService.getEntityById(parkingId1), null, true);
+                , parkingService.getEntityById(parkingId1), parkingService.getEntityById(parkingId1), true, null);
         final Long rentId = rentService.addEntityToDB(rent);
 
         final RentDTO rentDTO1 = rentService.getDTOByCarDTOAndDateFrom(carDTO, dateFrom);
@@ -386,11 +386,11 @@ public class RentServiceTest {
         final LocalDateTime dateFrom = LocalDateTime.of(2000, 3, 25, 0, 0);
         final LocalDateTime dateTo = LocalDateTime.of(2000, 3, 30, 0, 0);
         final Rent rent1 = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlate("SBE33212"), dateFrom, dateTo
-                , parkingService.getEntityById(parkingId1), null, true);
+                , parkingService.getEntityById(parkingId1), parkingService.getEntityById(parkingId2), true, null);
         final Rent rent2 = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlate("SBE33212"), dateFrom, dateTo
-                , parkingService.getEntityById(parkingId2), null, true);
+                , parkingService.getEntityById(parkingId2), parkingService.getEntityById(parkingId3), true, null);
         final Rent rent3 = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlate("SBE33212"), dateFrom, dateTo
-                , parkingService.getEntityById(parkingId3), null, true);
+                , parkingService.getEntityById(parkingId3), parkingService.getEntityById(parkingId1), true, null);
 
         assertEquals(0, rentRepository.count());
         final Long rentId1 = rentService.addEntityToDB(rent1);

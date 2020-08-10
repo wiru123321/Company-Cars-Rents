@@ -34,10 +34,10 @@ public class FileService {
 
     public ResponseEntity<?> uploadCarImage(MultipartFile file) {
         final String fileName = generateNextInDirFileName(CAR_IMAGE_DIRECTORY,"car_image");
-        final Path filePath = Paths.get(CAR_IMAGE_DIRECTORY, fileName);
+        final Path fileNamePath = Paths.get(CAR_IMAGE_DIRECTORY, fileName);
         setUpDirectories();
         try {
-            Files.write(filePath, file.getBytes());
+            Files.write(fileNamePath, file.getBytes());
             return new ResponseEntity<>(fileName, HttpStatus.CREATED);
         } catch (final IOException ex) {
             return new ResponseEntity<>("Image is not uploaded", HttpStatus.BAD_REQUEST);
@@ -61,12 +61,12 @@ public class FileService {
         String photoName = String.format("%s%d.png", mainNamePart, inDirPhotoNumber);
         return photoName;
     }
-/*
+
     public ResponseEntity<byte[]> downloadCarImage(String licensePlate) throws IOException {
         HttpHeaders headers = new HttpHeaders();
         Car car = carService.getEntityByLicensePlate(licensePlate);
         String photoPath = car.getImageName();
-        InputStream in = ClassLoader.getSystemResourceAsStream("car_image7.png");
+        InputStream in = ClassLoader.getSystemResourceAsStream("car_image5.png");
         if (in == null) {
             throw new FileNotFoundException("readFilesInBytes: File " + photoPath
                     + " does not exist");
@@ -76,5 +76,5 @@ public class FileService {
         headers.setCacheControl(CacheControl.noCache().getHeaderValue());
         ResponseEntity<byte[]> responseEntity = new ResponseEntity<>(media, headers, HttpStatus.OK);
         return responseEntity;
-    }*/
+    }
 }

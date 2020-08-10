@@ -13,9 +13,29 @@ const initialState = {
   isChoosen: false,
   choose: false,
   choosenCar: 0,
+
   cars: [],
 };
-
+/*
+filteredCars: [],
+filterLicensePlate: "",
+filterMark: "",
+filterActive: true,
+setLicenseFilters: (state, action) => {
+  state.filterLicensePlate = action.payload;
+},
+setMarkFilters: (state, action) => {
+  state.filterMark = action.payload;
+},
+setActiveFilters: (state, action) => {
+  state.filterActive = action.payload;
+},
+setFilteredCars: (state, action) => {
+  state.filteredCars = action.payload;
+},
+  setLicenseFilters,
+  setMarkFilters,
+  setFilteredCars,*/
 export const reservationSlice = createSlice({
   name: "reservation",
   initialState,
@@ -67,6 +87,7 @@ export const {
   beginHourChange,
   endDateChange,
   endHourChange,
+
   setCars,
   getCars,
 } = reservationSlice.actions;
@@ -147,6 +168,29 @@ export const deleteCar = (licensePlate) => async (dispatch) => {
       },
     });
     console.log(fetchResponse.data);
+    dispatch(setCars(fetchResponse.data));
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const updateCar = (licensePlate, car) => async (dispatch) => {
+  try {
+    const updateResponse = await axios.put(
+      API_URL + `/a/car/${licensePlate}`,
+      car,
+      {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      }
+    );
+    const fetchResponse = await axios.get(API_URL + "/a/cars", {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
+    console.log("onUpdate", fetchResponse.data);
     dispatch(setCars(fetchResponse.data));
   } catch (error) {
     console.log(error);

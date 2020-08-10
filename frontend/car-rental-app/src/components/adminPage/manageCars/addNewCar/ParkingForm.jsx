@@ -8,7 +8,7 @@ import {
   streetNameChange,
   numberChange,
   commentChange,
-} from "../../../features/add-car-info/carsInfoSlice";
+} from "../../../../features/add-car-info/carsInfoSlice";
 
 const ParkingForm = ({ comment, number, streetName, postalCode, town }) => {
   const dispatch = useDispatch();

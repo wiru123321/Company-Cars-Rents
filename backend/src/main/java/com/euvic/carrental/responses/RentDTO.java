@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 public class RentDTO {
     private LocalDateTime dateFrom;
     private LocalDateTime dateTo;
+    private String comment;
     private UserDTO userDTO;
     private CarDTO carDTO;
     private ParkingDTO parkingDTOFrom;
@@ -20,7 +21,7 @@ public class RentDTO {
 
     }
 
-    public RentDTO(final LocalDateTime dateFrom, final LocalDateTime dateTo, final UserDTO userDTO, final CarDTO carDTO, final ParkingDTO parkingDTOFrom, final ParkingDTO parkingDTOTo, final Boolean isActive) {
+    public RentDTO(final LocalDateTime dateFrom, final LocalDateTime dateTo, final UserDTO userDTO, final CarDTO carDTO, final ParkingDTO parkingDTOFrom, final ParkingDTO parkingDTOTo, final Boolean isActive, final String comment) {
         this.dateFrom = dateFrom;
         this.dateTo = dateTo;
         this.userDTO = userDTO;
@@ -28,6 +29,7 @@ public class RentDTO {
         this.parkingDTOFrom = parkingDTOFrom;
         this.parkingDTOTo = parkingDTOTo;
         this.isActive = isActive;
+        this.comment = comment;
     }
 
     public RentDTO(final Rent rent, final UserDTO userDTO, final CarDTO carDTO, final ParkingDTO parkingDTOFrom, final ParkingDTO parkingDTOTo) {
@@ -38,5 +40,6 @@ public class RentDTO {
         this.parkingDTOFrom = parkingDTOFrom;
         this.parkingDTOTo = parkingDTOTo;
         this.isActive = rent.getIsActive();
+        this.comment = rent.getComment();
     }
 }

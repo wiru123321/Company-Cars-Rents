@@ -96,9 +96,9 @@ public class CarController {
         String carImageName = carImageUploadResponse.getBody().toString();
         return ResponseEntity.ok(carService.addExistingImageToExistingCar(carImageName, licensePlate));
     }
-/*
+
     @RequestMapping(method = RequestMethod.GET, value = "/a/car/download-car-image/{licensePlate}", produces = MediaType.IMAGE_JPEG_VALUE)
     public ResponseEntity<byte[]> downloadCarImageForExistingCar(@PathVariable final String licensePlate) throws IOException{
         return fileService.downloadCarImage(licensePlate);
-    }*/
+    }
 }

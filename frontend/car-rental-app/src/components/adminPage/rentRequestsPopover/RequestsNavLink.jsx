@@ -17,7 +17,7 @@ const RequestsNavLink = () => {
       href={linkPath}
       style={{ color: "#f3f169", fontSize: "25px" }}
     >
-      Rent Requests
+      Rent requests
     </Nav.Link>
   );
 };

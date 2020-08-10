@@ -8,7 +8,7 @@ import {
   reset,
   imageFileChange,
   addImage,
-} from "../../../features/add-car-info/carsInfoSlice";
+} from "../../../../features/add-car-info/carsInfoSlice";
 import SelectBoxForm from "./SelectBoxForm";
 import BoxPanel from "./BoxPanel";
 import ParkingForm from "./ParkingForm";
