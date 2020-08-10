@@ -20,7 +20,13 @@ const AdminNavbar = () => {
           href="#adminPage"
           style={{ color: "#f3f169", fontSize: "25px" }}
         >
-          Company Name or logo
+          <img
+            src="https://www.euvic.pl/wp-content/uploads/2019/11/logo-euvic-it-1.png"
+            width="140"
+            height="60"
+            class="d-inline-block align-top"
+            alt="logo"
+          />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
@@ -55,12 +61,6 @@ const AdminNavbar = () => {
               </NavDropdown.Item>
               <NavDropdown.Divider />
             </NavDropdown>
-            <Nav.Link
-              href="#adminPage/parking"
-              style={{ color: "#f3f169", fontSize: "25px" }}
-            >
-              Parking
-            </Nav.Link>
             <Nav.Link
               href="/login"
               onClick={() => dispatch(logout())}

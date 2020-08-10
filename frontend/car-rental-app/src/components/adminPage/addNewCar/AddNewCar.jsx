@@ -39,7 +39,7 @@ const AddNewCar = () => {
     <Cointainer fixed>
       <Typography
         component="div"
-        style={{ backgroundColor: "#cfe8fc", height: "94.6vh", width: "100%" }}
+        style={{ height: "92.8vh", width: "100%" }}
         onLoad={dispatch(fetchMarks())}
         onLoad={dispatch(fetchTypes())}
         onLoad={dispatch(fetchFuelType())}
