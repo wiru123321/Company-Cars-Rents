@@ -74,7 +74,7 @@ build_develop:
 deploy_develop:
     stage: deploy_develop
     script:
-        - docker-compose down
+        - docker-compose -f docker-compose.yml -f docker-compose.develop.yml down
         - docker-compose -f docker-compose.yml -f docker-compose.develop.yml up -d
     tags: 
         - deploy_develop
@@ -94,7 +94,7 @@ build_deploy:
 deploy_deploy:
     stage: deploy_deploy
     script:
-        - docker-compose down
+        - docker-compose -f docker-compose.yml -f docker-compose.deploy.yml down
         - docker-compose -f docker-compose.yml -f docker-compose.deploy.yml up -d
     tags: 
         - deploy_deploy
@@ -114,7 +114,7 @@ build_production:
 deploy_production:
     stage: deploy_prod
     script:
-        - docker-compose down
+        - docker-compose -f docker-compose.yml -f docker-compose.deploy.yml down
         - docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
     tags: 
         - deploy_prod
