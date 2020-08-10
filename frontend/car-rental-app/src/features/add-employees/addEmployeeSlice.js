@@ -102,6 +102,41 @@ export const fetchAllUsers = () => async (dispatch) => {
   }
 };
 
+export const addUser = (userCration) => async (dispatch) => {
+  try {
+    const response = await axios.post(API_URL + "/a/user", userCration, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const updateUser = (login, userUpdate) => async (dispatch) => {
+  try {
+    console.log(userUpdate);
+    const updateResponse = await axios.put(
+      API_URL + `/a/user/${login}`,
+      userUpdate,
+      {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      }
+    );
+    const fetchResponse = await axios.get(API_URL + "/a/users", {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
+    dispatch(setUsers(fetchResponse.data));
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const deleteUser = (login) => async (dispatch) => {
   try {
     const deleteResponse = await axios.delete(API_URL + `/a/user/${login}`, {
@@ -114,20 +149,7 @@ export const deleteUser = (login) => async (dispatch) => {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     });
-    console.log(fetchResponse.data);
     dispatch(setUsers(fetchResponse.data));
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const addUser = (userCration) => async (dispatch) => {
-  try {
-    const response = await axios.post(API_URL + "/a/user", userCration, {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("token"),
-      },
-    });
   } catch (error) {
     console.log(error);
   }

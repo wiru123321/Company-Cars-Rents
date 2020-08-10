@@ -8,6 +8,7 @@ import {
   selectAll,
   stopDisplayingResults,
 } from "../../../features/user-settings/userPasswordSettingsSlice";
+import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 import { useSelector, useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/core";
 
@@ -56,7 +57,7 @@ const ChangePassword = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <ValidatorForm onSubmit={handleSubmit}>
       <Grid
         className={classes.box}
         container
@@ -67,7 +68,7 @@ const ChangePassword = () => {
         <Typography className={classes.title} variant="h1">
           Change password
         </Typography>
-        <TextField
+        <TextValidator
           className={classes.textField}
           onChange={(event) => dispatch(setPassword(event.target.value))}
           value={password}
@@ -75,9 +76,10 @@ const ChangePassword = () => {
           variant="outlined"
           label="password"
           type="password"
-          required
+          validators={["required"]}
+          errorMessages={["this field is required"]}
         />
-        <TextField
+        <TextValidator
           onChange={(event) => dispatch(setNewPassword(event.target.value))}
           value={newPassword}
           margin="normal"
@@ -85,14 +87,18 @@ const ChangePassword = () => {
           className={classes.textField}
           label="new-password"
           type="password"
-          required
+          validators={[
+            "required",
+            "matchRegexp:^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$",
+          ]}
+          errorMessages={["this field is required", "password is not valid"]}
         />
         <Button color="primary" variant="contained" type="submit">
           Change
         </Button>
         {showResult && showAlert()}
       </Grid>
-    </form>
+    </ValidatorForm>
   );
 };
 

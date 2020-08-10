@@ -3,7 +3,7 @@ import { Route, Switch, HashRouter } from "react-router-dom";
 
 import UserNavbar from "../adminNavbar/AdminNavbar";
 import AddNewCar from "./addNewCar/AddNewCar";
-import RemoveCar from "./removeCar/RemoveCar";
+import RemoveCar from "./manageCars/removeCar/RemoveCar";
 import AddEmployee from "./addEmployee/AddEmployee";
 import RemoveEmployer from "./removeEmployer/RemoveEmployer";
 import Parking from "./parking/Parking";
@@ -13,7 +13,6 @@ const AdminPage = () => {
   return (
     <div>
       <UserNavbar />
-
       <HashRouter basename="/adminPage">
         <Switch>
           <Route path="/" exact component={AddNewCar} />

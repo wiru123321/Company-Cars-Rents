@@ -20,6 +20,7 @@ import UsersLogin from "./UsersLogin";
 import UsersPassword from "./UsersPassword";
 import UsersPersonalData from "./UsersPersonalData";
 import useStyles from "./useStyles";
+import { ValidatorForm } from "react-material-ui-form-validator";
 
 const AddEmployee = () => {
   const classes = useStyles();
@@ -105,7 +106,7 @@ const AddEmployee = () => {
   }
 
   return (
-    <form onSubmit={submit}>
+    <ValidatorForm onSubmit={submit}>
       <Grid
         className={classes.root}
         container
@@ -145,7 +146,7 @@ const AddEmployee = () => {
         />
         <FormControlPanel success={success} showSuccess={showSuccess} />
       </Grid>
-    </form>
+    </ValidatorForm>
   );
 };
 

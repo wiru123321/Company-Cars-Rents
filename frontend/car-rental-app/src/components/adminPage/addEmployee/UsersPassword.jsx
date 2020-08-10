@@ -1,5 +1,6 @@
 import React from "react";
-import { TextField, Grid } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
+import { TextValidator } from "react-material-ui-form-validator";
 import useStyles from "./useStyles";
 
 const UsersPassword = ({
@@ -12,25 +13,29 @@ const UsersPassword = ({
 
   return (
     <Grid container direction="column" justify="center" alignItems="center">
-      <TextField
+      <TextValidator
         className={classes.textArea}
         onChange={handlePasswordChange}
         value={password}
-        placeholder="password"
-        label="password"
-        variant="filled"
+        label="Password"
         type="password"
-        required
+        validators={[
+          "required",
+          "matchRegexp:^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$",
+        ]}
+        errorMessages={["this field is required", "password is not valid"]}
       />
-      <TextField
+      <TextValidator
         className={classes.textArea}
         onChange={handleRePasswordChange}
         value={rePassword}
-        placeholder="repeatPassword"
-        label="repeat password"
-        variant="filled"
+        label="Repeat password"
         type="password"
-        required
+        validators={[
+          "required",
+          "matchRegexp:^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$",
+        ]}
+        errorMessages={["this field is required", "password is not valid"]}
       />
     </Grid>
   );

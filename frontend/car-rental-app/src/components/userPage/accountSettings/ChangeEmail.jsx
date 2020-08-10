@@ -8,6 +8,7 @@ import {
   selectAll,
   stopDisplayingResults,
 } from "../../../features/user-settings/userEmailSettingsSlice";
+import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 import { useSelector, useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/core";
 
@@ -56,7 +57,7 @@ const ChangeEmail = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <ValidatorForm onSubmit={handleSubmit}>
       <Grid
         className={classes.box}
         container
@@ -67,7 +68,7 @@ const ChangeEmail = () => {
         <Typography className={classes.title} variant="h1">
           Change email
         </Typography>
-        <TextField
+        <TextValidator
           className={classes.textField}
           onChange={(event) => dispatch(setPassword(event.target.value))}
           value={password}
@@ -75,9 +76,10 @@ const ChangeEmail = () => {
           variant="outlined"
           label="password"
           type="password"
-          required
+          validators={["required"]}
+          errorMessages={["this field is required"]}
         />
-        <TextField
+        <TextValidator
           onChange={(event) => dispatch(setNewEmail(event.target.value))}
           value={newEmail}
           margin="normal"
@@ -85,14 +87,15 @@ const ChangeEmail = () => {
           className={classes.textField}
           label="new-email"
           type="email"
-          required
+          validators={["required", "isEmail"]}
+          errorMessages={["this field is required", "email is not valid"]}
         />
         <Button color="primary" variant="contained" type="submit">
           Change
         </Button>
         {showResult && showAlert()}
       </Grid>
-    </form>
+    </ValidatorForm>
   );
 };
 

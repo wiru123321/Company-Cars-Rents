@@ -1,12 +1,6 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import {
-  emailChange,
-  phoneNumberChange,
-  loginChange,
-  selectAll,
-} from "../../../features/add-employees/addEmployeeSlice";
-import { TextField, Grid } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
+import { TextValidator } from "react-material-ui-form-validator";
 import useStyles from "./useStyles";
 
 const UsersLogin = ({
@@ -21,33 +15,35 @@ const UsersLogin = ({
 
   return (
     <Grid container direction="column" justify="center" alignItems="center">
-      <TextField
+      <TextValidator
         className={classes.textArea}
+        label="Email"
         onChange={handleEmailChange}
         value={email}
-        label="email"
-        placeholder="email"
-        variant="filled"
+        name="email"
         type="email"
-        required
+        validators={["required", "isEmail"]}
+        errorMessages={["this field is required", "email is not valid"]}
       />
-      <TextField
+      <TextValidator
         className={classes.textArea}
         onChange={handleLoginChange}
-        placeholder="login"
         value={login}
-        label="login"
-        variant="filled"
-        required
+        type="login"
+        name="login"
+        label="Login"
+        validators={["required"]}
+        errorMessages={["this field is required"]}
       />
-      <TextField
+      <TextValidator
         className={classes.textArea}
+        label="Phone number"
         onChange={handlePhoneNumberChange}
-        placeholder="phoneNumber"
+        name="phoneNumber"
+        type="phone"
+        validators={["required", "matchRegexp:^[5-9][0-9]{8}$"]}
+        errorMessages={["this field is required", "phone number is not valid"]}
         value={phoneNumber}
-        label="phone number"
-        variant="filled"
-        required
       />
     </Grid>
   );

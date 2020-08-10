@@ -1,11 +1,6 @@
 import React from "react";
-import {
-  TextField,
-  Grid,
-  Select,
-  MenuItem,
-  InputLabel,
-} from "@material-ui/core";
+import { TextField, Grid } from "@material-ui/core";
+import { TextValidator } from "react-material-ui-form-validator";
 import useStyles from "./useStyles";
 
 const UsersPersonalData = ({
@@ -19,25 +14,23 @@ const UsersPersonalData = ({
 
   return (
     <Grid container direction="column" justify="center" alignItems="center">
-      <TextField
+      <TextValidator
         className={classes.textArea}
         onChange={handleFirstnameChange}
-        placeholder="firstname"
         value={firstname}
-        type="name"
-        label="firstname"
-        variant="filled"
-        required
+        type="text"
+        label="Firstname"
+        validators={["required", "matchRegexp:^[A-Z][a-z]+$"]}
+        errorMessages={["this field is required", "firstname is not valid"]}
       />
-      <TextField
+      <TextValidator
         className={classes.textArea}
         onChange={handleLastnameChange}
-        placeholder="lastname"
         value={lastname}
-        type="name"
-        label="lastname"
-        variant="filled"
-        required
+        type="text"
+        label="Lastname"
+        validators={["required", "matchRegexp:^[A-Z][a-z]+$"]}
+        errorMessages={["this field is required", "firstname is not valid"]}
       />
     </Grid>
   );
