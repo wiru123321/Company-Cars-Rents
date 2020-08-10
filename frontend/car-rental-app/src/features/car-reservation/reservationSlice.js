@@ -13,9 +13,29 @@ const initialState = {
   isChoosen: false,
   choose: false,
   choosenCar: 0,
+
   cars: [],
 };
-
+/*
+filteredCars: [],
+filterLicensePlate: "",
+filterMark: "",
+filterActive: true,
+setLicenseFilters: (state, action) => {
+  state.filterLicensePlate = action.payload;
+},
+setMarkFilters: (state, action) => {
+  state.filterMark = action.payload;
+},
+setActiveFilters: (state, action) => {
+  state.filterActive = action.payload;
+},
+setFilteredCars: (state, action) => {
+  state.filteredCars = action.payload;
+},
+  setLicenseFilters,
+  setMarkFilters,
+  setFilteredCars,*/
 export const reservationSlice = createSlice({
   name: "reservation",
   initialState,
@@ -67,6 +87,7 @@ export const {
   beginHourChange,
   endDateChange,
   endHourChange,
+
   setCars,
   getCars,
 } = reservationSlice.actions;

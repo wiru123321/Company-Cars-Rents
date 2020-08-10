@@ -24,7 +24,7 @@ const AdminNavbar = () => {
             src="https://www.euvic.pl/wp-content/uploads/2019/11/logo-euvic-it-1.png"
             width="140"
             height="60"
-            class="d-inline-block align-top"
+            className="d-inline-block align-top"
             alt="logo"
           />
         </Navbar.Brand>

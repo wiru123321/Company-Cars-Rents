@@ -10,6 +10,7 @@ import {
   selectCars,
   deleteCar,
 } from "../../../../features/car-reservation/reservationSlice";
+import SearchBar from "../../searchBar/SearchBar";
 
 const RemoveCar = () => {
   const cars = useSelector(selectCars);
@@ -26,6 +27,9 @@ const RemoveCar = () => {
 
   return (
     <Container>
+      <>
+        <SearchBar />
+      </>
       <List>
         {cars.map((car, index) => (
           <Car key={index} car={car} index={index} onDelete={handleCarDelete} />
