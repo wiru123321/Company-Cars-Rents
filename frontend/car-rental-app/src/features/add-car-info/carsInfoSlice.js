@@ -155,7 +155,7 @@ export const addImage = (file, licensePlate) => async (dispatch) => {
     const data = new FormData();
     data.append("imageFile", blob);
     const response = await axios.post(
-      API_URL + "/file/upload-car-image/" + licensePlate,
+      API_URL + "/a/car/upload-car-image/" + licensePlate,
       data,
       {
         headers: {
