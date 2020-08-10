@@ -45,14 +45,22 @@ const Car = ({ car, index, onDelete }) => {
   return (
     <ListItem>
       <Grid container justify="center" alignItems="center">
-        <Grid item>
-          <CarImage src={car.src} />
-        </Grid>
-        <Grid item>
-          <CarInfo car={car} />
-        </Grid>
-        {edit && <UpdateCars />}
-        <Grid item>
+        {edit ? (
+          <Grid item xs={8}>
+            <UpdateCars car={car} />
+          </Grid>
+        ) : (
+          <>
+            <Grid item xs={4}>
+              <CarImage src={car.src} />
+            </Grid>
+            <Grid item xs={4}>
+              <CarInfo car={car} />
+            </Grid>
+          </>
+        )}
+
+        <Grid item xs={4}>
           <CarControlPanel
             index={index}
             onDelete={onDelete}

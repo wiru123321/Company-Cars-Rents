@@ -153,4 +153,27 @@ export const deleteCar = (licensePlate) => async (dispatch) => {
   }
 };
 
+export const updateCar = (licensePlate, car) => async (dispatch) => {
+  try {
+    const updateResponse = await axios.put(
+      API_URL + `/a/car/${licensePlate}`,
+      car,
+      {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      }
+    );
+    const fetchResponse = await axios.get(API_URL + "/a/cars", {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
+    console.log("onUpdate", fetchResponse.data);
+    dispatch(setCars(fetchResponse.data));
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export default reservationSlice.reducer;
