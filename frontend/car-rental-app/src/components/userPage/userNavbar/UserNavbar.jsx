@@ -1,6 +1,6 @@
 import React from "react";
 import { Navbar, Nav, NavDropdown } from "react-bootstrap";
-import { logout } from "../../features/authentication/authSlice";
+import { logout } from "../../../features/authentication/authSlice";
 import { useDispatch } from "react-redux";
 import "./UserNavbar.css";
 

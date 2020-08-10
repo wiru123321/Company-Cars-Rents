@@ -10,7 +10,7 @@ import {
   doorsNumberChange,
   trunkCapacityChange,
   lastInspectionChange,
-} from "../../../features/add-car-info/carsInfoSlice";
+} from "../../../../features/add-car-info/carsInfoSlice";
 import { TextValidator } from "react-material-ui-form-validator";
 
 const BoxPanel = ({

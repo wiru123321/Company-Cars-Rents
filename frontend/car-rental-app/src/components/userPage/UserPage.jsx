@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Switch, HashRouter } from "react-router-dom";
 import YourReservation from "./yourReservation/YourReservation";
-import UserNavbar from "../userNavbar/UserNavbar";
+import UserNavbar from "./userNavbar/UserNavbar";
 import Reservation from "./reservation/Reservation";
 import AccountSettings from "./accountSettings/AccountSettings";
 

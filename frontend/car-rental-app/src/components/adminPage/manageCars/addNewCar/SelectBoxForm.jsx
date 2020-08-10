@@ -8,14 +8,14 @@ import {
   selectFuelType,
   selectColor,
   selectGearboxType,
-} from "../../../features/starting-car-parameter/startingCarParameterSlice";
+} from "../../../../features/starting-car-parameter/startingCarParameterSlice";
 import {
   brandChange,
   typeChange,
   fuelTypeChange,
   colorChange,
   gearboxTypeChange,
-} from "../../../features/add-car-info/carsInfoSlice";
+} from "../../../../features/add-car-info/carsInfoSlice";
 
 const SelectBoxForm = ({
   modelDTO,
