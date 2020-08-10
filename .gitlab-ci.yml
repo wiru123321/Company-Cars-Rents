@@ -61,7 +61,7 @@ deploy_docker:
    only:
        - Docker 
 
-# -------- Develop -------- #
+# ------- Develop ------- #
 build_develop:
     stage: build_develop
     script:
