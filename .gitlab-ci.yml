@@ -53,17 +53,17 @@ build_docker:
 deploy_docker:
     stage: deploy
     script:
-        - if [ -z `docker-compose ps -q <car_rent_backend>` ] || [ -z `docker ps -q --no-trunc | grep $(docker-compose ps -q <car_rent_backend>)` ]; then echo "Backend it's not running."; else docker-compose down car_rent_backend    fi
-        - if [ -z `docker-compose ps -q <car_rent_frontend>` ] || [ -z `docker ps -q --no-trunc | grep $(docker-compose ps -q <car_rent_frontend>)` ]; then echo "Frontend it's not running.";else docker-compose down car_rent_frontend; fi
-        - if [ -z `docker-compose ps -q <car_rent_postgres>` ] || [ -z `docker ps -q --no-trunc | grep $(docker-compose ps -q <car_rent_postgres>)` ]; then echo "Postgres it's not running."; else docker-compose down car_rent_postgresend; fi
+#        - if [ -z `docker-compose ps -q <car_rent_backend>` ] || [ -z `docker ps -q --no-trunc | grep $(docker-compose ps -q <car_rent_backend>)` ]; then echo "Backend it's not running."; else docker-compose down car_rent_backend    fi
+#        - if [ -z `docker-compose ps -q <car_rent_frontend>` ] || [ -z `docker ps -q --no-trunc | grep $(docker-compose ps -q <car_rent_frontend>)` ]; then echo "Frontend it's not running.";else docker-compose down car_rent_frontend; fi
+#        - if [ -z `docker-compose ps -q <car_rent_postgres>` ] || [ -z `docker ps -q --no-trunc | grep $(docker-compose ps -q <car_rent_postgres>)` ]; then echo "Postgres it's not running."; else docker-compose down car_rent_postgresend; fi
         - docker-compose up -d
     tags: 
         - deploy
     only:
         - Docker 
         
- # -------- Develop -------- #
- build_develop:
+# -------- Develop -------- #
+build_develop:
     stage: build_develop
     script:
         - docker-compose -f docker-compose.yml -f docker-compose.develop.yml build
@@ -72,20 +72,20 @@ deploy_docker:
     only:
         - BackendRoleBasedAuthorization
         
- deploy_develop:
+deploy_develop:
     stage: deploy_develop
     script:
-        - if [ -z `docker-compose ps -q <car_rent_back_dev>` ] || [ -z `docker ps -q --no-trunc | grep $(docker-compose ps -q <car_rent_back_dev>)` ]; then echo "Backend it's not running."; else docker-compose down car_rent_back_dev    fi
-        - if [ -z `docker-compose ps -q <car_rent_front_dev>` ] || [ -z `docker ps -q --no-trunc | grep $(docker-compose ps -q <car_rent_front_dev>)` ]; then echo "Frontend it's not running.";else docker-compose down car_rent_front_dev; fi
-        - if [ -z `docker-compose ps -q <car_rent_postgres_dev>` ] || [ -z `docker ps -q --no-trunc | grep $(docker-compose ps -q <car_rent_postgres_dev>)` ]; then echo "Postgres it's not running."; else docker-compose down car_rent_postgres_dev; fi
+#        - if [ -z `docker-compose ps -q <car_rent_back_dev>` ] || [ -z `docker ps -q --no-trunc | grep $(docker-compose ps -q <car_rent_back_dev>)` ]; then echo "Backend it's not running."; else docker-compose down car_rent_back_dev    fi
+#        - if [ -z `docker-compose ps -q <car_rent_front_dev>` ] || [ -z `docker ps -q --no-trunc | grep $(docker-compose ps -q <car_rent_front_dev>)` ]; then echo "Frontend it's not running.";else docker-compose down car_rent_front_dev; fi
+#        - if [ -z `docker-compose ps -q <car_rent_postgres_dev>` ] || [ -z `docker ps -q --no-trunc | grep $(docker-compose ps -q <car_rent_postgres_dev>)` ]; then echo "Postgres it's not running."; else docker-compose down car_rent_postgres_dev; fi
         - docker-compose -f docker-compose.yml -f docker-compose.develop.yml up -d
     tags: 
         - deploy_develop
     only:
         - BackendRoleBasedAuthorization
         
- # -------- Deploy -------- #
- build_deploy:
+# -------- Deploy -------- #
+build_deploy:
     stage: build_deploy
     script:
         - docker-compose -f docker-compose.yml -f docker-compose.deploy.yml build
@@ -94,7 +94,7 @@ deploy_docker:
     only:
         - deploy
         
- deploy_deploy:
+deploy_deploy:
     stage: deploy_deploy
     script:
         - docker-compose down car_rent_back_dep
@@ -107,7 +107,7 @@ deploy_docker:
         - deploy
         
  # -------- Production -------- #
- build_production:
+build_production:
     stage: build_prod
     script:
         - docker-compose -f docker-compose.yml -f docker-compose.prod.yml  build 
@@ -116,7 +116,7 @@ deploy_docker:
     only:
         - master
                
- deploy_production:
+deploy_production:
     stage: deploy_prod
     script:
         - docker-compose down car_rent_back_prod
