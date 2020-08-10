@@ -1,22 +1,31 @@
 stages:
+# -------- Docker ------- #
    - test
+   - build
+   - deploy
+# ------- Develop ------- #
    - build_develop
    - deploy_develop
+# -------- Deploy ------- #
    - build_deploy
    - deploy_deploy
+# ------ Production ----- #
    - build_prod
    - deploy_prod
 
+# -------- Test --------- # 
+# - Run on all branches - #
 test: 
    stage: test
    script:
+      - echo "Test will take about 15 min, go relax :D"
       - cd frontend/car-rental-app
       - docker build -t frontendtest .
       - docker run -d --name fronttest frontendtest 
       - docker exec -d fronttest npm test 
       - docker rm fronttest -f
     
-#   Return to main directory
+# - Return to main directory - #
       - cd ..
       - cd ..
 
@@ -31,27 +40,48 @@ test:
    tags:
       - test
 
-#   Develop
+
+# -------- Docker -------- #
+build_docker:
+   stage: build
+   script:
+       - docker-compose build
+   tags:
+       - build
+   only:
+       - Docker
+
+deploy_docker:
+   stage: deploy
+   script:
+       - docker-compose down
+       - docker-compose up -d
+   tags: 
+       - deploy
+   only:
+       - Docker 
+
+# -------- Develop -------- #
 build_develop:
     stage: build_develop
     script:
-        - docker-compose build
+        - docker-compose -f docker-compose.yml -f docker-compose.develop.yml build
     tags:
         - build_develop
     only:
-        - Docker
+        - develop
 
 deploy_develop:
     stage: deploy_develop
     script:
         - docker-compose down
-        - docker-compose up -d
+        - docker-compose -f docker-compose.yml -f docker-compose.develop.yml up -d
     tags: 
         - deploy_develop
     only:
-        - Docker
+        - develop
 
-#   Deploy
+# -------- Deploy -------- #
 build_deploy:
     stage: build_deploy
     script:
@@ -71,7 +101,7 @@ deploy_deploy:
     only: 
         - deploy
 
-#   Production
+# -------- Production -------- #
 build_production:
     stage: build_prod
     script:

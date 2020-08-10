@@ -28,6 +28,8 @@ services:
     image: frontend_develop
     container_name: frontend_develop
     build: ./frontend/car-rental-app/
+    ports:
+      - "30084:5000"
 
 volumes:
   postgres_develop: 
