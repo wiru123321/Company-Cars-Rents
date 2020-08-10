@@ -2,8 +2,8 @@ version: '3.3'
 services:
 # Data Base image
   postgresdb:
-    container_name: dbpostgres_develop
-    image: postgres_develop
+    container_name: car_rental_dbpostgres
+    image: car_rental_postgres
     build: ./postgres/
     #12.2
     ports:
@@ -13,21 +13,21 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_DB=car_rental
     volumes:
-      - postgres_develop:/var/lib/postgresql/data
+      - car_rent_postgres:/var/lib/postgresql/data
 
 # Backend Application image
   backend:
-    image: backend_develop 
-    container_name: backend_develop
+    image: car_rental_backend
+    container_name: car_rental_backend
     build: ./backend
     depends_on:
       - postgresdb
 
 # Frontend Application image
   frontend:
-    image: frontend_develop
-    container_name: frontend_develop
+    image: car_rental_frontend
+    container_name: car_rental_frontend
     build: ./frontend/car-rental-app/
 
 volumes:
-  postgres_develop: 
+  car_rent_postgres: 
