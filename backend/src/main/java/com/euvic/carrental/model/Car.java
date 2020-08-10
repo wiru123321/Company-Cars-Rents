@@ -14,7 +14,7 @@ public class Car {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    private String photoFolderPath = null;
+    private String imageName = null;
 
     @Column(nullable = false)
     private String licensePlate;
