@@ -44,7 +44,7 @@ const Employee = ({
   };
 
   return (
-    <Paper className={classes.paper}>
+    <Paper className={classes.paper} style={{ height: "79.5vh" }}>
       <Grid container justify="center" alignItems="center">
         <Grid item xs={3}>
           <EmployerInfo employee={employee} />

@@ -4,6 +4,7 @@ import axios from "axios";
 const API_URL = "http://localhost:8080";
 
 const initialState = {
+  markDTO: "",
   modelDTO: "",
   typeDTO: "",
   licensePlate: "",
@@ -37,6 +38,9 @@ export const carsInfoSlice = createSlice({
     },
     typeChange: (state, action) => {
       state.typeDTO = action.payload;
+    },
+    markDTOchange: (state, action) => {
+      state.markDTO = action.payload;
     },
     licencePlateChange: (state, action) => {
       state.licensePlate = action.payload;
@@ -130,6 +134,7 @@ export const {
   postalCodeChange,
   streetNameChange,
   numberChange,
+  markDTOchange,
 } = carsInfoSlice.actions;
 
 export const selectAll = (state) => state.carsInfo;

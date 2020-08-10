@@ -7,8 +7,7 @@ import MailIcon from "@material-ui/icons/Mail";
 
 const FooterContainer = styled.div`
   text-align: center;
-  position: absolute;
-  bottom: 0;
+  position: relative;
   width: 100%;
   height: 10vh;
   background: #3f51b5;

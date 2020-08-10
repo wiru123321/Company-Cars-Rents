@@ -11,7 +11,7 @@ import Footer from "../footer/Footer";
 
 const AdminPage = () => {
   return (
-    <div>
+    <div style={{ height: "100vh", position: "relative" }}>
       <UserNavbar />
       <HashRouter basename="/adminPage">
         <Switch>

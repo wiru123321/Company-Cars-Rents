@@ -7,7 +7,7 @@ import RentRequestListItem from "./rentRequestsListing/RentRequestListItem";
 const AllRequests = () => {
   const requests = useSelector(selectRequests);
   return (
-    <Container>
+    <Container style={{ height: "78.5vh" }}>
       {requests.map((request, index) => {
         return (
           <RentRequestListItem key={index} request={request} index={index} />

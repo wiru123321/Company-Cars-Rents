@@ -14,7 +14,7 @@ import BoxPanel from "./BoxPanel";
 import ParkingForm from "./ParkingForm";
 
 const AddCarForm = () => {
-  const [showAddPhotoButton, toggleshowAddPhotoButton] = useState(false);
+  const [showAddPhotoButton, toggleshowAddPhotoButton] = useState(true);
   const useStyles = makeStyles((theme) => ({
     root: {
       "& > *": {
@@ -34,6 +34,7 @@ const AddCarForm = () => {
   const CarInfo = useSelector(selectAll);
 
   const {
+    markDTO,
     modelDTO,
     typeDTO,
     licensePlate,
@@ -69,7 +70,7 @@ const AddCarForm = () => {
       productionYear: productionYear,
       isActive: true,
       mileage: mileage,
-      modelDTO: { name: modelDTO, markDTO: { name: modelDTO } },
+      modelDTO: { name: markDTO, markDTO: { name: modelDTO } },
       parkingDTO: {
         town: town,
         postalCode: postalCode,
@@ -130,6 +131,7 @@ const AddCarForm = () => {
         fuelTypeDTO={fuelTypeDTO}
         colourDTO={colourDTO}
         gearBoxTypeDTO={gearBoxTypeDTO}
+        markDTO={markDTO}
       />
       <BoxPanel
         mileage={mileage}

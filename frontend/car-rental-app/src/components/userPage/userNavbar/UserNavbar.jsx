@@ -15,7 +15,7 @@ const UserNavbar = () => {
         variant="dark"
       >
         <Navbar.Brand
-          href="#userPage"
+          href="#userPage/yourReservation"
           style={{ color: "#f3f169", fontSize: "25px" }}
         >
           <img
