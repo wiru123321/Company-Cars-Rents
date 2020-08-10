@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box, Button, makeStyles } from "@material-ui/core";
 import { Save, Delete } from "@material-ui/icons";
 import { useSelector, useDispatch } from "react-redux";
@@ -14,6 +14,7 @@ import BoxPanel from "./BoxPanel";
 import ParkingForm from "./ParkingForm";
 
 const AddCarForm = () => {
+  const [showAddPhotoButton, toggleshowAddPhotoButton] = useState(false);
   const useStyles = makeStyles((theme) => ({
     root: {
       "& > *": {
@@ -64,7 +65,7 @@ const AddCarForm = () => {
       doorsNumber: doorsNumber,
       gearBoxTypeDTO: { name: gearBoxTypeDTO },
       fuelTypeDTO: { name: fuelTypeDTO },
-      lastInspection: lastInspection,
+      lastInspection: lastInspection + "T00:00:00",
       productionYear: productionYear,
       isActive: true,
       mileage: mileage,
@@ -80,15 +81,33 @@ const AddCarForm = () => {
       colourDTO: { name: colourDTO },
       typeDTO: { name: typeDTO },
     };
+    if (
+      licensePlate &&
+      enginePower &&
+      capacityOfTrunkScale &&
+      capacityOfPeople &&
+      doorsNumber &&
+      gearBoxTypeDTO &&
+      fuelTypeDTO &&
+      lastInspection &&
+      productionYear &&
+      mileage &&
+      town &&
+      postalCode &&
+      number &&
+      colourDTO &&
+      typeDTO
+    )
+      toggleshowAddPhotoButton(true);
+    dispatch(addCar(car));
+  }
+
+  function submitImage(event) {
+    dispatch(imageFileChange(event.target.value));
     let image = {
       imageFile: imageFile,
     };
-    dispatch(addCar(car));
     dispatch(addImage(image, licensePlate));
-    dispatch(reset());
-  }
-
-  function resetf() {
     dispatch(reset());
   }
 
@@ -129,24 +148,7 @@ const AddCarForm = () => {
         number={number}
         comment={comment}
       />
-      <Box display="flex" justifyContent="center" m={1} p={1}>
-        <input
-          accept="image/*"
-          className={classes.input}
-          id="contained-button-file"
-          multiple
-          type="file"
-          value={imageFile}
-          onChange={(event) => dispatch(imageFileChange(event.target.value))}
-        />
-        <label htmlFor="contained-button-file">
-          <Button variant="contained" color="primary" component="span">
-            Upload Photo
-          </Button>
-        </label>
-      </Box>
-
-      <Box display="flex" justifyContent="center" m={1} p={1}>
+      <Box display="flex" justifyContent="center">
         <Box>
           <Button
             variant="contained"
@@ -160,19 +162,25 @@ const AddCarForm = () => {
             Save
           </Button>
         </Box>
-        <Box>
-          <Button
-            variant="contained"
-            color="secondary"
-            className={classes.button}
-            startIcon={<Delete />}
-            type="submit"
-            onClick={resetf}
-          >
-            Delete
-          </Button>
-        </Box>
       </Box>
+      {showAddPhotoButton ? (
+        <Box display="flex" justifyContent="center" m={1} p={1}>
+          <input
+            accept="image/*"
+            className={classes.input}
+            type="file"
+            id="contained-button-file"
+            multiple
+            value={imageFile}
+            onChange={(event) => submitImage(event)}
+          />
+          <label htmlFor="contained-button-file">
+            <Button variant="contained" color="primary" component="span">
+              Upload Photo
+            </Button>
+          </label>
+        </Box>
+      ) : null}
     </div>
   );
 };
