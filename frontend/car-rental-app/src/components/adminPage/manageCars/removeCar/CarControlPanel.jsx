@@ -3,14 +3,19 @@ import { Grid, Button } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 
-const CarControlPanel = ({ index, onDelete }) => {
+const CarControlPanel = ({ index, onDelete, toggleEdit }) => {
   return (
     <Grid container direction="row" justify="space-evenly" alignItems="center">
-      <Button variant="contained" color="primary" startIcon={<EditIcon />}>
+      <Button
+        onClick={toggleEdit}
+        variant="contained"
+        color="primary"
+        startIcon={<EditIcon />}
+      >
         Edit
       </Button>
       <Button
-        onClick={(event) => {
+        onClick={() => {
           onDelete(index);
         }}
         variant="contained"
