@@ -1,12 +1,10 @@
 package com.euvic.carrental.services;
 
 import com.euvic.carrental.model.Car;
-import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -27,16 +25,18 @@ public class FileService {
         this.carService = carService;
     }
 
-    public ResponseEntity<?> uploadCarImage(MultipartFile file) {
+    public String uploadCarImage(MultipartFile file) throws IOException {
         setUpDirectories();
         final String fileName = generateNextInDirFileName(CAR_IMAGE_DIRECTORY,"car_image");
-        final Path fileNamePath = Paths.get(CAR_IMAGE_DIRECTORY, fileName);
+        final Path filePath = Paths.get(CAR_IMAGE_DIRECTORY, fileName);
         try {
-            Files.write(fileNamePath, file.getBytes());
-            return new ResponseEntity<>(fileNamePath, HttpStatus.CREATED);
-        } catch (final IOException ex) {
-            return new ResponseEntity<>("Image is not uploaded", HttpStatus.BAD_REQUEST);
+            Files.write(filePath, file.getBytes());
+        } catch (final IOException e) {
+            e.printStackTrace();
+            throw new IOException("Image save in directory error.");
         }
+
+        return filePath.toString();
     }
 
     private void setUpDirectories(){
@@ -59,7 +59,7 @@ public class FileService {
         return photoName;
     }
 
-    public ResponseEntity<?> downloadCarImage(String licensePlate) throws IOException {
+    public byte[] downloadCarImage(String licensePlate) throws NullPointerException, IOException {
         Car car = carService.getEntityByLicensePlate(licensePlate);
         String photoPath = car.getImagePath();
         File filePath;
@@ -67,7 +67,7 @@ public class FileService {
             filePath = new File(photoPath);
         }catch (NullPointerException e){
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Car image not found.");
+            throw e;
         }
 
         byte[] image;
@@ -75,12 +75,9 @@ public class FileService {
             image = Files.readAllBytes(filePath.toPath());
         }catch (IOException e){
             e.printStackTrace();
-            throw new IOException("Reading image bytes error. Exception: " + e);
+            throw new IOException("Reading image bytes error.");
         }
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.IMAGE_JPEG);
-        headers.setContentLength(image.length);
-        return new ResponseEntity<>(image, headers, HttpStatus.OK);
+        return image;
     }
 }
