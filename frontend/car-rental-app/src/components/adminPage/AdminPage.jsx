@@ -11,15 +11,17 @@ import Footer from "../footer/Footer";
 
 const AdminPage = () => {
   return (
-    <div style={{ height: "100vh", position: "relative" }}>
+    <div>
       <UserNavbar />
       <HashRouter basename="/adminPage">
         <Switch>
-          <Route path="/" exact component={AddNewCar} />
-          <Route path="/removeCar" component={RemoveCar} />
-          <Route path="/addEmployee" component={AddEmployee} />
-          <Route path="/removeEmployer" component={RemoveEmployer} />
-          <Route path="/rentRequest" component={RentRequests} />
+          <div style={{ height: "80vh", position: "relative" }}>
+            <Route path="/" exact component={AddNewCar} />
+            <Route path="/removeCar" component={RemoveCar} />
+            <Route path="/addEmployee" component={AddEmployee} />
+            <Route path="/removeEmployer" component={RemoveEmployer} />
+            <Route path="/rentRequest" component={RentRequests} />
+          </div>
         </Switch>
       </HashRouter>
       <Footer />
