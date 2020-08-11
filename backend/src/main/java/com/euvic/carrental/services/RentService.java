@@ -1,9 +1,7 @@
 package com.euvic.carrental.services;
 
-import com.euvic.carrental.model.Car;
-import com.euvic.carrental.model.Parking;
-import com.euvic.carrental.model.Rent;
-import com.euvic.carrental.model.User;
+import com.euvic.carrental.model.*;
+import com.euvic.carrental.repositories.RentHistoryRepository;
 import com.euvic.carrental.repositories.RentRepository;
 import com.euvic.carrental.responses.*;
 import com.euvic.carrental.responses.User.UserRentInfo;
@@ -14,18 +12,19 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Service
 public class RentService implements RentServiceInterface {
 
     final private RentRepository rentRepository;
+    final private RentHistoryRepository rentHistoryRepository;
     final private UserService userService;
     final private CarService carService;
     final private ParkingService parkingService;
 
-    public RentService(final RentRepository rentRepository, final UserService userService, final CarService carService, final ParkingService parkingService) {
+    public RentService(final RentRepository rentRepository, final RentHistoryRepository rentHistoryRepository, final UserService userService, final CarService carService, final ParkingService parkingService) {
         this.rentRepository = rentRepository;
+        this.rentHistoryRepository = rentHistoryRepository;
         this.userService = userService;
         this.carService = carService;
         this.parkingService = parkingService;
@@ -36,12 +35,13 @@ public class RentService implements RentServiceInterface {
         return rentRepository.save(rent).getId();
     }
 
-    @Override //TODO change to isPresent()
+    @Override
     public Rent getEntityById(final Long id) {
-        Rent rent;
-        try {
+        final Rent rent;
+
+        if (rentRepository.findById(id).isPresent()) {
             rent = rentRepository.findById(id).get();
-        } catch (final NoSuchElementException e) {
+        } else {
             rent = null;
         }
         return rent;
@@ -85,6 +85,7 @@ public class RentService implements RentServiceInterface {
         return rentDTO;
     }
 
+    @Override
     public Rent mapRestModel(final Long id, final RentDTO rentDTO, final Long parkingFromId, final Long parkingToId) {
 
         final Rent rent;
@@ -168,6 +169,13 @@ public class RentService implements RentServiceInterface {
 
     }
 
+    @Override //TODO TEST IT
+    public List<RentDTO> getUserRentHistoryDTOs() {
+        final User user = userService.getEntityByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
+        return this.convertRentHistoryListToRentDTOList(rentHistoryRepository.findAllByUser(user));
+
+    }
+
     //TODO TEST IT
     private List<RentDTO> convertRentListToRentDTOList(final List<Rent> rentArrayList) {
         final ArrayList<RentDTO> rentDTOArrayList = new ArrayList<>();
@@ -184,6 +192,25 @@ public class RentService implements RentServiceInterface {
         return rentDTOArrayList;
     }
 
+    //TODO TEST IT
+    private List<RentDTO> convertRentHistoryListToRentDTOList(final List<RentHistory> rentArrayList) {
+        final ArrayList<RentDTO> rentDTOArrayList = new ArrayList<>();
+
+        if (!rentArrayList.isEmpty()) {
+
+            for (final RentHistory rentHistory : rentArrayList) {
+                final RentDTO rentDTO = new RentDTO(rentHistory
+                        , userService.getDTOByLogin(rentHistory.getUser().getLogin())
+                        , carService.getDTOByLicensePlate(rentHistory.getCar().getLicensePlate())
+                        , new ParkingDTO(rentHistory.getParkingHistoryFrom())
+                        , new ParkingDTO(rentHistory.getParkingHistoryTo()));
+                rentDTOArrayList.add(rentDTO);
+
+            }
+        }
+        return rentDTOArrayList;
+    }
+
     //TODO test it
     private boolean checkDate(final LocalDateTime dateFrom, final LocalDateTime dateTo, final RentListCarByTime rentListCarByTime) {
         return (rentListCarByTime.getDateFrom().isAfter(dateFrom)
@@ -192,7 +219,7 @@ public class RentService implements RentServiceInterface {
                 && rentListCarByTime.getDateTo().isBefore(dateTo));
     }
 
-    @Override
+    @Override //TODO test it
     public void deleteRent(final Rent rent) {
         rentRepository.delete(rent);
     }
