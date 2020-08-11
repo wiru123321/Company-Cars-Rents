@@ -143,10 +143,10 @@ public class CarService implements CarServiceInterface {
     }
 
     @Override //TODO tests
-    public Long addExistingImageToExistingCar(final String carImagePath, final String licensePlate) {
-        final Car car = this.getEntityByLicensePlate(licensePlate);
-        car.setPhotoFolderPath(carImagePath);
-        return this.addEntityToDB(car);
+    public Long addExistingImageToExistingCar(String carImageName, String licensePlate) {
+        Car car = getEntityByLicensePlate(licensePlate);
+        car.setImageName(carImageName);
+        return addEntityToDB(car);
     }
 
     @Override //TODO tests

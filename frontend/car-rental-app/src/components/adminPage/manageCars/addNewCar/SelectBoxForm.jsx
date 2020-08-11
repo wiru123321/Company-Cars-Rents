@@ -15,7 +15,9 @@ import {
   fuelTypeChange,
   colorChange,
   gearboxTypeChange,
+  markDTOchange,
 } from "../../../../features/add-car-info/carsInfoSlice";
+import { TextValidator } from "react-material-ui-form-validator";
 
 const SelectBoxForm = ({
   modelDTO,
@@ -23,6 +25,7 @@ const SelectBoxForm = ({
   fuelTypeDTO,
   colourDTO,
   gearBoxTypeDTO,
+  markDTO,
 }) => {
   const marks = useSelector(selectMarks);
   const types = useSelector(selectTypes);
@@ -38,6 +41,14 @@ const SelectBoxForm = ({
           NameHandler="Mark"
           handleChange={(event) => dispatch(brandChange(event.target.value))}
           handlerValue={modelDTO}
+        />
+        <TextValidator
+          style={{ marginTop: "0.8vh" }}
+          label="Model"
+          onChange={(event) => dispatch(markDTOchange(event.target.value))}
+          value={markDTO}
+          validators={["required", "minStringLength:1"]}
+          errorMessages={["this field is required", "Length is wrong"]}
         />
         <SelectBox
           SelectHandler={types}

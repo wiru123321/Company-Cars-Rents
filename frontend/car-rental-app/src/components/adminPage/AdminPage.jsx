@@ -7,10 +7,11 @@ import RemoveCar from "./manageCars/removeCar/RemoveCar";
 import AddEmployee from "./addEmployee/AddEmployee";
 import RemoveEmployer from "./removeEmployer/RemoveEmployer";
 import RentRequests from "./rentRequests/RentRequests";
+import Footer from "../footer/Footer";
 
 const AdminPage = () => {
   return (
-    <div>
+    <div style={{ height: "100vh", position: "relative" }}>
       <UserNavbar />
       <HashRouter basename="/adminPage">
         <Switch>
@@ -21,6 +22,7 @@ const AdminPage = () => {
           <Route path="/rentRequest" component={RentRequests} />
         </Switch>
       </HashRouter>
+      <Footer />
     </div>
   );
 };

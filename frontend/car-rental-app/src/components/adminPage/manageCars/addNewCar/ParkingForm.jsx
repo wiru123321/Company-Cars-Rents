@@ -79,7 +79,11 @@ const ParkingForm = ({ comment, number, streetName, postalCode, town }) => {
           />
         </Box>
       </Box>
-      <Box display="flex" justifyContent="center" style={{ height: "10vh" }}>
+      <Box
+        display="flex"
+        justifyContent="center"
+        style={{ height: "10vh", marginTop: "-4vh" }}
+      >
         <TextValidator
           label="Additional Information"
           style={{ marginLeft: "10%" }}

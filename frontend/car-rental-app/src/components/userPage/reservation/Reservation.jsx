@@ -47,7 +47,11 @@ const Reservation = () => {
   }
 
   return (
-    <Container className={classes.root} maxWidth="lg">
+    <Container
+      className={classes.root}
+      maxWidth="lg"
+      style={{ height: "77vh" }}
+    >
       <Grid container direction="row" justify="left" alignItems="flex-start">
         <Box className={classes.leftColumn}>
           <Grid direction="column" justify="flex-start" alignItems="center">

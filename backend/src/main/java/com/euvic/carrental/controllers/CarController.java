@@ -57,6 +57,9 @@ public class CarController {
         return ResponseEntity.ok(carService.getInCompanyInactiveCarDTOs());
     }
 
+    //TODO Add validation by licenceplate
+    //TODO filtrowanie samochodów po marce i po rejestracji po znakach od lewej do prawej
+    //użytkownik po im. i nazwisku
     @RequestMapping(method = RequestMethod.POST, value = "/a/car")
     public ResponseEntity addCarToDatabase(@RequestBody final CarDTO carDTO) {
         final Parking parking = parkingService.mapRestModel(null, carDTO.getParkingDTO());
@@ -90,12 +93,12 @@ public class CarController {
             return carImageUploadResponse;
         }
 
-        String carImagePath = carImageUploadResponse.getBody().toString();
-        return ResponseEntity.ok(carService.addExistingImageToExistingCar(carImagePath, licensePlate));
+        String carImageName = carImageUploadResponse.getBody().toString();
+        return ResponseEntity.ok(carService.addExistingImageToExistingCar(carImageName, licensePlate));
     }
-/*
-    @RequestMapping(method = RequestMethod.GET, value = "/a/car/download-car-image/{licensePlate}")
+
+    @RequestMapping(method = RequestMethod.GET, value = "/a/car/download-car-image/{licensePlate}", produces = MediaType.IMAGE_JPEG_VALUE)
     public ResponseEntity<byte[]> downloadCarImageForExistingCar(@PathVariable final String licensePlate) throws IOException{
         return fileService.downloadCarImage(licensePlate);
-    } */
+    }
 }

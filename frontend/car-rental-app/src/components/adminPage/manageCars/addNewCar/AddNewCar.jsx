@@ -39,7 +39,7 @@ const AddNewCar = () => {
     <Cointainer fixed>
       <Typography
         component="div"
-        style={{ height: "92.8vh", width: "100%" }}
+        style={{ height: "81vh", width: "100%" }}
         onLoad={dispatch(fetchMarks())}
         onLoad={dispatch(fetchTypes())}
         onLoad={dispatch(fetchFuelType())}
@@ -50,7 +50,7 @@ const AddNewCar = () => {
           onSubmit={addCar}
           style={{ width: "50vw", margin: "auto" }}
         >
-          <div style={{ height: "5vh" }}></div>
+          <div style={{ height: "2vh" }}></div>
           <AddCarForm />
         </ValidatorForm>
       </Typography>

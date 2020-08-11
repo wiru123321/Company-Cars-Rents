@@ -113,6 +113,7 @@ const AddEmployee = () => {
         direction="column"
         justify="center"
         alignItems="center"
+        style={{ height: "81vh" }}
       >
         <Typography variant="h2">Register user</Typography>
         <UsersPersonalData
