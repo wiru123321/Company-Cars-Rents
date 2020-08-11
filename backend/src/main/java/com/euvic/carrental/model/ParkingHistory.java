@@ -32,6 +32,17 @@ public class ParkingHistory {
     public ParkingHistory() {
     }
 
+    public ParkingHistory(final Parking parking) {
+        this.id = parking.getId();
+        this.town = parking.getTown();
+        this.postalCode = parking.getPostalCode();
+        this.streetName = parking.getStreetName();
+        this.number = parking.getNumber();
+        this.comment = parking.getComment();
+        this.isActive = parking.getIsActive();
+
+    }
+
     public ParkingHistory(final Long id, final String town, final String postalCode, final String street, final String number, final String comment, final Boolean isActive) {
         this.id = id;
         this.town = town;

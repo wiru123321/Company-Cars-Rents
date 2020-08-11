@@ -1,6 +1,5 @@
 package com.euvic.carrental.responses;
 
-import com.euvic.carrental.model.Parking;
 import com.euvic.carrental.model.ParkingHistory;
 import lombok.Data;
 

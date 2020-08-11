@@ -1,20 +1,13 @@
 package com.euvic.carrental.services;
 
 import com.euvic.carrental.model.Car;
-import org.apache.commons.io.IOUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StreamUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.ServletContext;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -25,27 +18,31 @@ public class FileService {
     final private CarService carService;
 
     //TODO tests
-    private static final String IMAGE_DIRECTORY = System.getProperty("user.dir") + "/src/main/resources";
-    private static final String CAR_IMAGE_DIRECTORY = System.getProperty("user.dir") + "/src/main/resources";
+    private static final String UPLOAD_DIRECTORY = System.getProperty("user.dir") + "/src/main/upload";
+    private static final String STATIC_DIRECTORY = System.getProperty("user.dir") + "/src/main/upload/static";
+    private static final String IMAGES_DIRECTORY = System.getProperty("user.dir") + "/src/main/upload/static/images";
+    private static final String CAR_IMAGE_DIRECTORY = System.getProperty("user.dir") + "/src/main/upload/static/images/cars";
 
     public FileService(CarService carService) {
         this.carService = carService;
     }
 
     public ResponseEntity<?> uploadCarImage(MultipartFile file) {
+        setUpDirectories();
         final String fileName = generateNextInDirFileName(CAR_IMAGE_DIRECTORY,"car_image");
         final Path fileNamePath = Paths.get(CAR_IMAGE_DIRECTORY, fileName);
-        setUpDirectories();
         try {
             Files.write(fileNamePath, file.getBytes());
-            return new ResponseEntity<>(fileName, HttpStatus.CREATED);
+            return new ResponseEntity<>(fileNamePath, HttpStatus.CREATED);
         } catch (final IOException ex) {
             return new ResponseEntity<>("Image is not uploaded", HttpStatus.BAD_REQUEST);
         }
     }
 
     private void setUpDirectories(){
-        this.makeDirectoryIfNotExist(IMAGE_DIRECTORY);
+        this.makeDirectoryIfNotExist(UPLOAD_DIRECTORY);
+        this.makeDirectoryIfNotExist(STATIC_DIRECTORY);
+        this.makeDirectoryIfNotExist(IMAGES_DIRECTORY);
         this.makeDirectoryIfNotExist(CAR_IMAGE_DIRECTORY);
     }
 
@@ -62,19 +59,28 @@ public class FileService {
         return photoName;
     }
 
-    public ResponseEntity<byte[]> downloadCarImage(String licensePlate) throws IOException {
-        HttpHeaders headers = new HttpHeaders();
+    public ResponseEntity<?> downloadCarImage(String licensePlate) throws IOException {
         Car car = carService.getEntityByLicensePlate(licensePlate);
-        String photoPath = car.getImageName();
-        InputStream in = ClassLoader.getSystemResourceAsStream("car_image5.png");
-        if (in == null) {
-            throw new FileNotFoundException("readFilesInBytes: File " + photoPath
-                    + " does not exist");
+        String photoPath = car.getImagePath();
+        File filePath;
+        try{
+            filePath = new File(photoPath);
+        }catch (NullPointerException e){
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Car image not found.");
         }
-        byte[] media = IOUtils.toByteArray(in);
 
-        headers.setCacheControl(CacheControl.noCache().getHeaderValue());
-        ResponseEntity<byte[]> responseEntity = new ResponseEntity<>(media, headers, HttpStatus.OK);
-        return responseEntity;
+        byte[] image;
+        try {
+            image = Files.readAllBytes(filePath.toPath());
+        }catch (IOException e){
+            e.printStackTrace();
+            throw new IOException("Reading image bytes error. Exception: " + e);
+        }
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.IMAGE_JPEG);
+        headers.setContentLength(image.length);
+        return new ResponseEntity<>(image, headers, HttpStatus.OK);
     }
 }

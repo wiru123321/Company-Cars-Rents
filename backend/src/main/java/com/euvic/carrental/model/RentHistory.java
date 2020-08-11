@@ -1,11 +1,9 @@
 package com.euvic.carrental.model;
 
 import lombok.Data;
-import org.hibernate.exception.DataException;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Data
 @Table(name = "rents_history")
@@ -37,11 +35,14 @@ public class RentHistory {
     @Column(nullable = false)
     private Boolean isActive;
 
+    @Column(nullable = false)
+    private Boolean isAccepted;
+
     public RentHistory() {
 
     }
 
-    public RentHistory(final Long id, final User user, final Car car, final LocalDateTime dateFrom, final LocalDateTime dateTo, final ParkingHistory parkingHistoryFrom, final ParkingHistory parkingHistoryTo, final Boolean isActive) {
+    public RentHistory(final Long id, final User user, final Car car, final LocalDateTime dateFrom, final LocalDateTime dateTo, final ParkingHistory parkingHistoryFrom, final ParkingHistory parkingHistoryTo, final Boolean isActive, final Boolean isAccepted) {
         this.id = id;
         this.user = user;
         this.car = car;
@@ -50,5 +51,6 @@ public class RentHistory {
         this.parkingHistoryFrom = parkingHistoryFrom;
         this.parkingHistoryTo = parkingHistoryTo;
         this.isActive = isActive;
+        this.isAccepted = isAccepted;
     }
 }

@@ -1,6 +1,7 @@
 package com.euvic.carrental.controllers;
 
 import com.euvic.carrental.model.Car;
+import com.euvic.carrental.model.ParkingHistory;
 import com.euvic.carrental.model.Rent;
 import com.euvic.carrental.model.User;
 import com.euvic.carrental.responses.RentDTO;
@@ -93,4 +94,24 @@ public class RentController {
 
         return ResponseEntity.status(responseCode).body(message);
     }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/a/rent/reject/{id}")
+    public ResponseEntity<?> rejectRent(@PathVariable final Long id) {
+        final Rent rent = rentService.getEntityById(id);
+        int responseCode;
+        String message;
+        try {
+            ParkingHistory parking1;
+            ParkingHistory parking2;
+
+
+            responseCode = 200;
+            message = "ok";
+        } catch (final NullPointerException e) {
+            message = "Invalid rent ID";
+            responseCode = 400;
+        }
+        return ResponseEntity.status(responseCode).body(message);
+    }
+
 }

@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletContext;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Executable;
@@ -93,12 +95,12 @@ public class CarController {
             return carImageUploadResponse;
         }
 
-        String carImageName = carImageUploadResponse.getBody().toString();
-        return ResponseEntity.ok(carService.addExistingImageToExistingCar(carImageName, licensePlate));
+        String carImagePath = carImageUploadResponse.getBody().toString();
+        return ResponseEntity.ok(carService.addExistingImageToExistingCar(carImagePath, licensePlate));
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/a/car/download-car-image/{licensePlate}", produces = MediaType.IMAGE_JPEG_VALUE)
-    public ResponseEntity<byte[]> downloadCarImageForExistingCar(@PathVariable final String licensePlate) throws IOException{
+    public ResponseEntity<?> downloadCarImageForExistingCar(@PathVariable final String licensePlate) throws IOException{
         return fileService.downloadCarImage(licensePlate);
     }
 }

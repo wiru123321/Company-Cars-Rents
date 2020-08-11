@@ -1,9 +1,7 @@
 package com.euvic.carrental.services;
 
-import com.euvic.carrental.model.Parking;
 import com.euvic.carrental.model.ParkingHistory;
 import com.euvic.carrental.repositories.ParkingHistoryRepository;
-import com.euvic.carrental.responses.ParkingDTO;
 import com.euvic.carrental.responses.ParkingHistoryDTO;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
