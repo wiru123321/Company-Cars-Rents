@@ -44,7 +44,7 @@ test:
 build_docker:
     stage: build
     script:
-        - docker-compose -f docker-compose.yml -f docker-compose.docker.yml build
+        - docker-compose -f docker-compose.docker.yml build
     tags:
         - build
     only:
@@ -54,8 +54,8 @@ deploy_docker:
     stage: deploy
     script:
         # Ta opcja tez nie dziala
-        - docker-compose -f docker-compose.yml -f docker-compose.docker.yml down
-        - docker-compose -f docker-compose.yml -f docker-compose.docker.yml up -d
+        - docker-compose -f docker-compose.docker.yml down
+        - docker-compose -f docker-compose.docker.yml up -d
     tags: 
         - deploy
     only:
@@ -65,7 +65,7 @@ deploy_docker:
 build_develop:
     stage: build_develop
     script:
-        - docker-compose -f docker-compose.yml -f docker-compose.develop.yml build
+        - docker-compose -f docker-compose.develop.yml build
     tags:
         - build_develop
     only:
@@ -75,7 +75,7 @@ deploy_develop:
     stage: deploy_develop
     script:
         - docker-compose -f docker-compose.develop.yml down
-        - docker-compose -f docker-compose.yml -f docker-compose.develop.yml up -d
+        - docker-compose -f docker-compose.develop.yml up -d
     tags: 
         - deploy_develop
     only:
@@ -85,7 +85,7 @@ deploy_develop:
 build_deploy:
     stage: build_deploy
     script:
-        - docker-compose -f docker-compose.yml -f docker-compose.deploy.yml build
+        - docker-compose -f docker-compose.deploy.yml build
     tags:
         - build_deploy
     only:
@@ -95,7 +95,7 @@ deploy_deploy:
     stage: deploy_deploy
     script:
         - docker-compose -f docker-compose.deploy.yml down
-        - docker-compose -f docker-compose.yml -f docker-compose.deploy.yml up -d
+        - docker-compose -f docker-compose.deploy.yml up -d
     tags: 
         - deploy_deploy
     only: 
