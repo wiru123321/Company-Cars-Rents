@@ -47,7 +47,15 @@ const RemoveEmployer = () => {
   };
 
   return (
-    <Container display="flex" style={{ width: "100vw" }}>
+    <Container
+      display="flex"
+      style={{
+        width: "100vw",
+        minHeight: "80vh",
+        height: "auto",
+        height: "100%",
+      }}
+    >
       <SearchBar />
       {employees.map((employee, index) => (
         <Employee

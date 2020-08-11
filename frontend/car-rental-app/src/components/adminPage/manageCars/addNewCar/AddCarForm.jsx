@@ -14,7 +14,7 @@ import BoxPanel from "./BoxPanel";
 import ParkingForm from "./ParkingForm";
 
 const AddCarForm = () => {
-  const [showAddPhotoButton, toggleshowAddPhotoButton] = useState(true);
+  const [showAddPhotoButton, toggleshowAddPhotoButton] = useState(false);
   const useStyles = makeStyles((theme) => ({
     root: {
       "& > *": {

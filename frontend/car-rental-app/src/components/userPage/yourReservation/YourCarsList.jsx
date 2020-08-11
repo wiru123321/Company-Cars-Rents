@@ -22,7 +22,13 @@ const YourCarsList = () => {
   const cars = useSelector(selectCars);
   let ListStyle = "";
   return (
-    <Container style={{ height: "81vh" }}>
+    <Container
+      style={{
+        minHeight: "80vh",
+        height: "auto",
+        height: "100%",
+      }}
+    >
       <Grid container direction="column" justify="center" alignItems="center">
         <List>
           {cars.map((car, index) =>

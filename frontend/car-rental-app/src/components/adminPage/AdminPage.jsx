@@ -11,11 +11,11 @@ import Footer from "../footer/Footer";
 
 const AdminPage = () => {
   return (
-    <div>
+    <div style={{ height: "100%" }}>
       <UserNavbar />
       <HashRouter basename="/adminPage">
         <Switch>
-          <div style={{ height: "80vh", position: "relative" }}>
+          <div>
             <Route path="/" exact component={AddNewCar} />
             <Route path="/removeCar" component={RemoveCar} />
             <Route path="/addEmployee" component={AddEmployee} />
