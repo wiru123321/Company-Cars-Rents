@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Grid,
   Button,
@@ -13,6 +13,7 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   selectCars,
   chooseCar,
+  fetchCars,
 } from "../../../features/your-cars/yourCarsSlice";
 
 // TODO Fetch users cars from api.
@@ -20,6 +21,9 @@ import {
 const YourCarsList = () => {
   const dispatch = useDispatch();
   const cars = useSelector(selectCars);
+  useEffect(() => {
+    dispatch(fetchCars());
+  }, []);
   let ListStyle = "";
   return (
     <Container
@@ -29,14 +33,14 @@ const YourCarsList = () => {
         height: "100%",
       }}
     >
-      <Grid container direction="column" justify="center" alignItems="center">
+      <Box display="flex" justifyContent="center" alignItems="center">
         <List>
           {cars.map((car, index) =>
-            car.isEndOfRent ? (
+            car.isActive ? (
               <ListItem key={car.src} style={{ backgroundColor: "#f56f42" }}>
                 <Box display="flex">
-                  {/*<CarImage src={car.src} />
-                <CarInfo car={car} />*/}
+                  <CarImage src={car.src} />
+                  <CarInfo car={car} />
                 </Box>
                 <Button
                   variant="outlined"
@@ -51,14 +55,14 @@ const YourCarsList = () => {
             ) : (
               <ListItem key={car.src}>
                 <Box display="flex">
-                  {/*<CarImage src={car.src} />
-                <CarInfo car={car} />*/}
+                  <CarImage src={car.src} />
+                  <CarInfo car={car} />
                 </Box>
               </ListItem>
             )
           )}
         </List>
-      </Grid>
+      </Box>
     </Container>
   );
 };
