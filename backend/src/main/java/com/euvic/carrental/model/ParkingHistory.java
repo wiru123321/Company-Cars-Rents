@@ -29,13 +29,21 @@ public class ParkingHistory {
     @Column(nullable = false)
     private Boolean isActive;
 
-    @Column(nullable = false)
-    private Boolean isAccepted;
-
     public ParkingHistory() {
     }
 
-    public ParkingHistory(final Long id, final String town, final String postalCode, final String street, final String number, final String comment, final Boolean isActive, final Boolean isAccepted) {
+    public ParkingHistory(final Parking parking) {
+        this.id = parking.getId();
+        this.town = parking.getTown();
+        this.postalCode = parking.getPostalCode();
+        this.streetName = parking.getStreetName();
+        this.number = parking.getNumber();
+        this.comment = parking.getComment();
+        this.isActive = parking.getIsActive();
+
+    }
+
+    public ParkingHistory(final Long id, final String town, final String postalCode, final String street, final String number, final String comment, final Boolean isActive) {
         this.id = id;
         this.town = town;
         this.postalCode = postalCode;
@@ -43,6 +51,5 @@ public class ParkingHistory {
         this.number = number;
         this.comment = comment;
         this.isActive = isActive;
-        this.isAccepted = isAccepted;
     }
 }

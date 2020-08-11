@@ -11,7 +11,6 @@ public class ParkingHistoryDTO {
     private String number;
     private String comment;
     private Boolean isActive;
-    private Boolean isAccepted;
 
     public ParkingHistoryDTO() {
     }
@@ -23,16 +22,14 @@ public class ParkingHistoryDTO {
         this.number = entity.getNumber();
         this.comment = entity.getComment();
         this.isActive = entity.getIsActive();
-        this.isAccepted = entity.getIsAccepted();
     }
 
-    public ParkingHistoryDTO(final String town, final String postalCode, final String street, final String number, final String comment, final boolean isActive, final boolean isAccepted) {
+    public ParkingHistoryDTO(final String town, final String postalCode, final String street, final String number, final String comment, final boolean isActive) {
         this.town = town;
         this.postalCode = postalCode;
         this.streetName = street;
         this.number = number;
         this.comment = comment;
         this.isActive = isActive;
-        this.isAccepted = isAccepted;
     }
 }

@@ -1,6 +1,6 @@
 package com.euvic.carrental.responses;
 
-import com.euvic.carrental.model.*;
+import com.euvic.carrental.model.RentHistory;
 import com.euvic.carrental.responses.User.UserDTO;
 import lombok.Data;
 
@@ -15,12 +15,13 @@ public class RentHistoryDTO {
     private ParkingHistoryDTO parkingHistoryDTOFrom;
     private ParkingHistoryDTO parkingHistoryDTOTo;
     private Boolean isActive;
+    private Boolean isAccepted;
 
     public RentHistoryDTO() {
 
     }
 
-    public RentHistoryDTO(final UserDTO userDTO, final CarDTO carDTO, final LocalDateTime dateFrom, final LocalDateTime dateTo, final ParkingHistoryDTO parkingHistoryDTOFrom, final ParkingHistoryDTO parkingHistoryDTOTo, final Boolean isActive) {
+    public RentHistoryDTO(final UserDTO userDTO, final CarDTO carDTO, final LocalDateTime dateFrom, final LocalDateTime dateTo, final ParkingHistoryDTO parkingHistoryDTOFrom, final ParkingHistoryDTO parkingHistoryDTOTo, final Boolean isActive, final Boolean isAccepted) {
         this.userDTO = userDTO;
         this.carDTO = carDTO;
         this.dateFrom = dateFrom;
@@ -28,6 +29,7 @@ public class RentHistoryDTO {
         this.parkingHistoryDTOFrom = parkingHistoryDTOFrom;
         this.parkingHistoryDTOTo = parkingHistoryDTOTo;
         this.isActive = isActive;
+        this.isAccepted = isAccepted;
     }
 
     public RentHistoryDTO(final RentHistory rentHistory, final UserDTO userDTO, final CarDTO carDTO, final ParkingHistoryDTO parkingHistoryDTOFrom, final ParkingHistoryDTO parkingHistoryDTOTo) {
@@ -38,5 +40,6 @@ public class RentHistoryDTO {
         this.parkingHistoryDTOFrom = parkingHistoryDTOFrom;
         this.parkingHistoryDTOTo = parkingHistoryDTOTo;
         this.isActive = rentHistory.getIsActive();
+        this.isAccepted = rentHistory.getIsAccepted();
     }
 }

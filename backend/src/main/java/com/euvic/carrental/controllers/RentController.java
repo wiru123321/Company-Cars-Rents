@@ -1,6 +1,7 @@
 package com.euvic.carrental.controllers;
 
 import com.euvic.carrental.model.Car;
+import com.euvic.carrental.model.ParkingHistory;
 import com.euvic.carrental.model.Rent;
 import com.euvic.carrental.model.User;
 import com.euvic.carrental.responses.RentDTO;
@@ -100,6 +101,8 @@ public class RentController {
         int responseCode;
         String message;
         try {
+            ParkingHistory parking1;
+            ParkingHistory parking2;
 
 
             responseCode = 200;

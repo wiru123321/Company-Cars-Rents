@@ -21,7 +21,7 @@ public class ParkingHistoryService implements ParkingHistoryServiceInterface {
 
     @Override
     public ParkingHistory mapRestModel(final Long id, final ParkingHistoryDTO parkingHistoryDTO) {
-        return new ParkingHistory(id, parkingHistoryDTO.getTown(), parkingHistoryDTO.getPostalCode(), parkingHistoryDTO.getStreetName(), parkingHistoryDTO.getNumber(), parkingHistoryDTO.getComment(), parkingHistoryDTO.getIsActive(), parkingHistoryDTO.getIsAccepted());
+        return new ParkingHistory(id, parkingHistoryDTO.getTown(), parkingHistoryDTO.getPostalCode(), parkingHistoryDTO.getStreetName(), parkingHistoryDTO.getNumber(), parkingHistoryDTO.getComment(), parkingHistoryDTO.getIsActive());
     }
 
     @Override
