@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Input, Grid, Button } from "@material-ui/core";
 import PhoneIcon from "@material-ui/icons/Phone";
 import EmailIcon from "@material-ui/icons/Email";
+import EmployeeAddedAlert from "./EmployeeAddedAlert";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import SystemUpdateAltIcon from "@material-ui/icons/SystemUpdateAlt";
 
@@ -68,10 +69,18 @@ const EditEmployer = ({ employee, updateUser }) => {
           />
         </Grid>
         <Grid item>
-          <Button type="submit">
-            <SystemUpdateAltIcon />
-            Edit
-          </Button>
+          <Grid
+            container
+            direction="column"
+            justify="center"
+            alignItems="center"
+          >
+            <Button type="submit">
+              <SystemUpdateAltIcon />
+              Edit
+            </Button>
+            <EmployeeAddedAlert />
+          </Grid>
         </Grid>
       </Grid>
     </form>

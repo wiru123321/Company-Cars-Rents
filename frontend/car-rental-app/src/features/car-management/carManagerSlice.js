@@ -8,6 +8,8 @@ const initialState = {
   filteredCars: [],
   filterLicensePlate: "",
   filterMark: "",
+  didUpdate: false,
+  didUpdateSuccess: false,
 };
 
 const carManagerSlice = createSlice({
@@ -26,6 +28,14 @@ const carManagerSlice = createSlice({
     setMarkFilters: (state, action) => {
       state.filterMark = action.payload;
     },
+    setUpdateResult: (state, action) => {
+      state.didUpdate = true;
+      state.didUpdateSuccess = action.payload;
+    },
+    resetUpdate: (state) => {
+      state.didUpdate = false;
+      state.didUpdateSuccess = false;
+    },
   },
 });
 
@@ -34,6 +44,8 @@ export const {
   setFilteredCars,
   setLicenseFilters,
   setMarkFilters,
+  setUpdateResult,
+  resetUpdate,
 } = carManagerSlice.actions;
 
 export const selectCars = (state) => state.carsManager.cars;
@@ -121,8 +133,9 @@ export const updateCar = (licensePlate, car) => async (dispatch) => {
       },
     });
     dispatch(setCars(fetchResponse.data));
+    dispatch(setUpdateResult(true));
   } catch (error) {
-    console.log(error);
+    dispatch(setUpdateResult(false));
   }
 };
 
