@@ -14,6 +14,9 @@ import {
   selectCars,
   chooseCar,
   fetchCars,
+  fetchCarImage,
+  selectImg,
+  changephotoCarIndex,
 } from "../../../features/your-cars/yourCarsSlice";
 
 // TODO Fetch users cars from api.
@@ -21,6 +24,8 @@ import {
 const YourCarsList = () => {
   const dispatch = useDispatch();
   const cars = useSelector(selectCars);
+  const img = useSelector(selectImg);
+
   useEffect(() => {
     dispatch(fetchCars());
   }, []);
@@ -37,9 +42,13 @@ const YourCarsList = () => {
         <List>
           {cars.map((car, index) =>
             car.isActive ? (
-              <ListItem key={car.src} style={{ backgroundColor: "#f56f42" }}>
+              <ListItem key={index} style={{ backgroundColor: "#f56f42" }}>
+                {
+                  (dispatch(changephotoCarIndex(index)),
+                  dispatch(fetchCarImage(car.licensePlate)))
+                }
                 <Box display="flex">
-                  <CarImage src={car.src} />
+                  <CarImage src={img} />
                   <CarInfo car={car} />
                 </Box>
                 <Button
@@ -53,9 +62,13 @@ const YourCarsList = () => {
                 </Button>
               </ListItem>
             ) : (
-              <ListItem key={car.src}>
+              <ListItem key={index}>
+                {
+                  (dispatch(changephotoCarIndex(index)),
+                  dispatch(fetchCarImage(car.licensePlate)))
+                }
                 <Box display="flex">
-                  <CarImage src={car.src} />
+                  <CarImage src={img} />
                   <CarInfo car={car} />
                 </Box>
               </ListItem>

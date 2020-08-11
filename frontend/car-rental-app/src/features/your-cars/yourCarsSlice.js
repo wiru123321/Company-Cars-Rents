@@ -5,9 +5,11 @@ const API_URL = "http://localhost:8080";
 
 const initialState = {
   cars: [],
+  photoCarIndex: 0,
   parkingNumber: 0,
   parkingPlaceNumber: 0,
   endingFormChoose: false,
+  carImg: [],
   chooseCarIndex: 0,
   bugOpen: false,
 };
@@ -26,6 +28,9 @@ export const yourCarsSlice = createSlice({
     acceptForm: (state) => {
       state.endingFormChoose = !state.endingFormChoose;
     },
+    changephotoCarIndex: (state, action) => {
+      state.photoCarIndex = action.payload;
+    },
     parkingNumberChange: (state, action) => {
       state.parkingNumber = action.payload;
     },
@@ -38,6 +43,9 @@ export const yourCarsSlice = createSlice({
     bugDescribeChane: (state, action) => {
       state.cars[state.chooseCarIndex].parkingDTO.comment = action.payload;
     },
+    setImage: (state, action) => {
+      state.carImg = action.payload;
+    },
   },
 });
 export const {
@@ -48,16 +56,20 @@ export const {
   acceptForm,
   bugOpenChange,
   bugDescribeChane,
-  changethis,
+  setImage,
+  changephotoCarIndex,
 } = yourCarsSlice.actions;
 
 export const selectCars = (state) => state.YourReservation.cars;
+export const selectImg = (state) =>
+  state.YourReservation.carImg[state.photoCarIndex];
 export const selectIndex = (state) => state.YourReservation.chooseCarIndex;
 export const selectEndingformchoose = (state) =>
   state.YourReservation.endingFormChoose;
 export const selectBugopen = (state) => state.YourReservation.bugOpen;
 
 export const fetchCars = () => async (dispatch) => {
+  console.log("elo");
   try {
     const response = await axios.get(API_URL + "/ae/active-cars", {
       headers: {
@@ -66,6 +78,24 @@ export const fetchCars = () => async (dispatch) => {
     });
 
     dispatch(setCars(response.data));
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const fetchCarImage = (licensePlate) => async (dispatch) => {
+  try {
+    console.log("elo");
+    const response = await axios.get(
+      API_URL + "/a/car/download-car-image/" + licensePlate,
+      {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      }
+    );
+    dispatch(setImage(response.data));
+    console.log("elo");
   } catch (error) {
     console.log(error);
   }
