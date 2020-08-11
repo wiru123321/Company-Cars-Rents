@@ -30,4 +30,8 @@ public interface RentServiceInterface {
     List<RentDTO> getAllDTOs();
 
     List<RentDTO> getUserRentDTOs();
+
+    void deleteRent(Rent rent);
+
+    List<RentDTO> getUserRentHistoryDTOs();
 }

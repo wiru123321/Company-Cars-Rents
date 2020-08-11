@@ -22,6 +22,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Executable;
+import java.util.Map;
 
 
 @RestController
@@ -59,11 +60,12 @@ public class CarController {
         return ResponseEntity.ok(carService.getInCompanyInactiveCarDTOs());
     }
 
-    //TODO Add validation by licenceplate
-    //TODO filtrowanie samochodów po marce i po rejestracji po znakach od lewej do prawej
-    //użytkownik po im. i nazwisku
     @RequestMapping(method = RequestMethod.POST, value = "/a/car")
     public ResponseEntity addCarToDatabase(@RequestBody final CarDTO carDTO) {
+        if(carService.checkIfCarWithLicensePlateExists(carDTO.getLicensePlate())){
+            return new ResponseEntity<>("Car with given license plate already exist.", HttpStatus.CONFLICT);
+        }
+
         final Parking parking = parkingService.mapRestModel(null, carDTO.getParkingDTO());
         final Long parkingId = parkingService.addEntityToDB(parking);
         final Model model = modelService.mapRestModel(null, carDTO.getModelDTO());
@@ -75,6 +77,10 @@ public class CarController {
 
     @RequestMapping(method = RequestMethod.PUT, value = "/a/car/{licensePlate}")
     public ResponseEntity updateDataBaseCar(@PathVariable final String licensePlate, @RequestBody final CarDTO newCarDTO) {
+        if(carService.checkIfCarWithLicensePlateExists(newCarDTO.getLicensePlate())){
+            return new ResponseEntity<>("Car with given license plate already exist.", HttpStatus.CONFLICT);
+        }
+
         return ResponseEntity.ok(carService.updateCarInDB(licensePlate, newCarDTO));
     }
 
@@ -87,20 +93,32 @@ public class CarController {
     public ResponseEntity<?> uploadCarImageForExistingCar(@RequestParam("imageFile") final MultipartFile file, @PathVariable final String licensePlate){
 
         if(!carService.checkIfCarWithLicensePlateExists(licensePlate)){
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Car with given license plate doesn't exist.");
+            return new ResponseEntity<>("Car with given license plate doesn't exist.", HttpStatus.CONFLICT);
         }
 
-        ResponseEntity carImageUploadResponse = fileService.uploadCarImage(file);
-        if(carImageUploadResponse.getStatusCode() == HttpStatus.BAD_REQUEST){
-            return carImageUploadResponse;
+        String addedImagePath;
+        try{
+            addedImagePath = fileService.uploadCarImage(file);
+        }catch (IOException e){
+            return new ResponseEntity<>("Image get not uploaded", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        String carImagePath = carImageUploadResponse.getBody().toString();
-        return ResponseEntity.ok(carService.addExistingImageToExistingCar(carImagePath, licensePlate));
+        return ResponseEntity.ok(carService.addExistingImageToExistingCar(addedImagePath, licensePlate));
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/a/car/download-car-image/{licensePlate}", produces = MediaType.IMAGE_JPEG_VALUE)
-    public ResponseEntity<?> downloadCarImageForExistingCar(@PathVariable final String licensePlate) throws IOException{
-        return fileService.downloadCarImage(licensePlate);
+    public ResponseEntity<?> downloadCarImageForExistingCar(@PathVariable final String licensePlate){
+        byte[] image;
+        try{
+            image = fileService.downloadCarImage(licensePlate);
+        }catch (NullPointerException e){
+            return new ResponseEntity<>("Image not found.", HttpStatus.CONFLICT);
+        }catch (IOException e){
+            return new ResponseEntity<>("Image get not downloaded", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+       HttpHeaders headers = new HttpHeaders();
+       headers.setContentType(MediaType.IMAGE_JPEG);
+       headers.setContentLength(image.length);
+       return new ResponseEntity<>(image, headers, HttpStatus.OK);
     }
 }

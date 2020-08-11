@@ -1,6 +1,7 @@
 package com.euvic.carrental.responses;
 
 import com.euvic.carrental.model.Parking;
+import com.euvic.carrental.model.ParkingHistory;
 import lombok.Data;
 
 @Data
@@ -13,7 +14,13 @@ public class ParkingDTO {
     private String comment;
     private Boolean isActive;
 
-    public ParkingDTO() {
+    public ParkingDTO(final ParkingHistory entity) {
+        this.town = entity.getTown();
+        this.postalCode = entity.getPostalCode();
+        this.streetName = entity.getStreetName();
+        this.number = entity.getNumber();
+        this.comment = entity.getComment();
+        this.isActive = entity.getIsActive();
     }
 
     public ParkingDTO(final Parking entity) {
