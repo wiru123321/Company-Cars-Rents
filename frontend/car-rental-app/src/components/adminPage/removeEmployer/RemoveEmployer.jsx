@@ -3,13 +3,13 @@ import { Container } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
 import {
   selectAllUsers,
-  firstnameChange,
-  lastnameChange,
-  emailChange,
-  phoneNumberChange,
+  selectAll,
   fetchAllUsers,
   deleteUser,
   updateUser,
+  loginFiltersChange,
+  nameFiltersChange,
+  filterUsers,
 } from "../../../features/add-employees/addEmployeeSlice";
 import Employee from "./Employee";
 import SearchBar from "../employeesSearchBar/EmployeesSearchBar";
@@ -17,10 +17,17 @@ import SearchBar from "../employeesSearchBar/EmployeesSearchBar";
 const RemoveEmployer = () => {
   const dispatch = useDispatch();
   const employees = useSelector(selectAllUsers);
+  const { loginFilters, nameFilters, filteredEmployees } = useSelector(
+    selectAll
+  );
 
   useEffect(() => {
     dispatch(fetchAllUsers());
   }, []);
+
+  useEffect(() => {
+    dispatch(filterUsers(employees, loginFilters, nameFilters));
+  }, [employees, loginFilters, nameFilters]);
 
   const handleDelete = (login) => {
     dispatch(deleteUser(login));
@@ -30,26 +37,23 @@ const RemoveEmployer = () => {
     dispatch(updateUser(login, user));
   };
 
-  const handleFirstnameChange = (value) => {
-    dispatch(firstnameChange(value));
+  const handleLoginsFilterChange = (event) => {
+    dispatch(loginFiltersChange(event.target.value));
   };
 
-  const handleLastnameChange = (value) => {
-    dispatch(lastnameChange(value));
-  };
-
-  const handleEmailChange = (value) => {
-    dispatch(emailChange(value));
-  };
-
-  const handlePhoneNumberChange = (value) => {
-    dispatch(phoneNumberChange(value));
+  const handleNameFilterChange = (event) => {
+    dispatch(nameFiltersChange(event.target.value));
   };
 
   return (
     <Container display="flex" style={{ width: "100vw" }}>
-      <SearchBar />
-      {employees.map((employee, index) => (
+      <SearchBar
+        loginFilters={loginFilters}
+        nameFilters={nameFilters}
+        handleLoginsFilterChange={handleLoginsFilterChange}
+        handleNameFilterChange={handleNameFilterChange}
+      />
+      {filteredEmployees.map((employee, index) => (
         <Employee
           key={index}
           handleDelete={handleDelete}

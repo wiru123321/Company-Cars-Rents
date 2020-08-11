@@ -13,18 +13,20 @@ const AdminPage = () => {
   return (
     <div>
       <UserNavbar />
-      <HashRouter basename="/adminPage">
-        <Switch>
-          <div style={{ height: "80vh", position: "relative" }}>
+      <div>
+        <HashRouter basename="/adminPage">
+          <Switch>
             <Route path="/" exact component={AddNewCar} />
             <Route path="/removeCar" component={RemoveCar} />
             <Route path="/addEmployee" component={AddEmployee} />
             <Route path="/removeEmployer" component={RemoveEmployer} />
             <Route path="/rentRequest" component={RentRequests} />
-          </div>
-        </Switch>
-      </HashRouter>
-      <Footer />
+          </Switch>
+        </HashRouter>
+      </div>
+      <div>
+        <Footer />
+      </div>
     </div>
   );
 };
