@@ -58,7 +58,13 @@ const RemoveCar = () => {
     dispatch(setMarkFilters(""));
   };
   return (
-    <Container>
+    <Container
+      style={{
+        minHeight: "80vh",
+        height: "auto",
+        height: "100%",
+      }}
+    >
       <>
         <SearchBar
           searchLicesnsePlate={filterLicensePlate}
