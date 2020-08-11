@@ -11,6 +11,7 @@ const CarInfo = ({ car }) => {
     typeDTO,
     enginePower,
     productionYear,
+    isActive,
   } = car;
   const { name, markDTO } = modelDTO;
 

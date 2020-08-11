@@ -1,8 +1,13 @@
 package com.euvic.carrental.services;
 
-import com.euvic.carrental.model.*;
+import com.euvic.carrental.model.Car;
+import com.euvic.carrental.model.ParkingHistory;
+import com.euvic.carrental.model.RentHistory;
+import com.euvic.carrental.model.User;
 import com.euvic.carrental.repositories.RentHistoryRepository;
-import com.euvic.carrental.responses.*;
+import com.euvic.carrental.responses.CarDTO;
+import com.euvic.carrental.responses.ParkingHistoryDTO;
+import com.euvic.carrental.responses.RentHistoryDTO;
 import com.euvic.carrental.services.interfaces.RentHistoryServiceInterface;
 import org.springframework.stereotype.Service;
 
@@ -26,49 +31,46 @@ public class RentHistoryService implements RentHistoryServiceInterface {
     }
 
     @Override
-    public Long addEntityToDB(RentHistory rentHistory) {
+    public Long addEntityToDB(final RentHistory rentHistory) {
         return rentHistoryRepository.save(rentHistory).getId();
     }
 
     @Override
-    public RentHistory getEntityById(Long id) {
+    public RentHistory getEntityById(final Long id) {
         return rentHistoryRepository.findById(id).get();
     }
 
     @Override
-    public RentHistory getEntityByCarAndDateFrom(Car car, LocalDateTime dateFrom) {
+    public RentHistory getEntityByCarAndDateFrom(final Car car, final LocalDateTime dateFrom) {
         return rentHistoryRepository.findByCarAndDateFrom(car, dateFrom);
     }
 
     @Override
-    public RentHistoryDTO getDTOById(Long id) {
+    public RentHistoryDTO getDTOById(final Long id) {
         final RentHistory rentHistory = rentHistoryRepository.findById(id).get();
         final User user = rentHistory.getUser();
         final Car car = rentHistory.getCar();
         final ParkingHistory parkingHistoryFrom = rentHistory.getParkingHistoryFrom();
         final ParkingHistory parkingHistoryTo = rentHistory.getParkingHistoryTo();
-        final RentHistoryDTO rentHistoryDTO = new RentHistoryDTO(rentHistory, userService.getDTOByLogin(user.getLogin()), carService.getDTOByLicensePlate(car.getLicensePlate())
-                , parkingHistoryService.getDTOById(parkingHistoryFrom.getId()), parkingHistoryService.getDTOById(parkingHistoryTo.getId()));
 
-        return rentHistoryDTO;
+        return new RentHistoryDTO(rentHistory, userService.getDTOByLogin(user.getLogin()), carService.getDTOByLicensePlate(car.getLicensePlate())
+                , parkingHistoryService.getDTOById(parkingHistoryFrom.getId()), parkingHistoryService.getDTOById(parkingHistoryTo.getId()));
     }
 
     @Override
-    public RentHistoryDTO getDTOByCarDTOAndDateFrom(CarDTO carDTO, LocalDateTime dateFrom) {
+    public RentHistoryDTO getDTOByCarDTOAndDateFrom(final CarDTO carDTO, final LocalDateTime dateFrom) {
         final Car car = carService.getEntityByLicensePlate(carDTO.getLicensePlate());
         final RentHistory rentHistory = rentHistoryRepository.findByCarAndDateFrom(car, dateFrom);
-        final RentHistoryDTO rentHistoryDTO = new RentHistoryDTO(rentHistory, userService.getDTOByLogin(rentHistory.getUser().getLogin()), carDTO
-                    , parkingHistoryService.getDTOById(rentHistory.getParkingHistoryFrom().getId()), parkingHistoryService.getDTOById(rentHistory.getParkingHistoryTo().getId()));
 
-        return rentHistoryDTO;
+        return new RentHistoryDTO(rentHistory, userService.getDTOByLogin(rentHistory.getUser().getLogin()), carDTO
+                , parkingHistoryService.getDTOById(rentHistory.getParkingHistoryFrom().getId()), parkingHistoryService.getDTOById(rentHistory.getParkingHistoryTo().getId()));
     }
 
     @Override
-    public RentHistory mapRestModel(Long id, RentHistoryDTO rentHistoryDTO, Long parkingHistoryFromId, Long parkingHisotryToId) {
-        final RentHistory rentHistory = new RentHistory(id, userService.getEntityByLogin(rentHistoryDTO.getUserDTO().getLogin()), carService.getEntityByLicensePlate(rentHistoryDTO.getCarDTO().getLicensePlate())
-                , rentHistoryDTO.getDateFrom(), rentHistoryDTO.getDateTo(), parkingHistoryService.getEntityById(parkingHistoryFromId), parkingHistoryService.getEntityById(parkingHisotryToId), rentHistoryDTO.getIsActive());
+    public RentHistory mapRestModel(final Long id, final RentHistoryDTO rentHistoryDTO, final Long parkingHistoryFromId, final Long parkingHisotryToId) {
 
-        return rentHistory;
+        return new RentHistory(id, userService.getEntityByLogin(rentHistoryDTO.getUserDTO().getLogin()), carService.getEntityByLicensePlate(rentHistoryDTO.getCarDTO().getLicensePlate())
+                , rentHistoryDTO.getDateFrom(), rentHistoryDTO.getDateTo(), parkingHistoryService.getEntityById(parkingHistoryFromId), parkingHistoryService.getEntityById(parkingHisotryToId), rentHistoryDTO.getIsActive(), rentHistoryDTO.getIsAccepted(), rentHistoryDTO.getComment(), rentHistoryDTO.getResponse());
     }
 
     @Override
@@ -77,7 +79,7 @@ public class RentHistoryService implements RentHistoryServiceInterface {
         rentHistoryRepository.findAll().forEach(rentHistoryArrayList::add);
         final ArrayList<RentHistoryDTO> rentHistoryDTOArrayList = new ArrayList<>();
 
-        rentHistoryArrayList.stream().forEach(rentHistory -> {
+        rentHistoryArrayList.forEach(rentHistory -> {
             final RentHistoryDTO rentHistoryDTO = new RentHistoryDTO(rentHistory, userService.getDTOByLogin(rentHistory.getUser().getLogin()), carService.getDTOByLicensePlate(rentHistory.getCar().getLicensePlate())
                     , new ParkingHistoryDTO(rentHistory.getParkingHistoryFrom()), new ParkingHistoryDTO((rentHistory.getParkingHistoryTo())));
             rentHistoryDTOArrayList.add(rentHistoryDTO);

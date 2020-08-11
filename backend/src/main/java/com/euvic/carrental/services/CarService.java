@@ -142,14 +142,14 @@ public class CarService implements CarServiceInterface {
         return carDTOList;
     }
 
-    @Override //TODO tests
-    public Long addExistingImageToExistingCar(String carImageName, String licensePlate) {
+    @Override
+    public Long addExistingImageToExistingCar(String carImagePath, String licensePlate) {
         Car car = getEntityByLicensePlate(licensePlate);
-        car.setImageName(carImageName);
+        car.setImagePath(carImagePath);
         return addEntityToDB(car);
     }
 
-    @Override //TODO tests
+    @Override
     public Boolean checkIfCarWithLicensePlateExists(final String licensePlate) {
         return carRepository.existsByLicensePlate(licensePlate);
     }

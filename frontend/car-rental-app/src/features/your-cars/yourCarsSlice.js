@@ -1,67 +1,35 @@
 import { createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
 
-let json = [
-  {
-    mark: "Audi",
-    model: "RS7 Sportback",
-    licensePlate: "SL-1337",
-    capacity: "5",
-    mileage: "165000",
-    year: "1995",
-    hp: "245",
-    src:
-      "https://ocs-pl.oktawave.com/v1/AUTH_2887234e-384a-4873-8bc5-405211db13a2/autoblog/2019/09/Audi-RS7-3.jpg",
-    isEndOfRent: true,
-    bugDescribe: "",
-  },
-  {
-    mark: "Fiat",
-    model: "Panda",
-    licensePlate: "SL-1337",
-    capacity: "5",
-    mileage: "165000",
-    year: "1995",
-    hp: "245",
-    src:
-      "https://www.autocentrum.pl/ac-file/gallery-photo/5dd3eae5583a0f08331eca84/fiat-panda.jpg",
-    isEndOfRent: true,
-    bugDescribe: "",
-  },
-  {
-    mark: "Mercedes",
-    model: "AMG",
-    licensePlate: "SL-1337",
-    capacity: "5",
-    mileage: "165000",
-    year: "1995",
-    hp: "245",
-    src:
-      "https://www.mercedes-benz.pl/passengercars/mercedes-benz-cars/models/a-class/hatchback-w177/amg/comparison-slider/_jcr_content/comparisonslider/par/comparisonslide_576434814/exteriorImage.MQ6.12.20191001221334.jpeg",
-    isEndOfRent: false,
-    bugDescribe: "",
-  },
-];
+const API_URL = "http://localhost:8080";
 
 const initialState = {
+  cars: [],
+  photoCarIndex: 0,
   parkingNumber: 0,
   parkingPlaceNumber: 0,
   endingFormChoose: false,
-  isEndOfRent: true,
+  carImg: [],
   chooseCarIndex: 0,
   bugOpen: false,
-  cars: json,
 };
 export const yourCarsSlice = createSlice({
   name: "YourReservation",
   initialState,
   reducers: {
+    setCars: (state, action) => {
+      state.cars = action.payload;
+    },
     chooseCar: (state, action) => {
-      state.cars[action.payload].isEndOfRent = false;
+      state.cars[action.payload].isActive = false;
       state.endingFormChoose = !state.endingFormChoose;
       state.chooseCarIndex = action.payload;
     },
     acceptForm: (state) => {
       state.endingFormChoose = !state.endingFormChoose;
+    },
+    changephotoCarIndex: (state, action) => {
+      state.photoCarIndex = action.payload;
     },
     parkingNumberChange: (state, action) => {
       state.parkingNumber = action.payload;
@@ -73,24 +41,69 @@ export const yourCarsSlice = createSlice({
       state.bugOpen = !state.bugOpen;
     },
     bugDescribeChane: (state, action) => {
-      state.cars[state.chooseCarIndex].bugDescribe = action.payload;
+      state.cars[state.chooseCarIndex].parkingDTO.comment = action.payload;
+    },
+    setImage: (state, action) => {
+      state.carImg = action.payload;
     },
   },
 });
 export const {
+  setCars,
   chooseCar,
   parkingNumberChange,
   parkingPlaceNumberChange,
   acceptForm,
   bugOpenChange,
   bugDescribeChane,
+  setImage,
+  changephotoCarIndex,
 } = yourCarsSlice.actions;
 
 export const selectCars = (state) => state.YourReservation.cars;
-export const selectEnd = (state) => state.YourReservation.isEndOfRent;
+export const selectImg = (state) =>
+  state.YourReservation.carImg[state.photoCarIndex];
 export const selectIndex = (state) => state.YourReservation.chooseCarIndex;
 export const selectEndingformchoose = (state) =>
   state.YourReservation.endingFormChoose;
 export const selectBugopen = (state) => state.YourReservation.bugOpen;
+
+export const fetchCars = () => async (dispatch) => {
+  try {
+    const response = await axios.get(API_URL + "/ae/active-cars", {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
+
+    dispatch(setCars(response.data));
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const fetchCarImage = (licensePlate) => async (dispatch) => {
+  try {
+    const response = await axios.get(
+      API_URL + "/e/car/download-car-image/" + licensePlate,
+      {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+        responseType: "arraybuffer",
+      }
+    );
+    // dispatch(setImage(response.data));
+    console.log(response.data);
+    var arrayBufferView = new Uint8Array(response.data);
+    var blob = new Blob([arrayBufferView], { type: "image/jpeg" });
+    var urlCreator = window.URL || window.webkitURL;
+    var imageUrl = urlCreator.createObjectURL(blob);
+    console.log(imageUrl);
+    dispatch(setImage(imageUrl));
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export default yourCarsSlice.reducer;

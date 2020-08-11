@@ -1,9 +1,7 @@
 package com.euvic.carrental.services;
 
-import com.euvic.carrental.model.Parking;
 import com.euvic.carrental.model.ParkingHistory;
 import com.euvic.carrental.repositories.ParkingHistoryRepository;
-import com.euvic.carrental.responses.ParkingDTO;
 import com.euvic.carrental.responses.ParkingHistoryDTO;
 import com.euvic.carrental.services.interfaces.ParkingHistoryServiceInterface;
 import org.springframework.stereotype.Service;
@@ -28,15 +26,14 @@ public class ParkingHistoryService implements ParkingHistoryServiceInterface {
 
     @Override
     public List<ParkingHistoryDTO> getAllDTOsByTownName(final String town) {
-        final ArrayList<ParkingHistory> parkingHistoryArrayList = new ArrayList<>();
-        parkingHistoryArrayList.addAll(parkingHistoryRepository.findByTown(town));
+        final ArrayList<ParkingHistory> parkingHistoryArrayList = new ArrayList<>(parkingHistoryRepository.findByTown(town));
 
         return parkingHistoryArrayList.stream()
                 .map(ParkingHistoryDTO::new)
                 .collect(Collectors.toList());
     }
 
-    @Override
+    @Override //TODO użyj isPresent()
     public ParkingHistory getEntityById(final Long id) {
         return parkingHistoryRepository.findById(id).get();
     }
