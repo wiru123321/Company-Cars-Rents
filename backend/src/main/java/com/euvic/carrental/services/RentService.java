@@ -106,7 +106,6 @@ public class RentService implements RentServiceInterface {
         return this.convertRentListToRentDTOList(rentArrayList);
     }
 
-    //TODO TEST IT
     private List<RentDTO> getAllDTOsByTimeRange(final RentListCarByTime rentListCarByTime) {
         final ArrayList<Rent> rentArrayList = new ArrayList<>();
         rentRepository.findAll().forEach(rentArrayList::add);
@@ -176,7 +175,6 @@ public class RentService implements RentServiceInterface {
 
     }
 
-    //TODO TEST IT
     private List<RentDTO> convertRentListToRentDTOList(final List<Rent> rentArrayList) {
         final ArrayList<RentDTO> rentDTOArrayList = new ArrayList<>();
 
@@ -192,7 +190,6 @@ public class RentService implements RentServiceInterface {
         return rentDTOArrayList;
     }
 
-    //TODO TEST IT
     private List<RentDTO> convertRentHistoryListToRentDTOList(final List<RentHistory> rentArrayList) {
         final ArrayList<RentDTO> rentDTOArrayList = new ArrayList<>();
 
@@ -211,7 +208,6 @@ public class RentService implements RentServiceInterface {
         return rentDTOArrayList;
     }
 
-    //TODO test it
     private boolean checkDate(final LocalDateTime dateFrom, final LocalDateTime dateTo, final RentListCarByTime rentListCarByTime) {
         return (rentListCarByTime.getDateFrom().isAfter(dateFrom)
                 && rentListCarByTime.getDateFrom().isBefore(dateTo))

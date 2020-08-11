@@ -38,6 +38,7 @@ public class RentController {
         return ResponseEntity.ok(rentService.getAllPendingRents());
     }
 
+    //TODO dodaj sprawdzenie czy ktoś już nie ma wypożyczenia na podany termin, zmień RequestBody musi zawierać tablice rej i response od admina
     @RequestMapping(method = RequestMethod.PUT, value = "/a/rent/permit/{id}")
     public ResponseEntity<?> permitRent(@PathVariable final Long id, @RequestBody final String licensePlate) {
         final Rent rent = rentService.getEntityById(id);
