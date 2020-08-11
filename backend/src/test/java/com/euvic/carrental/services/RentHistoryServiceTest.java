@@ -15,7 +15,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 @SpringBootTest
 @ActiveProfiles("h2")
@@ -165,8 +164,8 @@ public class RentHistoryServiceTest {
     @Test
     void whenRentHistoryEntityGiven_shouldAddRentHistoryEntityToDB() {
         final Parking parking1 = new Parking(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
-        final ParkingHistory parkingHistory1 = new ParkingHistory(null, "Radom", "40-222", "Jaka 32", "A-8", "Parking przy sklepie Tesco", true);
-        final ParkingHistory parkingHistory2 = new ParkingHistory(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
+        final ParkingHistory parkingHistory1 = new ParkingHistory(null, "Radom", "40-222", "Jaka 32", "A-8", "Parking przy sklepie Tesco", true, false);
+        final ParkingHistory parkingHistory2 = new ParkingHistory(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true, false);
 
         final Long parkingId1 = parkingService.addEntityToDB(parking1);
         final Long parkingHistoryId1 = parkingHistoryService.addEntityToDB(parkingHistory1);
@@ -204,8 +203,8 @@ public class RentHistoryServiceTest {
     @Test
     void shouldReturnDBRentHistoryEntity() {
         final Parking parking1 = new Parking(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
-        final ParkingHistory parkingHistory1 = new ParkingHistory(null, "Radom", "40-222", "Jaka 32", "A-8", "Parking przy sklepie Tesco", true);
-        final ParkingHistory parkingHistory2 = new ParkingHistory(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
+        final ParkingHistory parkingHistory1 = new ParkingHistory(null, "Radom", "40-222", "Jaka 32", "A-8", "Parking przy sklepie Tesco", true, false);
+        final ParkingHistory parkingHistory2 = new ParkingHistory(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true, false);
 
         final Long parkingId1 = parkingService.addEntityToDB(parking1);
         final Long parkingHistoryId1 = parkingHistoryService.addEntityToDB(parkingHistory1);
@@ -264,8 +263,8 @@ public class RentHistoryServiceTest {
     @Test
     void whenRentHistoryDTOGiven_thenReturnRentHistoryEntity() {
         final Parking parking1 = new Parking(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
-        final ParkingHistory parkingHistory1 = new ParkingHistory(null, "Radom", "40-222", "Jaka 32", "A-8", "Parking przy sklepie Tesco", true);
-        final ParkingHistory parkingHistory2 = new ParkingHistory(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
+        final ParkingHistory parkingHistory1 = new ParkingHistory(null, "Radom", "40-222", "Jaka 32", "A-8", "Parking przy sklepie Tesco", true, false);
+        final ParkingHistory parkingHistory2 = new ParkingHistory(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true, false);
 
         final Long parkingId1 = parkingService.addEntityToDB(parking1);
         final Long parkingHistoryId1 = parkingHistoryService.addEntityToDB(parkingHistory1);
@@ -316,8 +315,8 @@ public class RentHistoryServiceTest {
     @Test
     void shouldReturnDBRentHistoryDTO() { //TODO change name
         final Parking parking1 = new Parking(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
-        final ParkingHistory parkingHistory1 = new ParkingHistory(null, "Radom", "40-222", "Jaka 32", "A-8", "Parking przy sklepie Tesco", true);
-        final ParkingHistory parkingHistory2 = new ParkingHistory(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
+        final ParkingHistory parkingHistory1 = new ParkingHistory(null, "Radom", "40-222", "Jaka 32", "A-8", "Parking przy sklepie Tesco", true, false);
+        final ParkingHistory parkingHistory2 = new ParkingHistory(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true, false);
 
         final Long parkingId1 = parkingService.addEntityToDB(parking1);
         final Long parkingHistoryId1 = parkingHistoryService.addEntityToDB(parkingHistory1);
@@ -364,16 +363,15 @@ public class RentHistoryServiceTest {
     }
 
 
-
     @Test
     void shouldReturnAllDBRentsHistoryDTO() {
         final Parking parking1 = new Parking(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
-        final ParkingHistory parkingHistory1 = new ParkingHistory(null, "Radom", "40-222", "Jaka 32", "A-8", "Parking przy sklepie Tesco", true);
-        final ParkingHistory parkingHistory2 = new ParkingHistory(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
-        final ParkingHistory parkingHistory3 = new ParkingHistory(null, "Radom", "40-222", "Jaka 32", "A-8", "Parking przy sklepie Tesco", true);
-        final ParkingHistory parkingHistory4 = new ParkingHistory(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
-        final ParkingHistory parkingHistory5 = new ParkingHistory(null, "Radom", "40-222", "Jaka 32", "A-8", "Parking przy sklepie Tesco", true);
-        final ParkingHistory parkingHistory6 = new ParkingHistory(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
+        final ParkingHistory parkingHistory1 = new ParkingHistory(null, "Radom", "40-222", "Jaka 32", "A-8", "Parking przy sklepie Tesco", true, false);
+        final ParkingHistory parkingHistory2 = new ParkingHistory(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true, false);
+        final ParkingHistory parkingHistory3 = new ParkingHistory(null, "Radom", "40-222", "Jaka 32", "A-8", "Parking przy sklepie Tesco", true, false);
+        final ParkingHistory parkingHistory4 = new ParkingHistory(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true, false);
+        final ParkingHistory parkingHistory5 = new ParkingHistory(null, "Radom", "40-222", "Jaka 32", "A-8", "Parking przy sklepie Tesco", true, false);
+        final ParkingHistory parkingHistory6 = new ParkingHistory(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true, false);
 
         final Long parkingId1 = parkingService.addEntityToDB(parking1);
         final Long parkingHistoryId1 = parkingHistoryService.addEntityToDB(parkingHistory1);

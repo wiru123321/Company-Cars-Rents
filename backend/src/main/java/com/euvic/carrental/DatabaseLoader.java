@@ -152,6 +152,8 @@ public class DatabaseLoader implements CommandLineRunner {
             // login i password w bazie danych nie mogą się powtarzać //TODO
             userRepository.save(new User(null, "admin123", passwordEncoder.encode("apassword123"), "admin@email.com", "Jan", "Kowalski", "123456789", roleRepository.findByName("ADMIN")));
             userRepository.save(new User(null, "user123", passwordEncoder.encode("upassword123"), "user@email.com", "Andrzej", "Wywrot", "123456798", roleRepository.findByName("EMPLOYEE")));
+            userRepository.save(new User(null, "kama123", passwordEncoder.encode("upassword123"), "user@email.com", "Kamil", "Susek", "700100110", roleRepository.findByName("EMPLOYEE")));
+            userRepository.save(new User(null, "walo123", passwordEncoder.encode("upassword123"), "walo@email.com", "Wojciech", "Waleszczyk", "666999666", roleRepository.findByName("EMPLOYEE")));
 
 
             final Model model1 = new Model(null, "C350", markService.getEntityByName("Audi"));
@@ -166,10 +168,22 @@ public class DatabaseLoader implements CommandLineRunner {
             final Parking parking1 = new Parking(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
             final Parking parking2 = new Parking(null, "Radom", "40-222", "Jaka 32", "A-8", "Parking przy sklepie Tesco", true);
             final Parking parking3 = new Parking(null, "Kielce", "40-623", "Weteranow 54", "B-4", "Parking przy dworcu", true);
+            final Parking parking4 = new Parking(null, "Bydgoszcz", "40-033", "Bydgoska 11", "E-6", "Parking przy sklepiku Avea", true);
+            final Parking parking5 = new Parking(null, "Ruda", "40-111", "Jaka 32", "A-8", "Parking przy sklepie Tesco", true);
+            final Parking parking6 = new Parking(null, "Warszawa", "40-222", "Weteranow 3", "B-4", "Parking przy dworcu", true);
+            final Parking parking7 = new Parking(null, "Piotrowice", "40-333", "Bydgoska 77", "E-6", "Parking przy sklepiku Avea", true);
+            final Parking parking8 = new Parking(null, "Kraków", "40-444", "Jaka 32", "A-8", "Parking przy sklepie Tesco", true);
+            final Parking parking9 = new Parking(null, "Rzeszów", "40-555", "Weteranow 2", "B-4", "Parking przy dworcu", true);
 
             final Long parkingId1 = parkingService.addEntityToDB(parking1);
             final Long parkingId2 = parkingService.addEntityToDB(parking2);
             final Long parkingId3 = parkingService.addEntityToDB(parking3);
+            final Long parkingId4 = parkingService.addEntityToDB(parking4);
+            final Long parkingId5 = parkingService.addEntityToDB(parking5);
+            final Long parkingId6 = parkingService.addEntityToDB(parking6);
+            final Long parkingId7 = parkingService.addEntityToDB(parking7);
+            final Long parkingId8 = parkingService.addEntityToDB(parking8);
+            final Long parkingId9 = parkingService.addEntityToDB(parking9);
 
 
             final Car car1 = new Car(null, "WN101", 100, 4, 5, 5,
@@ -190,6 +204,47 @@ public class DatabaseLoader implements CommandLineRunner {
             carService.addEntityToDB(car1);
             carService.addEntityToDB(car2);
             carService.addEntityToDB(car3);
+
+            final Rent rent1 = new Rent(null
+                    , userService.getEntityByLogin("user123")
+                    , carService.getEntityByLicensePlate("WN101")
+                    , LocalDateTime.of(2020, 9, 25, 0, 0)
+                    , LocalDateTime.of(2020, 10, 1, 0, 0)
+                    , parkingService.getEntityById(parkingId1)
+                    , parkingService.getEntityById(parkingId2)
+                    , false, "Simple comment");
+
+            final Rent rent2 = new Rent(null
+                    , userService.getEntityByLogin("walo123")
+                    , carService.getEntityByLicensePlate("SBE33212")
+                    , LocalDateTime.of(2020, 11, 25, 0, 0)
+                    , LocalDateTime.of(2020, 12, 1, 0, 0)
+                    , parkingService.getEntityById(parkingId3)
+                    , parkingService.getEntityById(parkingId4)
+                    , true, "walo comment");
+
+            final Rent rent3 = new Rent(null
+                    , userService.getEntityByLogin("kama123")
+                    , carService.getEntityByLicensePlate("SBE11212")
+                    , LocalDateTime.of(2020, 11, 25, 0, 0)
+                    , LocalDateTime.of(2020, 12, 1, 0, 0)
+                    , parkingService.getEntityById(parkingId5)
+                    , parkingService.getEntityById(parkingId6)
+                    , true, "kama comment");
+
+            final Rent rent4 = new Rent(null
+                    , userService.getEntityByLogin("kama123")
+                    , carService.getEntityByLicensePlate("WN101")
+                    , LocalDateTime.of(2020, 11, 25, 0, 0)
+                    , LocalDateTime.of(2020, 12, 1, 0, 0)
+                    , parkingService.getEntityById(parkingId7)
+                    , parkingService.getEntityById(parkingId8)
+                    , true, "kama comment");
+
+            rentRepository.save(rent1);
+            rentRepository.save(rent2);
+            rentRepository.save(rent3);
+            rentRepository.save(rent4);
         }
     }
 }

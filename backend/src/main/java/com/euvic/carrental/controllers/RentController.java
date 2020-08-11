@@ -93,4 +93,22 @@ public class RentController {
 
         return ResponseEntity.status(responseCode).body(message);
     }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/a/rent/reject/{id}")
+    public ResponseEntity<?> rejectRent(@PathVariable final Long id) {
+        final Rent rent = rentService.getEntityById(id);
+        int responseCode;
+        String message;
+        try {
+
+
+            responseCode = 200;
+            message = "ok";
+        } catch (final NullPointerException e) {
+            message = "Invalid rent ID";
+            responseCode = 400;
+        }
+        return ResponseEntity.status(responseCode).body(message);
+    }
+
 }
