@@ -84,21 +84,23 @@ export const fetchCars = () => async (dispatch) => {
 
 export const fetchCarImage = (licensePlate) => async (dispatch) => {
   try {
-    console.log("elo");
     const response = await axios.get(
-      API_URL + "/a/car/download-car-image/" + licensePlate,
+      API_URL + "/e/car/download-car-image/" + licensePlate,
       {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
+        responseType: "arraybuffer",
       }
     );
-    dispatch(
-      setImage(
-        "https://images.unsplash.com/photo-1542362567-b07e54358753?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80"
-      )
-    );
-    console.log("elo");
+    // dispatch(setImage(response.data));
+    console.log(response.data);
+    var arrayBufferView = new Uint8Array(response.data);
+    var blob = new Blob([arrayBufferView], { type: "image/jpeg" });
+    var urlCreator = window.URL || window.webkitURL;
+    var imageUrl = urlCreator.createObjectURL(blob);
+    console.log(imageUrl);
+    dispatch(setImage(imageUrl));
   } catch (error) {
     console.log(error);
   }
