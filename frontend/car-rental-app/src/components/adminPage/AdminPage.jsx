@@ -16,16 +16,17 @@ const AdminPage = () => {
       <div>
         <HashRouter basename="/adminPage">
           <Switch>
-          <div>
-            <Route path="/" exact component={AddNewCar} />
-            <Route path="/removeCar" component={RemoveCar} />
-            <Route path="/addEmployee" component={AddEmployee} />
-            <Route path="/removeEmployer" component={RemoveEmployer} />
-            <Route path="/rentRequest" component={RentRequests} />
-          </div>
-        </Switch>
-      </HashRouter>
-      <Footer />
+            <div>
+              <Route path="/" exact component={AddNewCar} />
+              <Route path="/removeCar" component={RemoveCar} />
+              <Route path="/addEmployee" component={AddEmployee} />
+              <Route path="/removeEmployer" component={RemoveEmployer} />
+              <Route path="/rentRequest" component={RentRequests} />
+            </div>
+          </Switch>
+        </HashRouter>
+        <Footer />
+      </div>
     </div>
   );
 };

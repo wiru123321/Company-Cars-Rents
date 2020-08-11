@@ -54,6 +54,7 @@ const RemoveEmployer = () => {
         height: "auto",
         height: "100%",
       }}
+    >
       <SearchBar
         loginFilters={loginFilters}
         nameFilters={nameFilters}
@@ -61,7 +62,6 @@ const RemoveEmployer = () => {
         handleNameFilterChange={handleNameFilterChange}
       />
       {filteredEmployees.map((employee, index) => (
-    >
         <Employee
           key={index}
           handleDelete={handleDelete}
