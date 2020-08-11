@@ -69,7 +69,6 @@ export const selectEndingformchoose = (state) =>
 export const selectBugopen = (state) => state.YourReservation.bugOpen;
 
 export const fetchCars = () => async (dispatch) => {
-  console.log("elo");
   try {
     const response = await axios.get(API_URL + "/ae/active-cars", {
       headers: {
@@ -94,7 +93,11 @@ export const fetchCarImage = (licensePlate) => async (dispatch) => {
         },
       }
     );
-    dispatch(setImage(response.data));
+    dispatch(
+      setImage(
+        "https://images.unsplash.com/photo-1542362567-b07e54358753?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80"
+      )
+    );
     console.log("elo");
   } catch (error) {
     console.log(error);
