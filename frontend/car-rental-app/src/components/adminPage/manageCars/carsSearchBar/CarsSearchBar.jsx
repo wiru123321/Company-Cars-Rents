@@ -18,14 +18,39 @@ const useStyles = makeStyles({
   },
 });
 
-const SearchBar = () => {
+const CarsSearchBar = ({
+  searchLicesnsePlate,
+  searchMark,
+  handleLicensePlateChange,
+  handleMarkChange,
+  getInactiveCars,
+  getActiveCars,
+  reset,
+}) => {
   const classes = useStyles();
   const [searchForActive, toggleSearchForActive] = useState(true);
 
   const toggleActiveFilter = () => {
+    if (searchForActive === true) {
+      getInactiveCars();
+    } else {
+      getActiveCars();
+    }
     toggleSearchForActive(!searchForActive);
   };
 
+  const onLicensePlateChange = (event) => {
+    handleLicensePlateChange(event.target.value);
+  };
+
+  const onMarkChange = (event) => {
+    handleMarkChange(event.target.value);
+  };
+
+  const handleReset = () => {
+    reset();
+    toggleSearchForActive(true);
+  };
   return (
     <Paper className={classes.box}>
       <Grid container direction="column" alignItems="center">
@@ -33,13 +58,21 @@ const SearchBar = () => {
           <Grid item xs={3}>
             <Paper>
               <SearchIcon />
-              <InputBase placeholder="Search license plate" />
+              <InputBase
+                placeholder="Search license plate"
+                value={searchLicesnsePlate}
+                onChange={onLicensePlateChange}
+              />
             </Paper>
           </Grid>
           <Grid item xs={3}>
             <Paper>
               <SearchIcon />
-              <InputBase placeholder="Search mark" />
+              <InputBase
+                placeholder="Search mark"
+                value={searchMark}
+                onChange={onMarkChange}
+              />
             </Paper>
           </Grid>
           <Grid item xs={3}>
@@ -53,7 +86,7 @@ const SearchBar = () => {
             </Button>
           </Grid>
           <Grid item xs={2}>
-            <Button>Reset</Button>
+            <Button onClick={handleReset}>Reset</Button>
           </Grid>
         </Grid>
       </Grid>
@@ -61,4 +94,4 @@ const SearchBar = () => {
   );
 };
 
-export default SearchBar;
+export default CarsSearchBar;

@@ -6,7 +6,7 @@ import UsersPersonalData from "../UsersPersonalData";
 import UsersLogin from "../UsersLogin";
 import UsersPassword from "../UsersPassword";
 import { Provider } from "react-redux";
-import store from "../../../../store/store";
+import store from "../store/store";
 
 configure({ adapter: new Adapter() });
 

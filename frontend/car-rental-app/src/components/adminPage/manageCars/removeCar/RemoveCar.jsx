@@ -1,78 +1,91 @@
-import React, { useEffect, useState } from "react";
-import CarInfo from "../../../carsListing/CarInfo";
-import CarImage from "../../../carsListing/CarImage";
-import CarControlPanel from "./CarControlPanel";
-import UpdateCars from "../updateCars/UpdateCars";
-import { Container, List, ListItem, Grid } from "@material-ui/core";
+import React, { useEffect } from "react";
+import { Container, List } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
 import {
   fetchCars,
-  selectCars,
+  selectAll,
   deleteCar,
-} from "../../../../features/car-reservation/reservationSlice";
-import SearchBar from "../../searchBar/SearchBar";
+  filterCars,
+  setLicenseFilters,
+  setMarkFilters,
+  fetchActiveCars,
+  fetchInactiveCars,
+} from "../../../../features/car-management/carManagerSlice";
+import SearchBar from "../carsSearchBar/CarsSearchBar";
+import Car from "./Car";
+import NotFoundMessage from "./NotFoundMessage";
 
 const RemoveCar = () => {
-  const cars = useSelector(selectCars);
+  const { cars, filteredCars, filterLicensePlate, filterMark } = useSelector(
+    selectAll
+  );
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchCars());
   }, []);
 
+  useEffect(() => {
+    dispatch(filterCars(cars, filterLicensePlate, filterMark));
+  }, [cars, filterLicensePlate, filterMark]);
+
   const handleCarDelete = (index) => {
-    let { licensePlate } = cars[index];
+    let { licensePlate } = filteredCars[index];
     dispatch(deleteCar(licensePlate));
   };
+  const handleLicensePlateChange = (value) => {
+    dispatch(setLicenseFilters(value));
+  };
 
+  const handleMarkChange = (value) => {
+    dispatch(setMarkFilters(value));
+  };
+
+  const updateFilters = () => {
+    dispatch(filterCars(cars, filterLicensePlate, filterMark));
+  };
+
+  const getInactiveCars = () => {
+    dispatch(fetchInactiveCars());
+  };
+
+  const getActiveCars = () => {
+    dispatch(fetchActiveCars());
+  };
+
+  const reset = () => {
+    dispatch(setLicenseFilters(""));
+    dispatch(setMarkFilters(""));
+  };
   return (
     <Container>
       <>
-        <SearchBar />
+        <SearchBar
+          searchLicesnsePlate={filterLicensePlate}
+          searchMark={filterMark}
+          handleLicensePlateChange={handleLicensePlateChange}
+          handleMarkChange={handleMarkChange}
+          updateFilters={updateFilters}
+          getInactiveCars={getInactiveCars}
+          getActiveCars={getActiveCars}
+          reset={reset}
+        />
       </>
       <List>
-        {cars.map((car, index) => (
-          <Car key={index} car={car} index={index} onDelete={handleCarDelete} />
-        ))}
+        {filteredCars.length > 0 ? (
+          filteredCars.map((car, index) => (
+            <Car
+              key={index}
+              car={car}
+              index={index}
+              onDelete={handleCarDelete}
+            />
+          ))
+        ) : (
+          <NotFoundMessage />
+        )}
       </List>
     </Container>
-  );
-};
-
-const Car = ({ car, index, onDelete }) => {
-  const [edit, setEdit] = useState(false);
-
-  const toggleEdit = () => {
-    setEdit(!edit);
-  };
-
-  return (
-    <ListItem>
-      <Grid container justify="center" alignItems="center">
-        {edit ? (
-          <Grid item xs={8}>
-            <UpdateCars car={car} />
-          </Grid>
-        ) : (
-          <>
-            <Grid item xs={4}>
-              <CarImage src={car.src} />
-            </Grid>
-            <Grid item xs={4}>
-              <CarInfo car={car} />
-            </Grid>
-          </>
-        )}
-
-        <Grid item xs={4}>
-          <CarControlPanel
-            index={index}
-            onDelete={onDelete}
-            toggleEdit={toggleEdit}
-          />
-        </Grid>
-      </Grid>
-    </ListItem>
   );
 };
 

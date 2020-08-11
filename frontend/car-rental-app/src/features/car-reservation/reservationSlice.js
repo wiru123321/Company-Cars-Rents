@@ -13,29 +13,9 @@ const initialState = {
   isChoosen: false,
   choose: false,
   choosenCar: 0,
-
   cars: [],
 };
-/*
-filteredCars: [],
-filterLicensePlate: "",
-filterMark: "",
-filterActive: true,
-setLicenseFilters: (state, action) => {
-  state.filterLicensePlate = action.payload;
-},
-setMarkFilters: (state, action) => {
-  state.filterMark = action.payload;
-},
-setActiveFilters: (state, action) => {
-  state.filterActive = action.payload;
-},
-setFilteredCars: (state, action) => {
-  state.filteredCars = action.payload;
-},
-  setLicenseFilters,
-  setMarkFilters,
-  setFilteredCars,*/
+
 export const reservationSlice = createSlice({
   name: "reservation",
   initialState,
@@ -87,7 +67,6 @@ export const {
   beginHourChange,
   endDateChange,
   endHourChange,
-
   setCars,
   getCars,
 } = reservationSlice.actions;
@@ -98,20 +77,6 @@ export const selectCar = (state) =>
 export const selectChoose = (state) => state.reservation.choose;
 export const selectIsChoosen = (state) => state.reservation.isChoosen;
 
-export const fetchCars = () => async (dispatch) => {
-  try {
-    const response = await axios.get(API_URL + "/a/cars", {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("token"),
-      },
-    });
-    console.log(response.data);
-    dispatch(setCars(response.data));
-  } catch (error) {
-    console.log(error);
-  }
-};
-
 export const fetchActiveCars = () => async (dispatch) => {
   try {
     const response = await axios.get(API_URL + "/ae/active-cars", {
@@ -121,77 +86,6 @@ export const fetchActiveCars = () => async (dispatch) => {
     });
     console.log(response.data);
     dispatch(setCars(response.data));
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const fetchInactiveCars = () => async (dispatch) => {
-  try {
-    const response = await axios.get(API_URL + "/a/active-cars", {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("token"),
-      },
-    });
-    console.log(response.data);
-    dispatch(setCars(response.data));
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const fetchMarks = () => async (dispatch) => {
-  try {
-    const response = await axios.get(API_URL + "/ae/marks", {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("token"),
-      },
-    });
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const deleteCar = (licensePlate) => async (dispatch) => {
-  try {
-    const deleteResponse = await axios.delete(
-      API_URL + `/a/car/${licensePlate}`,
-      {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      }
-    );
-    const fetchResponse = await axios.get(API_URL + "/a/cars", {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("token"),
-      },
-    });
-    console.log(fetchResponse.data);
-    dispatch(setCars(fetchResponse.data));
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const updateCar = (licensePlate, car) => async (dispatch) => {
-  try {
-    const updateResponse = await axios.put(
-      API_URL + `/a/car/${licensePlate}`,
-      car,
-      {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      }
-    );
-    const fetchResponse = await axios.get(API_URL + "/a/cars", {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("token"),
-      },
-    });
-    console.log("onUpdate", fetchResponse.data);
-    dispatch(setCars(fetchResponse.data));
   } catch (error) {
     console.log(error);
   }

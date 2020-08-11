@@ -4,12 +4,12 @@ import { Paper } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core";
 import { ValidatorForm } from "react-material-ui-form-validator";
 import UpdateCarsForm from "./UpdateCarsForm";
-import { updateCar } from "../../../../features/car-reservation/reservationSlice";
+import { updateCar } from "../../../../features/car-management/carManagerSlice";
 
 const useStyles = makeStyles({
   root: {
     padding: "8px",
-    width: "50vw",
+    width: "40vw",
   },
 });
 
