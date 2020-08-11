@@ -60,9 +60,12 @@ public class CarController {
         return ResponseEntity.ok(carService.getInCompanyInactiveCarDTOs());
     }
 
-    //TODO Add validation by licenceplate
     @RequestMapping(method = RequestMethod.POST, value = "/a/car")
     public ResponseEntity addCarToDatabase(@RequestBody final CarDTO carDTO) {
+        if(carService.checkIfCarWithLicensePlateExists(carDTO.getLicensePlate())){
+            return new ResponseEntity<>("Car with given license plate already exist.", HttpStatus.CONFLICT);
+        }
+
         final Parking parking = parkingService.mapRestModel(null, carDTO.getParkingDTO());
         final Long parkingId = parkingService.addEntityToDB(parking);
         final Model model = modelService.mapRestModel(null, carDTO.getModelDTO());
@@ -74,6 +77,10 @@ public class CarController {
 
     @RequestMapping(method = RequestMethod.PUT, value = "/a/car/{licensePlate}")
     public ResponseEntity updateDataBaseCar(@PathVariable final String licensePlate, @RequestBody final CarDTO newCarDTO) {
+        if(carService.checkIfCarWithLicensePlateExists(newCarDTO.getLicensePlate())){
+            return new ResponseEntity<>("Car with given license plate already exist.", HttpStatus.CONFLICT);
+        }
+
         return ResponseEntity.ok(carService.updateCarInDB(licensePlate, newCarDTO));
     }
 
