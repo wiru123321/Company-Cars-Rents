@@ -12,15 +12,7 @@ const useStyles = makeStyles({
   },
 });
 
-const Employee = ({
-  employee,
-  handleDelete,
-  handleUpdate,
-  handleFirstnameChange,
-  handleLastnameChange,
-  handleEmailChange,
-  handlePhoneNumberChange,
-}) => {
+const Employee = ({ employee, handleDelete, handleUpdate }) => {
   const classes = useStyles();
   const [edit, setEdit] = useState(false);
 

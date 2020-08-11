@@ -22,10 +22,12 @@ const AdminPage = () => {
             <Route path="/addEmployee" component={AddEmployee} />
             <Route path="/removeEmployer" component={RemoveEmployer} />
             <Route path="/rentRequest" component={RentRequests} />
-          </div>
-        </Switch>
-      </HashRouter>
-      <Footer />
+          </Switch>
+        </HashRouter>
+      </div>
+      <div>
+        <Footer />
+      </div>
     </div>
   );
 };

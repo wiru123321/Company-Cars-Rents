@@ -46,6 +46,7 @@ const RemoveEmployer = () => {
   };
 
   return (
+<<<<<<< HEAD
     <Container
       display="flex"
       style={{
@@ -54,6 +55,15 @@ const RemoveEmployer = () => {
         height: "auto",
         height: "100%",
       }}
+    >
+      <SearchBar />
+      {employees.map((employee, index) => (
+||||||| 3460849
+    <Container display="flex" style={{ width: "100vw" }}>
+      <SearchBar />
+      {employees.map((employee, index) => (
+=======
+    <Container display="flex" style={{ width: "100vw" }}>
       <SearchBar
         loginFilters={loginFilters}
         nameFilters={nameFilters}
@@ -61,7 +71,7 @@ const RemoveEmployer = () => {
         handleNameFilterChange={handleNameFilterChange}
       />
       {filteredEmployees.map((employee, index) => (
-    >
+>>>>>>> 6c98b938d47b67b3c88ad120cbaf0f510da83109
         <Employee
           key={index}
           handleDelete={handleDelete}

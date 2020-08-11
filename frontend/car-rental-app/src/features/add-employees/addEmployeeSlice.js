@@ -15,6 +15,9 @@ const initialState = {
   didSubmit: false,
   success: false,
   users: [],
+  loginFilters: "",
+  nameFilters: "",
+  filteredEmployees: [],
 };
 
 export const addEmployeeSlice = createSlice({
@@ -24,33 +27,43 @@ export const addEmployeeSlice = createSlice({
     firstnameChange: (state, action) => {
       state.firstname = action.payload;
     },
+
     lastnameChange: (state, action) => {
       state.lastname = action.payload;
     },
+
     emailChange: (state, action) => {
       state.email = action.payload;
     },
+
     loginChange: (state, action) => {
       state.login = action.payload;
     },
+
     phoneNumberChange: (state, action) => {
       state.phoneNumber = action.payload;
     },
+
     passwordChange: (state, action) => {
       state.password = action.payload;
     },
+
     rePasswordChange: (state, action) => {
       state.rePassword = action.payload;
     },
+
     roleChange: (state, action) => {
       state.role = action.payload;
     },
+
     toggleDidSubmit: (state, action) => {
       state.didSubmit = action.payload;
     },
+
     toggleSuccess: (state, action) => {
       state.success = action.payload;
     },
+
     reset: (state) => {
       state.firstname = "";
       state.lastname = "";
@@ -65,6 +78,18 @@ export const addEmployeeSlice = createSlice({
 
     setUsers: (state, action) => {
       state.users = action.payload;
+    },
+
+    loginFiltersChange: (state, action) => {
+      state.loginFilters = action.payload;
+    },
+
+    nameFiltersChange: (state, action) => {
+      state.nameFilters = action.payload;
+    },
+
+    setFilteredEmployees: (state, action) => {
+      state.filteredEmployees = action.payload;
     },
   },
 });
@@ -82,6 +107,9 @@ export const {
   toggleSuccess,
   reset,
   setUsers,
+  loginFiltersChange,
+  nameFiltersChange,
+  setFilteredEmployees,
 } = addEmployeeSlice.actions;
 
 export const selectAll = (state) => state.addEmployee;
@@ -97,6 +125,7 @@ export const fetchAllUsers = () => async (dispatch) => {
     });
     console.log(response.data);
     dispatch(setUsers(response.data));
+    dispatch(setFilteredEmployees(response.data));
   } catch (error) {
     console.log(error);
   }
@@ -153,6 +182,21 @@ export const deleteUser = (login) => async (dispatch) => {
   } catch (error) {
     console.log(error);
   }
+};
+
+export const filterUsers = (employees, loginFilters, nameFilters) => (
+  dispatch
+) => {
+  let filteredEmployees = employees.filter((employee) =>
+    employee.login.includes(loginFilters)
+  );
+
+  filteredEmployees = filteredEmployees.filter(
+    (employee) =>
+      employee.name.includes(nameFilters) ||
+      employee.surname.includes(nameFilters)
+  );
+  dispatch(setFilteredEmployees(filteredEmployees));
 };
 
 export default addEmployeeSlice.reducer;

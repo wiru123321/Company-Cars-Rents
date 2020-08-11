@@ -133,7 +133,7 @@ export const filterCars = (cars, filterLicensePlate, filterMarks) => (
     car.licensePlate.includes(filterLicensePlate)
   );
   filteredCars = filteredCars.filter((car) =>
-    car.licensePlate.includes(filterMarks)
+    car.modelDTO.markDTO.name.includes(filterMarks)
   );
   dispatch(setFilteredCars(filteredCars));
 };
