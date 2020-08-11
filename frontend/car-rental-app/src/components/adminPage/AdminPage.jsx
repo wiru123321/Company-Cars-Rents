@@ -4,8 +4,8 @@ import { Route, Switch, HashRouter } from "react-router-dom";
 import UserNavbar from "./adminNavbar/AdminNavbar";
 import AddNewCar from "./manageCars/addNewCar/AddNewCar";
 import RemoveCar from "./manageCars/removeCar/RemoveCar";
-import AddEmployee from "./addEmployee/AddEmployee";
-import RemoveEmployer from "./removeEmployer/RemoveEmployer";
+import AddEmployee from "./manageEmployees/addEmployee/AddEmployee";
+import RemoveEmployer from "./manageEmployees/removeEmployer/RemoveEmployer";
 import RentRequests from "./rentRequests/RentRequests";
 import Footer from "../footer/Footer";
 

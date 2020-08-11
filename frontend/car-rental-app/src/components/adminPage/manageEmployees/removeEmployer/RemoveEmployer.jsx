@@ -10,7 +10,7 @@ import {
   loginFiltersChange,
   nameFiltersChange,
   filterUsers,
-} from "../../../features/add-employees/addEmployeeSlice";
+} from "../../../../features/add-employees/addEmployeeSlice";
 import Employee from "./Employee";
 import SearchBar from "../employeesSearchBar/EmployeesSearchBar";
 
