@@ -430,10 +430,10 @@ public class CarServiceTest {
 
         carService.addEntityToDB(car);
 
-        assertNull(car.getImageName());
-        carService.addExistingImageToExistingCar("carphoto.png", car.getLicensePlate());
+        assertNull(car.getImagePath());
+        carService.addExistingImageToExistingCar("D:/carphoto.png", car.getLicensePlate());
         final Car dbCar = carService.getEntityByLicensePlate(car.getLicensePlate());
-        assertEquals("carphoto.png", dbCar.getImageName());
+        assertEquals("D:/carphoto.png", dbCar.getImagePath());
     }
 
     @Test

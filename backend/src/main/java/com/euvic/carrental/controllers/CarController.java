@@ -93,8 +93,8 @@ public class CarController {
             return carImageUploadResponse;
         }
 
-        String carImageName = carImageUploadResponse.getBody().toString();
-        return ResponseEntity.ok(carService.addExistingImageToExistingCar(carImageName, licensePlate));
+        String carImagePath = carImageUploadResponse.getBody().toString();
+        return ResponseEntity.ok(carService.addExistingImageToExistingCar(carImagePath, licensePlate));
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/a/car/download-car-image/{licensePlate}", produces = MediaType.IMAGE_JPEG_VALUE)
