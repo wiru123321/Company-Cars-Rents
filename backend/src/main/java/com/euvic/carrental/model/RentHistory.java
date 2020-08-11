@@ -38,11 +38,18 @@ public class RentHistory {
     @Column(nullable = false)
     private Boolean isAccepted;
 
+    @Column()
+    private String comment;
+
+    @Column()
+    private String response;
+
     public RentHistory() {
 
     }
 
-    public RentHistory(final Long id, final User user, final Car car, final LocalDateTime dateFrom, final LocalDateTime dateTo, final ParkingHistory parkingHistoryFrom, final ParkingHistory parkingHistoryTo, final Boolean isActive, final Boolean isAccepted) {
+    public RentHistory(final Long id, final User user, final Car car, final LocalDateTime dateFrom, final LocalDateTime dateTo, final ParkingHistory parkingHistoryFrom
+            , final ParkingHistory parkingHistoryTo, final Boolean isActive, final Boolean isAccepted, final String comment, final String response) {
         this.id = id;
         this.user = user;
         this.car = car;
@@ -52,5 +59,7 @@ public class RentHistory {
         this.parkingHistoryTo = parkingHistoryTo;
         this.isActive = isActive;
         this.isAccepted = isAccepted;
+        this.response = response;
+        this.comment = comment;
     }
 }

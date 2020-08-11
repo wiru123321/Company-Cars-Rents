@@ -11,6 +11,7 @@ public class RentPermitDTO {
     private LocalDateTime dateFrom;
     private LocalDateTime dateTo;
     private CarDTO carDTO;
+    private String comment;
     private UserRentInfo userRentInfo;
     private ParkingDTO parkingFrom;
     private ParkingDTO parkingTo;

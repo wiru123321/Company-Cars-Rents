@@ -70,7 +70,7 @@ public class RentHistoryService implements RentHistoryServiceInterface {
     public RentHistory mapRestModel(final Long id, final RentHistoryDTO rentHistoryDTO, final Long parkingHistoryFromId, final Long parkingHisotryToId) {
 
         return new RentHistory(id, userService.getEntityByLogin(rentHistoryDTO.getUserDTO().getLogin()), carService.getEntityByLicensePlate(rentHistoryDTO.getCarDTO().getLicensePlate())
-                , rentHistoryDTO.getDateFrom(), rentHistoryDTO.getDateTo(), parkingHistoryService.getEntityById(parkingHistoryFromId), parkingHistoryService.getEntityById(parkingHisotryToId), rentHistoryDTO.getIsActive(), rentHistoryDTO.getIsAccepted());
+                , rentHistoryDTO.getDateFrom(), rentHistoryDTO.getDateTo(), parkingHistoryService.getEntityById(parkingHistoryFromId), parkingHistoryService.getEntityById(parkingHisotryToId), rentHistoryDTO.getIsActive(), rentHistoryDTO.getIsAccepted(), rentHistoryDTO.getComment(), rentHistoryDTO.getResponse());
     }
 
     @Override

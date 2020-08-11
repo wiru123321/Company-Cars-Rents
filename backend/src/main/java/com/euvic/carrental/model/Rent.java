@@ -23,6 +23,9 @@ public class Rent {
     @Column()
     private String comment;
 
+    @Column()
+    private String response;
+
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private User user;
 
@@ -43,7 +46,7 @@ public class Rent {
     }
 
     public Rent(final Long id, final User user, final Car car, final LocalDateTime dateFrom, final LocalDateTime dateTo, final Parking parkingFrom
-            , final Parking parkingTo, final Boolean isActive, final String comment) {
+            , final Parking parkingTo, final Boolean isActive, final String comment, final String response) {
         this.id = id;
         this.user = user;
         this.car = car;
@@ -53,5 +56,6 @@ public class Rent {
         this.parkingTo = parkingTo;
         this.isActive = isActive;
         this.comment = comment;
+        this.response = response;
     }
 }

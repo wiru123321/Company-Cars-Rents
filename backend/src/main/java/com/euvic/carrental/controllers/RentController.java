@@ -1,15 +1,9 @@
 package com.euvic.carrental.controllers;
 
-import com.euvic.carrental.model.Car;
-import com.euvic.carrental.model.ParkingHistory;
-import com.euvic.carrental.model.Rent;
-import com.euvic.carrental.model.User;
+import com.euvic.carrental.model.*;
 import com.euvic.carrental.responses.RentDTO;
 import com.euvic.carrental.responses.RentListCarByTime;
-import com.euvic.carrental.services.CarService;
-import com.euvic.carrental.services.ParkingService;
-import com.euvic.carrental.services.RentService;
-import com.euvic.carrental.services.UserService;
+import com.euvic.carrental.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,13 +18,17 @@ public class RentController {
     private final RentService rentService;
     private final CarService carService;
     private final ParkingService parkingService;
+    private final ParkingHistoryService parkingHistoryService;
+    private final RentHistoryService rentHistoryService;
 
     @Autowired
-    public RentController(final UserService userService, final RentService rentService, final CarService carService, final ParkingService parkingService) {
+    public RentController(final UserService userService, final RentService rentService, final CarService carService, final ParkingService parkingService, final ParkingHistoryService parkingHistoryService, final RentHistoryService rentHistoryService) {
         this.userService = userService;
         this.rentService = rentService;
         this.carService = carService;
         this.parkingService = parkingService;
+        this.parkingHistoryService = parkingHistoryService;
+        this.rentHistoryService = rentHistoryService;
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/a/rent/pending")
@@ -82,7 +80,7 @@ public class RentController {
         try {
             id = parkingService.addEntityToDB(parkingService.mapRestModel(null, rentDTO.getParkingDTOTo()));
             car.setParking(parkingService.getEntityById(id));
-            final Rent rent = new Rent(null, user, car, rentDTO.getDateFrom(), rentDTO.getDateTo(), car.getParking(), parkingService.getEntityById(id), false, null);
+            final Rent rent = new Rent(null, user, car, rentDTO.getDateFrom(), rentDTO.getDateTo(), car.getParking(), parkingService.getEntityById(id), false, rentDTO.getComment(), "");
             rentService.addEntityToDB(rent);
             responseCode = 200;
             message = "Ok";
@@ -96,14 +94,26 @@ public class RentController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/a/rent/reject/{id}")
-    public ResponseEntity<?> rejectRent(@PathVariable final Long id) {
+    public ResponseEntity<?> rejectRent(@PathVariable final Long id, @RequestBody final String response) {
         final Rent rent = rentService.getEntityById(id);
         int responseCode;
         String message;
         try {
-            ParkingHistory parking1;
-            ParkingHistory parking2;
 
+            final ParkingHistory parkingFrom = new ParkingHistory(null, rent.getParkingFrom());
+            final ParkingHistory parkingTo = new ParkingHistory(null, rent.getParkingTo());
+            final RentHistory rentHistory = new RentHistory(null, rent.getUser(), rent.getCar(), rent.getDateFrom(), rent.getDateTo(), parkingFrom
+                    , parkingTo, false, false, rent.getComment(), response);
+            parkingHistoryService.addEntityToDB(parkingFrom);
+            parkingHistoryService.addEntityToDB(parkingTo);
+            rentHistoryService.addEntityToDB(rentHistory);
+
+            rent.setCar(null);
+            rent.setParkingFrom(null);
+            rent.setParkingTo(null);
+            rent.setUser(null);
+
+            rentService.deleteRent(rent);
 
             responseCode = 200;
             message = "ok";

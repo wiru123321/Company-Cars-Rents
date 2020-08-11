@@ -90,10 +90,10 @@ public class RentService implements RentServiceInterface {
         final Rent rent;
         if (parkingToId != null) {
             rent = new Rent(id, userService.getEntityByLogin(rentDTO.getUserDTO().getLogin()), carService.getEntityByLicensePlate(rentDTO.getCarDTO().getLicensePlate())
-                    , rentDTO.getDateFrom(), rentDTO.getDateTo(), parkingService.getEntityById(parkingFromId), parkingService.getEntityById(parkingToId), rentDTO.getIsActive(), null);
+                    , rentDTO.getDateFrom(), rentDTO.getDateTo(), parkingService.getEntityById(parkingFromId), parkingService.getEntityById(parkingToId), rentDTO.getIsActive(), rentDTO.getComment(), rentDTO.getResponse());
         } else {
             rent = new Rent(id, userService.getEntityByLogin(rentDTO.getUserDTO().getLogin()), carService.getEntityByLicensePlate(rentDTO.getCarDTO().getLicensePlate())
-                    , rentDTO.getDateFrom(), rentDTO.getDateTo(), parkingService.getEntityById(parkingFromId), null, rentDTO.getIsActive(), null);
+                    , rentDTO.getDateFrom(), rentDTO.getDateTo(), parkingService.getEntityById(parkingFromId), null, rentDTO.getIsActive(), rentDTO.getComment(), rentDTO.getResponse());
         }
         return rent;
     }
@@ -147,6 +147,7 @@ public class RentService implements RentServiceInterface {
             rentList.forEach((rent) -> {
                 final RentPermitDTO rentPermitDTO = new RentPermitDTO();
                 rentPermitDTO.setId(rent.getId());
+                rentPermitDTO.setComment(rent.getComment());
                 rentPermitDTO.setCarDTO(carService.mapToCarDTO(rent.getCar()));
                 rentPermitDTO.setDateFrom(rent.getDateFrom());
                 rentPermitDTO.setDateTo(rent.getDateTo());
@@ -189,6 +190,11 @@ public class RentService implements RentServiceInterface {
                 && rentListCarByTime.getDateFrom().isBefore(dateTo))
                 || (rentListCarByTime.getDateTo().isAfter(dateFrom)
                 && rentListCarByTime.getDateTo().isBefore(dateTo));
+    }
+
+    @Override
+    public void deleteRent(final Rent rent) {
+        rentRepository.delete(rent);
     }
 
 
