@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -58,11 +59,25 @@ public class FileService {
         return photoName;
     }
 
-    public ResponseEntity<byte[]> downloadCarImage(String licensePlate) throws IOException {
+    public ResponseEntity<?> downloadCarImage(String licensePlate) throws IOException {
         Car car = carService.getEntityByLicensePlate(licensePlate);
         String photoPath = car.getImagePath();
-        File imgPath = new File(photoPath);
-        byte[] image = Files.readAllBytes(imgPath.toPath());
+        File filePath;
+        try{
+            filePath = new File(photoPath);
+        }catch (NullPointerException e){
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Car image not found.");
+        }
+
+        byte[] image;
+        try {
+            image = Files.readAllBytes(filePath.toPath());
+        }catch (IOException e){
+            e.printStackTrace();
+            throw new IOException("Reading image bytes error. Exception: " + e);
+        }
+
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.IMAGE_JPEG);
         headers.setContentLength(image.length);
