@@ -67,7 +67,7 @@ public class CarService implements CarServiceInterface {
         final ArrayList<Car> carList = new ArrayList<>();
         carRepository.findAll().forEach(carList::add);
 
-        return this.mapRestList(carList);
+        return this.mapEntityList(carList);
     }
 
     @Override
@@ -109,21 +109,21 @@ public class CarService implements CarServiceInterface {
     public List<CarDTO> getInCompanyCarDTOs() {
         final ArrayList<Car> carList = new ArrayList<>(carRepository.findAllByIsOnCompany(true));
 
-        return this.mapRestList(carList);
+        return this.mapEntityList(carList);
     }
 
     @Override
     public List<CarDTO> getInCompanyActiveCarDTOs() {
         final ArrayList<Car> carList = new ArrayList<>(carRepository.findAllByIsOnCompanyAndIsActive(true, true));
 
-        return this.mapRestList(carList);
+        return this.mapEntityList(carList);
     }
 
     @Override
     public List<CarDTO> getInCompanyInactiveCarDTOs() {
         final ArrayList<Car> carList = new ArrayList<>(carRepository.findAllByIsOnCompanyAndIsActive(true, false));
 
-        return this.mapRestList(carList);
+        return this.mapEntityList(carList);
     }
 
     @Override
@@ -132,7 +132,7 @@ public class CarService implements CarServiceInterface {
                 new ParkingDTO(car.getParking()), new ColourDTO(car.getColour()), new TypeDTO(car.getType()));
     }
 
-    private List<CarDTO> mapRestList(final List<Car> carList) {
+    private List<CarDTO> mapEntityList(final List<Car> carList) {
         final ArrayList<CarDTO> carDTOList = new ArrayList<>();
         carList.forEach((car) -> {
             final CarDTO carDTO = new CarDTO(car, new GearBoxTypeDTO(car.getGearboxType()), new FuelTypeDTO(car.getFuelType()), new ModelDTO(car.getModel()),
