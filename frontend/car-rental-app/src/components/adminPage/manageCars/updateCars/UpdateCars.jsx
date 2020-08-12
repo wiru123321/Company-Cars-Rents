@@ -4,6 +4,7 @@ import { Paper } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core";
 import { ValidatorForm } from "react-material-ui-form-validator";
 import UpdateCarsForm from "./UpdateCarsForm";
+import CarsUpdateAlert from "./CarsUpdateAlert";
 import { updateCar } from "../../../../features/car-management/carManagerSlice";
 
 const useStyles = makeStyles({
@@ -28,14 +29,12 @@ const UpdateCars = ({ car }) => {
       <ValidatorForm
         onSubmit={(event) => {
           event.preventDefault();
-
           var newCar = {
             ...car,
             licensePlate: licensePlate,
             mileage: mileage,
             lastInspection: `${lastInspection}T00:00:00`,
           };
-          console.log(newCar);
           dispatch(updateCar(exLicensePlate, newCar));
         }}
       >
@@ -48,6 +47,7 @@ const UpdateCars = ({ car }) => {
           lastInspectionChange={setLastInspection}
         />
       </ValidatorForm>
+      <CarsUpdateAlert />
     </Paper>
   );
 };

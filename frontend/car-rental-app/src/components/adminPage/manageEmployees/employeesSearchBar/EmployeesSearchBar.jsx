@@ -27,6 +27,7 @@ const EmployeesSearchBar = ({
   nameFilters,
   handleLoginsFilterChange,
   handleNameFilterChange,
+  resetChanges,
 }) => {
   const classes = useStyles();
   return (
@@ -52,7 +53,7 @@ const EmployeesSearchBar = ({
             />
           </Paper>
           <Divider orientation="vertical" flexItem />
-          <Button>Reset</Button>
+          <Button onClick={resetChanges}>Reset</Button>
         </Grid>
       </Paper>
     </Grid>

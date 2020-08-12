@@ -31,21 +31,14 @@ public class RentController {
         this.rentHistoryService = rentHistoryService;
     }
 
+    //ADMIN
+
     @RequestMapping(method = RequestMethod.GET, value = "/a/rent/pending")
     public ResponseEntity<?> getPendingRents() {
         return ResponseEntity.ok(rentService.getAllPendingRents());
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/e/rent/my")
-    public ResponseEntity<?> getMyRents() {
-        return ResponseEntity.ok(rentService.getUserRentDTOs());
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "/e/rent/carsOnTime")
-    public ResponseEntity<?> getCarsOnTime(@RequestBody final RentListCarByTime rentListCarByTime) {
-        return ResponseEntity.ok(rentService.getActiveCarsBetweenDates(rentListCarByTime));
-    }
-
+    //TODO dodaj sprawdzenie czy ktoś już nie ma wypożyczenia na podany termin, zmień RequestBody musi zawierać tablice rej i response od admina
     @RequestMapping(method = RequestMethod.PUT, value = "/a/rent/permit/{id}")
     public ResponseEntity<?> permitRent(@PathVariable final Long id, @RequestBody final String licensePlate) {
         final Rent rent = rentService.getEntityById(id);
@@ -69,31 +62,7 @@ public class RentController {
         return ResponseEntity.status(responseCode).body(message);
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/e/rent/{licensePlate}")
-    public ResponseEntity<?> addRent(@PathVariable final String licensePlate, @RequestBody final RentDTO rentDTO) {
-        final User user = userService.getEntityByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
-        final Car car = carService.getEntityByLicensePlate(licensePlate);
-
-        int responseCode;
-        final Long id;
-        String message;
-        try {
-            id = parkingService.addEntityToDB(parkingService.mapRestModel(null, rentDTO.getParkingDTOTo()));
-            car.setParking(parkingService.getEntityById(id));
-            final Rent rent = new Rent(null, user, car, rentDTO.getDateFrom(), rentDTO.getDateTo(), car.getParking(), parkingService.getEntityById(id), false, rentDTO.getComment(), "");
-            rentService.addEntityToDB(rent);
-            responseCode = 200;
-            message = "Ok";
-
-        } catch (final NullPointerException e) {
-            responseCode = 406;
-            message = "Cannot find user or car in database";
-        }
-
-        return ResponseEntity.status(responseCode).body(message);
-    }
-
-    @RequestMapping(method = RequestMethod.POST, value = "/a/rent/reject/{id}")
+    @RequestMapping(method = RequestMethod.DELETE, value = "/a/rent/reject/{id}")
     public ResponseEntity<?> rejectRent(@PathVariable final Long id, @RequestBody final String response) {
         final Rent rent = rentService.getEntityById(id);
         int responseCode;
@@ -121,6 +90,46 @@ public class RentController {
             message = "Invalid rent ID";
             responseCode = 400;
         }
+        return ResponseEntity.status(responseCode).body(message);
+    }
+
+    //EMPLOYEE
+    @RequestMapping(method = RequestMethod.GET, value = "/e/rent/my_history")
+    public ResponseEntity<?> getMyHistory() {
+        return ResponseEntity.ok(rentService.getUserRentHistoryDTOs());
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/e/rent/my")
+    public ResponseEntity<?> getMyRents() {
+        return ResponseEntity.ok(rentService.getUserRentDTOs());
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/e/rent/carsOnTime")
+    public ResponseEntity<?> getCarsOnTime(@RequestBody final RentListCarByTime rentListCarByTime) {
+        return ResponseEntity.ok(rentService.getActiveCarsBetweenDates(rentListCarByTime));
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/e/rent/{licensePlate}")
+    public ResponseEntity<?> addRent(@PathVariable final String licensePlate, @RequestBody final RentDTO rentDTO) {
+        final User user = userService.getEntityByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
+        final Car car = carService.getEntityByLicensePlate(licensePlate);
+
+        int responseCode;
+        final Long id;
+        String message;
+        try {
+            id = parkingService.addEntityToDB(parkingService.mapRestModel(null, rentDTO.getParkingDTOTo()));
+            car.setParking(parkingService.getEntityById(id));
+            final Rent rent = new Rent(null, user, car, rentDTO.getDateFrom(), rentDTO.getDateTo(), car.getParking(), parkingService.getEntityById(id), false, rentDTO.getComment(), "");
+            rentService.addEntityToDB(rent);
+            responseCode = 200;
+            message = "Ok";
+
+        } catch (final NullPointerException e) {
+            responseCode = 406;
+            message = "Cannot find user or car in database";
+        }
+
         return ResponseEntity.status(responseCode).body(message);
     }
 

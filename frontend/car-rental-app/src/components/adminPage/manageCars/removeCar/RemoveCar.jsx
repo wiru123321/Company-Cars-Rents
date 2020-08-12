@@ -13,7 +13,7 @@ import {
 } from "../../../../features/car-management/carManagerSlice";
 import SearchBar from "../carsSearchBar/CarsSearchBar";
 import Car from "./Car";
-import NotFoundMessage from "./NotFoundMessage";
+import NotFoundMessage from "../../messages/NotFoundMessage";
 
 const RemoveCar = () => {
   const { cars, filteredCars, filterLicensePlate, filterMark } = useSelector(
@@ -88,7 +88,7 @@ const RemoveCar = () => {
             />
           ))
         ) : (
-          <NotFoundMessage />
+          <NotFoundMessage>Cars not found.</NotFoundMessage>
         )}
       </List>
     </Container>

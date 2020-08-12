@@ -6,7 +6,7 @@ const useStyles = makeStyles({
     height: "40vh",
   },
 });
-const NotFoundMessage = () => {
+const NotFoundMessage = ({ children }) => {
   const classes = useStyles();
   return (
     <Paper>
@@ -17,7 +17,7 @@ const NotFoundMessage = () => {
         justify="center"
         alignItems="center"
       >
-        <Typography>Cars not found.</Typography>
+        <Typography>{children}</Typography>
       </Grid>
     </Paper>
   );

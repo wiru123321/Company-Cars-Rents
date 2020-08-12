@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Grid, Paper } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import EmployerInfo from "./removeEmployerComponent/RemoveEmployerComponent";
@@ -12,7 +12,13 @@ const useStyles = makeStyles({
   },
 });
 
-const Employee = ({ employee, handleDelete, handleUpdate }) => {
+const Employee = ({
+  employee,
+  handleDelete,
+  handleUpdate,
+  didUpdate,
+  didUpdateSuccess,
+}) => {
   const classes = useStyles();
   const [edit, setEdit] = useState(false);
 

@@ -10,6 +10,8 @@ import userEmailSettingsReducer from "../features/user-settings/userEmailSetting
 import userPasswordSettingsReducer from "../features/user-settings/userPasswordSettingsSlice";
 import userPhoneNumberSettingsReducer from "../features/user-settings/userPhoneNumberSettingsSlice";
 import carManagerReducer from "../features/car-management/carManagerSlice";
+import employeesManagerReducer from "../features/employees-management/employeesManagerSlice";
+
 export default configureStore({
   reducer: {
     reservation: reservationReducer,
@@ -23,5 +25,6 @@ export default configureStore({
     userPasswordSettings: userPasswordSettingsReducer,
     userPhoneNumberSettings: userPhoneNumberSettingsReducer,
     carsManager: carManagerReducer,
+    employees: employeesManagerReducer,
   },
 });

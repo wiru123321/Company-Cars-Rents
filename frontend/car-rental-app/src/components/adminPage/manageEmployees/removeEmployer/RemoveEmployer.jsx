@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Container } from "@material-ui/core";
+import { Container, Alert } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
 import {
   selectAllUsers,
@@ -10,24 +10,31 @@ import {
   loginFiltersChange,
   nameFiltersChange,
   filterUsers,
-} from "../../../../features/add-employees/addEmployeeSlice";
+  resetFilters,
+} from "../../../../features/employees-management/employeesManagerSlice";
 import Employee from "./Employee";
 import SearchBar from "../employeesSearchBar/EmployeesSearchBar";
+import NotFoundMessage from "../../messages/NotFoundMessage";
 
 const RemoveEmployer = () => {
   const dispatch = useDispatch();
-  const employees = useSelector(selectAllUsers);
-  const { loginFilters, nameFilters, filteredEmployees } = useSelector(
-    selectAll
-  );
+
+  const {
+    users,
+    loginFilters,
+    nameFilters,
+    filteredEmployees,
+    didUpdate,
+    didUpdateSuccess,
+  } = useSelector(selectAll);
 
   useEffect(() => {
     dispatch(fetchAllUsers());
   }, []);
 
   useEffect(() => {
-    dispatch(filterUsers(employees, loginFilters, nameFilters));
-  }, [employees, loginFilters, nameFilters]);
+    dispatch(filterUsers(users, loginFilters, nameFilters));
+  }, [users, loginFilters, nameFilters]);
 
   const handleDelete = (login) => {
     dispatch(deleteUser(login));
@@ -44,7 +51,9 @@ const RemoveEmployer = () => {
   const handleNameFilterChange = (event) => {
     dispatch(nameFiltersChange(event.target.value));
   };
-
+  const handleReseet = () => {
+    dispatch(resetFilters());
+  };
   return (
     <Container
       display="flex"
@@ -60,15 +69,20 @@ const RemoveEmployer = () => {
         nameFilters={nameFilters}
         handleLoginsFilterChange={handleLoginsFilterChange}
         handleNameFilterChange={handleNameFilterChange}
+        resetChanges={handleReseet}
       />
-      {filteredEmployees.map((employee, index) => (
-        <Employee
-          key={index}
-          handleDelete={handleDelete}
-          handleUpdate={handleUpdate}
-          employee={employee}
-        />
-      ))}
+      {filteredEmployees.length > 0 ? (
+        filteredEmployees.map((employee, index) => (
+          <Employee
+            key={index}
+            handleDelete={handleDelete}
+            handleUpdate={handleUpdate}
+            employee={employee}
+          />
+        ))
+      ) : (
+        <NotFoundMessage>Employees not found.</NotFoundMessage>
+      )}
     </Container>
   );
 };

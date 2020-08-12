@@ -14,10 +14,6 @@ const initialState = {
   role: "EMPLOYEE",
   didSubmit: false,
   success: false,
-  users: [],
-  loginFilters: "",
-  nameFilters: "",
-  filteredEmployees: [],
 };
 
 export const addEmployeeSlice = createSlice({
@@ -75,22 +71,6 @@ export const addEmployeeSlice = createSlice({
       state.didSubmit = false;
       state.success = false;
     },
-
-    setUsers: (state, action) => {
-      state.users = action.payload;
-    },
-
-    loginFiltersChange: (state, action) => {
-      state.loginFilters = action.payload;
-    },
-
-    nameFiltersChange: (state, action) => {
-      state.nameFilters = action.payload;
-    },
-
-    setFilteredEmployees: (state, action) => {
-      state.filteredEmployees = action.payload;
-    },
   },
 });
 
@@ -106,30 +86,11 @@ export const {
   toggleDidSubmit,
   toggleSuccess,
   reset,
-  setUsers,
-  loginFiltersChange,
-  nameFiltersChange,
-  setFilteredEmployees,
 } = addEmployeeSlice.actions;
 
 export const selectAll = (state) => state.addEmployee;
 
 export const selectAllUsers = (state) => state.addEmployee.users;
-
-export const fetchAllUsers = () => async (dispatch) => {
-  try {
-    const response = await axios.get(API_URL + "/a/users", {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("token"),
-      },
-    });
-    console.log(response.data);
-    dispatch(setUsers(response.data));
-    dispatch(setFilteredEmployees(response.data));
-  } catch (error) {
-    console.log(error);
-  }
-};
 
 export const addUser = (userCration) => async (dispatch) => {
   try {
@@ -141,62 +102,6 @@ export const addUser = (userCration) => async (dispatch) => {
   } catch (error) {
     console.log(error);
   }
-};
-
-export const updateUser = (login, userUpdate) => async (dispatch) => {
-  try {
-    console.log(userUpdate);
-    const updateResponse = await axios.put(
-      API_URL + `/a/user/${login}`,
-      userUpdate,
-      {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      }
-    );
-    const fetchResponse = await axios.get(API_URL + "/a/users", {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("token"),
-      },
-    });
-    dispatch(setUsers(fetchResponse.data));
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const deleteUser = (login) => async (dispatch) => {
-  try {
-    const deleteResponse = await axios.delete(API_URL + `/a/user/${login}`, {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("token"),
-      },
-    });
-    const fetchResponse = await axios.get(API_URL + "/a/users", {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("token"),
-      },
-    });
-    dispatch(setUsers(fetchResponse.data));
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const filterUsers = (employees, loginFilters, nameFilters) => (
-  dispatch
-) => {
-  let filteredEmployees = employees.filter((employee) =>
-    employee.login.includes(loginFilters)
-  );
-
-  filteredEmployees = filteredEmployees.filter(
-    (employee) =>
-      employee.name.includes(nameFilters) ||
-      employee.surname.includes(nameFilters)
-  );
-  dispatch(setFilteredEmployees(filteredEmployees));
 };
 
 export default addEmployeeSlice.reducer;

@@ -1,6 +1,7 @@
 package com.euvic.carrental.responses;
 
 import com.euvic.carrental.model.Rent;
+import com.euvic.carrental.model.RentHistory;
 import com.euvic.carrental.responses.User.UserDTO;
 import lombok.Data;
 
@@ -18,8 +19,16 @@ public class RentDTO {
     private ParkingDTO parkingDTOTo;
     private Boolean isActive;
 
-    public RentDTO() {
-
+    public RentDTO(final RentHistory rentHistory, final UserDTO userDTO, final CarDTO carDTO, final ParkingDTO parkingDTOFrom, final ParkingDTO parkingDTOTo) {
+        this.dateFrom = rentHistory.getDateFrom();
+        this.dateTo = rentHistory.getDateTo();
+        this.userDTO = userDTO;
+        this.carDTO = carDTO;
+        this.parkingDTOFrom = parkingDTOFrom;
+        this.parkingDTOTo = parkingDTOTo;
+        this.isActive = rentHistory.getIsActive();
+        this.comment = rentHistory.getComment();
+        this.response = rentHistory.getResponse();
     }
 
     public RentDTO(final LocalDateTime dateFrom, final LocalDateTime dateTo, final UserDTO userDTO, final CarDTO carDTO, final ParkingDTO parkingDTOFrom, final ParkingDTO parkingDTOTo, final Boolean isActive, final String comment, final String response) {
