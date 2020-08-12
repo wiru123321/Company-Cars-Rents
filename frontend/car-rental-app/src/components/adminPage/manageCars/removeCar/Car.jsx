@@ -36,6 +36,7 @@ const Car = ({ car, index, onDelete }) => {
 
         <Grid item xs={4}>
           <CarControlPanel
+            isActive={car.isActive}
             index={index}
             onDelete={onDelete}
             toggleEdit={toggleEdit}

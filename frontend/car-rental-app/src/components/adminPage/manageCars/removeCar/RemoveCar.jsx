@@ -11,6 +11,7 @@ import {
   fetchActiveCars,
   fetchInactiveCars,
 } from "../../../../features/car-management/carManagerSlice";
+import CarsUpdateAlert from "../updateCars/CarsUpdateAlert";
 import SearchBar from "../carsSearchBar/CarsSearchBar";
 import Car from "./Car";
 import NotFoundMessage from "../../messages/NotFoundMessage";
@@ -22,7 +23,7 @@ const RemoveCar = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchCars());
+    dispatch(fetchActiveCars());
   }, []);
 
   useEffect(() => {
@@ -77,11 +78,12 @@ const RemoveCar = () => {
           reset={reset}
         />
       </>
+      <CarsUpdateAlert />
       <List>
         {filteredCars.length > 0 ? (
           filteredCars.map((car, index) => (
             <Car
-              key={index}
+              key={index + car.licensePlate}
               car={car}
               index={index}
               onDelete={handleCarDelete}

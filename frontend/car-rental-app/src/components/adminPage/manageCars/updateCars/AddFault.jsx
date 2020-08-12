@@ -13,11 +13,15 @@ const useStyles = makeStyles({
     padding: "8px",
     width: "30vw",
   },
+  box: {
+    height: "30vh",
+    width: "40vw",
+  },
 });
 
-const AddFault = ({ licensePlate }) => {
+const AddFault = ({ carLicensePlate, onSubmit }) => {
   const classes = useStyles();
-  const [descritpion, setDescription] = useState("");
+  const [description, setDescription] = useState("");
   const [setCarInactive, changeInactive] = useState(false);
 
   const handleDescriptionChange = (event) => {
@@ -29,20 +33,25 @@ const AddFault = ({ licensePlate }) => {
   };
 
   return (
-    <form>
+    <form
+      onSubmit={() =>
+        onSubmit({ description, carLicensePlate, setCarInactive })
+      }
+    >
       <Grid
+        className={classes.box}
         container
         direction="column"
         justify="space-evenly"
         alignItems="center"
       >
         <Grid item>
-          <Grid container justify="flex-start">
+          <Grid container direction="column">
             <Typography>Fault description</Typography>
             <TextareaAutosize
               className={classes.textArea}
               onChange={handleDescriptionChange}
-              value={descritpion}
+              value={description}
               placeholder="Empty"
               required
             />
@@ -58,7 +67,7 @@ const AddFault = ({ licensePlate }) => {
           </Grid>
         </Grid>
         <Grid item>
-          <Button>Submit</Button>
+          <Button type="submit">Submit</Button>
         </Grid>
       </Grid>
     </form>

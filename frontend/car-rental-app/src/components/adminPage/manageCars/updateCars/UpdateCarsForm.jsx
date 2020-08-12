@@ -11,6 +11,10 @@ const useStyles = makeStyles({
     marginTop: "2%",
     width: "40ch",
   },
+  box: {
+    height: "30vh",
+    width: "40vw",
+  },
 });
 
 const UpdateCarsForm = ({
@@ -23,7 +27,13 @@ const UpdateCarsForm = ({
 }) => {
   const classes = useStyles();
   return (
-    <Grid container direction="column" justify="center" alignItems="center">
+    <Grid
+      className={classes.box}
+      container
+      direction="column"
+      justify="center"
+      alignItems="center"
+    >
       <Typography className={classes.title} variant="h1">
         Edit car specs
       </Typography>

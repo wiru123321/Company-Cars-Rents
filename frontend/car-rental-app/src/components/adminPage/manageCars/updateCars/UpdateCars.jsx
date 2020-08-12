@@ -1,64 +1,95 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Paper, Button } from "@material-ui/core";
+import { Paper, Button, Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core";
 import { ValidatorForm } from "react-material-ui-form-validator";
 import UpdateCarsForm from "./UpdateCarsForm";
-import CarsUpdateAlert from "./CarsUpdateAlert";
 import AddFault from "./AddFault";
-import { updateCar } from "../../../../features/car-management/carManagerSlice";
+import {
+  updateCar,
+  addFault,
+} from "../../../../features/car-management/carManagerSlice";
 
 const useStyles = makeStyles({
   root: {
     padding: "8px",
-    width: "40vw",
+  },
+  form: {
+    marginTop: "4%",
   },
 });
 
-const UpdateCars = ({ car }) => {
-  const classes = useStyles();
+const EditCars = ({ car }) => {
   const dispatch = useDispatch();
-  const exLicensePlate = car.licensePlate;
   const [licensePlate, setLicensePlate] = useState(car.licensePlate);
   const [mileage, setMileage] = useState(car.mileage);
   const [lastInspection, setLastInspection] = useState(
     car.lastInspection.slice(0, 10)
   );
+  const exLicensePlate = car.licensePlate;
 
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    let newCar = {
+      ...car,
+      licensePlate: licensePlate,
+      mileage: mileage,
+      lastInspection: `${lastInspection}T00:00:00`,
+    };
+    dispatch(updateCar(exLicensePlate, newCar));
+  };
+
+  return (
+    <ValidatorForm onSubmit={handleSubmit}>
+      <UpdateCarsForm
+        licensePlate={licensePlate}
+        mileage={mileage}
+        lastInspection={lastInspection}
+        licensePlateChange={setLicensePlate}
+        mileageChange={setMileage}
+        lastInspectionChange={setLastInspection}
+      />
+    </ValidatorForm>
+  );
+};
+
+const UpdateCars = ({ car }) => {
+  const classes = useStyles();
+  const dispatch = useDispatch();
   const [menu, toggle] = useState(true);
 
-  const toggleMenu = () => {
-    toggle(!menu);
+  const handleAddFault = (faultDTO) => {
+    dispatch(addFault(faultDTO));
   };
+
   return (
     <Paper className={classes.root}>
-      {menu ? (
-        <ValidatorForm
-          onSubmit={(event) => {
-            event.preventDefault();
-            var newCar = {
-              ...car,
-              licensePlate: licensePlate,
-              mileage: mileage,
-              lastInspection: `${lastInspection}T00:00:00`,
-            };
-            dispatch(updateCar(exLicensePlate, newCar));
-          }}
+      <Grid container justify="space-evenly" alignItems="center">
+        <Button
+          onClick={() => toggle(true)}
+          color={menu ? "primary" : ""}
+          variant="contained"
         >
-          <UpdateCarsForm
-            licensePlate={licensePlate}
-            mileage={mileage}
-            lastInspection={lastInspection}
-            licensePlateChange={setLicensePlate}
-            mileageChange={setMileage}
-            lastInspectionChange={setLastInspection}
+          Edit car
+        </Button>
+        <Button
+          onClick={() => toggle(false)}
+          color={menu ? "" : "primary"}
+          variant="contained"
+        >
+          Add fault
+        </Button>
+      </Grid>
+      <Grid className={classes.form}>
+        {menu ? (
+          <EditCars car={car} />
+        ) : (
+          <AddFault
+            carLicensePlate={car.licensePlate}
+            onSubmit={handleAddFault}
           />
-        </ValidatorForm>
-      ) : (
-        <AddFault licensePlate={exLicensePlate} />
-      )}
-      <Button onClick={toggleMenu}>{menu ? "Add fault" : "Edit car"}</Button>
-      <CarsUpdateAlert />
+        )}
+      </Grid>
     </Paper>
   );
 };

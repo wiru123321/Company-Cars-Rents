@@ -10,6 +10,7 @@ const initialState = {
   filterMark: "",
   didUpdate: false,
   didUpdateSuccess: false,
+  edit: false,
 };
 
 const carManagerSlice = createSlice({
@@ -36,6 +37,9 @@ const carManagerSlice = createSlice({
       state.didUpdate = false;
       state.didUpdateSuccess = false;
     },
+    setEdit: (state, action) => {
+      state.edit = action.payload;
+    },
   },
 });
 
@@ -46,6 +50,7 @@ export const {
   setMarkFilters,
   setUpdateResult,
   resetUpdate,
+  setEdit,
 } = carManagerSlice.actions;
 
 export const selectCars = (state) => state.carsManager.cars;
@@ -76,7 +81,7 @@ export const fetchActiveCars = () => async (dispatch) => {
     console.log(response.data);
     dispatch(setCars(response.data));
   } catch (error) {
-    console.log(error);
+    console.log("incative", error);
   }
 };
 
@@ -131,9 +136,11 @@ export const updateCar = (licensePlate, car) => async (dispatch) => {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     });
+    console.log(fetchResponse);
     dispatch(setCars(fetchResponse.data));
     dispatch(setUpdateResult(true));
   } catch (error) {
+    console.log(error);
     dispatch(setUpdateResult(false));
   }
 };
@@ -145,11 +152,17 @@ export const addFault = (faultDTO) => async (dispatch) => {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     });
-    const fetchResponse = await axios.get(API_URL + "/a/cars", {
+    const fetchResponse = await axios.get(API_URL + "/ae/active-cars", {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     });
+    const faults = await axios.get(API_URL + "/a/active-faults", {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
+    console.log(faults.data);
     dispatch(setCars(fetchResponse.data));
     dispatch(setUpdateResult(true));
   } catch (error) {
