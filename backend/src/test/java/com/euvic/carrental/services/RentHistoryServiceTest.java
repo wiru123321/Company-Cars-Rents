@@ -9,9 +9,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -420,4 +423,47 @@ public class RentHistoryServiceTest {
         assertEquals(rentHistoryRepository.count(), rentHistoryDTOList.size());
     }
 
+    @Test
+    void shouldReturnListOfRentDTOListWithUserHistoryRents() {
+        final ParkingHistory parking1 = new ParkingHistory(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
+        final ParkingHistory parking2 = new ParkingHistory(null, "Radom", "40-222", "Jaka 32", "A-8", "Parking przy sklepie Tesco", true);
+        final Parking parking3 = new Parking(null, "Kielce", "40-623", "Weteranow 54", "B-4", "Parking przy dworcu", true);
+
+        final Long parkingId1 = parkingHistoryService.addEntityToDB(parking1);
+        final Long parkingId2 = parkingHistoryService.addEntityToDB(parking2);
+        final Long parkingId3 = parkingService.addEntityToDB(parking3);
+
+        final Car car = new Car(null, "SBE33212", 120, 1, 4, 3,
+                gearboxTypeService.getEntityByName("Manual"), fuelTypeService.getEntityByName("Diesel"),
+                LocalDateTime.of(2000, 3, 25, 0, 0), 2000, true, 120000
+                , modelService.getEntityByName("Astra"),
+                parkingService.getEntityById(parkingId3), colourService.getEntityByName("Blue"), typeService.getEntityByName("Coupe"));
+
+        carRepository.save(car);
+
+        final Role role1 = new Role(null, "Admin");
+        final Role role2 = new Role(null, "User");
+
+        roleRepository.save(role1);
+        roleRepository.save(role2);
+
+        final User user = new User(null, "login", "password", "email@email.com", "name", "surname", "123789456", roleService.getEntityByRoleName("User"));
+
+        userRepository.save(user);
+
+        final LocalDateTime dateFrom = LocalDateTime.of(2000, 3, 25, 0, 0);
+        final LocalDateTime dateTo = LocalDateTime.of(2000, 3, 30, 0, 0);
+
+        final RentHistory rent1 = new RentHistory(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlate("SBE33212"), dateFrom, dateTo
+                , parkingHistoryService.getEntityById(parkingId1), parkingHistoryService.getEntityById(parkingId2), true, true, "comment", "Response");
+
+        SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(user.getLogin(), user.getPassword()));
+        final List<RentHistoryDTO> list = new ArrayList<>();
+        assertEquals(list, rentHistoryService.getUserRentHistoryDTOs());
+        final Long rentId1 = rentHistoryService.addEntityToDB(rent1);
+        final RentHistoryDTO rentHistoryDTO = rentHistoryService.getDTOById(rentId1);
+        list.add(rentHistoryDTO);
+        assertEquals(list, rentHistoryService.getUserRentHistoryDTOs());
+
+    }
 }

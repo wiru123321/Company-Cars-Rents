@@ -29,11 +29,11 @@ public interface RentServiceInterface {
 
     List<RentDTO> getAllDTOs();
 
-    List<RentDTO> getUserRentDTOs();
+    List<RentDTO> getUserInactiveRentDTOs();
+
+    List<RentDTO> getUserActiveRentDTOs();
 
     void deleteRent(Rent rent);
-
-    List<RentDTO> getUserRentHistoryDTOs();
 
     boolean checkMyRentsBeforeAddNewRent(RentDTO rentDTO);
 }

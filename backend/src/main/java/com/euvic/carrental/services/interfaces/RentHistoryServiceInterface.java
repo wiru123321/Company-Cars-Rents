@@ -22,4 +22,6 @@ public interface RentHistoryServiceInterface {
     RentHistory mapRestModel(Long id, RentHistoryDTO rentHistoryDTO, Long parkingHistoryFromId, Long parkingHistoryToId);
 
     List<RentHistoryDTO> getAllDTOs();
+
+    List<RentHistoryDTO> getUserRentHistoryDTOs();
 }

@@ -497,7 +497,7 @@ public class RentServiceTest {
 
         rentDTO.setDateFrom(LocalDateTime.of(2000, 5, 25, 0, 0));
         rentDTO.setDateTo(LocalDateTime.of(2000, 5, 28, 0, 0));
-        
+
         assertTrue(rentService.checkMyRentsBeforeAddNewRent(rentDTO));
     }
 }

@@ -1,6 +1,9 @@
 package com.euvic.carrental.services;
 
-import com.euvic.carrental.model.*;
+import com.euvic.carrental.model.Car;
+import com.euvic.carrental.model.Parking;
+import com.euvic.carrental.model.Rent;
+import com.euvic.carrental.model.User;
 import com.euvic.carrental.repositories.RentHistoryRepository;
 import com.euvic.carrental.repositories.RentRepository;
 import com.euvic.carrental.responses.*;
@@ -17,14 +20,12 @@ import java.util.List;
 public class RentService implements RentServiceInterface {
 
     final private RentRepository rentRepository;
-    final private RentHistoryRepository rentHistoryRepository;
     final private UserService userService;
     final private CarService carService;
     final private ParkingService parkingService;
 
     public RentService(final RentRepository rentRepository, final RentHistoryRepository rentHistoryRepository, final UserService userService, final CarService carService, final ParkingService parkingService) {
         this.rentRepository = rentRepository;
-        this.rentHistoryRepository = rentHistoryRepository;
         this.userService = userService;
         this.carService = carService;
         this.parkingService = parkingService;
@@ -161,17 +162,15 @@ public class RentService implements RentServiceInterface {
     }
 
     @Override //TODO TEST IT
-    public List<RentDTO> getUserRentDTOs() {
+    public List<RentDTO> getUserActiveRentDTOs() {
         final User user = userService.getEntityByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
-        return this.convertRentListToRentDTOList(rentRepository.findAllByUser(user));
-
+        return this.convertRentListToRentDTOList(rentRepository.findAllByUserAndIsActive(user, true));
     }
 
     @Override //TODO TEST IT
-    public List<RentDTO> getUserRentHistoryDTOs() {
+    public List<RentDTO> getUserInactiveRentDTOs() {
         final User user = userService.getEntityByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
-        return this.convertRentHistoryListToRentDTOList(rentHistoryRepository.findAllByUser(user));
-
+        return this.convertRentListToRentDTOList(rentRepository.findAllByUserAndIsActive(user, false));
     }
 
     private List<RentDTO> convertRentListToRentDTOList(final List<Rent> rentArrayList) {
@@ -182,24 +181,6 @@ public class RentService implements RentServiceInterface {
             for (final Rent rent : rentArrayList) {
                 final RentDTO rentDTO = new RentDTO(rent, userService.getDTOByLogin(rent.getUser().getLogin()), carService.getDTOByLicensePlate(rent.getCar().getLicensePlate())
                         , new ParkingDTO(rent.getParkingFrom()), new ParkingDTO((rent.getParkingTo())));
-                rentDTOArrayList.add(rentDTO);
-
-            }
-        }
-        return rentDTOArrayList;
-    }
-
-    private List<RentDTO> convertRentHistoryListToRentDTOList(final List<RentHistory> rentArrayList) {
-        final ArrayList<RentDTO> rentDTOArrayList = new ArrayList<>();
-
-        if (!rentArrayList.isEmpty()) {
-
-            for (final RentHistory rentHistory : rentArrayList) {
-                final RentDTO rentDTO = new RentDTO(rentHistory
-                        , userService.getDTOByLogin(rentHistory.getUser().getLogin())
-                        , carService.getDTOByLicensePlate(rentHistory.getCar().getLicensePlate())
-                        , new ParkingDTO(rentHistory.getParkingHistoryFrom())
-                        , new ParkingDTO(rentHistory.getParkingHistoryTo()));
                 rentDTOArrayList.add(rentDTO);
 
             }
@@ -221,7 +202,6 @@ public class RentService implements RentServiceInterface {
         return !dateFrom.isAfter(dateTo);
     }
 
-    //TODO TEST IT
     @Override
     public boolean checkMyRentsBeforeAddNewRent(final RentDTO rentDTO) {
         if (this.checkDateTimeChronological(rentDTO.getDateFrom(), rentDTO.getDateTo())) {
