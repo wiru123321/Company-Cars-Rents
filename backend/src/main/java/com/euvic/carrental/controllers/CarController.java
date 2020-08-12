@@ -106,7 +106,7 @@ public class CarController {
         return ResponseEntity.ok(carService.addExistingImageToExistingCar(addedImagePath, licensePlate));
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/a/car/download-car-image/{licensePlate}", produces = MediaType.IMAGE_JPEG_VALUE)
+    @RequestMapping(method = RequestMethod.GET, value = "/u/car/download-car-image/{licensePlate}", produces = MediaType.IMAGE_JPEG_VALUE)
     public ResponseEntity<?> downloadCarImageForExistingCar(@PathVariable final String licensePlate){
         byte[] image;
         try{
