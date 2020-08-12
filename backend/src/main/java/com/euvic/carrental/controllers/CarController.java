@@ -8,6 +8,7 @@ import com.euvic.carrental.services.CarService;
 import com.euvic.carrental.services.FileService;
 import com.euvic.carrental.services.ModelService;
 import com.euvic.carrental.services.ParkingService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -15,7 +16,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.ServletContext;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Executable;
+import java.util.Map;
 
 
 @RestController
@@ -26,7 +33,7 @@ public class CarController {
     private final ModelService modelService;
     private final FileService fileService;
 
-    public CarController(final CarService carService, final ParkingService parkingService, final ModelService modelService, final FileService fileService) {
+    public CarController(final CarService carService, final ParkingService parkingService, final ModelService modelService, final  FileService fileService) {
         this.carService = carService;
         this.parkingService = parkingService;
         this.modelService = modelService;
@@ -39,23 +46,23 @@ public class CarController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/a/cars")
-    public ResponseEntity<?> getAllInCompanyCars() {
+    public ResponseEntity getAllInCompanyCars() {
         return ResponseEntity.ok(carService.getInCompanyCarDTOs());
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/ae/active-cars")
-    public ResponseEntity<?> getAllActiveCars() {
+    public ResponseEntity getAllActiveCars() {
         return ResponseEntity.ok(carService.getInCompanyActiveCarDTOs());
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/a/inactive-cars")
-    public ResponseEntity<?> getAllInActiveCars() {
+    public ResponseEntity getAllInActiveCars() {
         return ResponseEntity.ok(carService.getInCompanyInactiveCarDTOs());
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/a/car")
-    public ResponseEntity<?> addCarToDatabase(@RequestBody final CarDTO carDTO) {
-        if (carService.checkIfCarWithLicensePlateExists(carDTO.getLicensePlate())) {
+    public ResponseEntity addCarToDatabase(@RequestBody final CarDTO carDTO) {
+        if(carService.checkIfCarWithLicensePlateExists(carDTO.getLicensePlate())){
             return new ResponseEntity<>("Car with given license plate already exist.", HttpStatus.CONFLICT);
         }
 
@@ -69,8 +76,8 @@ public class CarController {
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/a/car/{licensePlate}")
-    public ResponseEntity<?> updateDataBaseCar(@PathVariable final String licensePlate, @RequestBody final CarDTO newCarDTO) {
-        if (carService.checkIfCarWithLicensePlateExists(newCarDTO.getLicensePlate())) {
+    public ResponseEntity updateDataBaseCar(@PathVariable final String licensePlate, @RequestBody final CarDTO newCarDTO) {
+        if(carService.checkIfCarWithLicensePlateExists(newCarDTO.getLicensePlate())){
             return new ResponseEntity<>("Car with given license plate already exist.", HttpStatus.CONFLICT);
         }
 
@@ -78,40 +85,40 @@ public class CarController {
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/a/car/{licensePlate}")
-    public ResponseEntity<?> setCarAsDeletedInDB(@PathVariable final String licensePlate) {
+    public ResponseEntity setCarAsDeletedInDB(@PathVariable final String licensePlate) {
         return ResponseEntity.ok(carService.setCarIsNotInCompany(licensePlate));
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/a/car/upload-car-image/{licensePlate}", produces = {MediaType.IMAGE_PNG_VALUE, "application/json"})
-    public ResponseEntity<?> uploadCarImageForExistingCar(@RequestParam("imageFile") final MultipartFile file, @PathVariable final String licensePlate) {
+    public ResponseEntity<?> uploadCarImageForExistingCar(@RequestParam("imageFile") final MultipartFile file, @PathVariable final String licensePlate){
 
-        if (!carService.checkIfCarWithLicensePlateExists(licensePlate)) {
+        if(!carService.checkIfCarWithLicensePlateExists(licensePlate)){
             return new ResponseEntity<>("Car with given license plate doesn't exist.", HttpStatus.CONFLICT);
         }
 
-        final String addedImagePath;
-        try {
+        String addedImagePath;
+        try{
             addedImagePath = fileService.uploadCarImage(file);
-        } catch (final IOException e) {
+        }catch (IOException e){
             return new ResponseEntity<>("Image get not uploaded", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         return ResponseEntity.ok(carService.addExistingImageToExistingCar(addedImagePath, licensePlate));
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/e/car/download-car-image/{licensePlate}", produces = MediaType.IMAGE_JPEG_VALUE)
-    public ResponseEntity<?> downloadCarImageForExistingCar(@PathVariable final String licensePlate) {
-        final byte[] image;
-        try {
+    @RequestMapping(method = RequestMethod.GET, value = "/u/car/download-car-image/{licensePlate}", produces = MediaType.IMAGE_JPEG_VALUE)
+    public ResponseEntity<?> downloadCarImageForExistingCar(@PathVariable final String licensePlate){
+        byte[] image;
+        try{
             image = fileService.downloadCarImage(licensePlate);
-        } catch (final NullPointerException e) {
+        }catch (NullPointerException e){
             return new ResponseEntity<>("Image not found.", HttpStatus.CONFLICT);
-        } catch (final IOException e) {
+        }catch (IOException e){
             return new ResponseEntity<>("Image get not downloaded", HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        final HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.IMAGE_JPEG);
-        headers.setContentLength(image.length);
-        return new ResponseEntity<>(image, headers, HttpStatus.OK);
+       HttpHeaders headers = new HttpHeaders();
+       headers.setContentType(MediaType.IMAGE_JPEG);
+       headers.setContentLength(image.length);
+       return new ResponseEntity<>(image, headers, HttpStatus.OK);
     }
 }
