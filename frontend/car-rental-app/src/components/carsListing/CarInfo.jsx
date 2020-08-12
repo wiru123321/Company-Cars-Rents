@@ -18,9 +18,7 @@ const CarInfo = ({ car }) => {
   return (
     <Container>
       <h1 style={{ fontSize: "1.3rem" }}>
-        <Link href="#">
-          {markDTO.name} {name}
-        </Link>
+        {markDTO.name} {name}
       </h1>
       <h2>{licensePlate}</h2>
       <List>

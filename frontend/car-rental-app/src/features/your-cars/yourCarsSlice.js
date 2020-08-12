@@ -68,15 +68,12 @@ export const selectIndex = (state) => state.YourReservation.chooseCarIndex;
 export const selectEndingformchoose = (state) =>
   state.YourReservation.endingFormChoose;
 export const selectBugopen = (state) => state.YourReservation.bugOpen;
+
 export const fetchCars = () => async (dispatch) => {
   try {
-    const response = await axios.get(API_URL + "/ae/active-cars", {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("token"),
-      },
-    });
+    const response = await axios.get(API_URL + "/e/rent/my");
 
-    dispatch(setCars(response.data));
+    dispatch(setCars(response.data.carDTO));
   } catch (error) {
     console.log(error);
   }
