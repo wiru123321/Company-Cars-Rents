@@ -77,12 +77,6 @@ public class RentController {
             parkingHistoryService.addEntityToDB(parkingFrom);
             parkingHistoryService.addEntityToDB(parkingTo);
             rentHistoryService.addEntityToDB(rentHistory);
-
-            rent.setCar(null);
-            rent.setParkingFrom(null);
-            rent.setParkingTo(null);
-            rent.setUser(null);
-
             rentService.deleteRent(rent);
 
             responseCode = 200;
@@ -128,7 +122,7 @@ public class RentController {
                 message = "Ok";
             } else {
                 responseCode = 400;
-                message = "You have rent in this time";
+                message = "You have rent in this time or give invalid time range";
             }
 
         } catch (final NullPointerException e) {

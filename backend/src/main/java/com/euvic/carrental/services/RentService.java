@@ -217,25 +217,36 @@ public class RentService implements RentServiceInterface {
                 || (rentListCarByTime.getDateTo().isEqual(dateFrom) || rentListCarByTime.getDateTo().isEqual(dateTo));
     }
 
+    private boolean checkDateTimeChronological(final LocalDateTime dateFrom, final LocalDateTime dateTo) {
+        return !dateFrom.isAfter(dateTo);
+    }
+
     //TODO TEST IT
     @Override
     public boolean checkMyRentsBeforeAddNewRent(final RentDTO rentDTO) {
-        final User user = userService.getEntityByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
-        final List<Rent> rentList = rentRepository.findAllByUserAndIsActive(user, true);
-        final RentListCarByTime time = new RentListCarByTime();
-        time.setDateFrom(rentDTO.getDateFrom());
-        time.setDateTo(rentDTO.getDateTo());
+        if (this.checkDateTimeChronological(rentDTO.getDateFrom(), rentDTO.getDateTo())) {
+            final User user = userService.getEntityByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
+            final List<Rent> rentList = rentRepository.findAllByUserAndIsActive(user, true);
+            final RentListCarByTime time = new RentListCarByTime();
+            time.setDateFrom(rentDTO.getDateFrom());
+            time.setDateTo(rentDTO.getDateTo());
 
-        for (final Rent rent : rentList) {
-            if (this.checkDate(rent.getDateFrom(), rent.getDateTo(), time)) {
-                return false;
+            for (final Rent rent : rentList) {
+                if (this.checkDate(rent.getDateFrom(), rent.getDateTo(), time)) {
+                    return false;
+                }
             }
+            return true;
         }
-        return true;
+        return false;
     }
 
-    @Override //TODO test it
+    @Override
     public void deleteRent(final Rent rent) {
+        rent.setCar(null);
+        rent.setParkingFrom(null);
+        rent.setParkingTo(null);
+        rent.setUser(null);
         rentRepository.delete(rent);
     }
 
