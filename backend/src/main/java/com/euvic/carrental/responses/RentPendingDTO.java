@@ -15,4 +15,20 @@ public class RentPendingDTO {
     private UserRentInfo userRentInfo;
     private ParkingDTO parkingFrom;
     private ParkingDTO parkingTo;
+
+    public RentPendingDTO() {
+    }
+
+    public RentPendingDTO(final Long id, final String comment, final CarDTO carDTO, final LocalDateTime dateFrom, final LocalDateTime dateTo, final ParkingDTO parkingFrom
+            , final ParkingDTO parkingTo, final UserRentInfo userRentInfo) {
+
+        this.id = id;
+        this.comment = comment;
+        this.carDTO = carDTO;
+        this.dateFrom = dateFrom;
+        this.dateTo = dateTo;
+        this.parkingFrom = parkingFrom;
+        this.parkingTo = parkingTo;
+        this.userRentInfo = userRentInfo;
+    }
 }

@@ -1,6 +1,9 @@
 package com.euvic.carrental.services;
 
-import com.euvic.carrental.model.*;
+import com.euvic.carrental.model.Car;
+import com.euvic.carrental.model.Parking;
+import com.euvic.carrental.model.Rent;
+import com.euvic.carrental.model.User;
 import com.euvic.carrental.repositories.RentHistoryRepository;
 import com.euvic.carrental.repositories.RentRepository;
 import com.euvic.carrental.responses.*;
@@ -17,14 +20,12 @@ import java.util.List;
 public class RentService implements RentServiceInterface {
 
     final private RentRepository rentRepository;
-    final private RentHistoryRepository rentHistoryRepository;
     final private UserService userService;
     final private CarService carService;
     final private ParkingService parkingService;
 
     public RentService(final RentRepository rentRepository, final RentHistoryRepository rentHistoryRepository, final UserService userService, final CarService carService, final ParkingService parkingService) {
         this.rentRepository = rentRepository;
-        this.rentHistoryRepository = rentHistoryRepository;
         this.userService = userService;
         this.carService = carService;
         this.parkingService = parkingService;
@@ -89,13 +90,9 @@ public class RentService implements RentServiceInterface {
     public Rent mapRestModel(final Long id, final RentDTO rentDTO, final Long parkingFromId, final Long parkingToId) {
 
         final Rent rent;
-        if (parkingToId != null) {
-            rent = new Rent(id, userService.getEntityByLogin(rentDTO.getUserDTO().getLogin()), carService.getEntityByLicensePlate(rentDTO.getCarDTO().getLicensePlate())
-                    , rentDTO.getDateFrom(), rentDTO.getDateTo(), parkingService.getEntityById(parkingFromId), parkingService.getEntityById(parkingToId), rentDTO.getIsActive(), rentDTO.getComment(), rentDTO.getResponse());
-        } else {
-            rent = new Rent(id, userService.getEntityByLogin(rentDTO.getUserDTO().getLogin()), carService.getEntityByLicensePlate(rentDTO.getCarDTO().getLicensePlate())
-                    , rentDTO.getDateFrom(), rentDTO.getDateTo(), parkingService.getEntityById(parkingFromId), null, rentDTO.getIsActive(), rentDTO.getComment(), rentDTO.getResponse());
-        }
+        rent = new Rent(id, userService.getEntityByLogin(rentDTO.getUserDTO().getLogin()), carService.getEntityByLicensePlate(rentDTO.getCarDTO().getLicensePlate())
+                , rentDTO.getDateFrom(), rentDTO.getDateTo(), parkingService.getEntityById(parkingFromId), parkingService.getEntityById(parkingToId), rentDTO.getIsActive(), rentDTO.getComment(), rentDTO.getResponse());
+
         return rent;
     }
 
@@ -106,27 +103,9 @@ public class RentService implements RentServiceInterface {
         return this.convertRentListToRentDTOList(rentArrayList);
     }
 
-    private List<RentDTO> getAllDTOsByTimeRange(final RentListCarByTime rentListCarByTime) {
-        final ArrayList<Rent> rentArrayList = new ArrayList<>();
-        rentRepository.findAll().forEach(rentArrayList::add);
-        final ArrayList<RentDTO> rentDTOArrayList = new ArrayList<>();
-
-        if (!rentArrayList.isEmpty()) {
-
-            for (final Rent rent : rentArrayList) {
-                if (this.checkDate(rent.getDateFrom(), rent.getDateTo(), rentListCarByTime)) {
-                    final RentDTO rentDTO = new RentDTO(rent, userService.getDTOByLogin(rent.getUser().getLogin()), carService.getDTOByLicensePlate(rent.getCar().getLicensePlate())
-                            , new ParkingDTO(rent.getParkingFrom()), new ParkingDTO((rent.getParkingTo())));
-                    rentDTOArrayList.add(rentDTO);
-                }
-            }
-        }
-        return rentDTOArrayList;
-    }
-
-    @Override //TODO TEST IT
-    public List<CarDTO> getActiveCarsBetweenDates(final RentListCarByTime rentListCarByTime) {
-        final List<RentDTO> rentList = this.getAllDTOsByTimeRange(rentListCarByTime);
+    @Override
+    public List<CarDTO> getActiveCarsBetweenDates(final DateFromDateTo dateFromDateTo) {
+        final List<RentDTO> rentList = this.getAllDTOsByTimeRange(dateFromDateTo);
         final List<CarDTO> carList = new ArrayList<>();
         final List<CarDTO> carDTOList = carService.getInCompanyActiveCarDTOs();
 
@@ -138,7 +117,7 @@ public class RentService implements RentServiceInterface {
         return carDTOList;
     }
 
-    @Override //TODO TEST IT
+    @Override
     public List<RentPendingDTO> getAllPendingRents() {
         final List<Rent> rentList = rentRepository.findAllByIsActive(false);
         final List<RentPendingDTO> rentPendingDTOList = new ArrayList<>();
@@ -160,74 +139,24 @@ public class RentService implements RentServiceInterface {
         return rentPendingDTOList;
     }
 
-    @Override //TODO TEST IT
-    public List<RentDTO> getUserRentDTOs() {
+    @Override //TODO change return type to List<RentPendingDTO>
+    public List<RentDTO> getUserActiveRentDTOs() {
         final User user = userService.getEntityByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
-        return this.convertRentListToRentDTOList(rentRepository.findAllByUser(user));
-
+        return this.convertRentListToRentDTOList(rentRepository.findAllByUserAndIsActive(user, true));
     }
 
-    @Override //TODO TEST IT
-    public List<RentDTO> getUserRentHistoryDTOs() {
+    @Override //TODO change return type to List<RentPendingDTO>
+    public List<RentDTO> getUserInactiveRentDTOs() {
         final User user = userService.getEntityByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
-        return this.convertRentHistoryListToRentDTOList(rentHistoryRepository.findAllByUser(user));
-
+        return this.convertRentListToRentDTOList(rentRepository.findAllByUserAndIsActive(user, false));
     }
 
-    private List<RentDTO> convertRentListToRentDTOList(final List<Rent> rentArrayList) {
-        final ArrayList<RentDTO> rentDTOArrayList = new ArrayList<>();
-
-        if (!rentArrayList.isEmpty()) {
-
-            for (final Rent rent : rentArrayList) {
-                final RentDTO rentDTO = new RentDTO(rent, userService.getDTOByLogin(rent.getUser().getLogin()), carService.getDTOByLicensePlate(rent.getCar().getLicensePlate())
-                        , new ParkingDTO(rent.getParkingFrom()), new ParkingDTO((rent.getParkingTo())));
-                rentDTOArrayList.add(rentDTO);
-
-            }
-        }
-        return rentDTOArrayList;
-    }
-
-    private List<RentDTO> convertRentHistoryListToRentDTOList(final List<RentHistory> rentArrayList) {
-        final ArrayList<RentDTO> rentDTOArrayList = new ArrayList<>();
-
-        if (!rentArrayList.isEmpty()) {
-
-            for (final RentHistory rentHistory : rentArrayList) {
-                final RentDTO rentDTO = new RentDTO(rentHistory
-                        , userService.getDTOByLogin(rentHistory.getUser().getLogin())
-                        , carService.getDTOByLicensePlate(rentHistory.getCar().getLicensePlate())
-                        , new ParkingDTO(rentHistory.getParkingHistoryFrom())
-                        , new ParkingDTO(rentHistory.getParkingHistoryTo()));
-                rentDTOArrayList.add(rentDTO);
-
-            }
-        }
-        return rentDTOArrayList;
-    }
-
-    private boolean checkDate(final LocalDateTime dateFrom, final LocalDateTime dateTo, final RentListCarByTime rentListCarByTime) {
-        return (rentListCarByTime.getDateFrom().isAfter(dateFrom)
-                && rentListCarByTime.getDateFrom().isBefore(dateTo))
-                || (rentListCarByTime.getDateTo().isAfter(dateFrom)
-                && rentListCarByTime.getDateTo().isBefore(dateTo))
-
-                || (rentListCarByTime.getDateFrom().isEqual(dateFrom) || rentListCarByTime.getDateFrom().isEqual(dateTo))
-                || (rentListCarByTime.getDateTo().isEqual(dateFrom) || rentListCarByTime.getDateTo().isEqual(dateTo));
-    }
-
-    private boolean checkDateTimeChronological(final LocalDateTime dateFrom, final LocalDateTime dateTo) {
-        return !dateFrom.isAfter(dateTo);
-    }
-
-    //TODO TEST IT
     @Override
     public boolean checkMyRentsBeforeAddNewRent(final RentDTO rentDTO) {
         if (this.checkDateTimeChronological(rentDTO.getDateFrom(), rentDTO.getDateTo())) {
             final User user = userService.getEntityByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
             final List<Rent> rentList = rentRepository.findAllByUserAndIsActive(user, true);
-            final RentListCarByTime time = new RentListCarByTime();
+            final DateFromDateTo time = new DateFromDateTo();
             time.setDateFrom(rentDTO.getDateFrom());
             time.setDateTo(rentDTO.getDateTo());
 
@@ -250,5 +179,50 @@ public class RentService implements RentServiceInterface {
         rentRepository.delete(rent);
     }
 
+    private List<RentDTO> convertRentListToRentDTOList(final List<Rent> rentArrayList) {
+        final ArrayList<RentDTO> rentDTOArrayList = new ArrayList<>();
 
+        if (!rentArrayList.isEmpty()) {
+
+            for (final Rent rent : rentArrayList) {
+                final RentDTO rentDTO = new RentDTO(rent, userService.getDTOByLogin(rent.getUser().getLogin()), carService.getDTOByLicensePlate(rent.getCar().getLicensePlate())
+                        , new ParkingDTO(rent.getParkingFrom()), new ParkingDTO((rent.getParkingTo())));
+                rentDTOArrayList.add(rentDTO);
+
+            }
+        }
+        return rentDTOArrayList;
+    }
+
+    private boolean checkDate(final LocalDateTime dateFrom, final LocalDateTime dateTo, final DateFromDateTo dateFromDateTo) {
+        return (dateFromDateTo.getDateFrom().isAfter(dateFrom)
+                && dateFromDateTo.getDateFrom().isBefore(dateTo))
+                || (dateFromDateTo.getDateTo().isAfter(dateFrom)
+                && dateFromDateTo.getDateTo().isBefore(dateTo))
+
+                || (dateFromDateTo.getDateFrom().isEqual(dateFrom) || dateFromDateTo.getDateFrom().isEqual(dateTo))
+                || (dateFromDateTo.getDateTo().isEqual(dateFrom) || dateFromDateTo.getDateTo().isEqual(dateTo));
+    }
+
+    private boolean checkDateTimeChronological(final LocalDateTime dateFrom, final LocalDateTime dateTo) {
+        return !dateFrom.isAfter(dateTo);
+    }
+
+    private List<RentDTO> getAllDTOsByTimeRange(final DateFromDateTo dateFromDateTo) {
+        final ArrayList<Rent> rentArrayList = new ArrayList<>();
+        rentRepository.findAll().forEach(rentArrayList::add);
+        final ArrayList<RentDTO> rentDTOArrayList = new ArrayList<>();
+
+        if (!rentArrayList.isEmpty()) {
+
+            for (final Rent rent : rentArrayList) {
+                if (this.checkDate(rent.getDateFrom(), rent.getDateTo(), dateFromDateTo)) {
+                    final RentDTO rentDTO = new RentDTO(rent, userService.getDTOByLogin(rent.getUser().getLogin()), carService.getDTOByLicensePlate(rent.getCar().getLicensePlate())
+                            , new ParkingDTO(rent.getParkingFrom()), new ParkingDTO((rent.getParkingTo())));
+                    rentDTOArrayList.add(rentDTO);
+                }
+            }
+        }
+        return rentDTOArrayList;
+    }
 }

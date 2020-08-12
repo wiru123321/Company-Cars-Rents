@@ -9,6 +9,7 @@ import com.euvic.carrental.responses.CarDTO;
 import com.euvic.carrental.responses.ParkingHistoryDTO;
 import com.euvic.carrental.responses.RentHistoryDTO;
 import com.euvic.carrental.services.interfaces.RentHistoryServiceInterface;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -86,5 +87,30 @@ public class RentHistoryService implements RentHistoryServiceInterface {
         });
 
         return rentHistoryDTOArrayList;
+    }
+
+    @Override
+    public List<RentHistoryDTO> getUserRentHistoryDTOs() {
+        final User user = userService.getEntityByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
+        return this.convertRentHistoryListToRentDTOList(rentHistoryRepository.findAllByUser(user));
+
+    }
+
+    private List<RentHistoryDTO> convertRentHistoryListToRentDTOList(final List<RentHistory> rentArrayList) {
+        final ArrayList<RentHistoryDTO> rentDTOArrayList = new ArrayList<>();
+
+        if (!rentArrayList.isEmpty()) {
+
+            for (final RentHistory rentHistory : rentArrayList) {
+                final RentHistoryDTO rentDTO = new RentHistoryDTO(rentHistory
+                        , userService.getDTOByLogin(rentHistory.getUser().getLogin())
+                        , carService.getDTOByLicensePlate(rentHistory.getCar().getLicensePlate())
+                        , new ParkingHistoryDTO(rentHistory.getParkingHistoryFrom())
+                        , new ParkingHistoryDTO(rentHistory.getParkingHistoryTo()));
+                rentDTOArrayList.add(rentDTO);
+
+            }
+        }
+        return rentDTOArrayList;
     }
 }
