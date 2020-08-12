@@ -1,8 +1,8 @@
 package com.euvic.carrental.controllers;
 
 import com.euvic.carrental.model.*;
+import com.euvic.carrental.responses.DateFromDateTo;
 import com.euvic.carrental.responses.RentDTO;
-import com.euvic.carrental.responses.RentListCarByTime;
 import com.euvic.carrental.responses.RentPermitRejectDTO;
 import com.euvic.carrental.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -105,8 +105,8 @@ public class RentController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/e/rent/carsOnTime")
-    public ResponseEntity<?> getCarsOnTime(@RequestBody final RentListCarByTime rentListCarByTime) {
-        return ResponseEntity.ok(rentService.getActiveCarsBetweenDates(rentListCarByTime));
+    public ResponseEntity<?> getCarsOnTime(@RequestBody final DateFromDateTo dateFromDateTo) {
+        return ResponseEntity.ok(rentService.getActiveCarsBetweenDates(dateFromDateTo));
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/e/rent/{licensePlate}")

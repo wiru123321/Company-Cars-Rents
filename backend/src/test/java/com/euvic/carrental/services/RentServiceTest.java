@@ -582,4 +582,136 @@ public class RentServiceTest {
 
         assertEquals(list, rentService.getAllPendingRents());
     }
+
+    @Test
+    void getDTOListOfActiveUserRents() {
+        final Parking parking1 = new Parking(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
+        final Parking parking2 = new Parking(null, "Radom", "40-222", "Jaka 32", "A-8", "Parking przy sklepie Tesco", true);
+        final Parking parking3 = new Parking(null, "Kielce", "40-623", "Weteranow 54", "B-4", "Parking przy dworcu", true);
+        final Parking parking4 = new Parking(null, "Kielce", "40-623", "Weteranow 54", "B-4", "Parking przy dworcu", true);
+        final Parking parking5 = new Parking(null, "Kielce", "40-623", "Weteranow 54", "B-4", "Parking przy dworcu", true);
+        final Parking parking6 = new Parking(null, "Kielce", "40-623", "Weteranow 54", "B-4", "Parking przy dworcu", true);
+        final Parking parking7 = new Parking(null, "Kielce", "40-623", "Weteranow 54", "B-4", "Parking przy dworcu", true);
+        final Parking parking8 = new Parking(null, "Kielce", "40-623", "Weteranow 54", "B-4", "Parking przy dworcu", true);
+
+        final Long parkingId1 = parkingService.addEntityToDB(parking1);
+        final Long parkingId2 = parkingService.addEntityToDB(parking2);
+        final Long parkingId3 = parkingService.addEntityToDB(parking3);
+        final Long parkingId4 = parkingService.addEntityToDB(parking4);
+        final Long parkingId5 = parkingService.addEntityToDB(parking5);
+        final Long parkingId6 = parkingService.addEntityToDB(parking6);
+        final Long parkingId7 = parkingService.addEntityToDB(parking7);
+        final Long parkingId8 = parkingService.addEntityToDB(parking8);
+
+        final Car car = new Car(null, "SBE33212", 120, 1, 4, 3,
+                gearboxTypeService.getEntityByName("Manual"), fuelTypeService.getEntityByName("Diesel"),
+                LocalDateTime.of(2000, 3, 25, 0, 0), 2000, true, 120000
+                , modelService.getEntityByName("Astra"),
+                parkingService.getEntityById(parkingId1), colourService.getEntityByName("Blue"), typeService.getEntityByName("Coupe"));
+
+        carRepository.save(car);
+
+        final Role role1 = new Role(null, "Admin");
+        final Role role2 = new Role(null, "User");
+
+        roleRepository.save(role1);
+        roleRepository.save(role2);
+
+        final User user = new User(null, "login", "password", "email@email.com", "name", "surname", "123789456", roleService.getEntityByRoleName("User"));
+        final User user1 = new User(null, "login1", "password", "email@email.com", "www", "eee", "333333333", roleService.getEntityByRoleName("Admin"));
+
+        userRepository.save(user);
+        userRepository.save(user1);
+
+        final LocalDateTime dateFrom = LocalDateTime.of(2000, 3, 25, 0, 0);
+        final LocalDateTime dateTo = LocalDateTime.of(2000, 3, 30, 0, 0);
+        final Rent rent1 = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlate("SBE33212"), dateFrom, dateTo
+                , parkingService.getEntityById(parkingId1), parkingService.getEntityById(parkingId2), false, "comment", "Response");
+        final Rent rent2 = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlate("SBE33212"), dateFrom, dateTo
+                , parkingService.getEntityById(parkingId3), parkingService.getEntityById(parkingId4), true, "comment", "Response");
+        final Rent rent3 = new Rent(null, userService.getEntityByLogin("login1"), carRepository.findByLicensePlate("SBE33212"), dateFrom, dateTo
+                , parkingService.getEntityById(parkingId5), parkingService.getEntityById(parkingId6), true, "comment", "Response");
+        final Rent rent4 = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlate("SBE33212"), dateFrom, dateTo
+                , parkingService.getEntityById(parkingId7), parkingService.getEntityById(parkingId8), true, "comment", "Response");
+
+
+        List<RentDTO> list = new ArrayList<>(rentService.getUserActiveRentDTOs());
+        SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(user.getLogin(), user.getPassword()));
+
+        assertEquals(0, list.size());
+
+        final Long rentId1 = rentService.addEntityToDB(rent1);
+        final Long rentId2 = rentService.addEntityToDB(rent2);
+        final Long rentId3 = rentService.addEntityToDB(rent3);
+        final Long rentId4 = rentService.addEntityToDB(rent4);
+
+        list = rentService.getUserActiveRentDTOs();
+        assertEquals(2, list.size());
+    }
+
+    @Test
+    void getDTOListOfInactiveUserRents() {
+        final Parking parking1 = new Parking(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
+        final Parking parking2 = new Parking(null, "Radom", "40-222", "Jaka 32", "A-8", "Parking przy sklepie Tesco", true);
+        final Parking parking3 = new Parking(null, "Kielce", "40-623", "Weteranow 54", "B-4", "Parking przy dworcu", true);
+        final Parking parking4 = new Parking(null, "Kielce", "40-623", "Weteranow 54", "B-4", "Parking przy dworcu", true);
+        final Parking parking5 = new Parking(null, "Kielce", "40-623", "Weteranow 54", "B-4", "Parking przy dworcu", true);
+        final Parking parking6 = new Parking(null, "Kielce", "40-623", "Weteranow 54", "B-4", "Parking przy dworcu", true);
+        final Parking parking7 = new Parking(null, "Kielce", "40-623", "Weteranow 54", "B-4", "Parking przy dworcu", true);
+        final Parking parking8 = new Parking(null, "Kielce", "40-623", "Weteranow 54", "B-4", "Parking przy dworcu", true);
+
+        final Long parkingId1 = parkingService.addEntityToDB(parking1);
+        final Long parkingId2 = parkingService.addEntityToDB(parking2);
+        final Long parkingId3 = parkingService.addEntityToDB(parking3);
+        final Long parkingId4 = parkingService.addEntityToDB(parking4);
+        final Long parkingId5 = parkingService.addEntityToDB(parking5);
+        final Long parkingId6 = parkingService.addEntityToDB(parking6);
+        final Long parkingId7 = parkingService.addEntityToDB(parking7);
+        final Long parkingId8 = parkingService.addEntityToDB(parking8);
+
+        final Car car = new Car(null, "SBE33212", 120, 1, 4, 3,
+                gearboxTypeService.getEntityByName("Manual"), fuelTypeService.getEntityByName("Diesel"),
+                LocalDateTime.of(2000, 3, 25, 0, 0), 2000, true, 120000
+                , modelService.getEntityByName("Astra"),
+                parkingService.getEntityById(parkingId1), colourService.getEntityByName("Blue"), typeService.getEntityByName("Coupe"));
+
+        carRepository.save(car);
+
+        final Role role1 = new Role(null, "Admin");
+        final Role role2 = new Role(null, "User");
+
+        roleRepository.save(role1);
+        roleRepository.save(role2);
+
+        final User user = new User(null, "login", "password", "email@email.com", "name", "surname", "123789456", roleService.getEntityByRoleName("User"));
+        final User user1 = new User(null, "login1", "password", "email@email.com", "www", "eee", "333333333", roleService.getEntityByRoleName("Admin"));
+
+        userRepository.save(user);
+        userRepository.save(user1);
+
+        final LocalDateTime dateFrom = LocalDateTime.of(2000, 3, 25, 0, 0);
+        final LocalDateTime dateTo = LocalDateTime.of(2000, 3, 30, 0, 0);
+        final Rent rent1 = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlate("SBE33212"), dateFrom, dateTo
+                , parkingService.getEntityById(parkingId1), parkingService.getEntityById(parkingId2), false, "comment", "Response");
+        final Rent rent2 = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlate("SBE33212"), dateFrom, dateTo
+                , parkingService.getEntityById(parkingId3), parkingService.getEntityById(parkingId4), true, "comment", "Response");
+        final Rent rent3 = new Rent(null, userService.getEntityByLogin("login1"), carRepository.findByLicensePlate("SBE33212"), dateFrom, dateTo
+                , parkingService.getEntityById(parkingId5), parkingService.getEntityById(parkingId6), true, "comment", "Response");
+        final Rent rent4 = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlate("SBE33212"), dateFrom, dateTo
+                , parkingService.getEntityById(parkingId7), parkingService.getEntityById(parkingId8), true, "comment", "Response");
+
+
+        List<RentDTO> list = new ArrayList<>(rentService.getUserInactiveRentDTOs());
+        SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(user.getLogin(), user.getPassword()));
+
+        assertEquals(0, list.size());
+
+        final Long rentId1 = rentService.addEntityToDB(rent1);
+        final Long rentId2 = rentService.addEntityToDB(rent2);
+        final Long rentId3 = rentService.addEntityToDB(rent3);
+        final Long rentId4 = rentService.addEntityToDB(rent4);
+
+        list = rentService.getUserInactiveRentDTOs();
+        assertEquals(1, list.size());
+    }
 }

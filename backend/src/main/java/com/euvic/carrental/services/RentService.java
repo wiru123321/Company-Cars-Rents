@@ -104,8 +104,8 @@ public class RentService implements RentServiceInterface {
     }
 
     @Override //TODO TEST IT
-    public List<CarDTO> getActiveCarsBetweenDates(final RentListCarByTime rentListCarByTime) {
-        final List<RentDTO> rentList = this.getAllDTOsByTimeRange(rentListCarByTime);
+    public List<CarDTO> getActiveCarsBetweenDates(final DateFromDateTo dateFromDateTo) {
+        final List<RentDTO> rentList = this.getAllDTOsByTimeRange(dateFromDateTo);
         final List<CarDTO> carList = new ArrayList<>();
         final List<CarDTO> carDTOList = carService.getInCompanyActiveCarDTOs();
 
@@ -139,13 +139,13 @@ public class RentService implements RentServiceInterface {
         return rentPendingDTOList;
     }
 
-    @Override //TODO TEST IT
+    @Override
     public List<RentDTO> getUserActiveRentDTOs() {
         final User user = userService.getEntityByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
         return this.convertRentListToRentDTOList(rentRepository.findAllByUserAndIsActive(user, true));
     }
 
-    @Override //TODO TEST IT
+    @Override
     public List<RentDTO> getUserInactiveRentDTOs() {
         final User user = userService.getEntityByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
         return this.convertRentListToRentDTOList(rentRepository.findAllByUserAndIsActive(user, false));
@@ -156,7 +156,7 @@ public class RentService implements RentServiceInterface {
         if (this.checkDateTimeChronological(rentDTO.getDateFrom(), rentDTO.getDateTo())) {
             final User user = userService.getEntityByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
             final List<Rent> rentList = rentRepository.findAllByUserAndIsActive(user, true);
-            final RentListCarByTime time = new RentListCarByTime();
+            final DateFromDateTo time = new DateFromDateTo();
             time.setDateFrom(rentDTO.getDateFrom());
             time.setDateTo(rentDTO.getDateTo());
 
@@ -194,21 +194,21 @@ public class RentService implements RentServiceInterface {
         return rentDTOArrayList;
     }
 
-    private boolean checkDate(final LocalDateTime dateFrom, final LocalDateTime dateTo, final RentListCarByTime rentListCarByTime) {
-        return (rentListCarByTime.getDateFrom().isAfter(dateFrom)
-                && rentListCarByTime.getDateFrom().isBefore(dateTo))
-                || (rentListCarByTime.getDateTo().isAfter(dateFrom)
-                && rentListCarByTime.getDateTo().isBefore(dateTo))
+    private boolean checkDate(final LocalDateTime dateFrom, final LocalDateTime dateTo, final DateFromDateTo dateFromDateTo) {
+        return (dateFromDateTo.getDateFrom().isAfter(dateFrom)
+                && dateFromDateTo.getDateFrom().isBefore(dateTo))
+                || (dateFromDateTo.getDateTo().isAfter(dateFrom)
+                && dateFromDateTo.getDateTo().isBefore(dateTo))
 
-                || (rentListCarByTime.getDateFrom().isEqual(dateFrom) || rentListCarByTime.getDateFrom().isEqual(dateTo))
-                || (rentListCarByTime.getDateTo().isEqual(dateFrom) || rentListCarByTime.getDateTo().isEqual(dateTo));
+                || (dateFromDateTo.getDateFrom().isEqual(dateFrom) || dateFromDateTo.getDateFrom().isEqual(dateTo))
+                || (dateFromDateTo.getDateTo().isEqual(dateFrom) || dateFromDateTo.getDateTo().isEqual(dateTo));
     }
 
     private boolean checkDateTimeChronological(final LocalDateTime dateFrom, final LocalDateTime dateTo) {
         return !dateFrom.isAfter(dateTo);
     }
 
-    private List<RentDTO> getAllDTOsByTimeRange(final RentListCarByTime rentListCarByTime) {
+    private List<RentDTO> getAllDTOsByTimeRange(final DateFromDateTo dateFromDateTo) {
         final ArrayList<Rent> rentArrayList = new ArrayList<>();
         rentRepository.findAll().forEach(rentArrayList::add);
         final ArrayList<RentDTO> rentDTOArrayList = new ArrayList<>();
@@ -216,7 +216,7 @@ public class RentService implements RentServiceInterface {
         if (!rentArrayList.isEmpty()) {
 
             for (final Rent rent : rentArrayList) {
-                if (this.checkDate(rent.getDateFrom(), rent.getDateTo(), rentListCarByTime)) {
+                if (this.checkDate(rent.getDateFrom(), rent.getDateTo(), dateFromDateTo)) {
                     final RentDTO rentDTO = new RentDTO(rent, userService.getDTOByLogin(rent.getUser().getLogin()), carService.getDTOByLicensePlate(rent.getCar().getLicensePlate())
                             , new ParkingDTO(rent.getParkingFrom()), new ParkingDTO((rent.getParkingTo())));
                     rentDTOArrayList.add(rentDTO);

@@ -5,7 +5,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class RentListCarByTime {
+public class DateFromDateTo {
     private LocalDateTime dateFrom;
     private LocalDateTime dateTo;
 }

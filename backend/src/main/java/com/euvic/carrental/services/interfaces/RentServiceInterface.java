@@ -3,8 +3,8 @@ package com.euvic.carrental.services.interfaces;
 import com.euvic.carrental.model.Car;
 import com.euvic.carrental.model.Rent;
 import com.euvic.carrental.responses.CarDTO;
+import com.euvic.carrental.responses.DateFromDateTo;
 import com.euvic.carrental.responses.RentDTO;
-import com.euvic.carrental.responses.RentListCarByTime;
 import com.euvic.carrental.responses.RentPendingDTO;
 
 import java.time.LocalDateTime;
@@ -23,7 +23,7 @@ public interface RentServiceInterface {
 
     Rent mapRestModel(Long id, RentDTO rentDTO, Long parkingFromId, Long parkingToId);
 
-    List<CarDTO> getActiveCarsBetweenDates(RentListCarByTime rentListCarByTime);
+    List<CarDTO> getActiveCarsBetweenDates(DateFromDateTo dateFromDateTo);
 
     List<RentPendingDTO> getAllPendingRents();
 
