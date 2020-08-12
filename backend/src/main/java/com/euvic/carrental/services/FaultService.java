@@ -25,22 +25,41 @@ public class FaultService implements FaultServiceInterface {
 
     @Override
     public Fault mapRestModel(final Long id, final FaultDTO faultDTO) {
-        return new Fault(id, carService.getEntityByLicensePlate(faultDTO.getCarDTO().getLicensePlate()), faultDTO.getDescribe(), faultDTO.getSetCarInactive(), faultDTO.getIsActive());
+        return new Fault(id, carService.getEntityByLicensePlate(faultDTO.getCarLicensePlate()), faultDTO.getDescription(), faultDTO.getSetCarInactive(), faultDTO.getIsActive());
     }
 
     @Override
     public List<Fault> getAllEntitiesByCar(final Car car) {
         final ArrayList<Fault> faultArrayList = new ArrayList<>();
-        faultArrayList.addAll(faultRepository.findByCar(car));
+        faultArrayList.addAll(faultRepository.findAllByCar(car));
 
         return faultArrayList;
     }
 
     public List<FaultDTO> getAllDTOsByCar(final Car car) {
         final ArrayList<Fault> faultArrayList = new ArrayList<>();
-        faultArrayList.addAll(faultRepository.findByCar(car));
+        faultArrayList.addAll(faultRepository.findAllByCar(car));
 
         return mapRestList(faultArrayList);
+    }
+
+    @Override // test
+    public List<FaultDTO> getAllActiveFaultDTOs() {
+        final ArrayList<Fault> faultArrayList = new ArrayList<>();
+        faultArrayList.addAll(faultRepository.findAllByIsActive(true));
+        return mapRestList(faultArrayList);
+    }
+
+    @Override // test
+    public Boolean checkIfCarFaultWithDescriptionExists(Car car, String description) {
+        return faultRepository.existsByIsActiveAndCarAndDescription(true, car, description);
+    }
+
+    @Override // test
+    public Long setInactiveCarFaultWithDescription(Car car, String description) {
+        Fault fault = faultRepository.findByIsActiveAndCarAndDescription(true, car, description);
+        fault.setIsActive(false);
+        return faultRepository.save(fault).getId();
     }
 
     @Override
@@ -52,7 +71,7 @@ public class FaultService implements FaultServiceInterface {
     public FaultDTO getDTOById(final Long id) {
         final Fault fault = this.getEntityById(id);
         final Car car = fault.getCar();
-        return new FaultDTO(fault, carService.getDTOByLicensePlate(car.getLicensePlate()));
+        return new FaultDTO(fault, car.getLicensePlate());
     }
 
     @Override
@@ -71,7 +90,7 @@ public class FaultService implements FaultServiceInterface {
     private List<FaultDTO> mapRestList(final List<Fault> faultList) {
         final ArrayList<FaultDTO> faultDTOList = new ArrayList<>();
         faultList.forEach((fault) -> {
-            final FaultDTO faultDTO = new FaultDTO(fault, carService.getDTOByLicensePlate(fault.getCar().getLicensePlate()));
+            final FaultDTO faultDTO = new FaultDTO(fault, fault.getCar().getLicensePlate());
             faultDTOList.add(faultDTO);
         });
         return faultDTOList;

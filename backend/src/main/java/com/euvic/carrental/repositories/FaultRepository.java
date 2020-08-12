@@ -9,5 +9,8 @@ import java.util.List;
 
 @Repository
 public interface FaultRepository extends CrudRepository<Fault, Long> {
-    List<Fault> findByCar(Car car);
+    List<Fault> findAllByCar(Car car);
+    List<Fault> findAllByIsActive(Boolean isActive);
+    Boolean existsByIsActiveAndCarAndDescription(Boolean isActive, Car car, String description);
+    Fault findByIsActiveAndCarAndDescription(Boolean isActive, Car car, String description);
 }

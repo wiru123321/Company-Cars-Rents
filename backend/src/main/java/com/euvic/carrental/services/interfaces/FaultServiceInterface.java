@@ -20,4 +20,10 @@ public interface FaultServiceInterface {
     Fault getEntityById(Long id);
 
     FaultDTO getDTOById(Long id);
+
+    List<FaultDTO> getAllActiveFaultDTOs();
+
+    Boolean checkIfCarFaultWithDescriptionExists(Car car, String description);
+
+    Long setInactiveCarFaultWithDescription(Car car, String description);
 }

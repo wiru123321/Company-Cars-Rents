@@ -162,13 +162,13 @@ public class FaultServiceTest {
 
         final Fault fault = new Fault(null, car, "nothing", false, true);
 
-        final FaultDTO faultDTO = new FaultDTO(carDTO, "nothing", false, true);
+        final FaultDTO faultDTO = new FaultDTO(carDTO.getLicensePlate(), "nothing", false, true);
 
         final Fault restModelToEntityModel = faultService.mapRestModel(null, faultDTO);
         assertAll(() -> {
             assertEquals(restModelToEntityModel.getCar(), fault.getCar());
             assertEquals(restModelToEntityModel.getId(), fault.getId());
-            assertEquals(restModelToEntityModel.getDescribe(), fault.getDescribe());
+            assertEquals(restModelToEntityModel.getDescription(), fault.getDescription());
             assertEquals(restModelToEntityModel.getSetCarInactive(), fault.getSetCarInactive());
             assertEquals(restModelToEntityModel.getIsActive(), fault.getIsActive());
         });
@@ -190,14 +190,14 @@ public class FaultServiceTest {
         assertAll(() -> {
             assertNotEquals(null, serviceFault1.getId());
             assertEquals(fault.getCar(), serviceFault1.getCar());
-            assertEquals(fault.getDescribe(), serviceFault1.getDescribe());
+            assertEquals(fault.getDescription(), serviceFault1.getDescription());
             assertEquals(fault.getSetCarInactive(), serviceFault1.getSetCarInactive());
             assertEquals(fault.getIsActive(), serviceFault1.getIsActive());
 
 
             assertNotEquals(null, serviceFault2.getId());
             assertEquals(fault.getCar(), serviceFault2.getCar());
-            assertEquals(fault.getDescribe(), serviceFault2.getDescribe());
+            assertEquals(fault.getDescription(), serviceFault2.getDescription());
             assertEquals(fault.getSetCarInactive(), serviceFault2.getSetCarInactive());
             assertEquals(fault.getIsActive(), serviceFault2.getIsActive());
         });
@@ -217,15 +217,15 @@ public class FaultServiceTest {
 
         assertAll(() -> {
             assertEquals(fault.getIsActive(), faultDTO1.getIsActive());
-            assertEquals(fault.getDescribe(), faultDTO1.getDescribe());
+            assertEquals(fault.getDescription(), faultDTO1.getDescription());
             assertEquals(fault.getSetCarInactive(), faultDTO1.getSetCarInactive());
-            assertEquals(fault.getCar().getLicensePlate(), faultDTO1.getCarDTO().getLicensePlate());
+            assertEquals(fault.getCar().getLicensePlate(), faultDTO1.getCarLicensePlate());
 
 
             assertEquals(fault.getIsActive(), faultDTO2.getIsActive());
-            assertEquals(fault.getDescribe(), faultDTO2.getDescribe());
+            assertEquals(fault.getDescription(), faultDTO2.getDescription());
             assertEquals(fault.getSetCarInactive(), faultDTO2.getSetCarInactive());
-            assertEquals(fault.getCar().getLicensePlate(), faultDTO2.getCarDTO().getLicensePlate());
+            assertEquals(fault.getCar().getLicensePlate(), faultDTO2.getCarLicensePlate());
         });
     }
 
