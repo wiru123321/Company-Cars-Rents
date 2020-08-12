@@ -247,7 +247,7 @@ public class DatabaseLoader implements CommandLineRunner {
             rentRepository.save(rent4);
 
             Fault fault1 = new Fault(null, car1, "Wybita przednia szyba", false, true);
-            Fault fault2 = new Fault(null, car2, "Wybita przednia szyba", false, false);
+            Fault fault2 = new Fault(null, car2, "Zarysowany lakier", false, false);
         }
     }
 }
