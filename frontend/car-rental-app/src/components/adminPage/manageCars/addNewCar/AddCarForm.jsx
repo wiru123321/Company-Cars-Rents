@@ -12,9 +12,11 @@ import {
 import SelectBoxForm from "./SelectBoxForm";
 import BoxPanel from "./BoxPanel";
 import ParkingForm from "./ParkingForm";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const AddCarForm = () => {
   const [showAddPhotoButton, toggleshowAddPhotoButton] = useState(false);
+  const [showSaveButton, toggleshowSaveButton] = useState(true);
   const useStyles = makeStyles((theme) => ({
     root: {
       "& > *": {
@@ -98,9 +100,11 @@ const AddCarForm = () => {
       number &&
       colourDTO &&
       typeDTO
-    )
+    ) {
       toggleshowAddPhotoButton(true);
-    dispatch(addCar(car));
+      toggleshowSaveButton(false);
+      dispatch(addCar(car));
+    }
   }
 
   function submitImage(event) {
@@ -109,6 +113,7 @@ const AddCarForm = () => {
       imageFile: imageFile,
     };
     dispatch(addImage(image, licensePlate));
+
     dispatch(reset());
   }
 
@@ -150,21 +155,30 @@ const AddCarForm = () => {
         number={number}
         comment={comment}
       />
-      <Box display="flex" justifyContent="center">
-        <Box>
-          <Button
-            variant="contained"
-            color="primary"
-            size="normal"
-            className={classes.button}
-            startIcon={<Save />}
-            type="submit"
-            onClick={submit}
-          >
-            Save
-          </Button>
+      {showSaveButton ? (
+        <Box display="flex" justifyContent="center">
+          <Box>
+            <Button
+              variant="contained"
+              color="primary"
+              size="normal"
+              className={classes.button}
+              startIcon={<Save />}
+              type="submit"
+              onClick={submit}
+            >
+              Save
+            </Button>
+          </Box>
         </Box>
-      </Box>
+      ) : (
+        <Box display="flex" justifyContent="center">
+          <Box>
+            <p>Car added, please add photo.</p>
+          </Box>
+        </Box>
+      )}
+
       {showAddPhotoButton ? (
         <Box display="flex" justifyContent="center" m={1} p={1}>
           <input
