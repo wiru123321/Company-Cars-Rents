@@ -103,7 +103,7 @@ public class RentService implements RentServiceInterface {
         return this.convertRentListToRentDTOList(rentArrayList);
     }
 
-    @Override //TODO TEST IT
+    @Override
     public List<CarDTO> getActiveCarsBetweenDates(final DateFromDateTo dateFromDateTo) {
         final List<RentDTO> rentList = this.getAllDTOsByTimeRange(dateFromDateTo);
         final List<CarDTO> carList = new ArrayList<>();
@@ -139,13 +139,13 @@ public class RentService implements RentServiceInterface {
         return rentPendingDTOList;
     }
 
-    @Override
+    @Override //TODO change return type to List<RentPendingDTO>
     public List<RentDTO> getUserActiveRentDTOs() {
         final User user = userService.getEntityByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
         return this.convertRentListToRentDTOList(rentRepository.findAllByUserAndIsActive(user, true));
     }
 
-    @Override
+    @Override //TODO change return type to List<RentPendingDTO>
     public List<RentDTO> getUserInactiveRentDTOs() {
         final User user = userService.getEntityByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
         return this.convertRentListToRentDTOList(rentRepository.findAllByUserAndIsActive(user, false));
