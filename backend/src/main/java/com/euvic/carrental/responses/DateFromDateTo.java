@@ -8,4 +8,12 @@ import java.time.LocalDateTime;
 public class DateFromDateTo {
     private LocalDateTime dateFrom;
     private LocalDateTime dateTo;
+
+    public DateFromDateTo() {
+    }
+
+    public DateFromDateTo(final LocalDateTime dateFrom, final LocalDateTime dateTo) {
+        this.dateFrom = dateFrom;
+        this.dateTo = dateTo;
+    }
 }
