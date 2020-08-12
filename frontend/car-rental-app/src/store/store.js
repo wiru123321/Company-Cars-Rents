@@ -11,6 +11,7 @@ import userPasswordSettingsReducer from "../features/user-settings/userPasswordS
 import userPhoneNumberSettingsReducer from "../features/user-settings/userPhoneNumberSettingsSlice";
 import carManagerReducer from "../features/car-management/carManagerSlice";
 import employeesManagerReducer from "../features/employees-management/employeesManagerSlice";
+import rentsReducer from "../features/rents/rentsSlice";
 
 export default configureStore({
   reducer: {
@@ -26,5 +27,6 @@ export default configureStore({
     userPhoneNumberSettings: userPhoneNumberSettingsReducer,
     carsManager: carManagerReducer,
     employees: employeesManagerReducer,
+    rent: rentsReducer,
   },
 });
