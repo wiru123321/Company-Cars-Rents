@@ -117,7 +117,7 @@ public class CarController {
             return new ResponseEntity<>("Image get not downloaded", HttpStatus.INTERNAL_SERVER_ERROR);
         }
        HttpHeaders headers = new HttpHeaders();
-       headers.setContentType(MediaType.IMAGE_JPEG);
+       headers.setContentType(MediaType.IMAGE_PNG);
        headers.setContentLength(image.length);
        return new ResponseEntity<>(image, headers, HttpStatus.OK);
     }
