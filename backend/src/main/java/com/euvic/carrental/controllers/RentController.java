@@ -3,6 +3,7 @@ package com.euvic.carrental.controllers;
 import com.euvic.carrental.model.*;
 import com.euvic.carrental.responses.RentDTO;
 import com.euvic.carrental.responses.RentListCarByTime;
+import com.euvic.carrental.responses.RentPermitRejectDTO;
 import com.euvic.carrental.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -38,16 +39,16 @@ public class RentController {
         return ResponseEntity.ok(rentService.getAllPendingRents());
     }
 
-    //TODO zmień RequestBody musi zawierać tablice rej i response od admina
     @RequestMapping(method = RequestMethod.PUT, value = "/a/rent/permit/{id}")
-    public ResponseEntity<?> permitRent(@PathVariable final Long id, @RequestBody final String licensePlate) {
+    public ResponseEntity<?> permitRent(@PathVariable final Long id, @RequestBody final RentPermitRejectDTO rentPermitRejectDTO) {
         final Rent rent = rentService.getEntityById(id);
         int responseCode;
         String message;
-        final Car car = carService.getEntityByLicensePlate(licensePlate);
+        final Car car = carService.getEntityByLicensePlate(rentPermitRejectDTO.getLicensePlate());
         if (car != null) {
             try {
                 rent.setIsActive(true);
+                rent.setResponse(rentPermitRejectDTO.getResponse());
                 rentService.addEntityToDB(rent);
                 responseCode = 200;
                 message = "Updated";
@@ -63,7 +64,7 @@ public class RentController {
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/a/rent/reject/{id}")
-    public ResponseEntity<?> rejectRent(@PathVariable final Long id, @RequestBody final String response) {
+    public ResponseEntity<?> rejectRent(@PathVariable final Long id, @RequestBody final RentPermitRejectDTO rentPermitRejectDTO) {
         final Rent rent = rentService.getEntityById(id);
         int responseCode;
         String message;
@@ -72,16 +73,10 @@ public class RentController {
             final ParkingHistory parkingFrom = new ParkingHistory(null, rent.getParkingFrom());
             final ParkingHistory parkingTo = new ParkingHistory(null, rent.getParkingTo());
             final RentHistory rentHistory = new RentHistory(null, rent.getUser(), rent.getCar(), rent.getDateFrom(), rent.getDateTo(), parkingFrom
-                    , parkingTo, false, false, rent.getComment(), response);
+                    , parkingTo, false, false, rent.getComment(), rentPermitRejectDTO.getResponse());
             parkingHistoryService.addEntityToDB(parkingFrom);
             parkingHistoryService.addEntityToDB(parkingTo);
             rentHistoryService.addEntityToDB(rentHistory);
-
-            rent.setCar(null);
-            rent.setParkingFrom(null);
-            rent.setParkingTo(null);
-            rent.setUser(null);
-
             rentService.deleteRent(rent);
 
             responseCode = 200;
@@ -127,7 +122,7 @@ public class RentController {
                 message = "Ok";
             } else {
                 responseCode = 400;
-                message = "You have rent in this time";
+                message = "You have rent in this time or give invalid time range";
             }
 
         } catch (final NullPointerException e) {

@@ -139,26 +139,25 @@ public class RentService implements RentServiceInterface {
     }
 
     @Override //TODO TEST IT
-    public List<RentPermitDTO> getAllPendingRents() {
+    public List<RentPendingDTO> getAllPendingRents() {
         final List<Rent> rentList = rentRepository.findAllByIsActive(false);
-        final List<RentPermitDTO> rentPermitDTOList = new ArrayList<>();
+        final List<RentPendingDTO> rentPendingDTOList = new ArrayList<>();
 
         if (rentList != null) {
             rentList.forEach((rent) -> {
-                final RentPermitDTO rentPermitDTO = new RentPermitDTO();
-                rentPermitDTO.setId(rent.getId());
-                rentPermitDTO.setComment(rent.getComment());
-                rentPermitDTO.setCarDTO(carService.mapToCarDTO(rent.getCar()));
-                rentPermitDTO.setDateFrom(rent.getDateFrom());
-                rentPermitDTO.setDateTo(rent.getDateTo());
-                rentPermitDTO.setParkingFrom(new ParkingDTO(rent.getParkingFrom()));
-                rentPermitDTO.setParkingTo(new ParkingDTO(rent.getParkingTo()));
-                rentPermitDTO.setUserRentInfo(new UserRentInfo(rent.getUser().getName(), rent.getUser().getSurname(), rent.getUser().getPhoneNumber(), rent.getUser().getEmail()));
-                rentPermitDTOList.add(rentPermitDTO);
+                final RentPendingDTO rentPendingDTO = new RentPendingDTO();
+                rentPendingDTO.setId(rent.getId());
+                rentPendingDTO.setComment(rent.getComment());
+                rentPendingDTO.setCarDTO(carService.mapToCarDTO(rent.getCar()));
+                rentPendingDTO.setDateFrom(rent.getDateFrom());
+                rentPendingDTO.setDateTo(rent.getDateTo());
+                rentPendingDTO.setParkingFrom(new ParkingDTO(rent.getParkingFrom()));
+                rentPendingDTO.setParkingTo(new ParkingDTO(rent.getParkingTo()));
+                rentPendingDTO.setUserRentInfo(new UserRentInfo(rent.getUser().getName(), rent.getUser().getSurname(), rent.getUser().getPhoneNumber(), rent.getUser().getEmail()));
+                rentPendingDTOList.add(rentPendingDTO);
             });
         }
-
-        return rentPermitDTOList;
+        return rentPendingDTOList;
     }
 
     @Override //TODO TEST IT
@@ -218,25 +217,36 @@ public class RentService implements RentServiceInterface {
                 || (rentListCarByTime.getDateTo().isEqual(dateFrom) || rentListCarByTime.getDateTo().isEqual(dateTo));
     }
 
+    private boolean checkDateTimeChronological(final LocalDateTime dateFrom, final LocalDateTime dateTo) {
+        return !dateFrom.isAfter(dateTo);
+    }
+
     //TODO TEST IT
     @Override
     public boolean checkMyRentsBeforeAddNewRent(final RentDTO rentDTO) {
-        final User user = userService.getEntityByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
-        final List<Rent> rentList = rentRepository.findAllByUserAndIsActive(user, true);
-        final RentListCarByTime time = new RentListCarByTime();
-        time.setDateFrom(rentDTO.getDateFrom());
-        time.setDateTo(rentDTO.getDateTo());
+        if (this.checkDateTimeChronological(rentDTO.getDateFrom(), rentDTO.getDateTo())) {
+            final User user = userService.getEntityByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
+            final List<Rent> rentList = rentRepository.findAllByUserAndIsActive(user, true);
+            final RentListCarByTime time = new RentListCarByTime();
+            time.setDateFrom(rentDTO.getDateFrom());
+            time.setDateTo(rentDTO.getDateTo());
 
-        for (final Rent rent : rentList) {
-            if (this.checkDate(rent.getDateFrom(), rent.getDateTo(), time)) {
-                return false;
+            for (final Rent rent : rentList) {
+                if (this.checkDate(rent.getDateFrom(), rent.getDateTo(), time)) {
+                    return false;
+                }
             }
+            return true;
         }
-        return true;
+        return false;
     }
 
-    @Override //TODO test it
+    @Override
     public void deleteRent(final Rent rent) {
+        rent.setCar(null);
+        rent.setParkingFrom(null);
+        rent.setParkingTo(null);
+        rent.setUser(null);
         rentRepository.delete(rent);
     }
 

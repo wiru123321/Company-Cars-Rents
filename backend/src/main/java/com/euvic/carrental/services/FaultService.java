@@ -25,7 +25,7 @@ public class FaultService implements FaultServiceInterface {
 
     @Override
     public Fault mapRestModel(final Long id, final FaultDTO faultDTO) {
-        return new Fault(id, carService.getEntityByLicensePlate(faultDTO.getCarLicensePlate()), faultDTO.getDescription(), faultDTO.getSetCarInactive(), faultDTO.getIsActive());
+        return new Fault(id, carService.getEntityByLicensePlate(faultDTO.getCarLicensePlate()), faultDTO.getDescription(), faultDTO.getSetCarInactive(), true);
     }
 
     @Override
@@ -40,14 +40,14 @@ public class FaultService implements FaultServiceInterface {
         final ArrayList<Fault> faultArrayList = new ArrayList<>();
         faultArrayList.addAll(faultRepository.findAllByCar(car));
 
-        return mapRestList(faultArrayList);
+        return mapEntityList(faultArrayList);
     }
 
     @Override
     public List<FaultDTO> getAllActiveFaultDTOs() {
         final ArrayList<Fault> faultArrayList = new ArrayList<>();
         faultArrayList.addAll(faultRepository.findAllByIsActive(true));
-        return mapRestList(faultArrayList);
+        return mapEntityList(faultArrayList);
     }
 
     @Override
@@ -84,10 +84,10 @@ public class FaultService implements FaultServiceInterface {
         final ArrayList<Fault> faultArrayList = new ArrayList<>();
         faultRepository.findAll().forEach(faultArrayList::add);
 
-        return mapRestList(faultArrayList);
+        return mapEntityList(faultArrayList);
     }
 
-    private List<FaultDTO> mapRestList(final List<Fault> faultList) {
+    private List<FaultDTO> mapEntityList(final List<Fault> faultList) {
         final ArrayList<FaultDTO> faultDTOList = new ArrayList<>();
         faultList.forEach((fault) -> {
             final FaultDTO faultDTO = new FaultDTO(fault, fault.getCar().getLicensePlate());

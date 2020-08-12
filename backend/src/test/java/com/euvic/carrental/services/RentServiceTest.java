@@ -9,6 +9,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDate;
@@ -401,5 +403,101 @@ public class RentServiceTest {
         final List<RentDTO> rentDTOList = rentService.getAllDTOs();
 
         assertEquals(rentRepository.count(), rentDTOList.size());
+    }
+
+    @Test
+    void givenRent_shouldDeleteItFromRepository() {
+        final Parking parking1 = new Parking(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
+        final Parking parking2 = new Parking(null, "Radom", "40-222", "Jaka 32", "A-8", "Parking przy sklepie Tesco", true);
+        final Parking parking3 = new Parking(null, "Kielce", "40-623", "Weteranow 54", "B-4", "Parking przy dworcu", true);
+
+        final Long parkingId1 = parkingService.addEntityToDB(parking1);
+        final Long parkingId2 = parkingService.addEntityToDB(parking2);
+        final Long parkingId3 = parkingService.addEntityToDB(parking3);
+
+        final Car car = new Car(null, "SBE33212", 120, 1, 4, 3,
+                gearboxTypeService.getEntityByName("Manual"), fuelTypeService.getEntityByName("Diesel"),
+                LocalDateTime.of(2000, 3, 25, 0, 0), 2000, true, 120000
+                , modelService.getEntityByName("Astra"),
+                parkingService.getEntityById(parkingId1), colourService.getEntityByName("Blue"), typeService.getEntityByName("Coupe"));
+
+        carRepository.save(car);
+
+        final Role role1 = new Role(null, "Admin");
+        final Role role2 = new Role(null, "User");
+
+        roleRepository.save(role1);
+        roleRepository.save(role2);
+
+        final User user = new User(null, "login", "password", "email@email.com", "name", "surname", "123789456", roleService.getEntityByRoleName("User"));
+
+        userRepository.save(user);
+
+        final LocalDateTime dateFrom = LocalDateTime.of(2000, 3, 25, 0, 0);
+        final LocalDateTime dateTo = LocalDateTime.of(2000, 3, 30, 0, 0);
+        final Rent rent1 = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlate("SBE33212"), dateFrom, dateTo
+                , parkingService.getEntityById(parkingId1), parkingService.getEntityById(parkingId2), true, "comment", "Response");
+        final Rent rent2 = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlate("SBE33212"), dateFrom, dateTo
+                , parkingService.getEntityById(parkingId2), parkingService.getEntityById(parkingId3), true, "comment", "Response");
+        final Rent rent3 = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlate("SBE33212"), dateFrom, dateTo
+                , parkingService.getEntityById(parkingId3), parkingService.getEntityById(parkingId1), true, "comment", "Response");
+        final Long rentId1 = rentService.addEntityToDB(rent1);
+        final Long rentId2 = rentService.addEntityToDB(rent2);
+        final Long rentId3 = rentService.addEntityToDB(rent3);
+
+        final Rent rentToDelete = rentService.getEntityById(rentId1);
+
+        assertEquals(3, rentRepository.count());
+        rentService.deleteRent(rentToDelete);
+        assertEquals(2, rentRepository.count());
+    }
+
+    @Test
+    void shouldReturnTrueWhenRentInTimeRangeNotExist() {
+        final Parking parking1 = new Parking(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
+        final Parking parking2 = new Parking(null, "Radom", "40-222", "Jaka 32", "A-8", "Parking przy sklepie Tesco", true);
+        final Parking parking3 = new Parking(null, "Kielce", "40-623", "Weteranow 54", "B-4", "Parking przy dworcu", true);
+
+        final Long parkingId1 = parkingService.addEntityToDB(parking1);
+        final Long parkingId2 = parkingService.addEntityToDB(parking2);
+        final Long parkingId3 = parkingService.addEntityToDB(parking3);
+
+        final Car car = new Car(null, "SBE33212", 120, 1, 4, 3,
+                gearboxTypeService.getEntityByName("Manual"), fuelTypeService.getEntityByName("Diesel"),
+                LocalDateTime.of(2000, 3, 25, 0, 0), 2000, true, 120000
+                , modelService.getEntityByName("Astra"),
+                parkingService.getEntityById(parkingId1), colourService.getEntityByName("Blue"), typeService.getEntityByName("Coupe"));
+
+        carRepository.save(car);
+
+        final Role role1 = new Role(null, "Admin");
+        final Role role2 = new Role(null, "User");
+
+        roleRepository.save(role1);
+        roleRepository.save(role2);
+
+        final User user = new User(null, "login", "password", "email@email.com", "name", "surname", "123789456", roleService.getEntityByRoleName("User"));
+
+        userRepository.save(user);
+
+        final LocalDateTime dateFrom = LocalDateTime.of(2000, 3, 25, 0, 0);
+        final LocalDateTime dateTo = LocalDateTime.of(2000, 3, 30, 0, 0);
+        final Rent rent1 = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlate("SBE33212"), dateFrom, dateTo
+                , parkingService.getEntityById(parkingId1), parkingService.getEntityById(parkingId2), true, "comment", "Response");
+
+        final Long rentId1 = rentService.addEntityToDB(rent1);
+
+        SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(user.getLogin(), user.getPassword()));
+
+        final RentDTO rentDTO = new RentDTO();
+        rentDTO.setDateFrom(LocalDateTime.of(2000, 3, 25, 0, 0));
+        rentDTO.setDateTo(LocalDateTime.of(2000, 3, 30, 0, 0));
+
+        assertFalse(rentService.checkMyRentsBeforeAddNewRent(rentDTO));
+
+        rentDTO.setDateFrom(LocalDateTime.of(2000, 5, 25, 0, 0));
+        rentDTO.setDateTo(LocalDateTime.of(2000, 5, 28, 0, 0));
+        
+        assertTrue(rentService.checkMyRentsBeforeAddNewRent(rentDTO));
     }
 }

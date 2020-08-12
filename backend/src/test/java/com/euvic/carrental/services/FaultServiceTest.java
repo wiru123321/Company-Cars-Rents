@@ -162,7 +162,7 @@ public class FaultServiceTest {
 
         final Fault fault = new Fault(null, car, "nothing", false, true);
 
-        final FaultDTO faultDTO = new FaultDTO(carDTO.getLicensePlate(), "nothing", false, true);
+        final FaultDTO faultDTO = new FaultDTO(carDTO.getLicensePlate(), "nothing", false);
 
         final Fault restModelToEntityModel = faultService.mapRestModel(null, faultDTO);
         assertAll(() -> {
@@ -216,13 +216,11 @@ public class FaultServiceTest {
         final FaultDTO faultDTO2 = faultService.getDTOById(faultId);
 
         assertAll(() -> {
-            assertEquals(fault.getIsActive(), faultDTO1.getIsActive());
             assertEquals(fault.getDescription(), faultDTO1.getDescription());
             assertEquals(fault.getSetCarInactive(), faultDTO1.getSetCarInactive());
             assertEquals(fault.getCar().getLicensePlate(), faultDTO1.getCarLicensePlate());
 
 
-            assertEquals(fault.getIsActive(), faultDTO2.getIsActive());
             assertEquals(fault.getDescription(), faultDTO2.getDescription());
             assertEquals(fault.getSetCarInactive(), faultDTO2.getSetCarInactive());
             assertEquals(fault.getCar().getLicensePlate(), faultDTO2.getCarLicensePlate());
