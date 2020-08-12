@@ -24,6 +24,7 @@ export const yourCarsSlice = createSlice({
       state.cars[action.payload].isActive = false;
       state.endingFormChoose = !state.endingFormChoose;
       state.chooseCarIndex = action.payload;
+      state.photoCarIndex = action.payload;
     },
     acceptForm: (state) => {
       state.endingFormChoose = !state.endingFormChoose;
@@ -67,7 +68,6 @@ export const selectIndex = (state) => state.YourReservation.chooseCarIndex;
 export const selectEndingformchoose = (state) =>
   state.YourReservation.endingFormChoose;
 export const selectBugopen = (state) => state.YourReservation.bugOpen;
-
 export const fetchCars = () => async (dispatch) => {
   try {
     const response = await axios.get(API_URL + "/ae/active-cars", {
@@ -96,11 +96,33 @@ export const fetchCarImage = (licensePlate) => async (dispatch) => {
     // dispatch(setImage(response.data));
     console.log(response.data);
     var arrayBufferView = new Uint8Array(response.data);
-    var blob = new Blob([arrayBufferView], { type: "image/jpeg" });
+    var blob = new Blob([arrayBufferView], { type: "image" });
     var urlCreator = window.URL || window.webkitURL;
     var imageUrl = urlCreator.createObjectURL(blob);
     console.log(imageUrl);
     dispatch(setImage(imageUrl));
+  } catch (error) {
+    console.log(error);
+  }
+};
+//TODO backend poprawic ma dostęp do tej metody.
+export const updateCar = (licensePlate, car) => async (dispatch) => {
+  try {
+    const updateResponse = await axios.put(
+      API_URL + `/a/car/${licensePlate}`,
+      car,
+      {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      }
+    );
+    const fetchResponse = await axios.get(API_URL + "/a/cars", {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
+    dispatch(setCars(fetchResponse.data));
   } catch (error) {
     console.log(error);
   }

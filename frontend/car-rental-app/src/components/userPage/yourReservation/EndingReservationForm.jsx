@@ -37,14 +37,12 @@ const EndingReservationForm = () => {
             </ListItem>
           </List>
         </Grid>
-
         <Grid xs={3}>
           <ParkingData
             handleParkingNumberChange={dispatch(parkingNumberChange())}
             handleParkingPlaceChange={dispatch(parkingPlaceNumberChange())}
           />
         </Grid>
-
         <Grid container justify="center" xs={12}>
           <BugReport />
         </Grid>

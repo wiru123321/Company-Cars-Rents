@@ -16,7 +16,7 @@ import {
   fetchCars,
   fetchCarImage,
   selectImg,
-  changephotoCarIndex,
+  updateCar,
 } from "../../../features/your-cars/yourCarsSlice";
 
 // TODO Fetch users cars from api.
@@ -48,11 +48,25 @@ const YourCarsList = () => {
           <List>
             {cars.map((car, index) =>
               car.isActive ? (
+                <ListItem key={index}>
+                  {/* {dispatch(fetchCarImage(car.licensePlate))} */}
+                  <Box display="flex">
+                    <CarImage
+                      src={
+                        "http://localhost:8080/u/car/download-car-image/" +
+                        car.licensePlate
+                      }
+                    />
+                    <CarInfo car={car} />
+                  </Box>
+                </ListItem>
+              ) : (
                 <ListItem key={index} style={{ backgroundColor: "#f56f42" }}>
                   <Box display="flex">
                     <CarImage
                       src={
-                        "http://localhost:3000/46a6a071-a961-4bb8-a55f-19518517e119"
+                        "http://localhost:8080/u/car/download-car-image/" +
+                        car.licensePlate
                       }
                     />
                     <CarInfo car={car} />
@@ -60,24 +74,18 @@ const YourCarsList = () => {
                   <Button
                     variant="outlined"
                     color="primary"
-                    onClick={() => {
+                    onClick={(event) => {
+                      event.preventDefault();
+                      var newCar = {
+                        ...car,
+                        isActive: false,
+                      };
+                      dispatch(updateCar(car.licensePlate, newCar));
                       dispatch(chooseCar(index));
                     }}
                   >
                     Give the car back
                   </Button>
-                </ListItem>
-              ) : (
-                <ListItem key={index}>
-                  {/* {dispatch(fetchCarImage(car.licensePlate))} */}
-                  <Box display="flex">
-                    <CarImage
-                      src={
-                        "http://localhost:3000/46a6a071-a961-4bb8-a55f-19518517e119"
-                      }
-                    />
-                    <CarInfo car={car} />
-                  </Box>
                 </ListItem>
               )
             )}

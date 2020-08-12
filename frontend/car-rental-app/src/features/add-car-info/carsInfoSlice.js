@@ -104,6 +104,14 @@ export const carsInfoSlice = createSlice({
       state.gearBoxTypeDTO = "";
       state.capacityOfTrunkScale = "";
       state.photoInFolderName = "";
+      state.lastInspection = "";
+      state.imageFile = "";
+      state.town = "";
+      state.postalCode = "";
+      state.streetName = "";
+      state.number = "";
+      state.comment = "";
+      state.markDTO = "";
     },
     imageFileChange: (state, action) => {
       state.imageFile = action.payload;

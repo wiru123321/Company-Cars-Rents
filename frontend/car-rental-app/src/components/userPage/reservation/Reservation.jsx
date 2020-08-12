@@ -50,7 +50,11 @@ const Reservation = () => {
     <Container
       className={classes.root}
       maxWidth="lg"
-      style={{ height: "77vh" }}
+      style={{
+        minHeight: "80vh",
+        height: "auto",
+        height: "100%",
+      }}
     >
       <Grid container direction="row" justify="left" alignItems="flex-start">
         <Box className={classes.leftColumn}>
