@@ -230,10 +230,10 @@ public class FaultServiceTest {
     }
 
     @Test
-    void shouldReturnAllCarDBFaultsDTO_And_shouldReturnAllDBFaultsDTO() {
+    void shouldReturnAllCarDBFaultsDTO_And_AllDBFaultsDTO_And_AllActiveCarsDTO() {
         final Car car = carService.getEntityByLicensePlate("SBE33212");
 
-        final Fault fault1 = new Fault(null, car, "sd", false, true);
+        final Fault fault1 = new Fault(null, car, "sd", false, false);
         final Fault fault2 = new Fault(null, car, "dd", false, true);
         final Fault fault3 = new Fault(null, car, "we", false, true);
 
@@ -245,10 +245,12 @@ public class FaultServiceTest {
 
         final List<FaultDTO> faultDTOList1 = faultService.getAllDTOsByCar(car);
         final List<FaultDTO> faultDTOList2 = faultService.getAllDTOs();
+        final List<FaultDTO> faultDTOList3 = faultService.getAllActiveFaultDTOs();
 
         assertAll(() -> {
             assertEquals(faultRepository.count(), faultDTOList1.size());
             assertEquals(faultRepository.count(), faultDTOList2.size());
+            assertEquals(2, faultDTOList3.size());
         });
     }
 
@@ -261,5 +263,19 @@ public class FaultServiceTest {
         assertEquals(0, faultRepository.count());
         faultService.addEntityToDB(fault);
         assertEquals(1, faultRepository.count());
+    }
+
+    @Test
+    void shouldcheckIfCarFaultWithDescriptionExists_And_setItNotActive(){
+        final Car car = carService.getEntityByLicensePlate("SBE33212");
+        final Fault fault = new Fault(null, car, "nothing", false, true);
+        assertEquals(0, faultRepository.count());
+        faultService.addEntityToDB(fault);
+        assertEquals(1, faultRepository.count());
+        assertTrue(faultService.checkIfCarFaultWithDescriptionExists(car, fault.getDescription()));
+
+        Long fault1Id = faultService.setInactiveCarFaultWithDescription(car, fault.getDescription());
+        Fault fault1 = faultService.getEntityById(fault1Id);
+        assertFalse(fault1.getSetCarInactive());
     }
 }

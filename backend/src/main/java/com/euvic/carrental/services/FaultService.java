@@ -43,19 +43,19 @@ public class FaultService implements FaultServiceInterface {
         return mapRestList(faultArrayList);
     }
 
-    @Override // test
+    @Override
     public List<FaultDTO> getAllActiveFaultDTOs() {
         final ArrayList<Fault> faultArrayList = new ArrayList<>();
         faultArrayList.addAll(faultRepository.findAllByIsActive(true));
         return mapRestList(faultArrayList);
     }
 
-    @Override // test
+    @Override
     public Boolean checkIfCarFaultWithDescriptionExists(Car car, String description) {
         return faultRepository.existsByIsActiveAndCarAndDescription(true, car, description);
     }
 
-    @Override // test
+    @Override
     public Long setInactiveCarFaultWithDescription(Car car, String description) {
         Fault fault = faultRepository.findByIsActiveAndCarAndDescription(true, car, description);
         fault.setIsActive(false);
