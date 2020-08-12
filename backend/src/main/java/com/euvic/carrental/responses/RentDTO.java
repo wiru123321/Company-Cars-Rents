@@ -19,6 +19,15 @@ public class RentDTO {
     private ParkingDTO parkingDTOTo;
     private Boolean isActive;
 
+    public RentDTO() {
+    }
+
+    public RentDTO(final LocalDateTime dateFrom, final LocalDateTime dateTo, final ParkingDTO parkingDTO) {
+        this.dateFrom = dateFrom;
+        this.dateTo = dateTo;
+        this.parkingDTOTo = parkingDTO;
+    }
+
     public RentDTO(final RentHistory rentHistory, final UserDTO userDTO, final CarDTO carDTO, final ParkingDTO parkingDTOFrom, final ParkingDTO parkingDTOTo) {
         this.dateFrom = rentHistory.getDateFrom();
         this.dateTo = rentHistory.getDateTo();

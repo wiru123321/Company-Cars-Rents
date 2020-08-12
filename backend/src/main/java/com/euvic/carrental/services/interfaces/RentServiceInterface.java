@@ -34,4 +34,6 @@ public interface RentServiceInterface {
     void deleteRent(Rent rent);
 
     List<RentDTO> getUserRentHistoryDTOs();
+
+    boolean checkMyRentsBeforeAddNewRent(RentDTO rentDTO);
 }
