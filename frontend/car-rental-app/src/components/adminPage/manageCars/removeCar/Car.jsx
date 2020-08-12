@@ -45,8 +45,12 @@ const Car = ({ car, index, onDelete }) => {
         ) : (
           <>
             <Grid item xs={4}>
-              {/*<CarImage src={car.src} />*/}
-              <img src={resp} alt={"asda"} />
+              <CarImage
+                src={
+                  "http://localhost:8080/u/car/download-car-image/" +
+                  car.licensePlate
+                }
+              />
             </Grid>
             <Grid item xs={4}>
               <CarInfo car={car} />

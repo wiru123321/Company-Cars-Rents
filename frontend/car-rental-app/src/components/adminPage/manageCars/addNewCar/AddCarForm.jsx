@@ -17,6 +17,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 const AddCarForm = () => {
   const [showAddPhotoButton, toggleshowAddPhotoButton] = useState(false);
   const [showSaveButton, toggleshowSaveButton] = useState(true);
+  const [showFormError, toggleshowFormError] = useState(false);
   const useStyles = makeStyles((theme) => ({
     root: {
       "& > *": {
@@ -34,6 +35,7 @@ const AddCarForm = () => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const CarInfo = useSelector(selectAll);
+  let error1 = "";
 
   const {
     markDTO,
@@ -103,7 +105,10 @@ const AddCarForm = () => {
     ) {
       toggleshowAddPhotoButton(true);
       toggleshowSaveButton(false);
+      toggleshowFormError(false);
       dispatch(addCar(car));
+    } else {
+      toggleshowFormError(true);
     }
   }
 
@@ -113,7 +118,8 @@ const AddCarForm = () => {
       imageFile: imageFile,
     };
     dispatch(addImage(image, licensePlate));
-
+    toggleshowAddPhotoButton(false);
+    toggleshowSaveButton(true);
     dispatch(reset());
   }
 
@@ -155,6 +161,7 @@ const AddCarForm = () => {
         number={number}
         comment={comment}
       />
+      {error1}
       {showSaveButton ? (
         <Box display="flex" justifyContent="center">
           <Box>
@@ -170,6 +177,13 @@ const AddCarForm = () => {
               Save
             </Button>
           </Box>
+          {showFormError ? (
+            <Box>
+              <p>Error in form! Please check form one more.</p>
+            </Box>
+          ) : (
+            <div></div>
+          )}
         </Box>
       ) : (
         <Box display="flex" justifyContent="center">

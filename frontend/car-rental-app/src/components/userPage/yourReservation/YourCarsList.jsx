@@ -48,19 +48,6 @@ const YourCarsList = () => {
           <List>
             {cars.map((car, index) =>
               car.isActive ? (
-                <ListItem key={index}>
-                  {/* {dispatch(fetchCarImage(car.licensePlate))} */}
-                  <Box display="flex">
-                    <CarImage
-                      src={
-                        "http://localhost:8080/u/car/download-car-image/" +
-                        car.licensePlate
-                      }
-                    />
-                    <CarInfo car={car} />
-                  </Box>
-                </ListItem>
-              ) : (
                 <ListItem key={index} style={{ backgroundColor: "#f56f42" }}>
                   <Box display="flex">
                     <CarImage
@@ -86,6 +73,19 @@ const YourCarsList = () => {
                   >
                     Give the car back
                   </Button>
+                </ListItem>
+              ) : (
+                <ListItem key={index}>
+                  {/* {dispatch(fetchCarImage(car.licensePlate))} */}
+                  <Box display="flex">
+                    <CarImage
+                      src={
+                        "http://localhost:8080/u/car/download-car-image/" +
+                        car.licensePlate
+                      }
+                    />
+                    <CarInfo car={car} />
+                  </Box>
                 </ListItem>
               )
             )}

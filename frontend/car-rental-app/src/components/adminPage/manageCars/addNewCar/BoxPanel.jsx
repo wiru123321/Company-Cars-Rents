@@ -12,6 +12,7 @@ import {
   lastInspectionChange,
 } from "../../../../features/add-car-info/carsInfoSlice";
 import { TextValidator } from "react-material-ui-form-validator";
+import useStyles from "../../../userPage/reservation/useStyles";
 
 const BoxPanel = ({
   licensePlate,
@@ -24,11 +25,13 @@ const BoxPanel = ({
   lastInspection,
 }) => {
   const dispatch = useDispatch();
+  const classes = useStyles();
   return (
     <div>
       <Box display="flex" justifyContent="center" style={{ height: "10vh" }}>
         <Box>
           <TextValidator
+            className={classes.textArea}
             label="Licence Plate"
             onChange={(event) =>
               dispatch(licencePlateChange(event.target.value))
