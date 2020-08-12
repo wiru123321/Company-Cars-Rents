@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Paper } from "@material-ui/core";
+import { Paper, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core";
 import { ValidatorForm } from "react-material-ui-form-validator";
 import UpdateCarsForm from "./UpdateCarsForm";
 import CarsUpdateAlert from "./CarsUpdateAlert";
+import AddFault from "./AddFault";
 import { updateCar } from "../../../../features/car-management/carManagerSlice";
 
 const useStyles = makeStyles({
@@ -24,29 +25,39 @@ const UpdateCars = ({ car }) => {
     car.lastInspection.slice(0, 10)
   );
 
+  const [menu, toggle] = useState(true);
+
+  const toggleMenu = () => {
+    toggle(!menu);
+  };
   return (
     <Paper className={classes.root}>
-      <ValidatorForm
-        onSubmit={(event) => {
-          event.preventDefault();
-          var newCar = {
-            ...car,
-            licensePlate: licensePlate,
-            mileage: mileage,
-            lastInspection: `${lastInspection}T00:00:00`,
-          };
-          dispatch(updateCar(exLicensePlate, newCar));
-        }}
-      >
-        <UpdateCarsForm
-          licensePlate={licensePlate}
-          mileage={mileage}
-          lastInspection={lastInspection}
-          licensePlateChange={setLicensePlate}
-          mileageChange={setMileage}
-          lastInspectionChange={setLastInspection}
-        />
-      </ValidatorForm>
+      {menu ? (
+        <ValidatorForm
+          onSubmit={(event) => {
+            event.preventDefault();
+            var newCar = {
+              ...car,
+              licensePlate: licensePlate,
+              mileage: mileage,
+              lastInspection: `${lastInspection}T00:00:00`,
+            };
+            dispatch(updateCar(exLicensePlate, newCar));
+          }}
+        >
+          <UpdateCarsForm
+            licensePlate={licensePlate}
+            mileage={mileage}
+            lastInspection={lastInspection}
+            licensePlateChange={setLicensePlate}
+            mileageChange={setMileage}
+            lastInspectionChange={setLastInspection}
+          />
+        </ValidatorForm>
+      ) : (
+        <AddFault licensePlate={exLicensePlate} />
+      )}
+      <Button onClick={toggleMenu}>{menu ? "Add fault" : "Edit car"}</Button>
       <CarsUpdateAlert />
     </Paper>
   );

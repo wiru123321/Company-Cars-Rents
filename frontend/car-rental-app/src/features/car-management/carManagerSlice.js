@@ -109,7 +109,6 @@ export const deleteCar = (licensePlate) => async (dispatch) => {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     });
-    console.log(fetchResponse.data);
     dispatch(setCars(fetchResponse.data));
   } catch (error) {
     console.log(error);
@@ -127,6 +126,25 @@ export const updateCar = (licensePlate, car) => async (dispatch) => {
         },
       }
     );
+    const fetchResponse = await axios.get(API_URL + "/a/cars", {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
+    dispatch(setCars(fetchResponse.data));
+    dispatch(setUpdateResult(true));
+  } catch (error) {
+    dispatch(setUpdateResult(false));
+  }
+};
+
+export const addFault = (faultDTO) => async (dispatch) => {
+  try {
+    const response = await axios.post(API_URL + "/a/fault", faultDTO, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
     const fetchResponse = await axios.get(API_URL + "/a/cars", {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token"),
