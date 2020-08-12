@@ -8,7 +8,6 @@ import com.euvic.carrental.services.CarService;
 import com.euvic.carrental.services.FileService;
 import com.euvic.carrental.services.ModelService;
 import com.euvic.carrental.services.ParkingService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -16,13 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.ServletContext;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Executable;
-import java.util.Map;
 
 
 @RestController

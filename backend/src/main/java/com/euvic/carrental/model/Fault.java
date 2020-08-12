@@ -14,7 +14,10 @@ public class Fault {
     private Long id;
 
     @Column(nullable = false)
-    private String describe;
+    private String description;
+
+    @Column(nullable = false)
+    private Boolean setCarInactive;
 
     @Column(nullable = false)
     private Boolean isActive;
@@ -25,11 +28,11 @@ public class Fault {
     public Fault() {
     }
 
-    public Fault(final Long id,final Car car, final String describe, final Boolean isActive) {
+    public Fault(final Long id, final Car car, final String description, final Boolean setCarInactive, final Boolean isActive) {
         this.id = id;
         this.car = car;
-        this.describe = describe;
+        this.description = description;
+        this.setCarInactive = setCarInactive;
         this.isActive = isActive;
     }
-    
 }
