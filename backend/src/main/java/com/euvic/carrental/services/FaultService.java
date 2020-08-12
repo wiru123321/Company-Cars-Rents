@@ -3,7 +3,7 @@ package com.euvic.carrental.services;
 import com.euvic.carrental.model.Car;
 import com.euvic.carrental.model.Fault;
 import com.euvic.carrental.repositories.FaultRepository;
-import com.euvic.carrental.responses.FaultDTO;
+import com.euvic.carrental.responses.*;
 import com.euvic.carrental.services.interfaces.FaultServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,7 +25,7 @@ public class FaultService implements FaultServiceInterface {
 
     @Override
     public Fault mapRestModel(final Long id, final FaultDTO faultDTO) {
-        return new Fault(id, carService.getEntityByLicensePlate(faultDTO.getCarDTO().getLicensePlate()), faultDTO.getDescribe(), faultDTO.getIsActive());
+        return new Fault(id, carService.getEntityByLicensePlate(faultDTO.getCarDTO().getLicensePlate()), faultDTO.getDescribe(), faultDTO.getSetCarInactive(), faultDTO.getIsActive());
     }
 
     @Override
@@ -40,13 +40,7 @@ public class FaultService implements FaultServiceInterface {
         final ArrayList<Fault> faultArrayList = new ArrayList<>();
         faultArrayList.addAll(faultRepository.findByCar(car));
 
-        final ArrayList<FaultDTO> faultDTOArrayList = new ArrayList<>();
-        faultArrayList.stream().forEach(fault -> {
-            final FaultDTO faultDTO = new FaultDTO(carService.getDTOByLicensePlate(fault.getCar().getLicensePlate()), fault.getDescribe(), fault.getIsActive());
-            faultDTOArrayList.add(faultDTO);
-        });
-
-        return faultDTOArrayList;
+        return mapRestList(faultArrayList);
     }
 
     @Override
@@ -58,7 +52,7 @@ public class FaultService implements FaultServiceInterface {
     public FaultDTO getDTOById(final Long id) {
         final Fault fault = this.getEntityById(id);
         final Car car = fault.getCar();
-        return new FaultDTO(carService.getDTOByLicensePlate(car.getLicensePlate()), fault.getDescribe(), fault.getIsActive());
+        return new FaultDTO(fault, carService.getDTOByLicensePlate(car.getLicensePlate()));
     }
 
     @Override
@@ -71,12 +65,15 @@ public class FaultService implements FaultServiceInterface {
         final ArrayList<Fault> faultArrayList = new ArrayList<>();
         faultRepository.findAll().forEach(faultArrayList::add);
 
-        final ArrayList<FaultDTO> faultDTOArrayList = new ArrayList<>();
-        faultArrayList.stream().forEach(fault -> {
-            final FaultDTO faultDTO = new FaultDTO(carService.getDTOByLicensePlate(fault.getCar().getLicensePlate()), fault.getDescribe(), fault.getIsActive());
-            faultDTOArrayList.add(faultDTO);
-        });
+        return mapRestList(faultArrayList);
+    }
 
-        return faultDTOArrayList;
+    private List<FaultDTO> mapRestList(final List<Fault> faultList) {
+        final ArrayList<FaultDTO> faultDTOList = new ArrayList<>();
+        faultList.forEach((fault) -> {
+            final FaultDTO faultDTO = new FaultDTO(fault, carService.getDTOByLicensePlate(fault.getCar().getLicensePlate()));
+            faultDTOList.add(faultDTO);
+        });
+        return faultDTOList;
     }
 }

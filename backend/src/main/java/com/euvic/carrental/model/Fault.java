@@ -17,6 +17,9 @@ public class Fault {
     private String describe;
 
     @Column(nullable = false)
+    private Boolean setCarInactive;
+
+    @Column(nullable = false)
     private Boolean isActive;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
@@ -25,11 +28,11 @@ public class Fault {
     public Fault() {
     }
 
-    public Fault(final Long id,final Car car, final String describe, final Boolean isActive) {
+    public Fault(final Long id,final Car car, final String describe, final Boolean setCarInactive, final Boolean isActive) {
         this.id = id;
         this.car = car;
         this.describe = describe;
+        this.setCarInactive = setCarInactive;
         this.isActive = isActive;
     }
-    
 }
