@@ -90,13 +90,9 @@ public class RentService implements RentServiceInterface {
     public Rent mapRestModel(final Long id, final RentDTO rentDTO, final Long parkingFromId, final Long parkingToId) {
 
         final Rent rent;
-        if (parkingToId != null) {
-            rent = new Rent(id, userService.getEntityByLogin(rentDTO.getUserDTO().getLogin()), carService.getEntityByLicensePlate(rentDTO.getCarDTO().getLicensePlate())
-                    , rentDTO.getDateFrom(), rentDTO.getDateTo(), parkingService.getEntityById(parkingFromId), parkingService.getEntityById(parkingToId), rentDTO.getIsActive(), rentDTO.getComment(), rentDTO.getResponse());
-        } else {
-            rent = new Rent(id, userService.getEntityByLogin(rentDTO.getUserDTO().getLogin()), carService.getEntityByLicensePlate(rentDTO.getCarDTO().getLicensePlate())
-                    , rentDTO.getDateFrom(), rentDTO.getDateTo(), parkingService.getEntityById(parkingFromId), null, rentDTO.getIsActive(), rentDTO.getComment(), rentDTO.getResponse());
-        }
+        rent = new Rent(id, userService.getEntityByLogin(rentDTO.getUserDTO().getLogin()), carService.getEntityByLicensePlate(rentDTO.getCarDTO().getLicensePlate())
+                , rentDTO.getDateFrom(), rentDTO.getDateTo(), parkingService.getEntityById(parkingFromId), parkingService.getEntityById(parkingToId), rentDTO.getIsActive(), rentDTO.getComment(), rentDTO.getResponse());
+
         return rent;
     }
 
@@ -105,24 +101,6 @@ public class RentService implements RentServiceInterface {
         final ArrayList<Rent> rentArrayList = new ArrayList<>();
         rentRepository.findAll().forEach(rentArrayList::add);
         return this.convertRentListToRentDTOList(rentArrayList);
-    }
-
-    private List<RentDTO> getAllDTOsByTimeRange(final RentListCarByTime rentListCarByTime) {
-        final ArrayList<Rent> rentArrayList = new ArrayList<>();
-        rentRepository.findAll().forEach(rentArrayList::add);
-        final ArrayList<RentDTO> rentDTOArrayList = new ArrayList<>();
-
-        if (!rentArrayList.isEmpty()) {
-
-            for (final Rent rent : rentArrayList) {
-                if (this.checkDate(rent.getDateFrom(), rent.getDateTo(), rentListCarByTime)) {
-                    final RentDTO rentDTO = new RentDTO(rent, userService.getDTOByLogin(rent.getUser().getLogin()), carService.getDTOByLicensePlate(rent.getCar().getLicensePlate())
-                            , new ParkingDTO(rent.getParkingFrom()), new ParkingDTO((rent.getParkingTo())));
-                    rentDTOArrayList.add(rentDTO);
-                }
-            }
-        }
-        return rentDTOArrayList;
     }
 
     @Override //TODO TEST IT
@@ -139,7 +117,7 @@ public class RentService implements RentServiceInterface {
         return carDTOList;
     }
 
-    @Override //TODO TEST IT
+    @Override
     public List<RentPendingDTO> getAllPendingRents() {
         final List<Rent> rentList = rentRepository.findAllByIsActive(false);
         final List<RentPendingDTO> rentPendingDTOList = new ArrayList<>();
@@ -173,6 +151,34 @@ public class RentService implements RentServiceInterface {
         return this.convertRentListToRentDTOList(rentRepository.findAllByUserAndIsActive(user, false));
     }
 
+    @Override
+    public boolean checkMyRentsBeforeAddNewRent(final RentDTO rentDTO) {
+        if (this.checkDateTimeChronological(rentDTO.getDateFrom(), rentDTO.getDateTo())) {
+            final User user = userService.getEntityByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
+            final List<Rent> rentList = rentRepository.findAllByUserAndIsActive(user, true);
+            final RentListCarByTime time = new RentListCarByTime();
+            time.setDateFrom(rentDTO.getDateFrom());
+            time.setDateTo(rentDTO.getDateTo());
+
+            for (final Rent rent : rentList) {
+                if (this.checkDate(rent.getDateFrom(), rent.getDateTo(), time)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void deleteRent(final Rent rent) {
+        rent.setCar(null);
+        rent.setParkingFrom(null);
+        rent.setParkingTo(null);
+        rent.setUser(null);
+        rentRepository.delete(rent);
+    }
+
     private List<RentDTO> convertRentListToRentDTOList(final List<Rent> rentArrayList) {
         final ArrayList<RentDTO> rentDTOArrayList = new ArrayList<>();
 
@@ -202,33 +208,21 @@ public class RentService implements RentServiceInterface {
         return !dateFrom.isAfter(dateTo);
     }
 
-    @Override
-    public boolean checkMyRentsBeforeAddNewRent(final RentDTO rentDTO) {
-        if (this.checkDateTimeChronological(rentDTO.getDateFrom(), rentDTO.getDateTo())) {
-            final User user = userService.getEntityByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
-            final List<Rent> rentList = rentRepository.findAllByUserAndIsActive(user, true);
-            final RentListCarByTime time = new RentListCarByTime();
-            time.setDateFrom(rentDTO.getDateFrom());
-            time.setDateTo(rentDTO.getDateTo());
+    private List<RentDTO> getAllDTOsByTimeRange(final RentListCarByTime rentListCarByTime) {
+        final ArrayList<Rent> rentArrayList = new ArrayList<>();
+        rentRepository.findAll().forEach(rentArrayList::add);
+        final ArrayList<RentDTO> rentDTOArrayList = new ArrayList<>();
 
-            for (final Rent rent : rentList) {
-                if (this.checkDate(rent.getDateFrom(), rent.getDateTo(), time)) {
-                    return false;
+        if (!rentArrayList.isEmpty()) {
+
+            for (final Rent rent : rentArrayList) {
+                if (this.checkDate(rent.getDateFrom(), rent.getDateTo(), rentListCarByTime)) {
+                    final RentDTO rentDTO = new RentDTO(rent, userService.getDTOByLogin(rent.getUser().getLogin()), carService.getDTOByLicensePlate(rent.getCar().getLicensePlate())
+                            , new ParkingDTO(rent.getParkingFrom()), new ParkingDTO((rent.getParkingTo())));
+                    rentDTOArrayList.add(rentDTO);
                 }
             }
-            return true;
         }
-        return false;
+        return rentDTOArrayList;
     }
-
-    @Override
-    public void deleteRent(final Rent rent) {
-        rent.setCar(null);
-        rent.setParkingFrom(null);
-        rent.setParkingTo(null);
-        rent.setUser(null);
-        rentRepository.delete(rent);
-    }
-
-
 }
