@@ -6,7 +6,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class RentPermitDTO {
+public class RentPendingDTO {
     private Long id;
     private LocalDateTime dateFrom;
     private LocalDateTime dateTo;

@@ -139,26 +139,25 @@ public class RentService implements RentServiceInterface {
     }
 
     @Override //TODO TEST IT
-    public List<RentPermitDTO> getAllPendingRents() {
+    public List<RentPendingDTO> getAllPendingRents() {
         final List<Rent> rentList = rentRepository.findAllByIsActive(false);
-        final List<RentPermitDTO> rentPermitDTOList = new ArrayList<>();
+        final List<RentPendingDTO> rentPendingDTOList = new ArrayList<>();
 
         if (rentList != null) {
             rentList.forEach((rent) -> {
-                final RentPermitDTO rentPermitDTO = new RentPermitDTO();
-                rentPermitDTO.setId(rent.getId());
-                rentPermitDTO.setComment(rent.getComment());
-                rentPermitDTO.setCarDTO(carService.mapToCarDTO(rent.getCar()));
-                rentPermitDTO.setDateFrom(rent.getDateFrom());
-                rentPermitDTO.setDateTo(rent.getDateTo());
-                rentPermitDTO.setParkingFrom(new ParkingDTO(rent.getParkingFrom()));
-                rentPermitDTO.setParkingTo(new ParkingDTO(rent.getParkingTo()));
-                rentPermitDTO.setUserRentInfo(new UserRentInfo(rent.getUser().getName(), rent.getUser().getSurname(), rent.getUser().getPhoneNumber(), rent.getUser().getEmail()));
-                rentPermitDTOList.add(rentPermitDTO);
+                final RentPendingDTO rentPendingDTO = new RentPendingDTO();
+                rentPendingDTO.setId(rent.getId());
+                rentPendingDTO.setComment(rent.getComment());
+                rentPendingDTO.setCarDTO(carService.mapToCarDTO(rent.getCar()));
+                rentPendingDTO.setDateFrom(rent.getDateFrom());
+                rentPendingDTO.setDateTo(rent.getDateTo());
+                rentPendingDTO.setParkingFrom(new ParkingDTO(rent.getParkingFrom()));
+                rentPendingDTO.setParkingTo(new ParkingDTO(rent.getParkingTo()));
+                rentPendingDTO.setUserRentInfo(new UserRentInfo(rent.getUser().getName(), rent.getUser().getSurname(), rent.getUser().getPhoneNumber(), rent.getUser().getEmail()));
+                rentPendingDTOList.add(rentPendingDTO);
             });
         }
-
-        return rentPermitDTOList;
+        return rentPendingDTOList;
     }
 
     @Override //TODO TEST IT
