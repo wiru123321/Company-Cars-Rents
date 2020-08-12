@@ -10,15 +10,12 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 
 import ContentItem from "./ContentItem";
-import {
-  selectAll,
-  fetchPendingRents,
-} from "../../../features/rents/rentsSlice";
+import { selectAll } from "../../../features/rents/rentsSlice";
 import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles({
   paper: {
-    maxHeight: "15vh",
+    maxHeight: "30vh",
     width: "30vw",
     padding: "8px",
   },
@@ -44,7 +41,7 @@ const RequestsPopover = () => {
   return (
     <>
       <Nav.Link>
-        <Button variant="contained" size="sm" onClick={handleClick}>
+        <Button variant="contained" onClick={handleClick}>
           {pendingRents.length}
         </Button>
       </Nav.Link>

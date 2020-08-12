@@ -8,7 +8,7 @@ const RentRequestControlPanel = () => {
   return (
     <Grid
       container
-      direction="col"
+      direction="column"
       justify="center"
       alignItems="center"
       className={classes.control}

@@ -20,20 +20,16 @@ const AdminPage = () => {
   return (
     <div style={{ height: "100%" }}>
       <UserNavbar />
-      <div>
-        <HashRouter basename="/adminPage">
-          <Switch>
-            <div>
-              <Route path="/" exact component={AddNewCar} />
-              <Route path="/removeCar" component={RemoveCar} />
-              <Route path="/addEmployee" component={AddEmployee} />
-              <Route path="/removeEmployer" component={RemoveEmployer} />
-              <Route path="/rentRequest" component={RentRequests} />
-            </div>
-          </Switch>
-        </HashRouter>
-        <Footer />
-      </div>
+      <HashRouter basename="/adminPage">
+        <Switch>
+          <Route path="/" exact component={AddNewCar} />
+          <Route path="/removeCar" component={RemoveCar} />
+          <Route path="/addEmployee" component={AddEmployee} />
+          <Route path="/removeEmployer" component={RemoveEmployer} />
+          <Route path="/rentRequest" component={RentRequests} />
+        </Switch>
+      </HashRouter>
+      <Footer />
     </div>
   );
 };

@@ -15,34 +15,32 @@ const FooterContainer = styled.div`
 const Footer = () => {
   return (
     <FooterContainer>
-      <Typography variant="title">
-        <Grid container direction="column">
-          <Grid container item xs={12} spacing={1} justify="center">
-            <Grid item xs={1}>
-              <a href="https://www.facebook.com/">
-                <FacebookIcon style={{ fontSize: "6vh" }} />
-              </a>
-            </Grid>
-            <Grid item xs={1}>
-              <a href="https://www.youtube.com/">
-                <YouTubeIcon style={{ fontSize: "6vh" }} />
-              </a>
-            </Grid>
-            <Grid item xs={1}>
-              <a href="#">
-                <MailIcon style={{ fontSize: "6vh" }} />
-              </a>
-            </Grid>
+      <Grid container direction="column">
+        <Grid container item xs={12} spacing={1} justify="center">
+          <Grid item xs={1}>
+            <a href="https://www.facebook.com/">
+              <FacebookIcon style={{ fontSize: "6vh" }} />
+            </a>
           </Grid>
-          <Grid container xs={12} spacing={2}>
-            <Grid item xs={12}>
-              <p style={{ fontSize: "2.5vh" }}>
-                2020 &copy; All rights reserved.
-              </p>
-            </Grid>
+          <Grid item xs={1}>
+            <a href="https://www.youtube.com/">
+              <YouTubeIcon style={{ fontSize: "6vh" }} />
+            </a>
+          </Grid>
+          <Grid item xs={1}>
+            <a href="#">
+              <MailIcon style={{ fontSize: "6vh" }} />
+            </a>
           </Grid>
         </Grid>
-      </Typography>
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <p style={{ fontSize: "2.5vh" }}>
+              2020 &copy; All rights reserved.
+            </p>
+          </Grid>
+        </Grid>
+      </Grid>
     </FooterContainer>
   );
 };

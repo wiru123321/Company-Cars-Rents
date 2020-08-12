@@ -1,12 +1,12 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { selectChoosenRequestIndex } from "../../../features/rent-requests/rentRequestsSlice";
+import { selectAll } from "../../../features/rents/rentsSlice";
 import SingleRequest from "./SingleRequest";
 import AllRequests from "./AllRequests";
 
 const RentRequests = () => {
-  const requestIndex = useSelector(selectChoosenRequestIndex);
-  return requestIndex !== "" ? <SingleRequest /> : <AllRequests />;
+  const { currentRentIndex } = useSelector(selectAll);
+  return currentRentIndex !== "" ? <SingleRequest /> : <AllRequests />;
 };
 
 export default RentRequests;

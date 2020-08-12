@@ -5,6 +5,9 @@ const API_URL = "http://localhost:8080";
 
 const initialState = {
   pendingRents: [],
+  currentRentIndex: "",
+  currentRent: "",
+  getAllRents: true,
 };
 
 const rentSlice = createSlice({
@@ -14,10 +17,17 @@ const rentSlice = createSlice({
     setPendingRents: (state, action) => {
       state.pendingRents = action.payload;
     },
+    chooseRequest: (state, action) => {
+      state.currentRentIndex = action.payload;
+      state.currentRent = state.pendingRents[state.currentRentIndex];
+    },
+    showAll: (state) => {
+      state.getAllRents = true;
+    },
   },
 });
 
-export const { setPendingRents } = rentSlice.actions;
+export const { setPendingRents, chooseRequest, showAll } = rentSlice.actions;
 export const selectAll = (state) => state.rent;
 
 export const fetchPendingRents = () => async (dispatch) => {

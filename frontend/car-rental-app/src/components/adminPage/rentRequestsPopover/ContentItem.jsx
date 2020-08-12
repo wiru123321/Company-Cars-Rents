@@ -1,8 +1,8 @@
 import React from "react";
 import { Paper, Typography, Button, Grid, Divider } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
+import { chooseRequest } from "../../../features/rents/rentsSlice";
 import { makeStyles } from "@material-ui/core";
-
 const useStyles = makeStyles({
   box: {
     maxHeight: "20vh",
@@ -11,7 +11,7 @@ const useStyles = makeStyles({
   },
 });
 
-const ContentItem = ({ rent }) => {
+const ContentItem = ({ rent, index }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { userRentInfo, dateFrom, dateTo } = rent;
@@ -19,7 +19,7 @@ const ContentItem = ({ rent }) => {
   const linkPath = "#/adminPage/rentRequest";
 
   function setActiveRequest() {
-    //  dispatch(chooseRequest(index));
+    dispatch(chooseRequest(index));
   }
 
   return (
@@ -27,22 +27,16 @@ const ContentItem = ({ rent }) => {
       <Grid
         container
         className={classes.box}
-        direction="row"
+        direction="column"
         justify="center"
-        alignItems="center"
+        alignItems="flex-start"
       >
         <Typography>
           {userRentInfo.name} {userRentInfo.surname}
         </Typography>
-        <Typography>
-          Reservation: {dateFrom} {dateTo}
-        </Typography>
-        <Button
-          variant="contained"
-          size="sm"
-          // onClick={setActiveRequest}
-          href={linkPath}
-        >
+        <Typography>Reservation start: {dateFrom.slice(0, 10)}</Typography>
+        <Typography>Reservation end: {dateTo.slice(0, 10)}</Typography>
+        <Button variant="contained" onClick={setActiveRequest} href={linkPath}>
           consider
         </Button>
       </Grid>

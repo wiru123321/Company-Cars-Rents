@@ -1,17 +1,15 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { selectRequests } from "../../../features/rent-requests/rentRequestsSlice";
+import { selectAll } from "../../../features/rents/rentsSlice";
 import { Container } from "@material-ui/core";
 import RentRequestListItem from "./rentRequestsListing/RentRequestListItem";
 
 const AllRequests = () => {
-  const requests = useSelector(selectRequests);
+  const { pendingRents } = useSelector(selectAll);
   return (
-    <Container style={{ height: "78.5vh" }}>
-      {requests.map((request, index) => {
-        return (
-          <RentRequestListItem key={index} request={request} index={index} />
-        );
+    <Container style={{ minHeight: "80vh", height: "auto", height: "100%" }}>
+      {pendingRents.map((rent, index) => {
+        return <RentRequestListItem key={index} rent={rent} index={index} />;
       })}
     </Container>
   );
