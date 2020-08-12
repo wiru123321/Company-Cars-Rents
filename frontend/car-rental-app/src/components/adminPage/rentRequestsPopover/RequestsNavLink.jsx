@@ -1,7 +1,7 @@
 import React from "react";
 import { Nav } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import { chooseRequest } from "../../../features/rent-requests/rentRequestsSlice";
+import { chooseRequest } from "../../../features/rents/rentsSlice";
 
 const RequestsNavLink = () => {
   const linkPath = "#/adminPage/rentRequest";

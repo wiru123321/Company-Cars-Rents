@@ -38,7 +38,7 @@ public class RentController {
         return ResponseEntity.ok(rentService.getAllPendingRents());
     }
 
-    //TODO dodaj sprawdzenie czy ktoś już nie ma wypożyczenia na podany termin, zmień RequestBody musi zawierać tablice rej i response od admina
+    //TODO zmień RequestBody musi zawierać tablice rej i response od admina
     @RequestMapping(method = RequestMethod.PUT, value = "/a/rent/permit/{id}")
     public ResponseEntity<?> permitRent(@PathVariable final Long id, @RequestBody final String licensePlate) {
         final Rent rent = rentService.getEntityById(id);
@@ -118,12 +118,17 @@ public class RentController {
         final Long id;
         String message;
         try {
-            id = parkingService.addEntityToDB(parkingService.mapRestModel(null, rentDTO.getParkingDTOTo()));
-            car.setParking(parkingService.getEntityById(id));
-            final Rent rent = new Rent(null, user, car, rentDTO.getDateFrom(), rentDTO.getDateTo(), car.getParking(), parkingService.getEntityById(id), false, rentDTO.getComment(), "");
-            rentService.addEntityToDB(rent);
-            responseCode = 200;
-            message = "Ok";
+            if (rentService.checkMyRentsBeforeAddNewRent(rentDTO)) {
+                id = parkingService.addEntityToDB(parkingService.mapRestModel(null, rentDTO.getParkingDTOTo()));
+                car.setParking(parkingService.getEntityById(id));
+                final Rent rent = new Rent(null, user, car, rentDTO.getDateFrom(), rentDTO.getDateTo(), car.getParking(), parkingService.getEntityById(id), false, rentDTO.getComment(), "");
+                rentService.addEntityToDB(rent);
+                responseCode = 200;
+                message = "Ok";
+            } else {
+                responseCode = 400;
+                message = "You have rent in this time";
+            }
 
         } catch (final NullPointerException e) {
             responseCode = 406;

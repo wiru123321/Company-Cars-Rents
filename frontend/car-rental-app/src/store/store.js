@@ -1,7 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import reservationReducer from "../features/car-reservation/reservationSlice";
 import addEmployeeReducer from "../features/add-employees/addEmployeeSlice";
-import rentRequestSlice from "../features/rent-requests/rentRequestsSlice";
 import yourReservationReducer from "../features/your-cars/yourCarsSlice";
 import carsInfoReducer from "../features/add-car-info/carsInfoSlice";
 import authReducer from "../features/authentication/authSlice";
@@ -11,12 +10,12 @@ import userPasswordSettingsReducer from "../features/user-settings/userPasswordS
 import userPhoneNumberSettingsReducer from "../features/user-settings/userPhoneNumberSettingsSlice";
 import carManagerReducer from "../features/car-management/carManagerSlice";
 import employeesManagerReducer from "../features/employees-management/employeesManagerSlice";
+import rentsReducer from "../features/rents/rentsSlice";
 
 export default configureStore({
   reducer: {
     reservation: reservationReducer,
     addEmployee: addEmployeeReducer,
-    rentRequest: rentRequestSlice,
     auth: authReducer,
     YourReservation: yourReservationReducer,
     carsInfo: carsInfoReducer,
@@ -26,5 +25,6 @@ export default configureStore({
     userPhoneNumberSettings: userPhoneNumberSettingsReducer,
     carsManager: carManagerReducer,
     employees: employeesManagerReducer,
+    rent: rentsReducer,
   },
 });

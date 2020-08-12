@@ -52,7 +52,7 @@ public class RentService implements RentServiceInterface {
         return rentRepository.findByCarAndDateFrom(car, dateFrom);
     }
 
-    @Override //TODO add isPresent()
+    @Override
     public RentDTO getDTOById(final Long id) {
         final Rent rent = rentRepository.findById(id).get();
         final User user = rent.getUser();
@@ -212,7 +212,27 @@ public class RentService implements RentServiceInterface {
         return (rentListCarByTime.getDateFrom().isAfter(dateFrom)
                 && rentListCarByTime.getDateFrom().isBefore(dateTo))
                 || (rentListCarByTime.getDateTo().isAfter(dateFrom)
-                && rentListCarByTime.getDateTo().isBefore(dateTo));
+                && rentListCarByTime.getDateTo().isBefore(dateTo))
+
+                || (rentListCarByTime.getDateFrom().isEqual(dateFrom) || rentListCarByTime.getDateFrom().isEqual(dateTo))
+                || (rentListCarByTime.getDateTo().isEqual(dateFrom) || rentListCarByTime.getDateTo().isEqual(dateTo));
+    }
+
+    //TODO TEST IT
+    @Override
+    public boolean checkMyRentsBeforeAddNewRent(final RentDTO rentDTO) {
+        final User user = userService.getEntityByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
+        final List<Rent> rentList = rentRepository.findAllByUserAndIsActive(user, true);
+        final RentListCarByTime time = new RentListCarByTime();
+        time.setDateFrom(rentDTO.getDateFrom());
+        time.setDateTo(rentDTO.getDateTo());
+
+        for (final Rent rent : rentList) {
+            if (this.checkDate(rent.getDateFrom(), rent.getDateTo(), time)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override //TODO test it

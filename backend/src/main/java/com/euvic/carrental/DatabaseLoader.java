@@ -235,8 +235,8 @@ public class DatabaseLoader implements CommandLineRunner {
             final Rent rent4 = new Rent(null
                     , userService.getEntityByLogin("kama123")
                     , carService.getEntityByLicensePlate("WN101")
-                    , LocalDateTime.of(2020, 11, 25, 0, 0)
-                    , LocalDateTime.of(2020, 12, 1, 0, 0)
+                    , LocalDateTime.of(2020, 8, 25, 0, 0)
+                    , LocalDateTime.of(2020, 9, 1, 0, 0)
                     , parkingService.getEntityById(parkingId7)
                     , parkingService.getEntityById(parkingId8)
                     , true, "kama comment", "Response");
@@ -245,6 +245,9 @@ public class DatabaseLoader implements CommandLineRunner {
             rentRepository.save(rent2);
             rentRepository.save(rent3);
             rentRepository.save(rent4);
+
+            Fault fault1 = new Fault(null, car1, "Wybita przednia szyba", false, true);
+            Fault fault2 = new Fault(null, car2, "Wybita przednia szyba", false, false);
         }
     }
 }

@@ -1,18 +1,32 @@
 import React from "react";
-import { Container, Paper } from "@material-ui/core";
+import { Container, Paper, Divider } from "@material-ui/core";
 import { useSelector } from "react-redux";
 import RequestInfo from "./rentRequestInfo/RequestInfo";
 import RentRequestControlPanel from "./rentRequestInfo/RentRequestControlPanel";
-import { selectCurrentRequest } from "../../../features/rent-requests/rentRequestsSlice";
+import { selectAll } from "../../../features/rents/rentsSlice";
 import { rentRequestStyles } from "./rentRequestInfo/rentRequest.styles";
+import ParkingInfo from "./rentRequestInfo/ParkingInfo";
+import RequestedCarInfo from "./rentRequestInfo/RequestedCarInfo";
 
 const SingleRequest = () => {
-  const request = useSelector(selectCurrentRequest);
+  const { currentRent } = useSelector(selectAll);
   const classes = rentRequestStyles();
   return (
-    <Container>
+    <Container
+      style={{
+        minHeight: "80vh",
+        height: "auto",
+        height: "100%",
+      }}
+    >
       <Paper className={classes.paper}>
-        <RequestInfo request={request} />
+        <RequestInfo rent={currentRent} />
+        <ParkingInfo
+          parkingFrom={currentRent.parkingFrom}
+          parkingTo={currentRent.parkingTo}
+        />
+        <Divider />
+        <RequestedCarInfo carDTO={currentRent.carDTO} />
         <RentRequestControlPanel />
       </Paper>
     </Container>
