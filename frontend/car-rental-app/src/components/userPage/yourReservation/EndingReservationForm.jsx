@@ -22,17 +22,22 @@ import BugReport from "./BugReport";
 
 const EndingReservationForm = () => {
   const dispatch = useDispatch();
-  const cars = useSelector(selectReservation);
+  const reservation = useSelector(selectReservation);
   const selectCarIndex = useSelector(selectIndex);
   return (
     <Container maxWidth="lg">
       <Grid container direction="row" justify="center">
         <Grid xs={6}>
           <List>
-            <ListItem key={cars[selectCarIndex].src}>
+            <ListItem key={selectCarIndex}>
               <Box display="flex">
-                <CarImage src={cars[selectCarIndex].src} />
-                <CarInfo car={cars[selectCarIndex]} />
+                <CarImage
+                  src={
+                    "http://localhost:8080/u/car/download-car-image/" +
+                    reservation[selectCarIndex].carDTO.licensePlate
+                  }
+                />
+                <CarInfo car={reservation[selectCarIndex].carDTO} />
               </Box>
             </ListItem>
           </List>

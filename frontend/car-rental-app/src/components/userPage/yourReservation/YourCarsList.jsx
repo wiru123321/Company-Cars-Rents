@@ -39,7 +39,7 @@ const YourCarsList = () => {
       <Box display="flex" justifyContent="center" alignItems="center">
         <List>
           {reservations.map((reservation, index) => (
-            <ListItem key={index} style={{ backgroundColor: "#f56f42" }}>
+            <ListItem key={index}>
               <Box display="flex">
                 <CarImage
                   src={
@@ -47,15 +47,7 @@ const YourCarsList = () => {
                     reservation.carDTO.licensePlate
                   }
                 />
-                {console.log(reservation.carDTO)}
-                <CarInfo
-                  licensePlate={reservation.carDTO.licensePlate}
-                  productionYear={reservation.carDTO.productionYear}
-                  enginePower={reservation.carDTO.enginePower}
-                  typeDTO={reservation.carDTO.typeDTO.name}
-                  mileage={reservation.carDTO.mileage}
-                  capacityOfPeople={reservation.carDTO.capacityOfPeople}
-                />
+                <CarInfo car={reservation.carDTO} />
               </Box>
               <Button
                 variant="outlined"
