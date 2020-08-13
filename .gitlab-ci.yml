@@ -20,6 +20,7 @@ test:
     script:
         - echo "Test will take about 15 min, go relax :D"
         - cd frontend/car-rental-app
+
         - docker build -t frontendtest .
         - docker run -d --name fronttest frontendtest 
         - docker exec -d fronttest npm test 
@@ -28,8 +29,8 @@ test:
 # - Return to main directory - #
         - cd ..
         - cd ..
-    
         - cd backend
+
         - docker build -t backendtest .
         - docker run -d --name backtest backendtest
         - docker exec -d backtest gradle test 
