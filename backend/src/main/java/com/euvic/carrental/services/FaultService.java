@@ -50,7 +50,7 @@ public class FaultService implements FaultServiceInterface {
         return mapEntityList(faultArrayList);
     }
 
-    @Override // test
+    @Override
     public List<FaultDTO> getAllActiveFaultDTOsByCarLicensePlate(String licensePlate) {
         final ArrayList<Fault> faultArrayList = new ArrayList<>();
         faultArrayList.addAll(faultRepository.findAllByIsActiveAndCarLicensePlate(true, licensePlate));
