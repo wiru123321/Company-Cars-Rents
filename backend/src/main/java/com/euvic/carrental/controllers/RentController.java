@@ -138,4 +138,27 @@ public class RentController {
         return ResponseEntity.status(responseCode).body(message);
     }
 
+    @RequestMapping(method = RequestMethod.DELETE, value = "/e/rent/revoke_request/{id}")
+    public ResponseEntity<?> revokeRentRequest(@PathVariable final Long id) {
+        final User user = userService.getEntityByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
+        final Rent rent = rentService.getEntityById(id);
+        int responseCode;
+        String message;
+
+        try {
+            if (rent.getUser().equals(user)) {
+                rentService.deleteRent(rent);
+                responseCode = 200;
+                message = "Ok";
+            } else {
+                responseCode = 400;
+                message = "Rent is not belong to this user";
+            }
+
+        } catch (final NullPointerException e) {
+            responseCode = 400;
+            message = "Rent doesn't exist";
+        }
+        return ResponseEntity.status(responseCode).body(message);
+    }
 }
