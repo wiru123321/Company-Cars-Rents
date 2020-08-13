@@ -1,0 +1,13 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  datasource:
+    url: jdbc:postgresql://postgresdb:5432/car_rental
+    username: postgres
+    password: polska525
+    initialization-mode: always
+    data: classpath:/data.sql
+server:
+  port: 8080
