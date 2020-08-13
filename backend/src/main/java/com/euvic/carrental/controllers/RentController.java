@@ -67,8 +67,7 @@ public class RentController {
         }
         return ResponseEntity.status(responseCode).body(message);
     }
-
-    //TODO add parking delete
+    
     @RequestMapping(method = RequestMethod.DELETE, value = "/a/rent/reject/{id}")
     public ResponseEntity<?> rejectRent(@PathVariable final Long id, @RequestBody final RentPermitRejectDTO rentPermitRejectDTO) {
         final Rent rent = rentService.getEntityById(id);
@@ -82,7 +81,11 @@ public class RentController {
             parkingHistoryService.addEntityToDB(parkingFrom);
             parkingHistoryService.addEntityToDB(parkingTo);
             rentHistoryService.addEntityToDB(rentHistory);
+            final Long parkingFromId = rent.getParkingFrom().getId();
+            final Long parkingToId = rent.getParkingTo().getId();
             rentService.deleteRent(rent);
+            parkingService.deleteParkingById(parkingFromId);
+            parkingService.deleteParkingById(parkingToId);
 
             responseCode = 200;
             message = "ok";
@@ -180,12 +183,10 @@ public class RentController {
             if (rent.getUser().equals(user)) {
                 final ParkingHistory parkingFrom = new ParkingHistory(null, rent.getParkingFrom());
                 final ParkingHistory parkingTo;
-                if (parkingDTO == null) {
-                    parkingTo = new ParkingHistory(null, rent.getParkingTo());
-                    rent.getCar().setParking(rent.getParkingTo());
-                } else {
-                    parkingTo = new ParkingHistory(null, parkingDTO);
-                }
+
+                parkingTo = new ParkingHistory(null, rent.getParkingTo());
+                rent.getCar().setParking(rent.getParkingTo());
+
 
                 final RentHistory rentHistory = new RentHistory(null, rent.getUser(), rent.getCar(), rent.getDateFrom(), rent.getDateTo(), parkingFrom
                         , parkingTo, false, false, rent.getComment(), rent.getResponse());
