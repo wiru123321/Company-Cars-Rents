@@ -5,11 +5,10 @@ version: '3.3'
 services:
 # Data Base image
   postgresdb:
-    container_name: car_rent_postgres_prod
-    image: car_rent_postgres_prod
+    container_name: car_rental_postgres_prod
+    image: car_rental_postgres_prod
     build: ./postgres/
     #12.2
-    # sprawdzic
     expose: 
       - 5432
     environment:
@@ -17,12 +16,12 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_DB=car_rental
     volumes:
-      - car_rent_postgres_prod:/var/lib/postgresql/data
+      - car_rental_postgres_prod:/var/lib/postgresql/data
 
 # Backend Application image
   backend:
-    image: car_rent_back_prod
-    container_name: back_prod
+    image: car_rental_back_prod
+    container_name: car_rental_back_prod
     build: ./backend
     depends_on:
       - postgresdb
@@ -31,12 +30,12 @@ services:
 
 # Frontend Application image
   frontend:
-    image: car_rent_front_prod
-    container_name: car_rent_front_prod
+    image: car_rental_front_prod
+    container_name: car_rental_front_prod
     build: ./frontend/car-rental-app/
     ports:
       - "30098:5000"
 
 volumes:
-  car_rent_postgres_prod: 
+  car_rental_postgres_prod: 
     
