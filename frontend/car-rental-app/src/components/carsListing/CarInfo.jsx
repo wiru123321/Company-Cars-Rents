@@ -1,25 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { Container, List, ListItem, Link } from "@material-ui/core";
-const CarInfo = ({ car }) => {
-  const {
-    capacityOfPeople,
-    capacityOfTrunkScale,
-    doorsNumber,
-    licensePlate,
-    mileage,
-    modelDTO,
-    typeDTO,
-    enginePower,
-    productionYear,
-    isActive,
-  } = car;
-  const { name, markDTO } = modelDTO;
+const CarInfo = ({
+  licensePlate,
+  productionYear,
+  enginePower,
+  typeDTO,
+  mileage,
+  capacityOfPeople,
+}) => {
+  // const {
+  //   capacityOfPeople,
+  //   licensePlate,
+  //   mileage,
+  //   modelDTO,
+  //   typeDTO,
+  //   enginePower,
+  //   productionYear,
+  // } = car;
 
   return (
     <Container>
-      <h1 style={{ fontSize: "1.3rem" }}>
-        {markDTO.name} {name}
-      </h1>
+      <h1 style={{ fontSize: "1.3rem" }}></h1>
       <h2>{licensePlate}</h2>
       <List>
         <ListItem>
@@ -35,7 +36,7 @@ const CarInfo = ({ car }) => {
           <label>Capacity: {capacityOfPeople}</label>
         </ListItem>
         <ListItem>
-          <label>Type: {typeDTO.name}</label>
+          <label>Type: {typeDTO}</label>
         </ListItem>
       </List>
     </Container>

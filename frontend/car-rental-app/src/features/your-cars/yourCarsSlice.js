@@ -4,7 +4,7 @@ import axios from "axios";
 const API_URL = "http://localhost:8080";
 
 const initialState = {
-  cars: [],
+  reservation: [],
   photoCarIndex: 0,
   parkingNumber: 0,
   parkingPlaceNumber: 0,
@@ -17,11 +17,11 @@ export const yourCarsSlice = createSlice({
   name: "YourReservation",
   initialState,
   reducers: {
-    setCars: (state, action) => {
-      state.cars = action.payload;
+    setReservation: (state, action) => {
+      state.reservation = action.payload;
     },
     chooseCar: (state, action) => {
-      state.cars[action.payload].isActive = false;
+      state.reservation[action.payload].carDTO.isActive = false;
       state.endingFormChoose = !state.endingFormChoose;
       state.chooseCarIndex = action.payload;
       state.photoCarIndex = action.payload;
@@ -42,7 +42,8 @@ export const yourCarsSlice = createSlice({
       state.bugOpen = !state.bugOpen;
     },
     bugDescribeChane: (state, action) => {
-      state.cars[state.chooseCarIndex].parkingDTO.comment = action.payload;
+      state.reservation.carDTO[state.chooseCarIndex].parkingDTO.comment =
+        action.payload;
     },
     setImage: (state, action) => {
       state.carImg = action.payload;
@@ -50,7 +51,7 @@ export const yourCarsSlice = createSlice({
   },
 });
 export const {
-  setCars,
+  setReservation,
   chooseCar,
   parkingNumberChange,
   parkingPlaceNumberChange,
@@ -61,7 +62,7 @@ export const {
   changephotoCarIndex,
 } = yourCarsSlice.actions;
 
-export const selectCars = (state) => state.YourReservation.cars;
+export const selectReservation = (state) => state.YourReservation.reservation;
 export const selectImg = (state) =>
   state.YourReservation.carImg[state.photoCarIndex];
 export const selectIndex = (state) => state.YourReservation.chooseCarIndex;
@@ -69,11 +70,15 @@ export const selectEndingformchoose = (state) =>
   state.YourReservation.endingFormChoose;
 export const selectBugopen = (state) => state.YourReservation.bugOpen;
 
-export const fetchCars = () => async (dispatch) => {
+export const fetchReservation = () => async (dispatch) => {
   try {
-    const response = await axios.get(API_URL + "/e/rent/my");
-
-    dispatch(setCars(response.data.carDTO));
+    const response = await axios.get(API_URL + "/e/rent/my_rents", {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
+    console.log(response.data);
+    dispatch(setReservation(response.data));
   } catch (error) {
     console.log(error);
   }
@@ -119,7 +124,7 @@ export const updateCar = (licensePlate, car) => async (dispatch) => {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     });
-    dispatch(setCars(fetchResponse.data));
+    dispatch(setReservation(fetchResponse.data));
   } catch (error) {
     console.log(error);
   }

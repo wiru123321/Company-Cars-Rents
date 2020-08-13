@@ -11,7 +11,7 @@ import CarImage from "../../carsListing/CarImage";
 import CarInfo from "../../carsListing/CarInfo";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  selectCars,
+  selectReservation,
   selectIndex,
   parkingNumberChange,
   parkingPlaceNumberChange,
@@ -22,7 +22,7 @@ import BugReport from "./BugReport";
 
 const EndingReservationForm = () => {
   const dispatch = useDispatch();
-  const cars = useSelector(selectCars);
+  const cars = useSelector(selectReservation);
   const selectCarIndex = useSelector(selectIndex);
   return (
     <Container maxWidth="lg">
