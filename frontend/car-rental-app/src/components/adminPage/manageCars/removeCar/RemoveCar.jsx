@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { Container, List } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  fetchCars,
   selectAll,
   deleteCar,
   filterCars,

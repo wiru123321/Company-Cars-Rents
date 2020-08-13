@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Paper, Button, Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core";
@@ -8,6 +8,7 @@ import AddFault from "./AddFault";
 import {
   updateCar,
   addFault,
+  fetchFaultsForCar,
 } from "../../../../features/car-management/carManagerSlice";
 
 const useStyles = makeStyles({
@@ -53,7 +54,7 @@ const EditCars = ({ car }) => {
   );
 };
 
-const UpdateCars = ({ car }) => {
+const UpdateCars = ({ car, faults }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [menu, toggle] = useState(true);

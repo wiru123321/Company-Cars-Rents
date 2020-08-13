@@ -77,15 +77,14 @@ export const rejectRentRequest = (rentId, rentPermitRejectDTO) => async (
   dispatch
 ) => {
   try {
-    const response = await axios.delete(
-      API_URL + `/a/rent/reject/${rentId}`,
-      rentPermitRejectDTO,
-      {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      }
-    );
+    const response = await axios.delete(API_URL + `/a/rent/reject/${rentId}`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+      data: {
+        rentPermitRejectDTO: rentPermitRejectDTO,
+      },
+    });
     dispatch(chooseRequest(""));
     dispatch(fetchPendingRents());
     dispatch(setUpdateResult(true));
