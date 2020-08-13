@@ -27,6 +27,14 @@ public class FaultController {
         return ResponseEntity.ok(faultService.getAllActiveFaultDTOs());
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/active-faults/{licensePlate}")
+    public ResponseEntity getAllActiveFaultsForCertainCar(@PathVariable String licensePlate) {
+        if(!carService.checkIfCarWithLicensePlateExists(licensePlate)){
+            ResponseEntity.status(HttpStatus.CONFLICT).body("Car with this license plate doesn't exist.");
+        }
+        return ResponseEntity.ok(faultService.getAllActiveFaultDTOsByCarLicensePlate(licensePlate));
+    }
+
     @RequestMapping(method = RequestMethod.POST, value = "/fault")
     public ResponseEntity addFaultToDatabase(@RequestBody final FaultDTO faultDTO) {
         if(!carService.checkIfCarWithLicensePlateExists(faultDTO.getCarLicensePlate())){

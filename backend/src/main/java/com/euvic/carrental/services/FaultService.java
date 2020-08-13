@@ -50,6 +50,13 @@ public class FaultService implements FaultServiceInterface {
         return mapEntityList(faultArrayList);
     }
 
+    @Override // test
+    public List<FaultDTO> getAllActiveFaultDTOsByCarLicensePlate(String licensePlate) {
+        final ArrayList<Fault> faultArrayList = new ArrayList<>();
+        faultArrayList.addAll(faultRepository.findAllByIsActiveAndCarLicensePlate(true, licensePlate));
+        return mapEntityList(faultArrayList);
+    }
+
     @Override
     public Boolean checkIfCarFaultWithDescriptionExists(Car car, String description) {
         return faultRepository.existsByIsActiveAndCarAndDescription(true, car, description);
