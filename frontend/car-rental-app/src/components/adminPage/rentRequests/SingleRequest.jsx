@@ -12,6 +12,7 @@ import {
 import { rentRequestStyles } from "./rentRequestInfo/rentRequest.styles";
 import ParkingInfo from "./rentRequestInfo/ParkingInfo";
 import RequestedCarInfo from "./rentRequestInfo/RequestedCarInfo";
+import RentAlert from "./RentAlert";
 
 const SingleRequest = () => {
   const { currentRent, response } = useSelector(selectAll);
@@ -21,6 +22,7 @@ const SingleRequest = () => {
   const handleResponseChange = (event) => {
     dispatch(setResponse(event.target.value));
   };
+
   const handleAccept = () => {
     dispatch(
       acceptRentRequest(currentRent.id, {
@@ -29,14 +31,16 @@ const SingleRequest = () => {
       })
     );
   };
+
   const handleReject = () => {
     dispatch(
-      acceptRentRequest(currentRent.id, {
+      rejectRentRequest(currentRent.id, {
         licensePlate: currentRent.carDTO.licensePlate,
         response: response,
       })
     );
   };
+
   return (
     <Container
       style={{
@@ -60,6 +64,7 @@ const SingleRequest = () => {
           handleReject={handleReject}
         />
       </Paper>
+      <RentAlert />
     </Container>
   );
 };
