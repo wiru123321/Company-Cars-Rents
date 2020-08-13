@@ -5,6 +5,7 @@ const API_URL = "http://localhost:8080";
 
 const initialState = {
   reservation: [],
+  historyReservation: [],
   photoCarIndex: 0,
   parkingNumber: 0,
   parkingPlaceNumber: 0,
@@ -19,6 +20,9 @@ export const yourCarsSlice = createSlice({
   reducers: {
     setReservation: (state, action) => {
       state.reservation = action.payload;
+    },
+    setHistoryReservation: (state, action) => {
+      state.historyReservation = action.payload;
     },
     chooseCar: (state, action) => {
       state.reservation[action.payload].carDTO.isActive = false;
@@ -60,9 +64,12 @@ export const {
   bugDescribeChane,
   setImage,
   changephotoCarIndex,
+  setHistoryReservation,
 } = yourCarsSlice.actions;
 
 export const selectReservation = (state) => state.YourReservation.reservation;
+export const selectHistoryReservation = (state) =>
+  state.YourReservation.historyReservation;
 export const selectImg = (state) =>
   state.YourReservation.carImg[state.photoCarIndex];
 export const selectIndex = (state) => state.YourReservation.chooseCarIndex;
@@ -77,8 +84,19 @@ export const fetchReservation = () => async (dispatch) => {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     });
-    console.log(response.data);
     dispatch(setReservation(response.data));
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const fetchHistoryReservation = () => async (dispatch) => {
+  try {
+    const response = await axios.get(API_URL + "/e/rent/my_history", {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
+    dispatch(setHistoryReservation(response.data));
   } catch (error) {
     console.log(error);
   }
