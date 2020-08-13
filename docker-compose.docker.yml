@@ -16,7 +16,7 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_DB=car_rental
     volumes:
-      - car_rent_postgres:/var/lib/postgresql/data
+      - car_rental_postgres:/var/lib/postgresql/data
 
 # Backend Application image
   backend:
@@ -33,5 +33,5 @@ services:
     build: ./frontend/car-rental-app/
 
 volumes:
-  car_rent_postgres: 
+  car_rental_postgres: 
     
