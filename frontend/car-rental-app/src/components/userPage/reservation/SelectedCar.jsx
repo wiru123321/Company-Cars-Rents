@@ -28,7 +28,7 @@ const SelectedCar = () => {
     </Grid>
   );
 
-  const Car = () => (
+  const Car = ({ car }) => (
     <div>
       <Box display="flex">
         <CarImage src={car.src} />
@@ -48,7 +48,7 @@ const SelectedCar = () => {
   if (!isChoosen) {
     return <SuggestButton />;
   } else {
-    return <Car />;
+    return <Car car={car} />;
   }
 };
 

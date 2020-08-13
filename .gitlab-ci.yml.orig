@@ -1,0 +1,260 @@
+<<<<<<< HEAD
+stages:
+# -------- Docker ------- #
+    - test
+    - build
+    - deploy
+# ------- Develop ------- #
+    - build_develop
+    - deploy_develop
+# -------- Deploy ------- #
+    - build_deploy
+    - deploy_deploy
+# ------ Production ----- #
+    - build_prod
+    - deploy_prod
+        
+# -------- Test --------- # 
+# - Run on all branches - #
+
+test: 
+    stage: test
+    script:
+        - echo "Test will take about 15 min, go relax :D"
+        - cd frontend/car-rental-app
+
+        - docker build -t frontendtest .
+        - docker run -d --name fronttest frontendtest 
+        - docker exec -d fronttest npm test 
+        - docker rm fronttest -f
+            
+# - Return to main directory - #
+        - cd ..
+        - cd ..
+        - cd backend
+
+        - docker build -t backendtest .
+        - docker run -d --name backtest backendtest
+        - docker exec -d backtest gradle test 
+        - docker rm backtest -f 
+        
+        - cd ..
+        - echo "Success :D"
+    tags:
+        - test
+    
+# -------- Docker -------- #
+
+build_docker:
+    stage: build
+    script:
+        - docker-compose -p docker -f docker-compose.docker.yml build
+    tags:
+        - build
+    only:
+        - Docker
+        
+deploy_docker:
+    stage: deploy
+    script:
+        # Ta opcja tez nie dziala
+        - docker-compose -p docker -f docker-compose.docker.yml down
+        - docker-compose -p docker -f docker-compose.docker.yml up -d
+    tags: 
+        - deploy
+    only:
+        - Docker 
+        
+# -------- Develop -------- #
+
+build_develop:
+    stage: build_develop
+    script:
+        - docker-compose -p develop -f docker-compose.develop.yml build
+    tags:
+        - build_develop
+    only:
+        - BackendRoleBasedAuthorization
+        
+deploy_develop:
+    stage: deploy_develop
+    script:
+        - docker-compose -p develop -f docker-compose.develop.yml down
+        - docker-compose -p develop -f docker-compose.develop.yml up -d
+    tags: 
+        - deploy_develop
+    only:
+        - BackendRoleBasedAuthorization
+        
+# -------- Deploy -------- #
+
+build_deploy:
+    stage: build_deploy
+    script:
+        - docker-compose -p deploy -f docker-compose.deploy.yml build
+    tags:
+        - build_deploy
+    only:
+        - deploy
+        
+deploy_deploy:
+    stage: deploy_deploy
+    script:
+        - docker-compose -p deploy -f docker-compose.deploy.yml down
+        - docker-compose -p deploy -f docker-compose.deploy.yml up -d
+    tags: 
+        - deploy_deploy
+    only: 
+        - deploy
+        
+ # -------- Production -------- #
+ 
+build_production:
+    stage: build_prod
+    script:
+        - docker-compose -p prod build 
+    tags:
+        - build_prod
+    only:
+        - master
+               
+deploy_production:
+    stage: deploy_prod
+    script:
+        - docker-compose -p prod down
+        - docker-compose -p prod up -d
+    tags: 
+        - deploy_prod
+    only: 
+        - master
+||||||| 62cf404
+stages:
+# -------- Docker ------- #
+    - test
+    - build
+    - deploy
+# ------- Develop ------- #
+    - build_develop
+    - deploy_develop
+# -------- Deploy ------- #
+    - build_deploy
+    - deploy_deploy
+# ------ Production ----- #
+    - build_prod
+    - deploy_prod
+        
+# -------- Test --------- # 
+# - Run on all branches - #
+
+test: 
+    stage: test
+    script:
+        - echo "Test will take about 15 min, go relax :D"
+        - cd frontend/car-rental-app
+
+        - docker build -t frontendtest .
+        - docker run -d --name fronttest frontendtest 
+        - docker exec -d fronttest npm test 
+        - docker rm fronttest -f
+            
+# - Return to main directory - #
+        - cd ..
+        - cd ..
+        - cd backend
+
+        - docker build -t backendtest .
+        - docker run -d --name backtest backendtest
+        - docker exec -d backtest gradle test 
+        - docker rm backtest -f 
+        
+        - cd ..
+        - echo "Success :D"
+    tags:
+        - test
+    
+# -------- Docker -------- #
+
+build_docker:
+    stage: build
+    script:
+        - docker-compose -p docker -f docker-compose.docker.yml build
+    tags:
+        - build
+    only:
+        - Docker
+        
+deploy_docker:
+    stage: deploy
+    script:
+        # Ta opcja tez nie dziala
+        - docker-compose -p docker -f docker-compose.docker.yml down
+        - docker-compose -p docker -f docker-compose.docker.yml up -d
+    tags: 
+        - deploy
+    only:
+        - Docker 
+        
+# -------- Develop -------- #
+
+build_develop:
+    stage: build_develop
+    script:
+        - docker-compose -p develop -f docker-compose.develop.yml build
+    tags:
+        - build_develop
+    only:
+        - develop
+        
+deploy_develop:
+    stage: deploy_develop
+    script:
+        - docker-compose -p develop -f docker-compose.develop.yml down
+        - docker-compose -p develop -f docker-compose.develop.yml up -d
+    tags: 
+        - deploy_develop
+    only:
+        - develop
+        
+# -------- Deploy -------- #
+
+build_deploy:
+    stage: build_deploy
+    script:
+        - docker-compose -p deploy -f docker-compose.deploy.yml build
+    tags:
+        - build_deploy
+    only:
+        - deploy
+        
+deploy_deploy:
+    stage: deploy_deploy
+    script:
+        - docker-compose -p deploy -f docker-compose.deploy.yml down
+        - docker-compose -p deploy -f docker-compose.deploy.yml up -d
+    tags: 
+        - deploy_deploy
+    only: 
+        - deploy
+        
+ # -------- Production -------- #
+ 
+build_production:
+    stage: build_prod
+    script:
+        - docker-compose -p prod build 
+    tags:
+        - build_prod
+    only:
+        - master
+               
+deploy_production:
+    stage: deploy_prod
+    script:
+        - docker-compose -p prod down
+        - docker-compose -p prod up -d
+    tags: 
+        - deploy_prod
+    only: 
+        - master
+=======
+>>>>>>> origin/BackendRoleBasedAuthorization

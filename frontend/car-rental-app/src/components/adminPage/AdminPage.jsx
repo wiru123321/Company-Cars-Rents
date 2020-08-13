@@ -1,27 +1,35 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Route, Switch, HashRouter } from "react-router-dom";
+import UserNavbar from "./adminNavbar/AdminNavbar";
+import AddNewCar from "./manageCars/addNewCar/AddNewCar";
+import RemoveCar from "./manageCars/removeCar/RemoveCar";
+import AddEmployee from "./manageEmployees/addEmployee/AddEmployee";
+import RemoveEmployer from "./manageEmployees/removeEmployer/RemoveEmployer";
+import RentRequests from "./rentRequests/RentRequests";
+import Footer from "../footer/Footer";
 
-import UserNavbar from "../adminNavbar/AdminNavbar";
-import AddNewCar from "./addNewCar/AddNewCar";
-import RemoveCar from "./removeCar/removeCar";
-import AddEmployer from "./addEmployer/AddEmployer";
-import RemoveEmployer from "./removeEmployer/RemoveEmployer";
-import Parking from "./parking/Parking";
+import { useDispatch } from "react-redux";
+import { fetchPendingRents } from "../../features/rents/rentsSlice";
 
 const AdminPage = () => {
-  return (
-    <div>
-      <UserNavbar />
+  const dispatch = useDispatch();
 
+  useEffect(() => {
+    dispatch(fetchPendingRents());
+  }, []);
+  return (
+    <div style={{ height: "100%" }}>
+      <UserNavbar />
       <HashRouter basename="/adminPage">
         <Switch>
           <Route path="/" exact component={AddNewCar} />
           <Route path="/removeCar" component={RemoveCar} />
-          <Route path="/addEmployer" component={AddEmployer} />
+          <Route path="/addEmployee" component={AddEmployee} />
           <Route path="/removeEmployer" component={RemoveEmployer} />
-          <Route path="/parking" component={Parking} />
+          <Route path="/rentRequest" component={RentRequests} />
         </Switch>
       </HashRouter>
+      <Footer />
     </div>
   );
 };
