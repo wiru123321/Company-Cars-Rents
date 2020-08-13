@@ -563,19 +563,19 @@ public class RentServiceTest {
 
         list.add(new RentPendingDTO(rent1.getId(), rent1.getComment(), carService.mapToCarDTO(rent1.getCar()), rent1.getDateFrom()
                 , rent1.getDateTo(), new ParkingDTO(rent1.getParkingFrom()), new ParkingDTO(rent1.getParkingTo())
-                , new UserRentInfo(rent1.getUser().getName(), rent1.getUser().getSurname(), rent1.getUser().getPhoneNumber(), rent1.getUser().getEmail()), ""));
+                , new UserRentInfo(rent1.getUser().getName(), rent1.getUser().getSurname(), rent1.getUser().getPhoneNumber(), rent1.getUser().getEmail()), rent1.getResponse()));
 
         list.add(new RentPendingDTO(rent2.getId(), rent2.getComment(), carService.mapToCarDTO(rent2.getCar()), rent2.getDateFrom()
                 , rent2.getDateTo(), new ParkingDTO(rent2.getParkingFrom()), new ParkingDTO(rent2.getParkingTo())
-                , new UserRentInfo(rent2.getUser().getName(), rent2.getUser().getSurname(), rent2.getUser().getPhoneNumber(), rent2.getUser().getEmail()), ""));
+                , new UserRentInfo(rent2.getUser().getName(), rent2.getUser().getSurname(), rent2.getUser().getPhoneNumber(), rent2.getUser().getEmail()), rent2.getResponse()));
 
         list.add(new RentPendingDTO(rent3.getId(), rent3.getComment(), carService.mapToCarDTO(rent3.getCar()), rent3.getDateFrom()
                 , rent3.getDateTo(), new ParkingDTO(rent3.getParkingFrom()), new ParkingDTO(rent3.getParkingTo())
-                , new UserRentInfo(rent3.getUser().getName(), rent3.getUser().getSurname(), rent3.getUser().getPhoneNumber(), rent3.getUser().getEmail()), ""));
+                , new UserRentInfo(rent3.getUser().getName(), rent3.getUser().getSurname(), rent3.getUser().getPhoneNumber(), rent3.getUser().getEmail()), rent3.getResponse()));
 
         list.add(new RentPendingDTO(rent4.getId(), rent4.getComment(), carService.mapToCarDTO(rent4.getCar()), rent4.getDateFrom()
                 , rent4.getDateTo(), new ParkingDTO(rent4.getParkingFrom()), new ParkingDTO(rent4.getParkingTo())
-                , new UserRentInfo(rent4.getUser().getName(), rent4.getUser().getSurname(), rent4.getUser().getPhoneNumber(), rent4.getUser().getEmail()), ""));
+                , new UserRentInfo(rent4.getUser().getName(), rent4.getUser().getSurname(), rent4.getUser().getPhoneNumber(), rent4.getUser().getEmail()), rent4.getResponse()));
 
         assertEquals(list, rentService.getAllPendingRents());
     }
