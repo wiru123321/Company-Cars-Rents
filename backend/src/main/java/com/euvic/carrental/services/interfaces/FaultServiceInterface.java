@@ -26,4 +26,6 @@ public interface FaultServiceInterface {
     Boolean checkIfCarFaultWithDescriptionExists(Car car, String description);
 
     Long setInactiveCarFaultWithDescription(Car car, String description);
+
+    List<FaultDTO> getAllActiveFaultDTOsByCarLicensePlate(String licensePlate);
 }
