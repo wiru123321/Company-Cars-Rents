@@ -2,6 +2,7 @@ package com.euvic.carrental.controllers;
 
 import com.euvic.carrental.model.*;
 import com.euvic.carrental.responses.DateFromDateTo;
+import com.euvic.carrental.responses.ParkingDTO;
 import com.euvic.carrental.responses.RentDTO;
 import com.euvic.carrental.responses.RentPermitRejectDTO;
 import com.euvic.carrental.services.*;
@@ -67,13 +68,13 @@ public class RentController {
         return ResponseEntity.status(responseCode).body(message);
     }
 
+    //TODO add parking delete
     @RequestMapping(method = RequestMethod.DELETE, value = "/a/rent/reject/{id}")
     public ResponseEntity<?> rejectRent(@PathVariable final Long id, @RequestBody final RentPermitRejectDTO rentPermitRejectDTO) {
         final Rent rent = rentService.getEntityById(id);
         int responseCode;
         String message;
         try {
-
             final ParkingHistory parkingFrom = new ParkingHistory(null, rent.getParkingFrom());
             final ParkingHistory parkingTo = new ParkingHistory(null, rent.getParkingTo());
             final RentHistory rentHistory = new RentHistory(null, rent.getUser(), rent.getCar(), rent.getDateFrom(), rent.getDateTo(), parkingFrom
@@ -91,7 +92,8 @@ public class RentController {
         }
         return ResponseEntity.status(responseCode).body(message);
     }
-    
+
+    //TODO method to modify rent
 
     //EMPLOYEE
     @RequestMapping(method = RequestMethod.GET, value = "/e/rent/my_history")
@@ -125,7 +127,6 @@ public class RentController {
         try {
             if (rentService.checkMyRentsBeforeAddNewRent(rentDTO)) {
                 id = parkingService.addEntityToDB(parkingService.mapRestModel(null, rentDTO.getParkingDTOTo()));
-                car.setParking(parkingService.getEntityById(id));
                 final Rent rent = new Rent(null, user, car, rentDTO.getDateFrom(), rentDTO.getDateTo(), car.getParking(), parkingService.getEntityById(id), false, rentDTO.getComment(), "");
                 rentService.addEntityToDB(rent);
                 responseCode = 200;
@@ -164,6 +165,47 @@ public class RentController {
             responseCode = 400;
             message = "Rent doesn't exist";
         }
+        return ResponseEntity.status(responseCode).body(message);
+    }
+
+    //TODO parking delete
+    @RequestMapping(method = RequestMethod.POST, value = "/e/rent/end_rent/{id}")
+    public ResponseEntity<?> endRent(@PathVariable final Long id, @RequestBody final ParkingDTO parkingDTO) {
+        final Rent rent = rentService.getEntityById(id);
+        final User user = userService.getEntityByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
+        int responseCode;
+        String message;
+
+        try {
+            if (rent.getUser().equals(user)) {
+                final ParkingHistory parkingFrom = new ParkingHistory(null, rent.getParkingFrom());
+                final ParkingHistory parkingTo;
+                if (parkingDTO == null) {
+                    parkingTo = new ParkingHistory(null, rent.getParkingTo());
+                    rent.getCar().setParking(rent.getParkingTo());
+                } else {
+                    parkingTo = new ParkingHistory(null, parkingDTO);
+                }
+
+                final RentHistory rentHistory = new RentHistory(null, rent.getUser(), rent.getCar(), rent.getDateFrom(), rent.getDateTo(), parkingFrom
+                        , parkingTo, false, false, rent.getComment(), rent.getResponse());
+                parkingHistoryService.addEntityToDB(parkingFrom);
+                parkingHistoryService.addEntityToDB(parkingTo);
+                rentHistoryService.addEntityToDB(rentHistory);
+                rentService.deleteRent(rent);
+
+                responseCode = 200;
+                message = "ok";
+            } else {
+                responseCode = 400;
+                message = "Rent is not belong to this user";
+            }
+
+        } catch (final NullPointerException e) {
+            responseCode = 400;
+            message = "Rent doesn't exist";
+        }
+
         return ResponseEntity.status(responseCode).body(message);
     }
 }
