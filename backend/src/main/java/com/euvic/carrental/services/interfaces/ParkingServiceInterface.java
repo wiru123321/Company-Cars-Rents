@@ -19,4 +19,6 @@ public interface ParkingServiceInterface {
     ParkingDTO getDTOById(Long id);
 
     void updateParkingInDb(Long oldParkingId, ParkingDTO newParkingDTO);
+
+    void deleteParkingById(Long id);
 }

@@ -5,6 +5,8 @@ const API_URL = "http://localhost:8080";
 
 const initialState = {
   reservation: [],
+  historyReservation: [],
+  requestReservation: [],
   photoCarIndex: 0,
   parkingNumber: 0,
   parkingPlaceNumber: 0,
@@ -20,6 +22,13 @@ export const yourCarsSlice = createSlice({
     setReservation: (state, action) => {
       state.reservation = action.payload;
     },
+    setHistoryReservation: (state, action) => {
+      state.historyReservation = action.payload;
+    },
+    setRequestReservation: (state, action) => {
+      state.requestReservation = action.payload;
+    },
+
     chooseCar: (state, action) => {
       state.reservation[action.payload].carDTO.isActive = false;
       state.endingFormChoose = !state.endingFormChoose;
@@ -60,9 +69,15 @@ export const {
   bugDescribeChane,
   setImage,
   changephotoCarIndex,
+  setHistoryReservation,
+  setRequestReservation,
 } = yourCarsSlice.actions;
 
 export const selectReservation = (state) => state.YourReservation.reservation;
+export const selectHistoryReservation = (state) =>
+  state.YourReservation.historyReservation;
+export const selectRequestReservation = (state) =>
+  state.YourReservation.requestReservation;
 export const selectImg = (state) =>
   state.YourReservation.carImg[state.photoCarIndex];
 export const selectIndex = (state) => state.YourReservation.chooseCarIndex;
@@ -77,8 +92,33 @@ export const fetchReservation = () => async (dispatch) => {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     });
-    console.log(response.data);
     dispatch(setReservation(response.data));
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const fetchHistoryReservation = () => async (dispatch) => {
+  try {
+    const response = await axios.get(API_URL + "/e/rent/my_history", {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
+    dispatch(setHistoryReservation(response.data));
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const fetchRequestReservation = () => async (dispatch) => {
+  try {
+    const response = await axios.get(API_URL + "/e/rent/my_requests", {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
+    dispatch(setRequestReservation(response.data));
   } catch (error) {
     console.log(error);
   }

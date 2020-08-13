@@ -147,14 +147,10 @@ public class DatabaseLoader implements CommandLineRunner {
             }
             stringList.clear();
 
-            //FOR SECURITY TESTS
-            //Haslo powinno byc encodowane wraz ze stworzeniem konta encrypter (Bcrypter) / powinniśmy zadbać żeby hasło zostało bezpiecznie przesłane do backendu
-            // login i password w bazie danych nie mogą się powtarzać //TODO
             userRepository.save(new User(null, "admin123", passwordEncoder.encode("apassword123"), "admin@email.com", "Jan", "Kowalski", "123456789", roleRepository.findByName("ADMIN")));
             userRepository.save(new User(null, "user123", passwordEncoder.encode("upassword123"), "user@email.com", "Andrzej", "Wywrot", "123456798", roleRepository.findByName("EMPLOYEE")));
             userRepository.save(new User(null, "kama123", passwordEncoder.encode("upassword123"), "user@email.com", "Kamil", "Susek", "700100110", roleRepository.findByName("EMPLOYEE")));
             userRepository.save(new User(null, "walo123", passwordEncoder.encode("upassword123"), "walo@email.com", "Wojciech", "Waleszczyk", "666999666", roleRepository.findByName("EMPLOYEE")));
-
 
             final Model model1 = new Model(null, "C350", markService.getEntityByName("Audi"));
             final Model model2 = new Model(null, "Astra", markService.getEntityByName("Opel"));
@@ -175,6 +171,11 @@ public class DatabaseLoader implements CommandLineRunner {
             final Parking parking8 = new Parking(null, "Kraków", "40-444", "Jaka 32", "A-8", "Parking przy sklepie Tesco", true);
             final Parking parking9 = new Parking(null, "Rzeszów", "40-555", "Weteranow 2", "B-4", "Parking przy dworcu", true);
 
+            final Parking parking10 = new Parking(null, "Brzęczów", "22-333", "Pacyfistów 3", "C2", "Żabka", true);
+            final Parking parking11 = new Parking(null, "Bydgoszcz", "22-222", "Wygidaiłów 77", "A1", "Biedronka", true);
+            final Parking parking12 = new Parking(null, "Wrocław", "22-111", "Męczenników 32", "A5", "Lidl", true);
+
+
             final Long parkingId1 = parkingService.addEntityToDB(parking1);
             final Long parkingId2 = parkingService.addEntityToDB(parking2);
             final Long parkingId3 = parkingService.addEntityToDB(parking3);
@@ -184,22 +185,25 @@ public class DatabaseLoader implements CommandLineRunner {
             final Long parkingId7 = parkingService.addEntityToDB(parking7);
             final Long parkingId8 = parkingService.addEntityToDB(parking8);
             final Long parkingId9 = parkingService.addEntityToDB(parking9);
+            final Long parkingId10 = parkingService.addEntityToDB(parking10);
+            final Long parkingId11 = parkingService.addEntityToDB(parking11);
+            final Long parkingId12 = parkingService.addEntityToDB(parking12);
 
 
             final Car car1 = new Car(null, "WN101", 100, 4, 5, 5,
                     gearboxTypeService.getEntityByName("Automatic"), fuelTypeService.getEntityByName("Gasoline"),
                     LocalDateTime.of(2000, 3, 25, 0, 0), 1990, true, 200000, modelService.getEntityById(modelId1),
-                    parkingService.getEntityById(parkingId1), colourService.getEntityByName("Red"), typeService.getEntityByName("Sedan"));
+                    parkingService.getEntityById(parkingId10), colourService.getEntityByName("Red"), typeService.getEntityByName("Sedan"));
 
             final Car car2 = new Car(null, "SBE33212", 120, 1, 4, 3,
                     gearboxTypeService.getEntityByName("Manual"), fuelTypeService.getEntityByName("Diesel"),
                     LocalDateTime.of(2000, 3, 25, 0, 0), 2000, true, 120000, modelService.getEntityById(modelId2),
-                    parkingService.getEntityById(parkingId2), colourService.getEntityByName("Blue"), typeService.getEntityByName("Coupe"));
+                    parkingService.getEntityById(parkingId11), colourService.getEntityByName("Blue"), typeService.getEntityByName("Coupe"));
 
             final Car car3 = new Car(null, "SBE11212", 250, 4, 5, 5,
                     gearboxTypeService.getEntityByName("Automatic"), fuelTypeService.getEntityByName("Diesel"),
                     LocalDateTime.of(2000, 3, 25, 0, 0), 2014, true, 100000, modelService.getEntityById(modelId3),
-                    parkingService.getEntityById(parkingId3), colourService.getEntityByName("Green"), typeService.getEntityByName("Sedan"));
+                    parkingService.getEntityById(parkingId12), colourService.getEntityByName("Green"), typeService.getEntityByName("Sedan"));
 
             carService.addEntityToDB(car1);
             carService.addEntityToDB(car2);
@@ -246,11 +250,11 @@ public class DatabaseLoader implements CommandLineRunner {
             rentRepository.save(rent3);
             rentRepository.save(rent4);
 
-            Fault fault1 = new Fault(null, car1, "Wybita przednia szyba", false, true);
-            Fault fault2 = new Fault(null, car1, "Zarysowany zderzak", false, false);
-            Fault fault3 = new Fault(null, car1, "Wyrwane drzwi", false, true);
-            Fault fault4 = new Fault(null, car2, "Zarysowany lakier", false, false);
-            Fault fault5 = new Fault(null, car2, "Przebita opona", false, true);
+            final Fault fault1 = new Fault(null, car1, "Wybita przednia szyba", false, true);
+            final Fault fault2 = new Fault(null, car1, "Zarysowany zderzak", false, false);
+            final Fault fault3 = new Fault(null, car1, "Wyrwane drzwi", false, true);
+            final Fault fault4 = new Fault(null, car2, "Zarysowany lakier", false, false);
+            final Fault fault5 = new Fault(null, car2, "Przebita opona", false, true);
 
             faultService.addEntityToDB(fault1);
             faultService.addEntityToDB(fault2);
