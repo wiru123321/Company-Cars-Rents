@@ -25,7 +25,7 @@ EXPOSE 5000
 
 CMD ["serve","-s", "build"]
 
-RUN rm build && \
-    rm node_modules
+RUN rmdir build && \
+    rmdir node_modules
 
 # /bin/sh Work
