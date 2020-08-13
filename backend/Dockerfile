@@ -14,4 +14,8 @@ USER carRentalBack
 
 CMD ["java","-jar","car-rental.jar"]
 
+RUN rm build && \
+    rm build.gradle && \
+    rm build.gradle.orig
+
 # /bin/bash Work
