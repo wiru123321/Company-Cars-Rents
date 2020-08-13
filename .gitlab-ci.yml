@@ -20,6 +20,7 @@ test:
     script:
         - echo "Test will take about 15 min, go relax :D"
         - cd frontend/car-rental-app
+
         - docker build -t frontendtest .
         - docker run -d --name fronttest frontendtest 
         - docker exec -d fronttest npm test 
@@ -28,8 +29,8 @@ test:
 # - Return to main directory - #
         - cd ..
         - cd ..
-    
         - cd backend
+
         - docker build -t backendtest .
         - docker run -d --name backtest backendtest
         - docker exec -d backtest gradle test 
@@ -120,23 +121,3 @@ deploy_production:
         - deploy_prod
     only: 
         - master
-
-        
-    #     - |
-    #     if [ -z `docker-compose ps -q car_rental_backend` ] || [ -z `docker ps -q --no-trunc | grep $(docker-compose ps -q car_rental_backend)` ]; then 
-    #       echo "Backend it's not running."; 
-    #     else 
-    #       docker-compose down car_rental_backend   
-    #     fi
-    #   - |
-    #     if [ -z `docker-compose ps -q car_rental_frontend` ] || [ -z `docker ps -q --no-trunc | grep $(docker-compose ps -q car_rental_frontend)` ]; then 
-    #         echo "Frontend it's not running."; 
-    #     else 
-    #         docker-compose down car_rental_frontend   
-    #     fi
-    #   - |
-    #     if [ -z `docker-compose ps -q car_rental_dbpostgres` ] || [ -z `docker ps -q --no-trunc | grep $(docker-compose ps -q car_rental_dbpostgres)` ]; then 
-    #         echo "Data base it's not running."; 
-    #     else 
-    #         docker-compose down car_rental_dbpostgres   
-    #     fi

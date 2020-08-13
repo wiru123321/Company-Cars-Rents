@@ -27,7 +27,7 @@ services:
     depends_on:
       - postgresdb
     ports:
-      - "30091:8000"
+      - "30097:8080"
 
 # Frontend Application image
   frontend:
@@ -35,7 +35,7 @@ services:
     container_name: car_rent_front_prod
     build: ./frontend/car-rental-app/
     ports:
-      - "30092:5000"
+      - "30098:5000"
 
 volumes:
   car_rent_postgres_prod: 
