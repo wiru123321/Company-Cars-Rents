@@ -124,6 +124,12 @@ public class RentService implements RentServiceInterface {
     }
 
     @Override
+    public List<RentPendingDTO> getAllActiveRents() {
+        final List<Rent> rentList = rentRepository.findAllByIsActive(true);
+        return this.convertRentListToRentPendingDTOList(rentList);
+    }
+
+    @Override
     public List<RentPendingDTO> getAllPendingRents() {
         final List<Rent> rentList = rentRepository.findAllByIsActive(false);
         return this.convertRentListToRentPendingDTOList(rentList);

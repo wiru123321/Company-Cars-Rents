@@ -170,6 +170,43 @@ export const addFault = (faultDTO) => async (dispatch) => {
   }
 };
 
+export const fetchFaultsForCar = (licensePlate, setFaults) => async (
+  dispatch
+) => {
+  try {
+    const response = await axios.get(
+      API_URL + `/a/active-faults/${licensePlate}`,
+      {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      }
+    );
+    setFaults(response.data);
+  } catch (error) {}
+};
+
+export const deleteFault = (faultDTO) => async (dispatch) => {
+  try {
+    const faultDTO = {
+      descriptio: "Wybita przednia szyba",
+      setCarInactive: false,
+      carLicensePlate: "WN101",
+    };
+    const response = await axios.delete(API_URL + `/a/fault`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+      data: {
+        faultDTO: faultDTO,
+      },
+    });
+    console.log(response.data);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const filterCars = (cars, filterLicensePlate, filterMarks) => (
   dispatch
 ) => {
