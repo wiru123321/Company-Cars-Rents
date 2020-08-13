@@ -175,7 +175,6 @@ public class DatabaseLoader implements CommandLineRunner {
             final Parking parking11 = new Parking(null, "Bydgoszcz", "22-222", "Wygidaiłów 77", "A1", "Biedronka", true);
             final Parking parking12 = new Parking(null, "Wrocław", "22-111", "Męczenników 32", "A5", "Lidl", true);
 
-
             final Long parkingId1 = parkingService.addEntityToDB(parking1);
             final Long parkingId2 = parkingService.addEntityToDB(parking2);
             final Long parkingId3 = parkingService.addEntityToDB(parking3);
@@ -212,38 +211,38 @@ public class DatabaseLoader implements CommandLineRunner {
             final Rent rent1 = new Rent(null
                     , userService.getEntityByLogin("user123")
                     , carService.getEntityByLicensePlate("WN101")
-                    , LocalDateTime.of(2020, 9, 25, 0, 0)
-                    , LocalDateTime.of(2020, 10, 1, 0, 0)
+                    , LocalDateTime.of(2020, 12, 7, 0, 0)
+                    , LocalDateTime.of(2020, 12, 10, 0, 0)
                     , parkingService.getEntityById(parkingId1)
                     , parkingService.getEntityById(parkingId2)
                     , false, "Simple comment", "Response");
 
             final Rent rent2 = new Rent(null
-                    , userService.getEntityByLogin("walo123")
+                    , userService.getEntityByLogin("user123")
                     , carService.getEntityByLicensePlate("SBE33212")
-                    , LocalDateTime.of(2020, 11, 25, 0, 0)
                     , LocalDateTime.of(2020, 12, 1, 0, 0)
+                    , LocalDateTime.of(2020, 12, 6, 0, 0)
                     , parkingService.getEntityById(parkingId3)
                     , parkingService.getEntityById(parkingId4)
-                    , true, "walo comment", "Response");
+                    , false, "walo comment", "Response");
 
             final Rent rent3 = new Rent(null
-                    , userService.getEntityByLogin("kama123")
+                    , userService.getEntityByLogin("user123")
                     , carService.getEntityByLicensePlate("SBE11212")
                     , LocalDateTime.of(2020, 11, 25, 0, 0)
                     , LocalDateTime.of(2020, 12, 1, 0, 0)
                     , parkingService.getEntityById(parkingId5)
                     , parkingService.getEntityById(parkingId6)
-                    , true, "kama comment", "Response");
+                    , false, "kama comment", "Response");
 
             final Rent rent4 = new Rent(null
-                    , userService.getEntityByLogin("kama123")
+                    , userService.getEntityByLogin("user123")
                     , carService.getEntityByLicensePlate("WN101")
                     , LocalDateTime.of(2020, 8, 25, 0, 0)
                     , LocalDateTime.of(2020, 9, 1, 0, 0)
                     , parkingService.getEntityById(parkingId7)
                     , parkingService.getEntityById(parkingId8)
-                    , true, "kama comment", "Response");
+                    , false, "kama comment", "Response");
 
             rentRepository.save(rent1);
             rentRepository.save(rent2);
