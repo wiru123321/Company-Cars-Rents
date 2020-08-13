@@ -1,0 +1,41 @@
+
+# ---- PRODUCTION BRANCH ---- #
+
+version: '3.3'
+services:
+# Data Base image
+  postgresdb:
+    container_name: car_rental_postgres_prod
+    image: car_rental_postgres_prod
+    build: ./postgres/
+    #12.2
+    expose: 
+      - 5432
+    environment:
+      - POSTGRES_PASSWORD=polska525
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=car_rental
+    volumes:
+      - car_rental_postgres_prod:/var/lib/postgresql/data
+
+# Backend Application image
+  backend:
+    image: car_rental_back_prod
+    container_name: car_rental_back_prod
+    build: ./backend
+    depends_on:
+      - postgresdb
+    ports:
+      - "30097:8080"
+
+# Frontend Application image
+  frontend:
+    image: car_rental_front_prod
+    container_name: car_rental_front_prod
+    build: ./frontend/car-rental-app/
+    ports:
+      - "30098:5000"
+
+volumes:
+  car_rental_postgres_prod: 
+    
