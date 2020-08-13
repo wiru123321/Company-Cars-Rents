@@ -20,6 +20,7 @@ test:
     script:
         - echo "Test will take about 15 min, go relax :D"
         - cd frontend/car-rental-app
+
         - docker build -t frontendtest .
         - docker run -d --name fronttest frontendtest 
         - docker exec -d fronttest npm test 
@@ -28,8 +29,8 @@ test:
 # - Return to main directory - #
         - cd ..
         - cd ..
-    
         - cd backend
+
         - docker build -t backendtest .
         - docker run -d --name backtest backendtest
         - docker exec -d backtest gradle test 
@@ -44,7 +45,7 @@ test:
 build_docker:
     stage: build
     script:
-        - docker-compose -f docker-compose.docker.yml build
+        - docker-compose -p docker -f docker-compose.docker.yml build
     tags:
         - build
     only:
@@ -54,8 +55,8 @@ deploy_docker:
     stage: deploy
     script:
         # Ta opcja tez nie dziala
-        - docker-compose -f docker-compose.docker.yml down
-        - docker-compose -f docker-compose.docker.yml up -d
+        - docker-compose -p docker -f docker-compose.docker.yml down
+        - docker-compose -p docker -f docker-compose.docker.yml up -d
     tags: 
         - deploy
     only:
@@ -65,7 +66,7 @@ deploy_docker:
 build_develop:
     stage: build_develop
     script:
-        - docker-compose -f docker-compose.develop.yml build
+        - docker-compose -p develop -f docker-compose.develop.yml build
     tags:
         - build_develop
     only:
@@ -74,8 +75,8 @@ build_develop:
 deploy_develop:
     stage: deploy_develop
     script:
-        - docker-compose -f docker-compose.develop.yml down
-        - docker-compose -f docker-compose.develop.yml up -d
+        - docker-compose -p develop -f docker-compose.develop.yml down
+        - docker-compose -p develop -f docker-compose.develop.yml up -d
     tags: 
         - deploy_develop
     only:
@@ -85,7 +86,7 @@ deploy_develop:
 build_deploy:
     stage: build_deploy
     script:
-        - docker-compose -f docker-compose.deploy.yml build
+        - docker-compose -p deploy -f docker-compose.deploy.yml build
     tags:
         - build_deploy
     only:
@@ -94,8 +95,8 @@ build_deploy:
 deploy_deploy:
     stage: deploy_deploy
     script:
-        - docker-compose -f docker-compose.deploy.yml down
-        - docker-compose -f docker-compose.deploy.yml up -d
+        - docker-compose -p deploy -f docker-compose.deploy.yml down
+        - docker-compose -p deploy -f docker-compose.deploy.yml up -d
     tags: 
         - deploy_deploy
     only: 
@@ -105,7 +106,7 @@ deploy_deploy:
 build_production:
     stage: build_prod
     script:
-        - docker-compose build 
+        - docker-compose -p prod build 
     tags:
         - build_prod
     only:
@@ -114,29 +115,9 @@ build_production:
 deploy_production:
     stage: deploy_prod
     script:
-        - docker-compose down
-        - docker-compose up -d
+        - docker-compose -p prod down
+        - docker-compose -p prod up -d
     tags: 
         - deploy_prod
     only: 
         - master
-
-        
-    #     - |
-    #     if [ -z `docker-compose ps -q car_rental_backend` ] || [ -z `docker ps -q --no-trunc | grep $(docker-compose ps -q car_rental_backend)` ]; then 
-    #       echo "Backend it's not running."; 
-    #     else 
-    #       docker-compose down car_rental_backend   
-    #     fi
-    #   - |
-    #     if [ -z `docker-compose ps -q car_rental_frontend` ] || [ -z `docker ps -q --no-trunc | grep $(docker-compose ps -q car_rental_frontend)` ]; then 
-    #         echo "Frontend it's not running."; 
-    #     else 
-    #         docker-compose down car_rental_frontend   
-    #     fi
-    #   - |
-    #     if [ -z `docker-compose ps -q car_rental_dbpostgres` ] || [ -z `docker ps -q --no-trunc | grep $(docker-compose ps -q car_rental_dbpostgres)` ]; then 
-    #         echo "Data base it's not running."; 
-    #     else 
-    #         docker-compose down car_rental_dbpostgres   
-    #     fi

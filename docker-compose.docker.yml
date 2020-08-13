@@ -9,8 +9,8 @@ services:
     image: car_rental_postgres
     build: ./postgres/
     #12.2
-    ports:
-      - "5432:5432"
+    expose: 
+      - 5432
     environment:
       - POSTGRES_PASSWORD=polska525
       - POSTGRES_USER=postgres
