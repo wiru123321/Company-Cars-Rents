@@ -3,17 +3,14 @@ import { Container, List, ListItem, Link } from "@material-ui/core";
 const CarInfo = ({ car }) => {
   const {
     capacityOfPeople,
-    capacityOfTrunkScale,
-    doorsNumber,
     licensePlate,
     mileage,
     modelDTO,
     typeDTO,
     enginePower,
     productionYear,
-    isActive,
   } = car;
-  const { name, markDTO } = modelDTO;
+  const { markDTO, name } = modelDTO;
 
   return (
     <Container>
