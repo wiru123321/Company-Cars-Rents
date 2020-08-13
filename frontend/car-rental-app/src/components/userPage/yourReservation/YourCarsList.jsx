@@ -23,6 +23,8 @@ import {
   updateCar,
   fetchHistoryReservation,
   selectHistoryReservation,
+  selectRequestReservation,
+  fetchRequestReservation,
 } from "../../../features/your-cars/yourCarsSlice";
 import YourReservationForm from "./YourReservationForm";
 function TabPanel(props) {
@@ -82,10 +84,12 @@ const YourCarsList = () => {
   const dispatch = useDispatch();
   const reservations = useSelector(selectReservation);
   const historyReservations = useSelector(selectHistoryReservation);
+  const requestReservation = useSelector(selectRequestReservation);
   const img = useSelector(selectImg);
   useEffect(() => {
     dispatch(fetchReservation());
     dispatch(fetchHistoryReservation());
+    dispatch(fetchRequestReservation());
   }, []);
   return (
     <Container
@@ -106,7 +110,7 @@ const YourCarsList = () => {
         >
           <Tab label="Your reservations" {...a11yProps(0)} />
           <Tab label="History" {...a11yProps(1)} />
-          <Tab label="Rejected reservations" {...a11yProps(2)} />
+          <Tab label="Pending reservations" {...a11yProps(2)} />
         </Tabs>
       </AppBar>
       <SwipeableViews
@@ -121,7 +125,7 @@ const YourCarsList = () => {
           <YourReservationForm reservations={historyReservations} />
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
-          <YourReservationForm reservations={reservations} />
+          <YourReservationForm reservations={requestReservation} />
         </TabPanel>
       </SwipeableViews>
     </Container>
