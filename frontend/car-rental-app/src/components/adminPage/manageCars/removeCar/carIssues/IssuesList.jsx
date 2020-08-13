@@ -1,10 +1,8 @@
 import React from "react";
-import { useDispatch } from "react-redux";
-import { ListItem, Grid, Paper, Button, Typography } from "@material-ui/core";
+import { Grid, Paper, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core";
-import { deleteFault } from "../../../../../features/car-management/carManagerSlice";
 import Issue from "./Issue";
-
+import NotFoundMessage from "../../../messages/NotFoundMessage";
 const useStyles = makeStyles({
   title: {
     textAlign: "center",
@@ -17,26 +15,25 @@ const useStyles = makeStyles({
   },
 });
 
-const Issues = ({ faults, fetchFaults }) => {
-  const dispatch = useDispatch();
+const Issues = ({ faults, fetchFaults, handleFaultDelete }) => {
   const classes = useStyles();
-
-  const handleDeleteFault = (fault) => {
-    dispatch(handleDeleteFault(fault));
-    //  fetchFaults();
-  };
 
   return (
     <Grid container>
       <Paper className={classes.box}>
         <Typography className={classes.title}>Issues</Typography>
-        {faults.map((fault, index) => (
-          <Issue
-            key={index + fault.description}
-            fault={fault}
-            handleDeleteFault={handleDeleteFault}
-          />
-        ))}
+        {faults.length > 0 ? (
+          faults.map((fault, index) => (
+            <Issue
+              key={index + fault.description}
+              fault={fault}
+              handleDeleteFault={handleFaultDelete}
+              fetchFaults={fetchFaults}
+            />
+          ))
+        ) : (
+          <NotFoundMessage>There are no issues.</NotFoundMessage>
+        )}
       </Paper>
     </Grid>
   );

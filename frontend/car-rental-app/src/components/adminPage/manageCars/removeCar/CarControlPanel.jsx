@@ -7,7 +7,6 @@ const CarControlPanel = ({
   index,
   onDelete,
   toggleEdit,
-  isActive,
   faults,
   toggleShowIssues,
 }) => {

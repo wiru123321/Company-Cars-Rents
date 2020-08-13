@@ -6,12 +6,12 @@ const useStyles = makeStyles({
     height: "40vh",
   },
 });
-const NotFoundMessage = ({ children }) => {
+const NotFoundMessage = ({ children, raw }) => {
   const classes = useStyles();
   return (
     <Paper>
       <Grid
-        className={classes.box}
+        className={!raw && classes.box}
         container
         direction="column"
         justify="center"

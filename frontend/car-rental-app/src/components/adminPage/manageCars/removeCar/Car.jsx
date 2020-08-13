@@ -1,20 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import CarInfo from "../../../carsListing/CarInfo";
 import CarImage from "../../../carsListing/CarImage";
 import CarControlPanel from "./CarControlPanel";
 import UpdateCars from "../updateCars/UpdateCars";
 import Issues from "./carIssues/IssuesList";
 import { ListItem, Grid } from "@material-ui/core";
-import { fetchFaultsForCar } from "../../../../features/car-management/carManagerSlice";
-
+import {
+  fetchFaultsForCar,
+  deleteFault,
+} from "../../../../services/FaultsService";
 const Car = ({ car, index, onDelete }) => {
   const dispatch = useDispatch();
-
   const [edit, setEdit] = useState(false);
-
   const [showIssues, setShowIssues] = useState(false);
-
   const [faults, setFaults] = useState([]);
 
   const toggleEdit = () => {
@@ -31,8 +30,12 @@ const Car = ({ car, index, onDelete }) => {
     setShowIssues(!showIssues);
   };
 
+  const handleFaultDelete = (fault) => {
+    deleteFault(fault, car.licensePlate, setFaults);
+  };
+
   const fetchFaults = () => {
-    dispatch(fetchFaultsForCar(car.licensePlate, setFaults));
+    fetchFaultsForCar(car.licensePlate, setFaults);
   };
 
   useEffect(() => {
@@ -44,8 +47,14 @@ const Car = ({ car, index, onDelete }) => {
       <Grid container justify="center" alignItems="center">
         {edit || showIssues ? (
           <Grid item xs={8}>
-            {edit && <UpdateCars car={car} faults={faults} />}
-            {showIssues && <Issues fetchFaults={fetchFaults} faults={faults} />}
+            {edit && <UpdateCars car={car} />}
+            {showIssues && (
+              <Issues
+                fetchFaults={fetchFaults}
+                handleFaultDelete={handleFaultDelete}
+                faults={faults}
+              />
+            )}
           </Grid>
         ) : (
           <>
@@ -65,7 +74,6 @@ const Car = ({ car, index, onDelete }) => {
 
         <Grid item xs={4}>
           <CarControlPanel
-            isActive={car.isActive}
             index={index}
             onDelete={onDelete}
             toggleEdit={toggleEdit}
