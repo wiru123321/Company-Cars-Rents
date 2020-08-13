@@ -1,0 +1,5 @@
+Gasoline
+Diesel
+Ethanol
+Bio-diesel
+Petrol
