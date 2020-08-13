@@ -1,0 +1,41 @@
+
+# ---- DEPLOY BRANCH ---- #
+
+version: '3.3'
+services:
+# Data Base image
+  postgresdb:
+    container_name: car_rental_postgres_dep
+    image: car_rental_postgres_dep
+    build: ./postgres/
+    #12.2
+    expose: 
+      - 5432
+    environment:
+      - POSTGRES_PASSWORD=polska525
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=car_rental
+    volumes:
+      - car_rental_postgres_dep:/var/lib/postgresql/data
+
+# Backend Application image
+  backend:
+    image: car_rental_back_dep
+    container_name: car_rental_back_dep
+    build: ./backend
+    depends_on:
+      - postgresdb
+    ports:
+      - "30095:8080"
+
+# Frontend Application image
+  frontend:
+    image: car_rental_front_dep
+    container_name: car_rental_front_dep
+    build: ./frontend/car-rental-app/
+    ports:
+      - "30096:5000"
+
+volumes:
+  car_rental_postgres_dep: 
+    
