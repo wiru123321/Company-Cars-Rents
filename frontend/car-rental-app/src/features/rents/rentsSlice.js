@@ -9,6 +9,8 @@ const initialState = {
   currentRent: "",
   getAllRents: true,
   response: "",
+  didUpdate: false,
+  didUpdateSuccess: false,
 };
 
 const rentSlice = createSlice({
@@ -28,6 +30,14 @@ const rentSlice = createSlice({
     setResponse: (state, action) => {
       state.response = action.payload;
     },
+    setUpdateResult: (state, action) => {
+      state.didUpdate = true;
+      state.didUpdateSuccess = action.payload;
+    },
+    resetUpdate: (state) => {
+      state.didUpdate = false;
+      state.didUpdateSuccess = false;
+    },
   },
 });
 
@@ -36,6 +46,8 @@ export const {
   chooseRequest,
   showAll,
   setResponse,
+  setUpdateResult,
+  resetUpdate,
 } = rentSlice.actions;
 export const selectAll = (state) => state.rent;
 
@@ -52,10 +64,12 @@ export const acceptRentRequest = (rentId, rentPermitRejectDTO) => async (
         },
       }
     );
+
     dispatch(chooseRequest(""));
     dispatch(fetchPendingRents());
+    dispatch(setUpdateResult(true));
   } catch (error) {
-    console.log(error);
+    dispatch(setUpdateResult(false));
   }
 };
 
@@ -74,8 +88,9 @@ export const rejectRentRequest = (rentId, rentPermitRejectDTO) => async (
     );
     dispatch(chooseRequest(""));
     dispatch(fetchPendingRents());
+    dispatch(setUpdateResult(true));
   } catch (error) {
-    console.log(error);
+    dispatch(setUpdateResult(false));
   }
 };
 

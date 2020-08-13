@@ -31,10 +31,10 @@ const RentRequestControlPanel = ({
         alignItems="center"
         className={classes.buttons}
       >
-        <Button onClick={handleAccept} variant="contained" color="secondary">
+        <Button onClick={handleReject} variant="contained" color="secondary">
           Decline
         </Button>
-        <Button onClick={handleReject} variant="contained" color="primary">
+        <Button onClick={handleAccept} variant="contained" color="primary">
           Accept
         </Button>
       </Grid>
