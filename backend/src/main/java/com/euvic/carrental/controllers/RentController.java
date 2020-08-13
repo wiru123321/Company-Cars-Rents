@@ -67,7 +67,7 @@ public class RentController {
         }
         return ResponseEntity.status(responseCode).body(message);
     }
-    
+
     @RequestMapping(method = RequestMethod.DELETE, value = "/a/rent/reject/{id}")
     public ResponseEntity<?> rejectRent(@PathVariable final Long id, @RequestBody final RentPermitRejectDTO rentPermitRejectDTO) {
         final Rent rent = rentService.getEntityById(id);
@@ -172,7 +172,7 @@ public class RentController {
     }
 
     //TODO parking delete
-    @RequestMapping(method = RequestMethod.POST, value = "/e/rent/end_rent/{id}")
+    @RequestMapping(method = RequestMethod.DELETE, value = "/e/rent/end_rent/{id}")
     public ResponseEntity<?> endRent(@PathVariable final Long id, @RequestBody final ParkingDTO parkingDTO) {
         final Rent rent = rentService.getEntityById(id);
         final User user = userService.getEntityByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
