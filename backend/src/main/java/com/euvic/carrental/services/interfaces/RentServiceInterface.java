@@ -29,9 +29,9 @@ public interface RentServiceInterface {
 
     List<RentDTO> getAllDTOs();
 
-    List<RentDTO> getUserInactiveRentDTOs();
+    List<RentPendingDTO> getUserInactiveRentDTOs();
 
-    List<RentDTO> getUserActiveRentDTOs();
+    List<RentPendingDTO> getUserActiveRentDTOs();
 
     void deleteRent(Rent rent);
 

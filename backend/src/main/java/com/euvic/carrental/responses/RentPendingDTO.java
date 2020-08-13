@@ -12,6 +12,7 @@ public class RentPendingDTO {
     private LocalDateTime dateTo;
     private CarDTO carDTO;
     private String comment;
+    private String response;
     private UserRentInfo userRentInfo;
     private ParkingDTO parkingFrom;
     private ParkingDTO parkingTo;
@@ -20,7 +21,7 @@ public class RentPendingDTO {
     }
 
     public RentPendingDTO(final Long id, final String comment, final CarDTO carDTO, final LocalDateTime dateFrom, final LocalDateTime dateTo, final ParkingDTO parkingFrom
-            , final ParkingDTO parkingTo, final UserRentInfo userRentInfo) {
+            , final ParkingDTO parkingTo, final UserRentInfo userRentInfo, final String response) {
 
         this.id = id;
         this.comment = comment;
@@ -30,5 +31,6 @@ public class RentPendingDTO {
         this.parkingFrom = parkingFrom;
         this.parkingTo = parkingTo;
         this.userRentInfo = userRentInfo;
+        this.response = response;
     }
 }
