@@ -73,7 +73,7 @@ build_develop:
     tags:
         - build_develop
     only:
-        - develop
+        - BackendRoleBasedAuthorization
         
 deploy_develop:
     stage: deploy_develop
@@ -83,7 +83,7 @@ deploy_develop:
     tags: 
         - deploy_develop
     only:
-        - develop
+        - BackendRoleBasedAuthorization
         
 # -------- Deploy -------- #
 
