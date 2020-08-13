@@ -30,7 +30,6 @@ export const yourCarsSlice = createSlice({
     },
 
     chooseCar: (state, action) => {
-      state.reservation[action.payload].carDTO.isActive = false;
       state.endingFormChoose = !state.endingFormChoose;
       state.chooseCarIndex = action.payload;
       state.photoCarIndex = action.payload;
@@ -92,6 +91,7 @@ export const fetchReservation = () => async (dispatch) => {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     });
+    console.log(response.data);
     dispatch(setReservation(response.data));
   } catch (error) {
     console.log(error);
@@ -147,6 +147,23 @@ export const fetchCarImage = (licensePlate) => async (dispatch) => {
     console.log(error);
   }
 };
+
+export const backTheCarBack = (id, parkingDTO) => async (dispatch) => {
+  try {
+    const response = await axios.delete(
+      API_URL + "/e/rent/end_rent/" + id,
+      parkingDTO,
+      {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      }
+    );
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 //TODO backend poprawic ma dostęp do tej metody.
 export const updateCar = (licensePlate, car) => async (dispatch) => {
   try {

@@ -73,6 +73,7 @@ const YourCarsList = () => {
   const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
+  const active = false;
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -119,13 +120,19 @@ const YourCarsList = () => {
         onChangeIndex={handleChangeIndex}
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
-          <YourReservationForm reservations={reservations} />
+          <YourReservationForm reservations={reservations} isActive="true" />
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          <YourReservationForm reservations={historyReservations} />
+          <YourReservationForm
+            reservations={historyReservations}
+            isActive={active}
+          />
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
-          <YourReservationForm reservations={requestReservation} />
+          <YourReservationForm
+            reservations={requestReservation}
+            isActive={active}
+          />
         </TabPanel>
       </SwipeableViews>
     </Container>
