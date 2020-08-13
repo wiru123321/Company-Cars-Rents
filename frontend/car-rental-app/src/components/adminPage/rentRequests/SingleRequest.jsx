@@ -5,6 +5,7 @@ import RequestInfo from "./rentRequestInfo/RequestInfo";
 import RentRequestControlPanel from "./rentRequestInfo/RentRequestControlPanel";
 import {
   selectAll,
+  setResponse,
   acceptRentRequest,
   rejectRentRequest,
 } from "../../../features/rents/rentsSlice";
@@ -13,14 +14,26 @@ import ParkingInfo from "./rentRequestInfo/ParkingInfo";
 import RequestedCarInfo from "./rentRequestInfo/RequestedCarInfo";
 
 const SingleRequest = () => {
-  const { currentRent } = useSelector(selectAll);
+  const { currentRent, response } = useSelector(selectAll);
   const dispatch = useDispatch();
   const classes = rentRequestStyles();
 
+  const handleResponseChange = (event) => {
+    dispatch(setResponse(event.target.value));
+  };
   const handleAccept = () => {
     dispatch(
       acceptRentRequest(currentRent.id, {
         licensePlate: currentRent.carDTO.licensePlate,
+        response: response,
+      })
+    );
+  };
+  const handleReject = () => {
+    dispatch(
+      acceptRentRequest(currentRent.id, {
+        licensePlate: currentRent.carDTO.licensePlate,
+        response: response,
       })
     );
   };
@@ -40,7 +53,12 @@ const SingleRequest = () => {
         />
         <Divider />
         <RequestedCarInfo carDTO={currentRent.carDTO} />
-        <RentRequestControlPanel rent={currentRent} />
+        <RentRequestControlPanel
+          response={response}
+          handleResponseChange={handleResponseChange}
+          handleAccept={handleAccept}
+          handleReject={handleReject}
+        />
       </Paper>
     </Container>
   );

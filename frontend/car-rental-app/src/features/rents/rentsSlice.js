@@ -52,7 +52,8 @@ export const acceptRentRequest = (rentId, rentPermitRejectDTO) => async (
         },
       }
     );
-    console.log(response.data);
+    dispatch(chooseRequest(""));
+    dispatch(fetchPendingRents());
   } catch (error) {
     console.log(error);
   }
@@ -71,7 +72,8 @@ export const rejectRentRequest = (rentId, rentPermitRejectDTO) => async (
         },
       }
     );
-    console.log(response.data);
+    dispatch(chooseRequest(""));
+    dispatch(fetchPendingRents());
   } catch (error) {
     console.log(error);
   }
@@ -86,7 +88,9 @@ export const fetchPendingRents = () => async (dispatch) => {
     });
     console.log(response.data);
     dispatch(setPendingRents(response.data));
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export default rentSlice.reducer;

@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import { Grid, Button } from "@material-ui/core";
 import { rentRequestStyles, TextArea } from "./rentRequest.styles.js";
 
-import axios from "axios";
-
-const API_URL = "http://localhost:8080";
-
-const RentRequestControlPanel = ({ rent }) => {
+const RentRequestControlPanel = ({
+  response,
+  handleResponseChange,
+  handleAccept,
+  handleReject,
+}) => {
   const classes = rentRequestStyles();
 
   return (
@@ -17,7 +18,12 @@ const RentRequestControlPanel = ({ rent }) => {
       alignItems="center"
       className={classes.control}
     >
-      <TextArea placeholder="Justification..." />
+      <TextArea
+        value={response}
+        onChange={handleResponseChange}
+        placeholder="Justification..."
+        requierd
+      />
       <Grid
         container
         direction="row"
@@ -25,10 +31,10 @@ const RentRequestControlPanel = ({ rent }) => {
         alignItems="center"
         className={classes.buttons}
       >
-        <Button variant="contained" color="secondary">
+        <Button onClick={handleAccept} variant="contained" color="secondary">
           Decline
         </Button>
-        <Button variant="contained" color="primary">
+        <Button onClick={handleReject} variant="contained" color="primary">
           Accept
         </Button>
       </Grid>
