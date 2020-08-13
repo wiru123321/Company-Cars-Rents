@@ -33,6 +33,10 @@ public class RentController {
     }
 
     //ADMIN
+    @RequestMapping(method = RequestMethod.GET, value = "/a/rent/active_rents")
+    public ResponseEntity<?> getActiveRents() {
+        return ResponseEntity.ok(rentService.getAllActiveRents());
+    }
 
     @RequestMapping(method = RequestMethod.GET, value = "/a/rent/pending")
     public ResponseEntity<?> getPendingRents() {
@@ -87,6 +91,7 @@ public class RentController {
         }
         return ResponseEntity.status(responseCode).body(message);
     }
+    
 
     //EMPLOYEE
     @RequestMapping(method = RequestMethod.GET, value = "/e/rent/my_history")
