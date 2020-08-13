@@ -15,6 +15,7 @@ stages:
         
 # -------- Test --------- # 
 # - Run on all branches - #
+
 test: 
     stage: test
     script:
@@ -42,6 +43,7 @@ test:
         - test
     
 # -------- Docker -------- #
+
 build_docker:
     stage: build
     script:
@@ -63,6 +65,7 @@ deploy_docker:
         - Docker 
         
 # -------- Develop -------- #
+
 build_develop:
     stage: build_develop
     script:
@@ -83,6 +86,7 @@ deploy_develop:
         - develop
         
 # -------- Deploy -------- #
+
 build_deploy:
     stage: build_deploy
     script:
@@ -103,6 +107,7 @@ deploy_deploy:
         - deploy
         
  # -------- Production -------- #
+ 
 build_production:
     stage: build_prod
     script:
