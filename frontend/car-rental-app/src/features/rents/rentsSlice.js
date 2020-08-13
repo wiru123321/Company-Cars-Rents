@@ -8,6 +8,7 @@ const initialState = {
   currentRentIndex: "",
   currentRent: "",
   getAllRents: true,
+  response: "",
 };
 
 const rentSlice = createSlice({
@@ -24,11 +25,57 @@ const rentSlice = createSlice({
     showAll: (state) => {
       state.getAllRents = true;
     },
+    setResponse: (state, action) => {
+      state.response = action.payload;
+    },
   },
 });
 
-export const { setPendingRents, chooseRequest, showAll } = rentSlice.actions;
+export const {
+  setPendingRents,
+  chooseRequest,
+  showAll,
+  setResponse,
+} = rentSlice.actions;
 export const selectAll = (state) => state.rent;
+
+export const acceptRentRequest = (rentId, rentPermitRejectDTO) => async (
+  dispatch
+) => {
+  try {
+    const response = await axios.put(
+      API_URL + `/a/rent/permit/${rentId}`,
+      rentPermitRejectDTO,
+      {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      }
+    );
+    console.log(response.data);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const rejectRentRequest = (rentId, rentPermitRejectDTO) => async (
+  dispatch
+) => {
+  try {
+    const response = await axios.delete(
+      API_URL + `/a/rent/reject/${rentId}`,
+      rentPermitRejectDTO,
+      {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      }
+    );
+    console.log(response.data);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export const fetchPendingRents = () => async (dispatch) => {
   try {

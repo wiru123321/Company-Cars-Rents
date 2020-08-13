@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { Grid, Button } from "@material-ui/core";
-
 import { rentRequestStyles, TextArea } from "./rentRequest.styles.js";
 
-const RentRequestControlPanel = () => {
+import axios from "axios";
+
+const API_URL = "http://localhost:8080";
+
+const RentRequestControlPanel = ({ rent }) => {
   const classes = rentRequestStyles();
+
   return (
     <Grid
       container
