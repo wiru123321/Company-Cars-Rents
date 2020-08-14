@@ -28,20 +28,15 @@ export const yourCarsSlice = createSlice({
     setRequestReservation: (state, action) => {
       state.requestReservation = action.payload;
     },
-
     chooseCar: (state, action) => {
       state.endingFormChoose = !state.endingFormChoose;
       state.chooseCarIndex = action.payload;
-      state.photoCarIndex = action.payload;
     },
     acceptForm: (state) => {
       state.endingFormChoose = !state.endingFormChoose;
     },
-    changephotoCarIndex: (state, action) => {
-      state.photoCarIndex = action.payload;
-    },
     parkingNumberChange: (state, action) => {
-      state.parkingNumber = action.payload;
+      state.reservation.parkingTo = action.payload;
     },
     parkingPlaceNumberChange: (state, action) => {
       state.parkingPlaceNumber = action.payload;
@@ -67,7 +62,6 @@ export const {
   bugOpenChange,
   bugDescribeChane,
   setImage,
-  changephotoCarIndex,
   setHistoryReservation,
   setRequestReservation,
 } = yourCarsSlice.actions;
