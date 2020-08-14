@@ -68,24 +68,31 @@ public class RentController {
         return ResponseEntity.status(responseCode).body(message);
     }
 
-    //TODO add parking delete
     @RequestMapping(method = RequestMethod.DELETE, value = "/a/rent/reject/{id}")
     public ResponseEntity<?> rejectRent(@PathVariable final Long id, @RequestBody final RentPermitRejectDTO rentPermitRejectDTO) {
         final Rent rent = rentService.getEntityById(id);
         int responseCode;
         String message;
         try {
-            final ParkingHistory parkingFrom = new ParkingHistory(null, rent.getParkingFrom());
-            final ParkingHistory parkingTo = new ParkingHistory(null, rent.getParkingTo());
-            final RentHistory rentHistory = new RentHistory(null, rent.getUser(), rent.getCar(), rent.getDateFrom(), rent.getDateTo(), parkingFrom
-                    , parkingTo, false, false, rent.getComment(), rentPermitRejectDTO.getResponse());
-            parkingHistoryService.addEntityToDB(parkingFrom);
-            parkingHistoryService.addEntityToDB(parkingTo);
-            rentHistoryService.addEntityToDB(rentHistory);
-            rentService.deleteRent(rent);
-
-            responseCode = 200;
-            message = "ok";
+            if (!rent.getIsActive()) {
+                final ParkingHistory parkingFrom = new ParkingHistory(null, rent.getParkingFrom());
+                final ParkingHistory parkingTo = new ParkingHistory(null, rent.getParkingTo());
+                final RentHistory rentHistory = new RentHistory(null, rent.getUser(), rent.getCar(), rent.getDateFrom(), rent.getDateTo(), parkingFrom
+                        , parkingTo, false, false, rent.getComment(), rentPermitRejectDTO.getResponse());
+                parkingHistoryService.addEntityToDB(parkingFrom);
+                parkingHistoryService.addEntityToDB(parkingTo);
+                rentHistoryService.addEntityToDB(rentHistory);
+                final Long parkingFromId = rent.getParkingFrom().getId();
+                final Long parkingToId = rent.getParkingTo().getId();
+                rentService.deleteRent(rent);
+                parkingService.deleteParkingById(parkingFromId);
+                parkingService.deleteParkingById(parkingToId);
+                responseCode = 200;
+                message = "ok";
+            } else {
+                responseCode = 400;
+                message = "Rent request doesn't exist";
+            }
         } catch (final NullPointerException e) {
             message = "Invalid rent ID";
             responseCode = 400;
@@ -169,39 +176,42 @@ public class RentController {
     }
 
     //TODO parking delete
-    @RequestMapping(method = RequestMethod.POST, value = "/e/rent/end_rent/{id}")
+    @RequestMapping(method = RequestMethod.DELETE, value = "/e/rent/end_rent/{id}")
     public ResponseEntity<?> endRent(@PathVariable final Long id, @RequestBody final ParkingDTO parkingDTO) {
         final Rent rent = rentService.getEntityById(id);
         final User user = userService.getEntityByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
         int responseCode;
         String message;
 
-        try {
-            if (rent.getUser().equals(user)) {
-                final ParkingHistory parkingFrom = new ParkingHistory(null, rent.getParkingFrom());
-                final ParkingHistory parkingTo;
-                if (parkingDTO == null) {
+        if (rent.getIsActive()) {
+            try {
+                if (rent.getUser().equals(user)) {
+                    final ParkingHistory parkingFrom = new ParkingHistory(null, rent.getParkingFrom());
+                    final ParkingHistory parkingTo;
+
                     parkingTo = new ParkingHistory(null, rent.getParkingTo());
                     rent.getCar().setParking(rent.getParkingTo());
+
+
+                    final RentHistory rentHistory = new RentHistory(null, rent.getUser(), rent.getCar(), rent.getDateFrom(), rent.getDateTo(), parkingFrom
+                            , parkingTo, false, false, rent.getComment(), rent.getResponse());
+                    parkingHistoryService.addEntityToDB(parkingFrom);
+                    parkingHistoryService.addEntityToDB(parkingTo);
+                    rentHistoryService.addEntityToDB(rentHistory);
+                    rentService.deleteRent(rent);
+
+                    responseCode = 200;
+                    message = "ok";
                 } else {
-                    parkingTo = new ParkingHistory(null, parkingDTO);
+                    responseCode = 400;
+                    message = "Rent is not belong to this user";
                 }
 
-                final RentHistory rentHistory = new RentHistory(null, rent.getUser(), rent.getCar(), rent.getDateFrom(), rent.getDateTo(), parkingFrom
-                        , parkingTo, false, false, rent.getComment(), rent.getResponse());
-                parkingHistoryService.addEntityToDB(parkingFrom);
-                parkingHistoryService.addEntityToDB(parkingTo);
-                rentHistoryService.addEntityToDB(rentHistory);
-                rentService.deleteRent(rent);
-
-                responseCode = 200;
-                message = "ok";
-            } else {
+            } catch (final NullPointerException e) {
                 responseCode = 400;
-                message = "Rent is not belong to this user";
+                message = "Rent doesn't exist";
             }
-
-        } catch (final NullPointerException e) {
+        } else {
             responseCode = 400;
             message = "Rent doesn't exist";
         }
