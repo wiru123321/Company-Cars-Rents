@@ -24,6 +24,12 @@ const YouReservationForm = ({ reservations, isActive }) => {
                   }
                 />
                 <CarInfo car={reservation.carDTO} />
+                <Box>
+                  <label>Rent date from: {reservation.dateFrom}</label>
+                </Box>
+                <Box>
+                  <label>Rent date to: {reservation.dateTo}</label>
+                </Box>
               </Box>
               {isActive ? (
                 <Button
