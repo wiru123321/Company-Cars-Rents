@@ -240,7 +240,7 @@ public class RentController {
                     if (endRentDTO.getParkingDTO() != null)
                         parkingService.deleteParkingById(parkingToId);
 
-                    //TODO Dodaj funkcję, która zmieni miejsce odbioru pojazdu na ten na który jest ustawiony
+                    //TODO Dodaj funkcję, która zmieni miejsce odbioru pojazdu najbliższego wypożyczenia na ten na który jest ustawiony
                     responseCode = 200;
                     message = "ok";
                 } else {

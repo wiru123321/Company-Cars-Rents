@@ -36,6 +36,8 @@ public class RentService implements RentServiceInterface {
         return rentRepository.save(rent).getId();
     }
 
+    //TODO Dodaj metodę, która usunie aktywne renty z pojazdu doda je do historii i ustawi na nieaktywne
+
     @Override
     public Rent getEntityById(final Long id) {
         final Rent rent;
@@ -51,6 +53,12 @@ public class RentService implements RentServiceInterface {
     @Override
     public Rent getEntityByCarAndDateFrom(final Car car, final LocalDateTime dateFrom) {
         return rentRepository.findByCarAndDateFrom(car, dateFrom);
+    }
+
+    @Override
+    public List<Rent> getRentsByLicensePlate(final String licensePlate) {
+        final Car car = carService.getOnCompanyEntityByLicensePlate(licensePlate);
+        return rentRepository.findAllByCar(car);
     }
 
     @Override

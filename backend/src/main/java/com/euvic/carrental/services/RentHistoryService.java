@@ -89,6 +89,20 @@ public class RentHistoryService implements RentHistoryServiceInterface {
     }
 
     @Override
+    public void setToInactiveByLicensePlate(final String licensePlate) {
+        final Car car = carService.getOnCompanyEntityByLicensePlate(licensePlate);
+        final List<RentHistory> rentHistoryList = rentHistoryRepository.findAllByCar(car);
+        for (final RentHistory temp : rentHistoryList) {
+            temp.getParkingHistoryFrom().setIsActive(false);
+            temp.getParkingHistoryTo().setIsActive(false);
+            parkingHistoryService.addEntityToDB(temp.getParkingHistoryFrom());
+            parkingHistoryService.addEntityToDB(temp.getParkingHistoryTo());
+            temp.setIsActive(false);
+            rentHistoryRepository.save(temp);
+        }
+    }
+
+    @Override
     public List<RentHistoryDTO> getAllDTOsByCar(final Car car) {
         return this.convertRentHistoryListToRentDTOList(rentHistoryRepository.findAllByCar(car));
     }
