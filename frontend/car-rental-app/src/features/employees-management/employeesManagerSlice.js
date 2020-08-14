@@ -68,9 +68,9 @@ export const fetchAllUsers = () => async (dispatch) => {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     });
+
     dispatch(setUsers(response.data));
     dispatch(setFilteredEmployees(response.data));
-    console.log(response.data);
   } catch (error) {
     console.log(error);
   }
@@ -92,9 +92,11 @@ export const updateUser = (login, userUpdate) => async (dispatch) => {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     });
+    console.log(fetchResponse.data);
     dispatch(setUsers(fetchResponse.data));
     dispatch(setUpdateResult(true));
   } catch (error) {
+    console.log(error);
     dispatch(setUpdateResult(false));
   }
 };
@@ -106,12 +108,8 @@ export const deleteUser = (login) => async (dispatch) => {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     });
-    const fetchResponse = await axios.get(API_URL + "/a/users", {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("token"),
-      },
-    });
-    dispatch(setUsers(fetchResponse.data));
+
+    dispatch(fetchAllUsers());
   } catch (error) {
     console.log(error);
   }

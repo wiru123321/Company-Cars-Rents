@@ -1,12 +1,12 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { Grid, Paper, Button, makeStyles } from "@material-ui/core";
-import CarImage from "../../carsListing/CarImage";
-import CarInfo from "../../carsListing/CarInfo";
+import CarImage from "../../../carsListing/CarImage";
+import CarInfo from "../../../carsListing/CarInfo";
 import {
   setCurrentCar,
   enterManageCarMode,
-} from "../../../features/cars-manager/carsManagerSlice";
+} from "../../../../features/cars-manager/carsManagerSlice";
 
 const useStyles = makeStyles({
   content: {

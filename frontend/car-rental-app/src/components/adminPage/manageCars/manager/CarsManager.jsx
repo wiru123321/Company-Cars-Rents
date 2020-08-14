@@ -4,28 +4,37 @@ import { Grid, makeStyles } from "@material-ui/core";
 import {
   selectAll,
   fetchCars,
-} from "../../../features/cars-manager/carsManagerSlice";
+  filterCars,
+} from "../../../../features/cars-manager/carsManagerSlice";
+import NotFound from "../../messages/NotFoundMessage";
 import Car from "./Car";
-import CarManager from "./CarManager";
-
+import CarMenu from "./CarMenu";
+import Search from "../searchbar/Search";
 const useStyles = makeStyles({
   content: {
     minHeight: "80vh",
   },
 });
 
-const CarsSearchBar = () => {};
-
 const CarsManager = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { cars, filteredCars, filterActive, manageCarMode } = useSelector(
-    selectAll
-  );
+  const {
+    cars,
+    filteredCars,
+    filterActive,
+    manageCarMode,
+    filterLicensePlate,
+    filterMark,
+  } = useSelector(selectAll);
 
   useEffect(() => {
     dispatch(fetchCars(filterActive));
-  }, []);
+  }, [filterActive]);
+
+  useEffect(() => {
+    dispatch(filterCars(cars, filterLicensePlate, filterMark));
+  }, [cars, filterLicensePlate, filterMark]);
 
   if (manageCarMode) {
     return (
@@ -35,7 +44,7 @@ const CarsManager = () => {
         direction="column"
         alignItems="center"
       >
-        <CarManager />
+        <CarMenu />
       </Grid>
     );
   } else {
@@ -46,9 +55,14 @@ const CarsManager = () => {
         direction="column"
         alignItems="center"
       >
-        {filteredCars.map((car, index) => (
-          <Car key={car.licensePlate} car={car} />
-        ))}
+        <Search />
+        {filteredCars.length > 0 ? (
+          filteredCars.map((car, index) => (
+            <Car key={car.licensePlate} car={car} />
+          ))
+        ) : (
+          <NotFound>Empty</NotFound>
+        )}
       </Grid>
     );
   }

@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import { Grid, Paper, InputBase, Button } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core";
+import React from "react";
+import { Grid, Paper, InputBase, Button, makeStyles } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 
 const useStyles = makeStyles({
   box: {
     marginTop: "1%",
+    width: "60vw",
     padding: "8px",
   },
   searchActive: {
@@ -19,38 +19,15 @@ const useStyles = makeStyles({
 });
 
 const CarsSearchBar = ({
-  searchLicesnsePlate,
-  searchMark,
-  handleLicensePlateChange,
-  handleMarkChange,
-  getInactiveCars,
-  getActiveCars,
-  reset,
+  filterActive,
+  filterLicensePlate,
+  filterMark,
+  handleLicensePlateFilter,
+  handleMarkFilter,
+  toggleActiveFilter,
+  handleReset,
 }) => {
   const classes = useStyles();
-  const [searchForActive, toggleSearchForActive] = useState(true);
-
-  const toggleActiveFilter = () => {
-    if (searchForActive === true) {
-      getInactiveCars();
-    } else {
-      getActiveCars();
-    }
-    toggleSearchForActive(!searchForActive);
-  };
-
-  const onLicensePlateChange = (event) => {
-    handleLicensePlateChange(event.target.value);
-  };
-
-  const onMarkChange = (event) => {
-    handleMarkChange(event.target.value);
-  };
-
-  const handleReset = () => {
-    reset();
-    toggleSearchForActive(true);
-  };
   return (
     <Paper className={classes.box}>
       <Grid container direction="column" alignItems="center">
@@ -59,9 +36,9 @@ const CarsSearchBar = ({
             <Paper>
               <SearchIcon />
               <InputBase
+                onChange={handleLicensePlateFilter}
+                value={filterLicensePlate}
                 placeholder="Search license plate"
-                value={searchLicesnsePlate}
-                onChange={onLicensePlateChange}
               />
             </Paper>
           </Grid>
@@ -69,20 +46,18 @@ const CarsSearchBar = ({
             <Paper>
               <SearchIcon />
               <InputBase
+                onChange={handleMarkFilter}
+                value={filterMark}
                 placeholder="Search mark"
-                value={searchMark}
-                onChange={onMarkChange}
               />
             </Paper>
           </Grid>
           <Grid item xs={3}>
             <Button
-              className={
-                searchForActive ? classes.searchInactive : classes.searchActive
-              }
               onClick={toggleActiveFilter}
+              color={filterActive ? "secondary" : "primary"}
             >
-              Search for {searchForActive ? "inactive" : "active"} cars
+              Search for {filterActive ? "Suspended" : "Active"} cars
             </Button>
           </Grid>
           <Grid item xs={2}>

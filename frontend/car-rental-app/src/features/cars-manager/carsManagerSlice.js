@@ -74,22 +74,19 @@ export const fetchCars = (filterActive) => async (dispatch) => {
   } catch (error) {}
 };
 
-export const fetchSingleCar = (licensePlate)=> async (dispatch) => {
+export const fetchSingleCar = (licensePlate) => async (dispatch) => {
   try {
-    let link = filterActive ? "/ae/active-cars" : "/a/inactive-cars";
-    const response = await axios.get(API_URL + link, {
+    const response = await axios.get(API_URL + `/a/car/${licensePlate}`, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     });
-    console.log(response.data);
-    dispatch(setCars(response.data));
-    dispatch(setFilteredCars(response.data));
-  } catch (error) {}
+    console.log("SingleCar", response.data);
+    dispatch(setCurrentCar(response.data));
+  } catch (error) {
+    console.log(error);
+  }
 };
-
-
-}
 
 export const updateCar = (licensePlate, car, fetchActive) => async (
   dispatch
@@ -135,7 +132,8 @@ export const setCarActivity = (licensePlate, isActive, fetchActive) => async (
       method: "DELETE",
       params: { isActive: isActive },
     });
-
+    console.log(isActive);
+    dispatch(fetchSingleCar(licensePlate));
     dispatch(fetchCars(fetchActive));
   } catch (error) {
     console.log(error);
@@ -160,14 +158,14 @@ export const deleteCar = (licensePlate, fetchActive) => async (dispatch) => {
   }
 };
 
-export const filterCars = (cars, filterLicensePlate, filterMarks) => (
+export const filterCars = (cars, filterLicensePlate, filterMark) => (
   dispatch
 ) => {
   let filteredCars = cars.filter((car) =>
     car.licensePlate.includes(filterLicensePlate)
   );
   filteredCars = filteredCars.filter((car) =>
-    car.modelDTO.markDTO.name.includes(filterMarks)
+    car.modelDTO.markDTO.name.includes(filterMark)
   );
   dispatch(setFilteredCars(filteredCars));
 };
