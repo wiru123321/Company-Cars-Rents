@@ -21,7 +21,7 @@ public class ParkingService implements ParkingServiceInterface {
 
     @Override
     public Parking mapRestModel(final Long id, final ParkingDTO parking) {
-        return new Parking(id, parking.getTown(), parking.getPostalCode(), parking.getStreetName(), parking.getNumber(), parking.getComment(), parking.getIsActive());
+        return new Parking(id, parking.getTown(), parking.getPostalCode(), parking.getStreetName(), parking.getNumber(), parking.getComment(), true);
     }
 
     @Override

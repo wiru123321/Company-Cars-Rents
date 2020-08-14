@@ -25,6 +25,8 @@ public class Fault {
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private Car car;
 
+    //TODO Dodać polę z datą zgłoszenia
+
     public Fault() {
     }
 

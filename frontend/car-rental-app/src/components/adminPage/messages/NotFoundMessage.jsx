@@ -4,6 +4,7 @@ import { makeStyles } from "@material-ui/core";
 const useStyles = makeStyles({
   box: {
     height: "40vh",
+    width: "40vw",
   },
 });
 const NotFoundMessage = ({ children, raw }) => {

@@ -62,7 +62,7 @@ public class ParkingHistory {
         this.streetName = parking.getStreetName();
         this.number = parking.getNumber();
         this.comment = parking.getComment();
-        this.isActive = parking.getIsActive();
+        this.isActive = true;
 
     }
 

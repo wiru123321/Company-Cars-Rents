@@ -14,4 +14,6 @@ public interface RentHistoryRepository extends CrudRepository<RentHistory, Long>
     RentHistory findByCarAndDateFrom(Car car, LocalDateTime dateFrom);
 
     List<RentHistory> findAllByUser(User user);
+
+    List<RentHistory> findAllByCar(Car car);
 }

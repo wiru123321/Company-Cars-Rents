@@ -24,4 +24,6 @@ public interface RentHistoryServiceInterface {
     List<RentHistoryDTO> getAllDTOs();
 
     List<RentHistoryDTO> getUserRentHistoryDTOs();
+
+    List<RentHistoryDTO> getAllDTOsByCar(Car car);
 }

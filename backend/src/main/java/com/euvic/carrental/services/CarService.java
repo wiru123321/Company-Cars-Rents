@@ -143,10 +143,10 @@ public class CarService implements CarServiceInterface {
     }
 
     @Override
-    public Long addExistingImageToExistingCar(String carImagePath, String licensePlate) {
-        Car car = getOnCompanyEntityByLicensePlate(licensePlate);
+    public Long addExistingImageToExistingCar(final String carImagePath, final String licensePlate) {
+        final Car car = this.getOnCompanyEntityByLicensePlate(licensePlate);
         car.setImagePath(carImagePath);
-        return addEntityToDB(car);
+        return this.addEntityToDB(car);
     }
 
     @Override
@@ -155,9 +155,9 @@ public class CarService implements CarServiceInterface {
     }
 
     @Override
-    public Long setCarActivity(Boolean isActive, String licensePlate) {
-        Car car = getOnCompanyEntityByLicensePlate(licensePlate);
+    public Long setCarActivity(final Boolean isActive, final String licensePlate) {
+        final Car car = this.getOnCompanyEntityByLicensePlate(licensePlate);
         car.setIsActive(isActive);
-        return addEntityToDB(car);
+        return this.addEntityToDB(car);
     }
 }
