@@ -316,7 +316,7 @@ public class RentHistoryServiceTest {
 
 
     @Test
-    void shouldReturnDBRentHistoryDTO() { //TODO change name
+    void shouldReturnDBRentHistoryDTO() {
         final Parking parking1 = new Parking(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
         final ParkingHistory parkingHistory1 = new ParkingHistory(null, "Radom", "40-222", "Jaka 32", "A-8", "Parking przy sklepie Tesco", true);
         final ParkingHistory parkingHistory2 = new ParkingHistory(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
