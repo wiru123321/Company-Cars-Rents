@@ -68,10 +68,9 @@ public class RentHistoryService implements RentHistoryServiceInterface {
     }
 
     @Override
-    public RentHistory mapRestModel(final Long id, final RentHistoryDTO rentHistoryDTO, final Long parkingHistoryFromId, final Long parkingHisotryToId) {
-
+    public RentHistory mapRestModel(final Long id, final RentHistoryDTO rentHistoryDTO, final Long parkingHistoryFromId, final Long parkingHistoryToId) {
         return new RentHistory(id, userService.getEntityByLogin(rentHistoryDTO.getUserDTO().getLogin()), carService.getOnCompanyEntityByLicensePlate(rentHistoryDTO.getCarDTO().getLicensePlate())
-                , rentHistoryDTO.getDateFrom(), rentHistoryDTO.getDateTo(), parkingHistoryService.getEntityById(parkingHistoryFromId), parkingHistoryService.getEntityById(parkingHisotryToId), rentHistoryDTO.getIsActive(), rentHistoryDTO.getIsAccepted(), rentHistoryDTO.getComment(), rentHistoryDTO.getResponse());
+                , rentHistoryDTO.getDateFrom(), rentHistoryDTO.getDateTo(), parkingHistoryService.getEntityById(parkingHistoryFromId), parkingHistoryService.getEntityById(parkingHistoryToId), rentHistoryDTO.getIsActive(), rentHistoryDTO.getIsAccepted(), rentHistoryDTO.getComment(), rentHistoryDTO.getResponse());
     }
 
     @Override
@@ -90,17 +89,20 @@ public class RentHistoryService implements RentHistoryServiceInterface {
     }
 
     @Override
+    public List<RentHistoryDTO> getAllDTOsByCar(final Car car) {
+        return this.convertRentHistoryListToRentDTOList(rentHistoryRepository.findAllByCar(car));
+    }
+
+    @Override
     public List<RentHistoryDTO> getUserRentHistoryDTOs() {
         final User user = userService.getEntityByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
         return this.convertRentHistoryListToRentDTOList(rentHistoryRepository.findAllByUser(user));
-
     }
 
     private List<RentHistoryDTO> convertRentHistoryListToRentDTOList(final List<RentHistory> rentArrayList) {
         final ArrayList<RentHistoryDTO> rentDTOArrayList = new ArrayList<>();
 
         if (!rentArrayList.isEmpty()) {
-
             for (final RentHistory rentHistory : rentArrayList) {
                 final RentHistoryDTO rentDTO = new RentHistoryDTO(rentHistory
                         , userService.getDTOByLogin(rentHistory.getUser().getLogin())
@@ -108,7 +110,6 @@ public class RentHistoryService implements RentHistoryServiceInterface {
                         , new ParkingHistoryDTO(rentHistory.getParkingHistoryFrom())
                         , new ParkingHistoryDTO(rentHistory.getParkingHistoryTo()));
                 rentDTOArrayList.add(rentDTO);
-
             }
         }
         return rentDTOArrayList;
