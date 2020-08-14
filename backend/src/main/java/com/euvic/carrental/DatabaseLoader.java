@@ -210,7 +210,7 @@ public class DatabaseLoader implements CommandLineRunner {
 
             final Rent rent1 = new Rent(null
                     , userService.getEntityByLogin("user123")
-                    , carService.getEntityByLicensePlate("WN101")
+                    , carService.getOnCompanyEntityByLicensePlate("WN101")
                     , LocalDateTime.of(2020, 12, 7, 0, 0)
                     , LocalDateTime.of(2020, 12, 10, 0, 0)
                     , parkingService.getEntityById(parkingId1)
@@ -219,7 +219,7 @@ public class DatabaseLoader implements CommandLineRunner {
 
             final Rent rent2 = new Rent(null
                     , userService.getEntityByLogin("user123")
-                    , carService.getEntityByLicensePlate("SBE33212")
+                    , carService.getOnCompanyEntityByLicensePlate("SBE33212")
                     , LocalDateTime.of(2020, 12, 1, 0, 0)
                     , LocalDateTime.of(2020, 12, 6, 0, 0)
                     , parkingService.getEntityById(parkingId3)
@@ -228,7 +228,7 @@ public class DatabaseLoader implements CommandLineRunner {
 
             final Rent rent3 = new Rent(null
                     , userService.getEntityByLogin("user123")
-                    , carService.getEntityByLicensePlate("SBE11212")
+                    , carService.getOnCompanyEntityByLicensePlate("SBE11212")
                     , LocalDateTime.of(2020, 11, 25, 0, 0)
                     , LocalDateTime.of(2020, 12, 1, 0, 0)
                     , parkingService.getEntityById(parkingId5)
@@ -237,7 +237,7 @@ public class DatabaseLoader implements CommandLineRunner {
 
             final Rent rent4 = new Rent(null
                     , userService.getEntityByLogin("user123")
-                    , carService.getEntityByLicensePlate("WN101")
+                    , carService.getOnCompanyEntityByLicensePlate("WN101")
                     , LocalDateTime.of(2020, 8, 25, 0, 0)
                     , LocalDateTime.of(2020, 9, 1, 0, 0)
                     , parkingService.getEntityById(parkingId7)

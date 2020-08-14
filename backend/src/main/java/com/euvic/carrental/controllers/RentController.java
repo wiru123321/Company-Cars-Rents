@@ -49,7 +49,7 @@ public class RentController {
         final Rent rent = rentService.getEntityById(id);
         int responseCode;
         String message;
-        final Car car = carService.getEntityByLicensePlate(rentPermitRejectDTO.getLicensePlate());
+        final Car car = carService.getOnCompanyEntityByLicensePlate(rentPermitRejectDTO.getLicensePlate());
         if (car != null) {
             try {
                 rent.setIsActive(true);
@@ -126,7 +126,7 @@ public class RentController {
     @RequestMapping(method = RequestMethod.POST, value = "/e/rent/{licensePlate}")
     public ResponseEntity<?> addRent(@PathVariable final String licensePlate, @RequestBody final RentDTO rentDTO) {
         final User user = userService.getEntityByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
-        final Car car = carService.getEntityByLicensePlate(licensePlate);
+        final Car car = carService.getOnCompanyEntityByLicensePlate(licensePlate);
 
         int responseCode;
         final Long id;
