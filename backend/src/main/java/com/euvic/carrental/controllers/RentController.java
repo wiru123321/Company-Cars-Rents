@@ -160,7 +160,11 @@ public class RentController {
 
         try {
             if (rent.getUser().equals(user)) {
+                final Long parkingFromId = rent.getParkingFrom().getId();
+                final Long parkingToId = rent.getParkingTo().getId();
                 rentService.deleteRent(rent);
+                parkingService.deleteParkingById(parkingFromId);
+                parkingService.deleteParkingById(parkingToId);
                 responseCode = 200;
                 message = "Ok";
             } else {
