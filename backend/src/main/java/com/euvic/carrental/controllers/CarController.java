@@ -26,7 +26,7 @@ public class CarController {
     private final ModelService modelService;
     private final FileService fileService;
 
-    public CarController(final CarService carService, final ParkingService parkingService, final ModelService modelService, final  FileService fileService) {
+    public CarController(final CarService carService, final ParkingService parkingService, final ModelService modelService, final FileService fileService) {
         this.carService = carService;
         this.parkingService = parkingService;
         this.modelService = modelService;
@@ -39,23 +39,28 @@ public class CarController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/a/cars")
-    public ResponseEntity getAllInCompanyCars() {
+    public ResponseEntity<?> getAllInCompanyCars() {
         return ResponseEntity.ok(carService.getInCompanyCarDTOs());
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/ae/active-cars")
-    public ResponseEntity getAllActiveCars() {
+    public ResponseEntity<?> getAllActiveCars() {
         return ResponseEntity.ok(carService.getInCompanyActiveCarDTOs());
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/a/inactive-cars")
-    public ResponseEntity getAllInActiveCars() {
+    public ResponseEntity<?> getAllInActiveCars() {
         return ResponseEntity.ok(carService.getInCompanyInactiveCarDTOs());
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/a/car/{licensePlate}")
+    public ResponseEntity<?> getCarByLicensePlate(@PathVariable final String licensePlate) {
+        return ResponseEntity.ok(carService.getDTOByLicensePlate(licensePlate));
+    }
+
     @RequestMapping(method = RequestMethod.POST, value = "/a/car")
-    public ResponseEntity addCarToDatabase(@RequestBody final CarDTO carDTO) {
-        if(carService.checkIfOnCompanyCarWithLicensePlateExists(carDTO.getLicensePlate())){
+    public ResponseEntity<?> addCarToDatabase(@RequestBody final CarDTO carDTO) {
+        if (carService.checkIfOnCompanyCarWithLicensePlateExists(carDTO.getLicensePlate())) {
             return new ResponseEntity<>("Car with given license plate already exist.", HttpStatus.CONFLICT);
         }
 
@@ -69,8 +74,8 @@ public class CarController {
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/a/car/{licensePlate}")
-    public ResponseEntity updateDataBaseCar(@PathVariable final String licensePlate, @RequestBody final CarDTO newCarDTO) {
-        if(!carService.checkIfOnCompanyCarWithLicensePlateExists(newCarDTO.getLicensePlate())){
+    public ResponseEntity<?> updateDataBaseCar(@PathVariable final String licensePlate, @RequestBody final CarDTO newCarDTO) {
+        if (!carService.checkIfOnCompanyCarWithLicensePlateExists(newCarDTO.getLicensePlate())) {
             return new ResponseEntity<>("Car with given license plate doesn't exist.", HttpStatus.CONFLICT);
         }
 
@@ -78,8 +83,8 @@ public class CarController {
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/a/car/activity/{licensePlate}")
-    public ResponseEntity setCarActivityInDB(@RequestParam("isActive") final Boolean isActive, @PathVariable final String licensePlate) {
-        if(!carService.checkIfOnCompanyCarWithLicensePlateExists(licensePlate)){
+    public ResponseEntity<?> setCarActivityInDB(@RequestParam("isActive") final Boolean isActive, @PathVariable final String licensePlate) {
+        if (!carService.checkIfOnCompanyCarWithLicensePlateExists(licensePlate)) {
             return new ResponseEntity<>("Car with given license plate doesn't exist.", HttpStatus.CONFLICT);
         }
 
@@ -87,25 +92,25 @@ public class CarController {
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/a/car/{licensePlate}")
-    public ResponseEntity setCarAsDeletedInDB(@PathVariable final String licensePlate) {
-        if(!carService.checkIfOnCompanyCarWithLicensePlateExists(licensePlate)){
-        return new ResponseEntity<>("Car with given license plate doesn't exist.", HttpStatus.CONFLICT);
+    public ResponseEntity<?> setCarAsDeletedInDB(@PathVariable final String licensePlate) {
+        if (!carService.checkIfOnCompanyCarWithLicensePlateExists(licensePlate)) {
+            return new ResponseEntity<>("Car with given license plate doesn't exist.", HttpStatus.CONFLICT);
         }
 
         return ResponseEntity.ok(carService.setCarIsNotInCompany(licensePlate));
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/a/car/upload-car-image/{licensePlate}", produces = {MediaType.IMAGE_PNG_VALUE, "application/json"})
-    public ResponseEntity<?> uploadCarImageForExistingCar(@RequestParam("imageFile") final MultipartFile file, @PathVariable final String licensePlate){
+    public ResponseEntity<?> uploadCarImageForExistingCar(@RequestParam("imageFile") final MultipartFile file, @PathVariable final String licensePlate) {
 
-        if(!carService.checkIfOnCompanyCarWithLicensePlateExists(licensePlate)){
+        if (!carService.checkIfOnCompanyCarWithLicensePlateExists(licensePlate)) {
             return new ResponseEntity<>("Car with given license plate doesn't exist.", HttpStatus.CONFLICT);
         }
 
-        String addedImagePath;
-        try{
+        final String addedImagePath;
+        try {
             addedImagePath = fileService.uploadCarImage(file);
-        }catch (IOException e){
+        } catch (final IOException e) {
             return new ResponseEntity<>("Image get not uploaded", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
@@ -113,18 +118,18 @@ public class CarController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/u/car/download-car-image/{licensePlate}", produces = MediaType.IMAGE_JPEG_VALUE)
-    public ResponseEntity<?> downloadCarImageForExistingCar(@PathVariable final String licensePlate){
-        byte[] image;
-        try{
+    public ResponseEntity<?> downloadCarImageForExistingCar(@PathVariable final String licensePlate) {
+        final byte[] image;
+        try {
             image = fileService.downloadCarImage(licensePlate);
-        }catch (NullPointerException e){
+        } catch (final NullPointerException e) {
             return new ResponseEntity<>("Image not found.", HttpStatus.CONFLICT);
-        }catch (IOException e){
+        } catch (final IOException e) {
             return new ResponseEntity<>("Image get not downloaded", HttpStatus.INTERNAL_SERVER_ERROR);
         }
-       HttpHeaders headers = new HttpHeaders();
-       headers.setContentType(MediaType.IMAGE_PNG);
-       headers.setContentLength(image.length);
-       return new ResponseEntity<>(image, headers, HttpStatus.OK);
+        final HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.IMAGE_PNG);
+        headers.setContentLength(image.length);
+        return new ResponseEntity<>(image, headers, HttpStatus.OK);
     }
 }

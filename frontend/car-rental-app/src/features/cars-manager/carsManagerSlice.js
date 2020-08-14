@@ -68,15 +68,15 @@ export const fetchCars = (filterActive) => async (dispatch) => {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     });
-
+    console.log(response.data);
     dispatch(setCars(response.data));
     dispatch(setFilteredCars(response.data));
-  } catch (error) {
-    // console.log(error);
-  }
+  } catch (error) {}
 };
 
-export const updateCar = (licensePlate, car) => async (dispatch) => {
+export const updateCar = (licensePlate, car, fetchActive) => async (
+  dispatch
+) => {
   try {
     console.log(car);
     const updateResponse = await axios.put(
@@ -88,12 +88,58 @@ export const updateCar = (licensePlate, car) => async (dispatch) => {
         },
       }
     );
-
-    dispatch(fetchCars());
-    //dispatch(setUpdateResult(true));
+    console.log(fetchActive);
+    dispatch(fetchCars(fetchActive));
   } catch (error) {
     console.log(error);
-    //dispatch(setUpdateResult(false));
+  }
+};
+
+export const addFault = (faultDTO, fetchActive) => async (dispatch) => {
+  try {
+    const response = await axios.post(API_URL + "/a/fault", faultDTO, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
+    console.log(fetchActive);
+    dispatch(fetchCars(fetchActive));
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const setCarActivity = (licensePlate, isActive, fetchActive) => async (
+  dispatch
+) => {
+  try {
+    const response = await axios(API_URL + `/a/car/activity/${licensePlate}`, {
+      headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+      method: "DELETE",
+      params: { isActive: isActive },
+    });
+
+    dispatch(fetchCars(fetchActive));
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const deleteCar = (licensePlate, fetchActive) => async (dispatch) => {
+  try {
+    const deleteResponse = await axios.delete(
+      API_URL + `/a/car/${licensePlate}`,
+      {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      }
+    );
+    dispatch(fetchCars(fetchActive));
+    dispatch(enterManageCarMode(false));
+    dispatch(setCurrentCar(""));
+  } catch (error) {
+    console.log(error);
   }
 };
 

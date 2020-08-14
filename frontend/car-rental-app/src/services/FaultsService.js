@@ -4,6 +4,7 @@ const API_URL = "http://localhost:8080";
 
 export const fetchFaultsForCar = async (licensePlate, setFaults) => {
   try {
+    console.log(licensePlate);
     const response = await axios.get(
       API_URL + `/a/active-faults/${licensePlate}`,
       {
@@ -12,6 +13,7 @@ export const fetchFaultsForCar = async (licensePlate, setFaults) => {
         },
       }
     );
+    console.log(response.data);
     setFaults(response.data);
   } catch (error) {}
 };

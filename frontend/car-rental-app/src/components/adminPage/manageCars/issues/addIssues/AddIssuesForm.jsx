@@ -35,10 +35,16 @@ const useStyles = makeStyles({
   },
 });
 
-const AddIssuesForm = ({ handlesubmit }) => {
+const AddIssuesForm = ({
+  description,
+  setCarInactive,
+  handleDescriptionChange,
+  handleCarInactiveChange,
+  handleSubmit,
+}) => {
   const classes = useStyles();
   return (
-    <ValidatorForm onSubmit={handlesubmit}>
+    <ValidatorForm onSubmit={handleSubmit}>
       <Grid
         className={classes.box}
         container
@@ -48,6 +54,8 @@ const AddIssuesForm = ({ handlesubmit }) => {
       >
         <Paper className={classes.paper}>
           <TextareaAutosize
+            onChange={handleDescriptionChange}
+            value={description}
             required
             placeholder="Issue description..."
             className={classes.textArea}
@@ -55,7 +63,11 @@ const AddIssuesForm = ({ handlesubmit }) => {
         </Paper>
         <Paper className={classes.paper}>
           <Typography>
-            Should suspend a car? <Checkbox />
+            Should suspend a car?
+            <Checkbox
+              checked={setCarInactive}
+              onChange={handleCarInactiveChange}
+            />
           </Typography>
         </Paper>
         <Button

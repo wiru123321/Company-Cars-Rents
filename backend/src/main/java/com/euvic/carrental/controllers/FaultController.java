@@ -38,10 +38,10 @@ public class FaultController {
     @RequestMapping(method = RequestMethod.POST, value = "/fault")
     public ResponseEntity addFaultToDatabase(@RequestBody final FaultDTO faultDTO) {
         if(!carService.checkIfOnCompanyCarWithLicensePlateExists(faultDTO.getCarLicensePlate())){
-            ResponseEntity.status(HttpStatus.CONFLICT).body("Car with this license plate doesn't exist.");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Car with this license plate doesn't exist.");
         }
         else if(faultService.checkIfCarFaultWithDescriptionExists(carService.getOnCompanyEntityByLicensePlate(faultDTO.getCarLicensePlate()), faultDTO.getDescription())){
-            ResponseEntity.status(HttpStatus.CONFLICT).body("Fault with this description already exist for this car.");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Fault with this description already exist for this car.");
         }
 
         final Fault fault = faultService.mapRestModel(null, faultDTO);
@@ -56,10 +56,10 @@ public class FaultController {
     @RequestMapping(method = RequestMethod.DELETE, value = "/fault")
     public ResponseEntity setFaultAsDeletedInDB(@RequestBody FaultDTO faultDTO) {
         if(!carService.checkIfOnCompanyCarWithLicensePlateExists(faultDTO.getCarLicensePlate())){
-            ResponseEntity.status(HttpStatus.CONFLICT).body("Car with this license plate doesn't exist.");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Car with this license plate doesn't exist.");
         }
         else if(!faultService.checkIfCarFaultWithDescriptionExists(carService.getOnCompanyEntityByLicensePlate(faultDTO.getCarLicensePlate()), faultDTO.getDescription())){
-            ResponseEntity.status(HttpStatus.CONFLICT).body("Fault with this description doesn't exist for this car.");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Fault with this description doesn't exist for this car.");
         }
 
         Car car = carService.getOnCompanyEntityByLicensePlate(faultDTO.getCarLicensePlate());
