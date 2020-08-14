@@ -5,6 +5,8 @@ import EditIcon from "@material-ui/icons/Edit";
 
 const CarControlPanel = ({
   index,
+  isActive,
+  toggleSuspend,
   onDelete,
   toggleEdit,
   faults,
@@ -12,6 +14,14 @@ const CarControlPanel = ({
 }) => {
   return (
     <Grid container direction="row" justify="space-evenly" alignItems="center">
+      <Button
+        onClick={toggleSuspend}
+        variant="outlined"
+        color={isActive ? "" : "secondary"}
+        startIcon={<EditIcon />}
+      >
+        {isActive ? "Suspend" : "Activate"}
+      </Button>
       <Button
         onClick={toggleShowIssues}
         variant="contained"

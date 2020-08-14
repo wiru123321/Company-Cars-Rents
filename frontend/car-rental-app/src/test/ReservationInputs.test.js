@@ -1,7 +1,10 @@
 import React from "react";
 import { configure, render, mount, shallow } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
-import { UserPersonalData, ReservationDate } from "../ReservationForm";
+import {
+  UserPersonalData,
+  ReservationDate,
+} from "../../../components/userPage/reservation/ReservationForm";
 configure({ adapter: new Adapter() });
 
 describe("Reservation test suite", () => {

@@ -4,7 +4,7 @@ import Adapter from "enzyme-adapter-react-16";
 
 configure({ adapter: new Adapter() });
 
-import InputControl from "../InputControl";
+import InputControl from "../../../components/login/InputControl";
 
 describe("Input control test suite", () => {
   it("should render withoout throwing error", () => {
