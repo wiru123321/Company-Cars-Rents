@@ -53,8 +53,8 @@ public class CarController {
         return ResponseEntity.ok(carService.getInCompanyInactiveCarDTOs());
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/a/car/license_plate")
-    public ResponseEntity<?> getCarByLicensePlate(@RequestBody final String licensePlate) {
+    @RequestMapping(method = RequestMethod.GET, value = "/a/car/{licensePlate}")
+    public ResponseEntity<?> getCarByLicensePlate(@PathVariable final String licensePlate) {
         return ResponseEntity.ok(carService.getDTOByLicensePlate(licensePlate));
     }
 
