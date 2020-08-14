@@ -78,6 +78,15 @@ public class CarController {
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/a/car/{licensePlate}")
+    public ResponseEntity setCarActivityInDB(@RequestParam("isActive") final Boolean isActive, @PathVariable final String licensePlate) {
+        if(!carService.checkIfCarWithLicensePlateExists(licensePlate)){
+            return new ResponseEntity<>("Car with given license plate doesn't exist.", HttpStatus.CONFLICT);
+        }
+
+        return ResponseEntity.ok(carService.setCarActivity(isActive, licensePlate));
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE, value = "/a/car/{licensePlate}")
     public ResponseEntity setCarAsDeletedInDB(@PathVariable final String licensePlate) {
         if(!carService.checkIfCarWithLicensePlateExists(licensePlate)){
         return new ResponseEntity<>("Car with given license plate doesn't exist.", HttpStatus.CONFLICT);
