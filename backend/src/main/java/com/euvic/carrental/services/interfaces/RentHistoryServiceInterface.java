@@ -26,4 +26,6 @@ public interface RentHistoryServiceInterface {
     List<RentHistoryDTO> getUserRentHistoryDTOs();
 
     List<RentHistoryDTO> getAllDTOsByCar(Car car);
+
+    void setToInactiveByLicensePlate(String licensePlate);
 }
