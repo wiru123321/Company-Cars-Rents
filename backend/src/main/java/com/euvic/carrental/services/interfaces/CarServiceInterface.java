@@ -31,4 +31,6 @@ public interface CarServiceInterface {
     Long addExistingImageToExistingCar(String carImagePath, String licensePlate);
 
     Boolean checkIfCarWithLicensePlateExists(String licensePlate);
+
+    Long setCarActivity(Boolean isActive, String licensePlate);
 }

@@ -153,4 +153,11 @@ public class CarService implements CarServiceInterface {
     public Boolean checkIfCarWithLicensePlateExists(final String licensePlate) {
         return carRepository.existsByLicensePlate(licensePlate);
     }
+
+    @Override
+    public Long setCarActivity(Boolean isActive, String licensePlate) {
+        Car car = getEntityByLicensePlate(licensePlate);
+        car.setIsActive(isActive);
+        return addEntityToDB(car);
+    }
 }

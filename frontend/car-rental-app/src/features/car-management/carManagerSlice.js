@@ -122,6 +122,7 @@ export const deleteCar = (licensePlate) => async (dispatch) => {
 
 export const updateCar = (licensePlate, car) => async (dispatch) => {
   try {
+    console.log(car);
     const updateResponse = await axios.put(
       API_URL + `/a/car/${licensePlate}`,
       car,
@@ -131,13 +132,8 @@ export const updateCar = (licensePlate, car) => async (dispatch) => {
         },
       }
     );
-    const fetchResponse = await axios.get(API_URL + "/a/cars", {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("token"),
-      },
-    });
-    console.log(fetchResponse);
-    dispatch(setCars(fetchResponse.data));
+
+    dispatch(fetchActiveCars());
     dispatch(setUpdateResult(true));
   } catch (error) {
     console.log(error);

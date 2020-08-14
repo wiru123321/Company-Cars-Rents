@@ -4,7 +4,7 @@ import Adapter from "enzyme-adapter-react-16";
 
 configure({ adapter: new Adapter() });
 
-import CarImage from "../CarImage";
+import CarImage from "../components/carsListing/CarImage";
 
 describe("Car image test suite", () => {
   it("should render without throwing error", () => {

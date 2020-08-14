@@ -70,11 +70,20 @@ public class CarController {
 
     @RequestMapping(method = RequestMethod.PUT, value = "/a/car/{licensePlate}")
     public ResponseEntity updateDataBaseCar(@PathVariable final String licensePlate, @RequestBody final CarDTO newCarDTO) {
-        if(carService.checkIfCarWithLicensePlateExists(newCarDTO.getLicensePlate())){
-            return new ResponseEntity<>("Car with given license plate already exist.", HttpStatus.CONFLICT);
+        if(!carService.checkIfCarWithLicensePlateExists(newCarDTO.getLicensePlate())){
+            return new ResponseEntity<>("Car with given license plate doesn't exist.", HttpStatus.CONFLICT);
         }
 
         return ResponseEntity.ok(carService.updateCarInDB(licensePlate, newCarDTO));
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE, value = "/a/car/{licensePlate}")
+    public ResponseEntity setCarActivityInDB(@RequestParam("isActive") final Boolean isActive, @PathVariable final String licensePlate) {
+        if(!carService.checkIfCarWithLicensePlateExists(licensePlate)){
+            return new ResponseEntity<>("Car with given license plate doesn't exist.", HttpStatus.CONFLICT);
+        }
+
+        return ResponseEntity.ok(carService.setCarActivity(isActive, licensePlate));
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/a/car/{licensePlate}")
