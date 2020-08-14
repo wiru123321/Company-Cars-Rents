@@ -106,8 +106,6 @@ public class RentController {
         return ResponseEntity.status(responseCode).body(message);
     }
 
-    //TODO method to modify rent
-
     //EMPLOYEE
     @RequestMapping(method = RequestMethod.GET, value = "/e/rent/my_history")
     public ResponseEntity<?> getMyHistory() {
