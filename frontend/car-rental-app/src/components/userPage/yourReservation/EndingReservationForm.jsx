@@ -37,7 +37,7 @@ const EndingReservationForm = () => {
     reservation[selectCarIndex].parkingTo.comment
   );
   const [bugDescribe, setBugDescribe] = useState(
-    reservation[selectCarIndex].bugDescribe
+    reservation[selectCarIndex].faultMessage
   );
   return (
     <Container
@@ -91,12 +91,16 @@ const EndingReservationForm = () => {
             onClick={() => {
               dispatch(acceptForm());
               let newReservation = {
-                town: town,
-                streetName: streetName,
-                postalCode: postalCode,
-                number: number,
-                comment: comment,
+                parkingDTIO: {
+                  town: town,
+                  streetName: streetName,
+                  postalCode: postalCode,
+                  number: number,
+                  comment: comment,
+                },
+                faultMessage: bugDescribe,
               };
+              console.log(newReservation);
               dispatch(
                 backTheCarBack(reservation[selectCarIndex].id, newReservation)
               );
