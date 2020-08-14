@@ -2,10 +2,7 @@ import React from "react";
 import { Button, Box, ListItem, List } from "@material-ui/core";
 import CarImage from "../../carsListing/CarImage";
 import CarInfo from "../../carsListing/CarInfo";
-import {
-  chooseCar,
-  backTheCarBack,
-} from "../../../features/your-cars/yourCarsSlice";
+import { chooseCar } from "../../../features/your-cars/yourCarsSlice";
 import { useDispatch } from "react-redux";
 
 const YouReservationForm = ({ reservations, isActive }) => {
@@ -38,13 +35,7 @@ const YouReservationForm = ({ reservations, isActive }) => {
                   color="primary"
                   onClick={(event) => {
                     event.preventDefault();
-                    // var newCar = {
-                    //   ...car,
-                    //   isActive: false,
-                    // };
-                    // dispatch(updateCar(reservation.CarDTO.licensePlate, newCar));
                     dispatch(chooseCar(index));
-                    let json = {};
                   }}
                 >
                   Give the car back

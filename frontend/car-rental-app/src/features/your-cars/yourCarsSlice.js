@@ -8,8 +8,6 @@ const initialState = {
   historyReservation: [],
   requestReservation: [],
   photoCarIndex: 0,
-  parkingNumber: 0,
-  parkingPlaceNumber: 0,
   endingFormChoose: false,
   carImg: [],
   chooseCarIndex: 0,
@@ -35,12 +33,6 @@ export const yourCarsSlice = createSlice({
     acceptForm: (state) => {
       state.endingFormChoose = !state.endingFormChoose;
     },
-    parkingNumberChange: (state, action) => {
-      state.reservation.parkingTo = action.payload;
-    },
-    parkingPlaceNumberChange: (state, action) => {
-      state.parkingPlaceNumber = action.payload;
-    },
     bugOpenChange: (state) => {
       state.bugOpen = !state.bugOpen;
     },
@@ -56,8 +48,6 @@ export const yourCarsSlice = createSlice({
 export const {
   setReservation,
   chooseCar,
-  parkingNumberChange,
-  parkingPlaceNumberChange,
   acceptForm,
   bugOpenChange,
   bugDescribeChane,

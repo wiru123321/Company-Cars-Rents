@@ -13,6 +13,7 @@ public class RentDTO {
     private LocalDateTime dateTo;
     private String comment;
     private String response;
+    private String faultMessage;
     private UserDTO userDTO;
     private CarDTO carDTO;
     private ParkingDTO parkingDTOFrom;
@@ -38,9 +39,10 @@ public class RentDTO {
         this.isActive = rentHistory.getIsActive();
         this.comment = rentHistory.getComment();
         this.response = rentHistory.getResponse();
+        this.faultMessage = rentHistory.getFaultMessage();
     }
 
-    public RentDTO(final LocalDateTime dateFrom, final LocalDateTime dateTo, final UserDTO userDTO, final CarDTO carDTO, final ParkingDTO parkingDTOFrom, final ParkingDTO parkingDTOTo, final Boolean isActive, final String comment, final String response) {
+    public RentDTO(final LocalDateTime dateFrom, final LocalDateTime dateTo, final UserDTO userDTO, final CarDTO carDTO, final ParkingDTO parkingDTOFrom, final ParkingDTO parkingDTOTo, final Boolean isActive, final String comment, final String response, final String faultMessage) {
         this.dateFrom = dateFrom;
         this.dateTo = dateTo;
         this.userDTO = userDTO;
@@ -50,6 +52,7 @@ public class RentDTO {
         this.isActive = isActive;
         this.comment = comment;
         this.response = response;
+        this.faultMessage = faultMessage;
     }
 
     public RentDTO(final Rent rent, final UserDTO userDTO, final CarDTO carDTO, final ParkingDTO parkingDTOFrom, final ParkingDTO parkingDTOTo) {
@@ -62,5 +65,6 @@ public class RentDTO {
         this.isActive = rent.getIsActive();
         this.comment = rent.getComment();
         this.response = rent.getResponse();
+        this.faultMessage = rent.getFaultMessage();
     }
 }

@@ -4,10 +4,8 @@ import com.euvic.carrental.model.Car;
 import com.euvic.carrental.model.Model;
 import com.euvic.carrental.model.Parking;
 import com.euvic.carrental.responses.CarDTO;
-import com.euvic.carrental.services.CarService;
-import com.euvic.carrental.services.FileService;
-import com.euvic.carrental.services.ModelService;
-import com.euvic.carrental.services.ParkingService;
+import com.euvic.carrental.services.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -16,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 
 @RestController
@@ -25,12 +24,19 @@ public class CarController {
     private final ParkingService parkingService;
     private final ModelService modelService;
     private final FileService fileService;
+    private final FaultService faultService;
+    private final RentHistoryService rentHistoryService;
+    private final RentService rentService;
 
-    public CarController(final CarService carService, final ParkingService parkingService, final ModelService modelService, final FileService fileService) {
+    @Autowired
+    public CarController(final CarService carService, final ParkingService parkingService, final ModelService modelService, final FileService fileService, final FaultService faultService, final RentHistoryService rentHistoryService, final RentService rentService) {
         this.carService = carService;
         this.parkingService = parkingService;
         this.modelService = modelService;
         this.fileService = fileService;
+        this.faultService = faultService;
+        this.rentHistoryService = rentHistoryService;
+        this.rentService = rentService;
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/a/hello")
@@ -92,12 +98,20 @@ public class CarController {
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/a/car/{licensePlate}")
-    public ResponseEntity<?> setCarAsDeletedInDB(@PathVariable final String licensePlate) {
+    public ResponseEntity<?> setCarAndItRelationsAsDeletedInDB(@PathVariable final String licensePlate) {
         if (!carService.checkIfOnCompanyCarWithLicensePlateExists(licensePlate)) {
             return new ResponseEntity<>("Car with given license plate doesn't exist.", HttpStatus.CONFLICT);
         }
+        if (rentService.getRentsByLicensePlate(licensePlate) == null) {
+            final List<Long> deletedCarFaultIds = faultService.setAllFaultsAsInactiveForCertainCar(licensePlate);
+            final Long deletedCarId = carService.setCarIsNotInCompany(licensePlate);
+            rentHistoryService.setToInactiveByLicensePlate(licensePlate);
 
-        return ResponseEntity.ok(carService.setCarIsNotInCompany(licensePlate));
+            return ResponseEntity.ok("Car with id: " + deletedCarId + " is deleted, same its:\n" + "faults with ids: " + deletedCarFaultIds + ".");
+        } else {
+            return new ResponseEntity<>("Car with active rents cannot be deleted", HttpStatus.CONFLICT);
+        }
+
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/a/car/upload-car-image/{licensePlate}", produces = {MediaType.IMAGE_PNG_VALUE, "application/json"})

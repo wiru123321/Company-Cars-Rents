@@ -38,4 +38,6 @@ public interface RentServiceInterface {
     boolean checkMyRentsBeforeAddNewRent(RentDTO rentDTO);
 
     List<RentPendingDTO> getAllActiveRents();
+
+    List<Rent> getRentsByLicensePlate(String licensePlate);
 }

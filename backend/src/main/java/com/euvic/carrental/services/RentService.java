@@ -36,6 +36,8 @@ public class RentService implements RentServiceInterface {
         return rentRepository.save(rent).getId();
     }
 
+    //TODO Dodaj metodę, która usunie aktywne renty z pojazdu doda je do historii i ustawi na nieaktywne
+
     @Override
     public Rent getEntityById(final Long id) {
         final Rent rent;
@@ -51,6 +53,12 @@ public class RentService implements RentServiceInterface {
     @Override
     public Rent getEntityByCarAndDateFrom(final Car car, final LocalDateTime dateFrom) {
         return rentRepository.findByCarAndDateFrom(car, dateFrom);
+    }
+
+    @Override
+    public List<Rent> getRentsByLicensePlate(final String licensePlate) {
+        final Car car = carService.getOnCompanyEntityByLicensePlate(licensePlate);
+        return rentRepository.findAllByCar(car);
     }
 
     @Override
@@ -91,7 +99,7 @@ public class RentService implements RentServiceInterface {
 
         final Rent rent;
         rent = new Rent(id, userService.getEntityByLogin(rentDTO.getUserDTO().getLogin()), carService.getOnCompanyEntityByLicensePlate(rentDTO.getCarDTO().getLicensePlate())
-                , rentDTO.getDateFrom(), rentDTO.getDateTo(), parkingService.getEntityById(parkingFromId), parkingService.getEntityById(parkingToId), rentDTO.getIsActive(), rentDTO.getComment(), rentDTO.getResponse());
+                , rentDTO.getDateFrom(), rentDTO.getDateTo(), parkingService.getEntityById(parkingFromId), parkingService.getEntityById(parkingToId), rentDTO.getIsActive(), rentDTO.getComment(), rentDTO.getResponse(), rentDTO.getFaultMessage());
 
         return rent;
     }
@@ -191,9 +199,7 @@ public class RentService implements RentServiceInterface {
                 rentPendingDTO.setDateTo(rent.getDateTo());
                 rentPendingDTO.setUserRentInfo(new UserRentInfo(rent.getUser().getName(), rent.getUser().getSurname(), rent.getUser().getPhoneNumber(), rent.getUser().getEmail()));
                 rentPendingDTO.setResponse(rent.getResponse());
-
                 rentPendingDTOArrayList.add(rentPendingDTO);
-
             }
         }
         return rentPendingDTOArrayList;
