@@ -13,8 +13,6 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   selectReservation,
   selectIndex,
-  parkingNumberChange,
-  parkingPlaceNumberChange,
   acceptForm,
   backTheCarBack,
 } from "../../../features/your-cars/yourCarsSlice";
@@ -37,6 +35,9 @@ const EndingReservationForm = () => {
   );
   const [comment, setComment] = useState(
     reservation[selectCarIndex].parkingTo.comment
+  );
+  const [bugDescribe, setBugDescribe] = useState(
+    reservation[selectCarIndex].bugDescribe
   );
   return (
     <Container
@@ -78,11 +79,14 @@ const EndingReservationForm = () => {
           />
         </Grid>
         <Grid container justify="center" xs={12}>
-          <BugReport />
+          <BugReport
+            bugDescribe={bugDescribe}
+            bugDescribeHandler={setBugDescribe}
+          />
         </Grid>
         <Grid xs={12} container justify="center" style={{ marginTop: "1vh" }}>
           <Button
-            variant="outlined"
+            variant="contained"
             color="primary"
             onClick={() => {
               dispatch(acceptForm());
@@ -96,10 +100,20 @@ const EndingReservationForm = () => {
               dispatch(
                 backTheCarBack(reservation[selectCarIndex].id, newReservation)
               );
-              console.log({ newReservation });
             }}
           >
             Give Car Back
+          </Button>
+        </Grid>
+        <Grid xs={12} container justify="center" style={{ marginTop: "1vh" }}>
+          <Button
+            variant="outlined"
+            color="primary"
+            onClick={() => {
+              dispatch(acceptForm());
+            }}
+          >
+            Back to Car reservations.
           </Button>
         </Grid>
       </Grid>
