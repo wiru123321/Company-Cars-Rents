@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Container, List } from "@material-ui/core";
+import { Container, List, Grid } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
 import {
   selectAll,
@@ -9,6 +9,7 @@ import {
   setMarkFilters,
   fetchActiveCars,
   fetchInactiveCars,
+  updateCar,
 } from "../../../../features/car-management/carManagerSlice";
 import CarsUpdateAlert from "../updateCars/CarsUpdateAlert";
 import SearchBar from "../carsSearchBar/CarsSearchBar";
@@ -53,6 +54,14 @@ const RemoveCar = () => {
     dispatch(fetchActiveCars());
   };
 
+  const toggleCarSuspend = (licensePlate, car, currentState) => {
+    let newCar = {
+      ...car,
+      isActive: !currentState,
+    };
+    dispatch(updateCar(licensePlate, newCar));
+  };
+
   const reset = () => {
     dispatch(setLicenseFilters(""));
     dispatch(setMarkFilters(""));
@@ -65,20 +74,24 @@ const RemoveCar = () => {
         height: "100%",
       }}
     >
-      <>
-        <SearchBar
-          searchLicesnsePlate={filterLicensePlate}
-          searchMark={filterMark}
-          handleLicensePlateChange={handleLicensePlateChange}
-          handleMarkChange={handleMarkChange}
-          updateFilters={updateFilters}
-          getInactiveCars={getInactiveCars}
-          getActiveCars={getActiveCars}
-          reset={reset}
-        />
-      </>
+      <SearchBar
+        searchLicesnsePlate={filterLicensePlate}
+        searchMark={filterMark}
+        handleLicensePlateChange={handleLicensePlateChange}
+        handleMarkChange={handleMarkChange}
+        updateFilters={updateFilters}
+        getInactiveCars={getInactiveCars}
+        getActiveCars={getActiveCars}
+        reset={reset}
+      />
+
       <CarsUpdateAlert />
-      <List>
+      <Grid
+        container
+        direction="column"
+        justify="space-evenly"
+        alignItems="center"
+      >
         {filteredCars.length > 0 ? (
           filteredCars.map((car, index) => (
             <Car
@@ -86,12 +99,13 @@ const RemoveCar = () => {
               car={car}
               index={index}
               onDelete={handleCarDelete}
+              toggleSuspend={toggleCarSuspend}
             />
           ))
         ) : (
           <NotFoundMessage>Cars not found.</NotFoundMessage>
         )}
-      </List>
+      </Grid>
     </Container>
   );
 };
