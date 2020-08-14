@@ -150,20 +150,16 @@ export const fetchCarImage = (licensePlate) => async (dispatch) => {
 
 export const backTheCarBack = (id, parkingDTO) => async (dispatch) => {
   try {
-    const response = await axios.delete(
-      API_URL + "/e/rent/end_rent/" + id,
-      parkingDTO,
-      {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      }
-    );
+    const response = await axios({
+      method: "delete",
+      url: API_URL + `/e/rent/end_rent/${id}`,
+      data: parkingDTO,
+      headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+    });
   } catch (error) {
     console.log(error);
   }
 };
-
 //TODO backend poprawic ma dostęp do tej metody.
 export const updateCar = (licensePlate, car) => async (dispatch) => {
   try {
