@@ -74,6 +74,23 @@ export const fetchCars = (filterActive) => async (dispatch) => {
   } catch (error) {}
 };
 
+export const fetchSingleCar = (licensePlate)=> async (dispatch) => {
+  try {
+    let link = filterActive ? "/ae/active-cars" : "/a/inactive-cars";
+    const response = await axios.get(API_URL + link, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
+    console.log(response.data);
+    dispatch(setCars(response.data));
+    dispatch(setFilteredCars(response.data));
+  } catch (error) {}
+};
+
+
+}
+
 export const updateCar = (licensePlate, car, fetchActive) => async (
   dispatch
 ) => {
