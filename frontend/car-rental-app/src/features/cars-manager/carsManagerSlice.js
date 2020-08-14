@@ -76,6 +76,27 @@ export const fetchCars = (filterActive) => async (dispatch) => {
   }
 };
 
+export const updateCar = (licensePlate, car) => async (dispatch) => {
+  try {
+    console.log(car);
+    const updateResponse = await axios.put(
+      API_URL + `/a/car/${licensePlate}`,
+      car,
+      {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      }
+    );
+
+    dispatch(fetchCars());
+    //dispatch(setUpdateResult(true));
+  } catch (error) {
+    console.log(error);
+    //dispatch(setUpdateResult(false));
+  }
+};
+
 export const filterCars = (cars, filterLicensePlate, filterMarks) => (
   dispatch
 ) => {

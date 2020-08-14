@@ -7,6 +7,9 @@ import {
   setCurrentCar,
   enterManageCarMode,
 } from "../../../features/cars-manager/carsManagerSlice";
+import Edit from "./edit/Edit";
+import IssuesList from "./issues/IssuesList";
+import AddIssues from "./issues/addIssues/AddIssues";
 import KeyboardBackspaceIcon from "@material-ui/icons/KeyboardBackspace";
 import NotInterestedIcon from "@material-ui/icons/NotInterested";
 import ClearIcon from "@material-ui/icons/Clear";
@@ -35,11 +38,11 @@ const CarManager = () => {
 
   const getView = () => {
     if (viewId === 0) {
-      return <div>edit</div>;
+      return <Edit />;
     } else if (viewId === 1) {
-      return <div>issues</div>;
+      return <AddIssues />;
     } else if (viewId === 2) {
-      return <div>add issues</div>;
+      return <IssuesList />;
     }
   };
 
@@ -65,7 +68,7 @@ const CarManager = () => {
           Edit
         </Button>
         <Button onClick={() => toggleView(1)} startIcon={<ReportProblemIcon />}>
-          Add issue
+          Report issue
         </Button>
         <Button onClick={() => toggleView(2)} startIcon={<ErrorIcon />}>
           Issues

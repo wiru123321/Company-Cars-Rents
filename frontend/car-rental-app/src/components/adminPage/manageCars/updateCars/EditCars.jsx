@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { ValidatorForm } from "react-material-ui-form-validator";
 import { useDispatch } from "react-redux";
-import UpdateCarsForm from "./UpdateCarsForm";
 import { updateCar } from "../../../../features/car-management/carManagerSlice";
+import UpdateCarsForm from "./UpdateCarsForm";
 
 const EditCars = ({ car }) => {
   const dispatch = useDispatch();
