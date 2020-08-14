@@ -61,6 +61,7 @@ public class RentController {
                 throw new NullPointerException();
             //TODO dodaj walidację czy samochód jest dostępny w terminie tego renta
             rent.setCar(car);
+            rentService.addEntityToDB(rent);
             responseCode = 200;
             message = "Ok";
         } catch (final NullPointerException e) {
