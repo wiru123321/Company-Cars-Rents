@@ -6,9 +6,11 @@ import {
   setViewId,
   setCurrentCar,
   enterManageCarMode,
+  setCarActivity,
+  deleteCar,
 } from "../../../features/cars-manager/carsManagerSlice";
 import Edit from "./edit/Edit";
-import IssuesList from "./issues/IssuesList";
+import IssuesList from "./issues/removeIssues/IssuesList";
 import AddIssues from "./issues/addIssues/AddIssues";
 import KeyboardBackspaceIcon from "@material-ui/icons/KeyboardBackspace";
 import NotInterestedIcon from "@material-ui/icons/NotInterested";
@@ -30,10 +32,30 @@ const useStyles = makeStyles({
 const CarManager = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { currentCar, viewId } = useSelector(selectAll);
+  const { currentCar, viewId, filterActive } = useSelector(selectAll);
 
   const toggleView = (id) => {
     dispatch(setViewId(id));
+  };
+
+  const handleReturn = () => {
+    dispatch(setCurrentCar(""));
+    dispatch(enterManageCarMode(false));
+    toggleView(0);
+  };
+
+  const toggleSuspend = () => {
+    dispatch(
+      setCarActivity(
+        currentCar.licensePlate,
+        !currentCar.isActive,
+        filterActive
+      )
+    );
+  };
+
+  const handleCarDelete = () => {
+    dispatch(deleteCar(currentCar.licensePlate, filterActive));
   };
 
   const getView = () => {
@@ -54,16 +76,16 @@ const CarManager = () => {
         justify="space-evenly"
         alignItems="center"
       >
-        <Button
-          onClick={() => {
-            dispatch(setCurrentCar(""));
-            dispatch(enterManageCarMode(false));
-          }}
-          startIcon={<KeyboardBackspaceIcon />}
-        >
+        <Button onClick={handleReturn} startIcon={<KeyboardBackspaceIcon />}>
           Go Back
         </Button>
-        <Button startIcon={<NotInterestedIcon />}>Suspend</Button>
+        <Button
+          onClick={toggleSuspend}
+          color={currentCar.isActive ? "secondary" : "primary"}
+          startIcon={<NotInterestedIcon />}
+        >
+          Suspend
+        </Button>
         <Button onClick={() => toggleView(0)} startIcon={<EditIcon />}>
           Edit
         </Button>
@@ -73,7 +95,11 @@ const CarManager = () => {
         <Button onClick={() => toggleView(2)} startIcon={<ErrorIcon />}>
           Issues
         </Button>
-        <Button color="secondary" startIcon={<ClearIcon />}>
+        <Button
+          onClick={handleCarDelete}
+          color="secondary"
+          startIcon={<ClearIcon />}
+        >
           Remove
         </Button>
       </Grid>

@@ -11,10 +11,10 @@ import {
 
 const Edit = () => {
   const dispatch = useDispatch();
-  const { currentCar } = useSelector(selectAll);
+  const { currentCar, filterActive } = useSelector(selectAll);
   const [mileage, setMileage] = useState(currentCar.mileage);
   const [lastInspection, setLastInspection] = useState(
-    currentCar.lastInspection
+    currentCar.lastInspection.slice(0, 10)
   );
 
   const handleMileageChange = (event) => {
@@ -30,10 +30,9 @@ const Edit = () => {
     let newCarDTO = {
       ...currentCar,
       mileage: mileage,
-      lastInspection: lastInspection,
+      lastInspection: lastInspection + "T00:00:00",
     };
-
-    dispatch(updateCar(currentCar.licensePlate, newCarDTO));
+    dispatch(updateCar(currentCar.licensePlate, newCarDTO, filterActive));
   };
   const handlePhotoUpdate = () => {};
 
