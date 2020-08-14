@@ -44,6 +44,12 @@ public class RentController {
         return ResponseEntity.ok(rentService.getAllPendingRents());
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/a/rent/car_history/{licensePlate}")
+    public ResponseEntity<?> checkCarHistory(@PathVariable final String licensePlate) {
+        final Car car = carService.getOnCompanyEntityByLicensePlate(licensePlate);
+        return ResponseEntity.ok(rentHistoryService.getAllDTOsByCar(car));
+    }
+
     @RequestMapping(method = RequestMethod.PUT, value = "/a/rent/permit/{id}")
     public ResponseEntity<?> permitRent(@PathVariable final Long id, @RequestBody final RentPermitRejectDTO rentPermitRejectDTO) {
         final Rent rent = rentService.getEntityById(id);
@@ -99,8 +105,7 @@ public class RentController {
         }
         return ResponseEntity.status(responseCode).body(message);
     }
-    
-    //TODO check car history
+
     //TODO method to modify rent
 
     //EMPLOYEE
