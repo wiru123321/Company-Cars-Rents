@@ -49,7 +49,28 @@ public class RentController {
         return ResponseEntity.ok(rentHistoryService.getAllDTOsByCar(carService.getOnCompanyEntityByLicensePlate(licensePlate)));
     }
 
-    //TODO add method to change car in rent
+    @RequestMapping(method = RequestMethod.PUT, value = "/a/rent/change_car_in_rent/{id}")
+    public ResponseEntity<?> editRent(@PathVariable final Long id, @RequestBody final String licensePlate) {
+
+        int responseCode;
+        String message;
+        try {
+            final Rent rent = rentService.getEntityById(id);
+            final Car car = carService.getOnCompanyEntityByLicensePlate(licensePlate);
+            if (car == null)
+                throw new NullPointerException();
+            //TODO dodaj walidację czy samochód jest dostępny w terminie tego renta
+            rent.setCar(car);
+            responseCode = 200;
+            message = "Ok";
+        } catch (final NullPointerException e) {
+            responseCode = 400;
+            message = "Rent or car doesn't exist";
+        }
+
+        return ResponseEntity.status(responseCode).body(message);
+    }
+
 
     @RequestMapping(method = RequestMethod.PUT, value = "/a/rent/permit/{id}")
     public ResponseEntity<?> permitRent(@PathVariable final Long id, @RequestBody final RentPermitRejectDTO rentPermitRejectDTO) {
@@ -184,7 +205,6 @@ public class RentController {
         return ResponseEntity.status(responseCode).body(message);
     }
 
-    //TODO add change next rent parkingFrom
     @RequestMapping(method = RequestMethod.DELETE, value = "/e/rent/end_rent/{id}")
     public ResponseEntity<?> endRent(@PathVariable final Long id, @RequestBody final EndRentDTO endRentDTO) {
         final Rent rent = rentService.getEntityById(id);
@@ -220,6 +240,7 @@ public class RentController {
                     if (endRentDTO.getParkingDTO() != null)
                         parkingService.deleteParkingById(parkingToId);
 
+                    //TODO Dodaj funkcję, która zmieni miejsce odbioru pojazdu na ten na który jest ustawiony
                     responseCode = 200;
                     message = "ok";
                 } else {

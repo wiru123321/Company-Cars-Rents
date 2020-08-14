@@ -191,9 +191,7 @@ public class RentService implements RentServiceInterface {
                 rentPendingDTO.setDateTo(rent.getDateTo());
                 rentPendingDTO.setUserRentInfo(new UserRentInfo(rent.getUser().getName(), rent.getUser().getSurname(), rent.getUser().getPhoneNumber(), rent.getUser().getEmail()));
                 rentPendingDTO.setResponse(rent.getResponse());
-
                 rentPendingDTOArrayList.add(rentPendingDTO);
-
             }
         }
         return rentPendingDTOArrayList;
