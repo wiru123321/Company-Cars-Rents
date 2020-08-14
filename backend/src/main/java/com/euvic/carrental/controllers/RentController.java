@@ -49,7 +49,7 @@ public class RentController {
         final Rent rent = rentService.getEntityById(id);
         int responseCode;
         String message;
-        final Car car = carService.getEntityByLicensePlate(rentPermitRejectDTO.getLicensePlate());
+        final Car car = carService.getOnCompanyEntityByLicensePlate(rentPermitRejectDTO.getLicensePlate());
         if (car != null) {
             try {
                 rent.setIsActive(true);
@@ -78,7 +78,7 @@ public class RentController {
                 final ParkingHistory parkingFrom = new ParkingHistory(null, rent.getParkingFrom());
                 final ParkingHistory parkingTo = new ParkingHistory(null, rent.getParkingTo());
                 final RentHistory rentHistory = new RentHistory(null, rent.getUser(), rent.getCar(), rent.getDateFrom(), rent.getDateTo(), parkingFrom
-                        , parkingTo, false, false, rent.getComment(), rentPermitRejectDTO.getResponse());
+                        , parkingTo, true, false, rent.getComment(), rentPermitRejectDTO.getResponse());
                 parkingHistoryService.addEntityToDB(parkingFrom);
                 parkingHistoryService.addEntityToDB(parkingTo);
                 rentHistoryService.addEntityToDB(rentHistory);
@@ -99,7 +99,8 @@ public class RentController {
         }
         return ResponseEntity.status(responseCode).body(message);
     }
-
+    
+    //TODO check car history
     //TODO method to modify rent
 
     //EMPLOYEE
@@ -126,7 +127,7 @@ public class RentController {
     @RequestMapping(method = RequestMethod.POST, value = "/e/rent/{licensePlate}")
     public ResponseEntity<?> addRent(@PathVariable final String licensePlate, @RequestBody final RentDTO rentDTO) {
         final User user = userService.getEntityByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
-        final Car car = carService.getEntityByLicensePlate(licensePlate);
+        final Car car = carService.getOnCompanyEntityByLicensePlate(licensePlate);
 
         int responseCode;
         final Long id;
@@ -160,7 +161,11 @@ public class RentController {
 
         try {
             if (rent.getUser().equals(user)) {
+                final Long parkingFromId = rent.getParkingFrom().getId();
+                final Long parkingToId = rent.getParkingTo().getId();
                 rentService.deleteRent(rent);
+                parkingService.deleteParkingById(parkingFromId);
+                parkingService.deleteParkingById(parkingToId);
                 responseCode = 200;
                 message = "Ok";
             } else {
@@ -175,7 +180,7 @@ public class RentController {
         return ResponseEntity.status(responseCode).body(message);
     }
 
-    //TODO parking delete
+    //TODO add change next rent parkingFrom
     @RequestMapping(method = RequestMethod.DELETE, value = "/e/rent/end_rent/{id}")
     public ResponseEntity<?> endRent(@PathVariable final Long id, @RequestBody final ParkingDTO parkingDTO) {
         final Rent rent = rentService.getEntityById(id);
@@ -189,26 +194,37 @@ public class RentController {
                     final ParkingHistory parkingFrom = new ParkingHistory(null, rent.getParkingFrom());
                     final ParkingHistory parkingTo;
 
-                    parkingTo = new ParkingHistory(null, rent.getParkingTo());
-                    rent.getCar().setParking(rent.getParkingTo());
-
+                    if (parkingDTO == null) {
+                        parkingTo = new ParkingHistory(null, rent.getParkingTo());
+                        rent.getCar().setParking(rent.getParkingTo());
+                    } else {
+                        parkingTo = new ParkingHistory(null, parkingDTO);
+                        final Parking carParking = new Parking(null, parkingDTO);
+                        parkingService.addEntityToDB(carParking);
+                        rent.getCar().setParking(carParking);
+                    }
 
                     final RentHistory rentHistory = new RentHistory(null, rent.getUser(), rent.getCar(), rent.getDateFrom(), rent.getDateTo(), parkingFrom
-                            , parkingTo, false, false, rent.getComment(), rent.getResponse());
+                            , parkingTo, true, true, rent.getComment(), rent.getResponse());
                     parkingHistoryService.addEntityToDB(parkingFrom);
                     parkingHistoryService.addEntityToDB(parkingTo);
                     rentHistoryService.addEntityToDB(rentHistory);
+                    final Long parkingFromId = rent.getParkingFrom().getId();
+                    final Long parkingToId = rent.getParkingTo().getId();
                     rentService.deleteRent(rent);
+                    parkingService.deleteParkingById(parkingFromId);
+                    if (parkingDTO != null)
+                        parkingService.deleteParkingById(parkingToId);
 
                     responseCode = 200;
                     message = "ok";
                 } else {
-                    responseCode = 400;
+                    responseCode = 403;
                     message = "Rent is not belong to this user";
                 }
 
             } catch (final NullPointerException e) {
-                responseCode = 400;
+                responseCode = 401;
                 message = "Rent doesn't exist";
             }
         } else {

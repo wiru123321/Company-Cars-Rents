@@ -73,7 +73,7 @@ public class RentService implements RentServiceInterface {
 
     @Override
     public RentDTO getDTOByCarDTOAndDateFrom(final CarDTO carDTO, final LocalDateTime dateFrom) {
-        final Car car = carService.getEntityByLicensePlate(carDTO.getLicensePlate());
+        final Car car = carService.getOnCompanyEntityByLicensePlate(carDTO.getLicensePlate());
         final Rent rent = rentRepository.findByCarAndDateFrom(car, dateFrom);
         final RentDTO rentDTO;
         if (rent.getParkingTo() != null) {
@@ -90,7 +90,7 @@ public class RentService implements RentServiceInterface {
     public Rent mapRestModel(final Long id, final RentDTO rentDTO, final Long parkingFromId, final Long parkingToId) {
 
         final Rent rent;
-        rent = new Rent(id, userService.getEntityByLogin(rentDTO.getUserDTO().getLogin()), carService.getEntityByLicensePlate(rentDTO.getCarDTO().getLicensePlate())
+        rent = new Rent(id, userService.getEntityByLogin(rentDTO.getUserDTO().getLogin()), carService.getOnCompanyEntityByLicensePlate(rentDTO.getCarDTO().getLicensePlate())
                 , rentDTO.getDateFrom(), rentDTO.getDateTo(), parkingService.getEntityById(parkingFromId), parkingService.getEntityById(parkingToId), rentDTO.getIsActive(), rentDTO.getComment(), rentDTO.getResponse());
 
         return rent;

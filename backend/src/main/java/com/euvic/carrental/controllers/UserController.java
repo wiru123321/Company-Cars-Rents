@@ -46,11 +46,17 @@ public class UserController {
 
     @RequestMapping(method = RequestMethod.PUT, value = "/user/{login}")
     public ResponseEntity<?> updateDataBaseUser(@PathVariable final String login, @RequestBody final UserUpdate userUpdate) {
+        if (!userService.checkIfUserWithLoginExists(login)) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("There is no user with passed login.");
+        }
         return ResponseEntity.ok(userService.updateUserInDB(login, userUpdate));
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/user/{login}")
     public ResponseEntity<?> setUserAsDeletedInDB(@PathVariable final String login) {
+        if (!userService.checkIfUserWithLoginExists(login)) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("There is no user with passed login.");
+        }
         return ResponseEntity.ok(userService.setUserIsNotActive(login));
     }
 }

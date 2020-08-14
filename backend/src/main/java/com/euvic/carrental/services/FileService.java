@@ -60,7 +60,7 @@ public class FileService {
     }
 
     public byte[] downloadCarImage(String licensePlate) throws NullPointerException, IOException {
-        Car car = carService.getEntityByLicensePlate(licensePlate);
+        Car car = carService.getOnCompanyEntityByLicensePlate(licensePlate);
         String photoPath = car.getImagePath();
         File filePath;
         try{

@@ -44,13 +44,13 @@ public class CarService implements CarServiceInterface {
     }
 
     @Override
-    public Car getEntityByLicensePlate(final String licensePlate) {
-        return carRepository.findByLicensePlate(licensePlate);
+    public Car getOnCompanyEntityByLicensePlate(final String licensePlate) {
+        return carRepository.findByLicensePlateAndIsOnCompany(licensePlate, true);
     }
 
     @Override
     public CarDTO getDTOByLicensePlate(final String licensePlate) {
-        final Car car = carRepository.findByLicensePlate(licensePlate);
+        final Car car = carRepository.findByLicensePlateAndIsOnCompany(licensePlate, true);
         final GearboxType gearboxType = car.getGearboxType();
         final FuelType fuelType = car.getFuelType();
         final Model model = car.getModel();
@@ -77,7 +77,7 @@ public class CarService implements CarServiceInterface {
 
     @Override
     public Long updateCarInDB(final String oldCarLicensePlate, final CarDTO newCarDTO) {
-        final Car oldCar = this.getEntityByLicensePlate(oldCarLicensePlate);
+        final Car oldCar = this.getOnCompanyEntityByLicensePlate(oldCarLicensePlate);
 
         oldCar.setLicensePlate(newCarDTO.getLicensePlate());
         oldCar.setEnginePower(newCarDTO.getEnginePower());
@@ -99,7 +99,7 @@ public class CarService implements CarServiceInterface {
     }
 
     public Long setCarIsNotInCompany(final String licensePlate) {
-        final Car car = this.getEntityByLicensePlate(licensePlate);
+        final Car car = this.getOnCompanyEntityByLicensePlate(licensePlate);
         car.setIsOnCompany(false);
         car.setIsActive(false);
         return carRepository.save(car).getId();
@@ -144,19 +144,19 @@ public class CarService implements CarServiceInterface {
 
     @Override
     public Long addExistingImageToExistingCar(String carImagePath, String licensePlate) {
-        Car car = getEntityByLicensePlate(licensePlate);
+        Car car = getOnCompanyEntityByLicensePlate(licensePlate);
         car.setImagePath(carImagePath);
         return addEntityToDB(car);
     }
 
     @Override
-    public Boolean checkIfCarWithLicensePlateExists(final String licensePlate) {
-        return carRepository.existsByLicensePlate(licensePlate);
+    public Boolean checkIfOnCompanyCarWithLicensePlateExists(final String licensePlate) {
+        return carRepository.existsByLicensePlateAndIsOnCompany(licensePlate, true);
     }
 
     @Override
     public Long setCarActivity(Boolean isActive, String licensePlate) {
-        Car car = getEntityByLicensePlate(licensePlate);
+        Car car = getOnCompanyEntityByLicensePlate(licensePlate);
         car.setIsActive(isActive);
         return addEntityToDB(car);
     }

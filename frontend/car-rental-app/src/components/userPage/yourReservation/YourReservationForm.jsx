@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 
 const YouReservationForm = ({ reservations, isActive }) => {
   const dispatch = useDispatch();
+
   return (
     <div>
       <Box display="flex" justifyContent="center" alignItems="center">
@@ -24,6 +25,12 @@ const YouReservationForm = ({ reservations, isActive }) => {
                   }
                 />
                 <CarInfo car={reservation.carDTO} />
+                <Box>
+                  <label>Rent date from: {reservation.dateFrom}</label>
+                </Box>
+                <Box>
+                  <label>Rent date to: {reservation.dateTo}</label>
+                </Box>
               </Box>
               {isActive ? (
                 <Button
@@ -36,9 +43,8 @@ const YouReservationForm = ({ reservations, isActive }) => {
                     //   isActive: false,
                     // };
                     // dispatch(updateCar(reservation.CarDTO.licensePlate, newCar));
-                    let json = {};
                     dispatch(chooseCar(index));
-                    dispatch(backTheCarBack(reservation.id, json));
+                    let json = {};
                   }}
                 >
                   Give the car back

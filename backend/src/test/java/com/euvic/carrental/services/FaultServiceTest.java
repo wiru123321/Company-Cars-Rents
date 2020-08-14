@@ -157,7 +157,7 @@ public class FaultServiceTest {
 
     @Test
     void whenFaultDTOGiven_thenReturnFaultEntity() {
-        final Car car = carService.getEntityByLicensePlate("SBE33212");
+        final Car car = carService.getOnCompanyEntityByLicensePlate("SBE33212");
         final CarDTO carDTO = carService.getDTOByLicensePlate("SBE33212");
 
         final Fault fault = new Fault(null, car, "nothing", false, true);
@@ -176,7 +176,7 @@ public class FaultServiceTest {
 
     @Test
     void shouldReturnDBFaultEntity() {
-        final Car car = carService.getEntityByLicensePlate("SBE33212");
+        final Car car = carService.getOnCompanyEntityByLicensePlate("SBE33212");
 
         final Fault fault = new Fault(null, car, "nothing", false, true);
 
@@ -205,7 +205,7 @@ public class FaultServiceTest {
 
     @Test
     void shouldReturnDBFaultDTO() {
-        final Car car = carService.getEntityByLicensePlate("SBE33212");
+        final Car car = carService.getOnCompanyEntityByLicensePlate("SBE33212");
 
         final Fault fault = new Fault(null, car, "nothing", false, true);
         assertEquals(0, faultRepository.count());
@@ -229,7 +229,7 @@ public class FaultServiceTest {
 
     @Test
     void shouldReturnAllCarDBFaultsDTO_And_AllDBFaultsDTO_And_AllActiveCarFaultsDTO_And_AllActiveFaultDTOsByCarLicenseplate() {
-        final Car car = carService.getEntityByLicensePlate("SBE33212");
+        final Car car = carService.getOnCompanyEntityByLicensePlate("SBE33212");
 
         final Fault fault1 = new Fault(null, car, "sd", false, false);
         final Fault fault2 = new Fault(null, car, "dd", false, true);
@@ -256,7 +256,7 @@ public class FaultServiceTest {
 
     @Test
     void whenFaultEntityGiven_shouldAddFaultEntityToDB() {
-        final Car car = carService.getEntityByLicensePlate("SBE33212");
+        final Car car = carService.getOnCompanyEntityByLicensePlate("SBE33212");
 
         final Fault fault = new Fault(null, car, "nothing", false, true);
 
@@ -267,7 +267,7 @@ public class FaultServiceTest {
 
     @Test
     void shouldcheckIfCarFaultWithDescriptionExists_And_setItNotActive(){
-        final Car car = carService.getEntityByLicensePlate("SBE33212");
+        final Car car = carService.getOnCompanyEntityByLicensePlate("SBE33212");
         final Fault fault = new Fault(null, car, "nothing", false, true);
         assertEquals(0, faultRepository.count());
         faultService.addEntityToDB(fault);

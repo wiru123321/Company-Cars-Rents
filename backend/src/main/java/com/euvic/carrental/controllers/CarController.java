@@ -55,7 +55,7 @@ public class CarController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/a/car")
     public ResponseEntity addCarToDatabase(@RequestBody final CarDTO carDTO) {
-        if(carService.checkIfCarWithLicensePlateExists(carDTO.getLicensePlate())){
+        if(carService.checkIfOnCompanyCarWithLicensePlateExists(carDTO.getLicensePlate())){
             return new ResponseEntity<>("Car with given license plate already exist.", HttpStatus.CONFLICT);
         }
 
@@ -70,16 +70,16 @@ public class CarController {
 
     @RequestMapping(method = RequestMethod.PUT, value = "/a/car/{licensePlate}")
     public ResponseEntity updateDataBaseCar(@PathVariable final String licensePlate, @RequestBody final CarDTO newCarDTO) {
-        if(!carService.checkIfCarWithLicensePlateExists(newCarDTO.getLicensePlate())){
+        if(!carService.checkIfOnCompanyCarWithLicensePlateExists(newCarDTO.getLicensePlate())){
             return new ResponseEntity<>("Car with given license plate doesn't exist.", HttpStatus.CONFLICT);
         }
 
         return ResponseEntity.ok(carService.updateCarInDB(licensePlate, newCarDTO));
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "/a/car/{licensePlate}")
+    @RequestMapping(method = RequestMethod.DELETE, value = "/a/car/activity/{licensePlate}")
     public ResponseEntity setCarActivityInDB(@RequestParam("isActive") final Boolean isActive, @PathVariable final String licensePlate) {
-        if(!carService.checkIfCarWithLicensePlateExists(licensePlate)){
+        if(!carService.checkIfOnCompanyCarWithLicensePlateExists(licensePlate)){
             return new ResponseEntity<>("Car with given license plate doesn't exist.", HttpStatus.CONFLICT);
         }
 
@@ -88,7 +88,7 @@ public class CarController {
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/a/car/{licensePlate}")
     public ResponseEntity setCarAsDeletedInDB(@PathVariable final String licensePlate) {
-        if(!carService.checkIfCarWithLicensePlateExists(licensePlate)){
+        if(!carService.checkIfOnCompanyCarWithLicensePlateExists(licensePlate)){
         return new ResponseEntity<>("Car with given license plate doesn't exist.", HttpStatus.CONFLICT);
         }
 
@@ -98,7 +98,7 @@ public class CarController {
     @RequestMapping(method = RequestMethod.POST, value = "/a/car/upload-car-image/{licensePlate}", produces = {MediaType.IMAGE_PNG_VALUE, "application/json"})
     public ResponseEntity<?> uploadCarImageForExistingCar(@RequestParam("imageFile") final MultipartFile file, @PathVariable final String licensePlate){
 
-        if(!carService.checkIfCarWithLicensePlateExists(licensePlate)){
+        if(!carService.checkIfOnCompanyCarWithLicensePlateExists(licensePlate)){
             return new ResponseEntity<>("Car with given license plate doesn't exist.", HttpStatus.CONFLICT);
         }
 
