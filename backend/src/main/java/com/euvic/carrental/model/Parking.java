@@ -40,7 +40,7 @@ public class Parking {
         this.streetName = parkingDTO.getStreetName();
         this.number = parkingDTO.getNumber();
         this.comment = parkingDTO.getComment();
-        this.isActive = parkingDTO.getIsActive();
+        this.isActive = true;
     }
 
     public Parking(final Long id, final String town, final String postalCode, final String street, final String number, final String comment, final Boolean isActive) {

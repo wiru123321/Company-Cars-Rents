@@ -1,9 +1,7 @@
 package com.euvic.carrental.services;
 
-import com.euvic.carrental.model.Model;
 import com.euvic.carrental.model.Parking;
 import com.euvic.carrental.repositories.ParkingRepository;
-import com.euvic.carrental.responses.ModelDTO;
 import com.euvic.carrental.responses.ParkingDTO;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -79,7 +77,7 @@ public class ParkingServiceTest {
             assertEquals(parking.getPostalCode(), parkingDTO1.getPostalCode());
             assertEquals(parking.getNumber(), parkingDTO1.getNumber());
             assertEquals(parking.getComment(), parkingDTO1.getComment());
-            assertEquals(parking.getIsActive(), parkingDTO1.getIsActive());
+            assertEquals(parking.getIsActive(), true);
 
 
             assertEquals(parking.getTown(), parkingDTO2.getTown());
@@ -87,7 +85,7 @@ public class ParkingServiceTest {
             assertEquals(parking.getPostalCode(), parkingDTO2.getPostalCode());
             assertEquals(parking.getNumber(), parkingDTO2.getNumber());
             assertEquals(parking.getComment(), parkingDTO2.getComment());
-            assertEquals(parking.getIsActive(), parkingDTO2.getIsActive());
+            assertEquals(parking.getIsActive(), true);
         });
     }
 
@@ -106,11 +104,11 @@ public class ParkingServiceTest {
 
         final ParkingDTO parkingDTO = new ParkingDTO("Chorzow", "40-321", "Jakas 23", "E-1", "Parking przy Tesco", true);
         assertEquals(0, parkingRepository.count());
-        Long parkingId = parkingService.addEntityToDB(parking);
+        final Long parkingId = parkingService.addEntityToDB(parking);
         assertEquals(1, parkingRepository.count());
         parkingService.updateParkingInDb(parkingId, parkingDTO);
         final Parking updatedParking = parkingService.getEntityById(parkingId);
-        assertAll(()->{
+        assertAll(() -> {
             assertEquals(1, parkingRepository.count());
             assertEquals("Chorzow", updatedParking.getTown());
             assertEquals("40-321", updatedParking.getPostalCode());

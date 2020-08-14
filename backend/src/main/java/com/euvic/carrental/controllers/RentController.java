@@ -99,7 +99,7 @@ public class RentController {
         }
         return ResponseEntity.status(responseCode).body(message);
     }
-
+    
     //TODO check car history
     //TODO method to modify rent
 
@@ -180,7 +180,7 @@ public class RentController {
         return ResponseEntity.status(responseCode).body(message);
     }
 
-    //TODO parking delete
+    //TODO add change next rent parkingFrom
     @RequestMapping(method = RequestMethod.DELETE, value = "/e/rent/end_rent/{id}")
     public ResponseEntity<?> endRent(@PathVariable final Long id, @RequestBody final ParkingDTO parkingDTO) {
         final Rent rent = rentService.getEntityById(id);
@@ -198,7 +198,6 @@ public class RentController {
                         parkingTo = new ParkingHistory(null, rent.getParkingTo());
                         rent.getCar().setParking(rent.getParkingTo());
                     } else {
-                        parkingDTO.setIsActive(true);
                         parkingTo = new ParkingHistory(null, parkingDTO);
                         final Parking carParking = new Parking(null, parkingDTO);
                         parkingService.addEntityToDB(carParking);
