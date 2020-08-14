@@ -46,10 +46,11 @@ public class RentController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/a/rent/car_history/{licensePlate}")
     public ResponseEntity<?> checkCarHistory(@PathVariable final String licensePlate) {
-        final Car car = carService.getOnCompanyEntityByLicensePlate(licensePlate);
-        return ResponseEntity.ok(rentHistoryService.getAllDTOsByCar(car));
+        return ResponseEntity.ok(rentHistoryService.getAllDTOsByCar(carService.getOnCompanyEntityByLicensePlate(licensePlate)));
     }
 
+    //TODO add method to change car in rent
+    
     @RequestMapping(method = RequestMethod.PUT, value = "/a/rent/permit/{id}")
     public ResponseEntity<?> permitRent(@PathVariable final Long id, @RequestBody final RentPermitRejectDTO rentPermitRejectDTO) {
         final Rent rent = rentService.getEntityById(id);
