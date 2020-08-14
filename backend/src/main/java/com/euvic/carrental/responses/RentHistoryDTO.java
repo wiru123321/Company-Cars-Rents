@@ -18,12 +18,13 @@ public class RentHistoryDTO {
     private Boolean isAccepted;
     private String comment;
     private String response;
+    private String faultMessage;
 
     public RentHistoryDTO() {
 
     }
 
-    public RentHistoryDTO(final UserDTO userDTO, final CarDTO carDTO, final LocalDateTime dateFrom, final LocalDateTime dateTo, final ParkingHistoryDTO parkingHistoryDTOFrom, final ParkingHistoryDTO parkingHistoryDTOTo, final Boolean isActive, final Boolean isAccepted, final String comment, final String response) {
+    public RentHistoryDTO(final UserDTO userDTO, final CarDTO carDTO, final LocalDateTime dateFrom, final LocalDateTime dateTo, final ParkingHistoryDTO parkingHistoryDTOFrom, final ParkingHistoryDTO parkingHistoryDTOTo, final Boolean isActive, final Boolean isAccepted, final String comment, final String response, final String faultMessage) {
         this.userDTO = userDTO;
         this.carDTO = carDTO;
         this.dateFrom = dateFrom;
@@ -34,6 +35,7 @@ public class RentHistoryDTO {
         this.isAccepted = isAccepted;
         this.comment = comment;
         this.response = response;
+        this.faultMessage = faultMessage;
     }
 
     public RentHistoryDTO(final RentHistory rentHistory, final UserDTO userDTO, final CarDTO carDTO, final ParkingHistoryDTO parkingHistoryDTOFrom, final ParkingHistoryDTO parkingHistoryDTOTo) {
@@ -47,5 +49,6 @@ public class RentHistoryDTO {
         this.isAccepted = rentHistory.getIsAccepted();
         this.comment = rentHistory.getComment();
         this.response = rentHistory.getResponse();
+        this.faultMessage = rentHistory.getFaultMessage();
     }
 }

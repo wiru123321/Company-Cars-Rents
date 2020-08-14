@@ -2,7 +2,7 @@ package com.euvic.carrental.controllers;
 
 import com.euvic.carrental.model.*;
 import com.euvic.carrental.responses.DateFromDateTo;
-import com.euvic.carrental.responses.ParkingDTO;
+import com.euvic.carrental.responses.EndRentDTO;
 import com.euvic.carrental.responses.RentDTO;
 import com.euvic.carrental.responses.RentPermitRejectDTO;
 import com.euvic.carrental.services.*;
@@ -50,7 +50,7 @@ public class RentController {
     }
 
     //TODO add method to change car in rent
-    
+
     @RequestMapping(method = RequestMethod.PUT, value = "/a/rent/permit/{id}")
     public ResponseEntity<?> permitRent(@PathVariable final Long id, @RequestBody final RentPermitRejectDTO rentPermitRejectDTO) {
         final Rent rent = rentService.getEntityById(id);
@@ -85,7 +85,7 @@ public class RentController {
                 final ParkingHistory parkingFrom = new ParkingHistory(null, rent.getParkingFrom());
                 final ParkingHistory parkingTo = new ParkingHistory(null, rent.getParkingTo());
                 final RentHistory rentHistory = new RentHistory(null, rent.getUser(), rent.getCar(), rent.getDateFrom(), rent.getDateTo(), parkingFrom
-                        , parkingTo, true, false, rent.getComment(), rentPermitRejectDTO.getResponse());
+                        , parkingTo, true, false, rent.getComment(), rentPermitRejectDTO.getResponse(), "");
                 parkingHistoryService.addEntityToDB(parkingFrom);
                 parkingHistoryService.addEntityToDB(parkingTo);
                 rentHistoryService.addEntityToDB(rentHistory);
@@ -139,7 +139,7 @@ public class RentController {
         try {
             if (rentService.checkMyRentsBeforeAddNewRent(rentDTO)) {
                 id = parkingService.addEntityToDB(parkingService.mapRestModel(null, rentDTO.getParkingDTOTo()));
-                final Rent rent = new Rent(null, user, car, rentDTO.getDateFrom(), rentDTO.getDateTo(), car.getParking(), parkingService.getEntityById(id), false, rentDTO.getComment(), "");
+                final Rent rent = new Rent(null, user, car, rentDTO.getDateFrom(), rentDTO.getDateTo(), car.getParking(), parkingService.getEntityById(id), false, rentDTO.getComment(), "", "");
                 rentService.addEntityToDB(rent);
                 responseCode = 200;
                 message = "Ok";
@@ -186,7 +186,7 @@ public class RentController {
 
     //TODO add change next rent parkingFrom
     @RequestMapping(method = RequestMethod.DELETE, value = "/e/rent/end_rent/{id}")
-    public ResponseEntity<?> endRent(@PathVariable final Long id, @RequestBody final ParkingDTO parkingDTO) {
+    public ResponseEntity<?> endRent(@PathVariable final Long id, @RequestBody final EndRentDTO endRentDTO) {
         final Rent rent = rentService.getEntityById(id);
         final User user = userService.getEntityByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
         int responseCode;
@@ -198,18 +198,18 @@ public class RentController {
                     final ParkingHistory parkingFrom = new ParkingHistory(null, rent.getParkingFrom());
                     final ParkingHistory parkingTo;
 
-                    if (parkingDTO == null) {
+                    if (endRentDTO.getParkingDTO() == null) {
                         parkingTo = new ParkingHistory(null, rent.getParkingTo());
                         rent.getCar().setParking(rent.getParkingTo());
                     } else {
-                        parkingTo = new ParkingHistory(null, parkingDTO);
-                        final Parking carParking = new Parking(null, parkingDTO);
+                        parkingTo = new ParkingHistory(null, endRentDTO.getParkingDTO());
+                        final Parking carParking = new Parking(null, endRentDTO.getParkingDTO());
                         parkingService.addEntityToDB(carParking);
                         rent.getCar().setParking(carParking);
                     }
 
                     final RentHistory rentHistory = new RentHistory(null, rent.getUser(), rent.getCar(), rent.getDateFrom(), rent.getDateTo(), parkingFrom
-                            , parkingTo, true, true, rent.getComment(), rent.getResponse());
+                            , parkingTo, true, true, rent.getComment(), rent.getResponse(), endRentDTO.getFaultMessage());
                     parkingHistoryService.addEntityToDB(parkingFrom);
                     parkingHistoryService.addEntityToDB(parkingTo);
                     rentHistoryService.addEntityToDB(rentHistory);
@@ -217,7 +217,7 @@ public class RentController {
                     final Long parkingToId = rent.getParkingTo().getId();
                     rentService.deleteRent(rent);
                     parkingService.deleteParkingById(parkingFromId);
-                    if (parkingDTO != null)
+                    if (endRentDTO.getParkingDTO() != null)
                         parkingService.deleteParkingById(parkingToId);
 
                     responseCode = 200;

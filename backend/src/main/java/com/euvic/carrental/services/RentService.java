@@ -91,7 +91,7 @@ public class RentService implements RentServiceInterface {
 
         final Rent rent;
         rent = new Rent(id, userService.getEntityByLogin(rentDTO.getUserDTO().getLogin()), carService.getOnCompanyEntityByLicensePlate(rentDTO.getCarDTO().getLicensePlate())
-                , rentDTO.getDateFrom(), rentDTO.getDateTo(), parkingService.getEntityById(parkingFromId), parkingService.getEntityById(parkingToId), rentDTO.getIsActive(), rentDTO.getComment(), rentDTO.getResponse());
+                , rentDTO.getDateFrom(), rentDTO.getDateTo(), parkingService.getEntityById(parkingFromId), parkingService.getEntityById(parkingToId), rentDTO.getIsActive(), rentDTO.getComment(), rentDTO.getResponse(), rentDTO.getFaultMessage());
 
         return rent;
     }

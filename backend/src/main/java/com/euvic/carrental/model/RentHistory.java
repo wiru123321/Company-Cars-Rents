@@ -44,12 +44,15 @@ public class RentHistory {
     @Column()
     private String response;
 
+    @Column()
+    private String faultMessage;
+
     public RentHistory() {
 
     }
 
     public RentHistory(final Long id, final User user, final Car car, final LocalDateTime dateFrom, final LocalDateTime dateTo, final ParkingHistory parkingHistoryFrom
-            , final ParkingHistory parkingHistoryTo, final Boolean isActive, final Boolean isAccepted, final String comment, final String response) {
+            , final ParkingHistory parkingHistoryTo, final Boolean isActive, final Boolean isAccepted, final String comment, final String response, final String faultMessage) {
         this.id = id;
         this.user = user;
         this.car = car;
@@ -61,5 +64,6 @@ public class RentHistory {
         this.isAccepted = isAccepted;
         this.response = response;
         this.comment = comment;
+        this.faultMessage = faultMessage;
     }
 }
