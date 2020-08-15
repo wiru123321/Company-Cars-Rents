@@ -161,21 +161,19 @@ export const addCar = (carDTO) => async (dispatch) => {
 
 export const addImage = (file, licensePlate) => async (dispatch) => {
   try {
-    const json = JSON.stringify(file);
-    const blob = new Blob([json], {
-      type: "application/json",
-    });
-    const data = new FormData();
-    data.append("imageFile", blob);
-    const response = await axios.post(
-      API_URL + "/a/car/upload-car-image/" + licensePlate,
-      data,
+    const formData = new FormData();
+    formData.append("imageFile", file);
+    const upload = await axios.post(
+      API_URL + `/a/car/upload-car-image/${licensePlate}`,
+      formData,
       {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
+          "content-type": "multipart/form-data",
         },
       }
     );
+    console.log(upload);
   } catch (error) {
     console.log(error);
   }

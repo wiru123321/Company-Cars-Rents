@@ -112,7 +112,7 @@ const AddCarForm = () => {
   }
 
   function submitImage(event) {
-    dispatch(imageFileChange(event.target.value));
+    dispatch(imageFileChange(event.target.files[0]));
     let image = {
       imageFile: imageFile,
     };

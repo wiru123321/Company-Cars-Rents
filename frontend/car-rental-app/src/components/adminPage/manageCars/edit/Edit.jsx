@@ -42,7 +42,6 @@ const Edit = () => {
 
   const handlePhotoUpdate = (event) => {
     event.preventDefault();
-
     dispatch(uploadPicture(currentCar.licensePlate, photo, filterActive));
   };
 

@@ -162,7 +162,7 @@ export const uploadPicture = (licensePlate, file, fetchActive) => async (
   dispatch
 ) => {
   try {
-    let formData = new FormData();
+    const formData = new FormData();
     formData.append("imageFile", file);
     const upload = await axios.post(
       API_URL + `/a/car/upload-car-image/${licensePlate}`,
