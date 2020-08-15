@@ -47,7 +47,7 @@ test:
 build_docker:
     stage: build
     script:
-        - docker-compose -p docker -f docker-compose.docker.yml --parallel build
+        - docker-compose -p docker -f docker-compose.docker.yml build --parallel
     tags:
         - build
     only:
@@ -69,7 +69,7 @@ deploy_docker:
 build_develop:
     stage: build_develop
     script:
-        - docker-compose -p develop -f docker-compose.develop.yml --parallel build
+        - docker-compose -p develop -f docker-compose.develop.yml build --parallel
     tags:
         - build_develop
     only:
@@ -90,7 +90,7 @@ deploy_develop:
 build_deploy:
     stage: build_deploy
     script:
-        - docker-compose -p deploy -f docker-compose.deploy.yml --parallel build
+        - docker-compose -p deploy -f docker-compose.deploy.yml build --parallel
     tags:
         - build_deploy
     only:
@@ -111,7 +111,7 @@ deploy_deploy:
 build_production:
     stage: build_prod
     script:
-        - docker-compose -p prod --parallel build 
+        - docker-compose -p prod build --parallel
     tags:
         - build_prod
     only:
