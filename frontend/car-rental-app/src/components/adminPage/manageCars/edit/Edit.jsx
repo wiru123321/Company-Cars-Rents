@@ -42,29 +42,7 @@ const Edit = () => {
 
   const handlePhotoUpdate = (event) => {
     event.preventDefault();
-
-    //const blob = new Blob(JSON.stringify(photo, null, 2));
-
-    let formData = new FormData();
-    formData.append("imageFile", photo);
-    console.log(photo);
-    console.log(formData.get("imageFile"));
-    axios
-      .post(
-        API_URL + `/a/car/upload-car-image/${currentCar.licensePlate}`,
-        formData,
-        {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("token"),
-            "content-type": "multipart/form-data",
-          },
-        }
-      )
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => console.log(JSON.stringify(error)));
-    //dispatch(uploadPicture(currentCar.licensePlate, photo, filterActive));
+    dispatch(uploadPicture(currentCar.licensePlate, photo, filterActive));
   };
 
   return (

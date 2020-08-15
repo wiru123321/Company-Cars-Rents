@@ -162,14 +162,15 @@ export const uploadPicture = (licensePlate, file, fetchActive) => async (
   dispatch
 ) => {
   try {
-    const data = new FormData();
-    data.append("imageFile", file);
+    const formData = new FormData();
+    formData.append("imageFile", file);
     const upload = await axios.post(
       API_URL + `/a/car/upload-car-image/${licensePlate}`,
+      formData,
       {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
-          "Content-Type": "multipart/form-data",
+          "content-type": "multipart/form-data",
         },
       }
     );
