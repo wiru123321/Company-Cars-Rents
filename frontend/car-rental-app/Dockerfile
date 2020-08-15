@@ -19,10 +19,13 @@ COPY . .
 
 RUN react-scripts build
 
-USER carRentalFront
-
 EXPOSE 5000
 
 CMD ["serve","-s", "build"]
+
+RUN rm -r build && \
+    rm -r node_modules
+
+USER carRentalFront
 
 # /bin/sh Work

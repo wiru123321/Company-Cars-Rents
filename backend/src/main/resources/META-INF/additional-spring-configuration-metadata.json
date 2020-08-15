@@ -1,0 +1,9 @@
+{
+  "properties": [
+    {
+      "name": "baseLoader",
+      "type": "java.lang.String",
+      "description": "Description for baseLoader."
+    }
+  ]
+}

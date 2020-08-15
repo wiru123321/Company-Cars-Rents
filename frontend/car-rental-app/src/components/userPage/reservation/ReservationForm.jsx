@@ -21,14 +21,14 @@ export const UserPersonalData = ({
     >
       <Grid container direction="row" justify="space-between">
         <TextField
-          onChange={() => handleFirstnameChange}
+          onChange={(event) => handleFirstnameChange(event)}
           label="Firstname"
           variant="outlined"
           margin="normal"
           required
         />
         <TextField
-          onChange={() => handleLastnameChange}
+          onChange={(event) => handleLastnameChange(event)}
           label="Lastname"
           variant="outlined"
           margin="normal"
@@ -57,7 +57,7 @@ export const ReservationDate = ({
           labelPlacement="start"
           control={
             <TextField
-              onChange={() => handleDateChange}
+              onChange={(event) => handleDateChange(event)}
               type="date"
               variant="outlined"
               shrink
@@ -71,7 +71,7 @@ export const ReservationDate = ({
           labelPlacement="start"
           control={
             <TextField
-              onChange={() => handleHourChange}
+              onChange={(event) => handleHourChange(event)}
               type="time"
               variant="outlined"
               shrink

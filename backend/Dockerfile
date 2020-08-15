@@ -10,8 +10,12 @@ COPY . .
 RUN gradle clean build && \ 
     mv build/libs/car-rental-*.jar ./car-rental.jar
 
-USER carRentalBack
-
 CMD ["java","-jar","car-rental.jar"]
+
+RUN rm -r build && \
+    rm -r build.gradle && \
+    rm -r build.gradle.orig
+
+USER carRentalBack
 
 # /bin/bash Work

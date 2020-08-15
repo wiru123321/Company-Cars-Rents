@@ -1,0 +1,6 @@
+
+# --- Dont need this files --- #
+
+Dockerfile
+.dockerignore
+.gitignore

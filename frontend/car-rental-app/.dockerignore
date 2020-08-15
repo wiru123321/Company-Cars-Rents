@@ -1,0 +1,13 @@
+
+# --- Dont need this files --- #
+
+Dockerfile
+.dockerignore
+.gitignore
+README.md
+
+# --- After build app --- #
+
+# build
+# node_modules
+
