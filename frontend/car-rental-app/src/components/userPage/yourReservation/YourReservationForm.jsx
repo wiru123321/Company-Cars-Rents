@@ -29,18 +29,22 @@ const YouReservationForm = ({ reservations, isActive }) => {
                   <label>Rent date to: {reservation.dateTo}</label>
                 </Box>
               </Box>
-              {isActive ? (
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  onClick={(event) => {
-                    event.preventDefault();
-                    dispatch(chooseCar(index));
-                  }}
-                >
-                  Give the car back
-                </Button>
-              ) : null}
+              <Box display="flex">
+                <Box>
+                  {isActive ? (
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      onClick={(event) => {
+                        event.preventDefault();
+                        dispatch(chooseCar(index));
+                      }}
+                    >
+                      Give the car back
+                    </Button>
+                  ) : null}
+                </Box>
+              </Box>
             </ListItem>
           ))}
         </List>
