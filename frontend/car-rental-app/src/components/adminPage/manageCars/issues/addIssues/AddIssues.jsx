@@ -6,8 +6,10 @@ import {
   selectAll,
   addFault,
 } from "../../../../../features/cars-manager/carsManagerSlice";
+import { useAlert } from "react-alert";
 
 const AddIssues = () => {
+  const alert = useAlert();
   const dispatch = useDispatch();
   const { currentCar, filterActive } = useSelector(selectAll);
   const [description, setDescription] = useState("");
@@ -23,7 +25,7 @@ const AddIssues = () => {
   };
 
   const handleCarInactiveChange = (event) => {
-    changeCarInactive(event.target.value);
+    changeCarInactive(event.target.checked);
   };
 
   const handleSubmit = (event) => {
@@ -35,6 +37,7 @@ const AddIssues = () => {
           setCarInactive,
           carLicensePlate: currentCar.licensePlate,
         },
+        alert,
         filterActive
       )
     );

@@ -122,6 +122,7 @@ const AddCarForm = () => {
   };
 
   function submitImage(event) {
+<<<<<<< HEAD
     event.preventDefault();
     let formData = new FormData();
     formData.append("imageFile", photo);
@@ -136,6 +137,21 @@ const AddCarForm = () => {
         console.log(response);
       })
       .catch((error) => console.log(JSON.stringify(error)));
+||||||| d75c5f3
+    dispatch(imageFileChange(event.target.value));
+    let image = {
+      imageFile: imageFile,
+    };
+    console.log(licensePlate);
+    dispatch(addImage(image, licensePlate));
+=======
+    dispatch(imageFileChange(event.target.files[0]));
+    let image = {
+      imageFile: imageFile,
+    };
+    console.log(licensePlate);
+    dispatch(addImage(image, licensePlate));
+>>>>>>> 0e46c22d62f11f6a42c0acb5dd7dbf88662d0c4e
     toggleshowAddPhotoButton(false);
     toggleshowSaveButton(true);
     dispatch(reset());

@@ -19,6 +19,7 @@ import ErrorIcon from "@material-ui/icons/Error";
 import EditIcon from "@material-ui/icons/Edit";
 import ReportProblemIcon from "@material-ui/icons/ReportProblem";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
+import { useAlert } from "react-alert";
 
 const useStyles = makeStyles({
   paper: {
@@ -32,6 +33,7 @@ const useStyles = makeStyles({
 });
 
 const CarMenu = () => {
+  const alert = useAlert();
   const classes = useStyles();
   const dispatch = useDispatch();
   const { currentCar, viewId, filterActive } = useSelector(selectAll);
@@ -51,13 +53,14 @@ const CarMenu = () => {
       setCarActivity(
         currentCar.licensePlate,
         !currentCar.isActive,
+        alert,
         filterActive
       )
     );
   };
 
   const handleCarDelete = () => {
-    dispatch(deleteCar(currentCar.licensePlate, filterActive));
+    dispatch(deleteCar(currentCar.licensePlate, alert, filterActive));
   };
 
   const getView = () => {
