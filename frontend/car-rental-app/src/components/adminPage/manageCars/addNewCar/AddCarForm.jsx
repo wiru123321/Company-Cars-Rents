@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Box, Button, makeStyles } from "@material-ui/core";
-import { Save, Delete } from "@material-ui/icons";
+import { Box, Button, makeStyles, Grid } from "@material-ui/core";
+import { Save } from "@material-ui/icons";
 import { useSelector, useDispatch } from "react-redux";
+import axios from "axios";
 import {
   selectAll,
   addCar,
@@ -12,11 +13,15 @@ import {
 import SelectBoxForm from "./SelectBoxForm";
 import BoxPanel from "./BoxPanel";
 import ParkingForm from "./ParkingForm";
+import PhotoForm from "./ControlPanel/PhotoForm";
+import SaveForm from "./ControlPanel/SaveForm";
+const API_URL = "http://localhost:8080";
 
 const AddCarForm = () => {
   const [showAddPhotoButton, toggleshowAddPhotoButton] = useState(false);
   const [showSaveButton, toggleshowSaveButton] = useState(true);
   const [showFormError, toggleshowFormError] = useState(false);
+  const [photo, setPhoto] = useState("");
   const useStyles = makeStyles((theme) => ({
     root: {
       "& > *": {
@@ -111,13 +116,26 @@ const AddCarForm = () => {
     }
   }
 
+  const handlePhotoChange = (event) => {
+    setPhoto(event.target.files[0]);
+    console.log(event.target.files[0]);
+  };
+
   function submitImage(event) {
-    dispatch(imageFileChange(event.target.value));
-    let image = {
-      imageFile: imageFile,
-    };
-    console.log(licensePlate);
-    dispatch(addImage(image, licensePlate));
+    event.preventDefault();
+    let formData = new FormData();
+    formData.append("imageFile", photo);
+    axios
+      .post(API_URL + `/a/car/upload-car-image/${licensePlate}`, formData, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+          "content-type": "multipart/form-data",
+        },
+      })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => console.log(JSON.stringify(error)));
     toggleshowAddPhotoButton(false);
     toggleshowSaveButton(true);
     dispatch(reset());
@@ -164,19 +182,7 @@ const AddCarForm = () => {
       {error1}
       {showSaveButton ? (
         <Box display="flex" justifyContent="center">
-          <Box>
-            <Button
-              variant="contained"
-              color="primary"
-              size="normal"
-              className={classes.button}
-              startIcon={<Save />}
-              type="submit"
-              onClick={submit}
-            >
-              Save
-            </Button>
-          </Box>
+          <SaveForm submit={submit} />
           {showFormError ? (
             <Box>
               <p>Error in form! Please check form one more.</p>
@@ -194,22 +200,10 @@ const AddCarForm = () => {
       )}
 
       {showAddPhotoButton ? (
-        <Box display="flex" justifyContent="center" m={1} p={1}>
-          <input
-            accept="image/*"
-            className={classes.input}
-            type="file"
-            id="contained-button-file"
-            multiple
-            value={imageFile}
-            onChange={(event) => submitImage(event)}
-          />
-          <label htmlFor="contained-button-file">
-            <Button variant="contained" color="primary" component="span">
-              Upload Photo
-            </Button>
-          </label>
-        </Box>
+        <PhotoForm
+          submitImage={submitImage}
+          handlePhotoChange={handlePhotoChange}
+        />
       ) : null}
     </div>
   );
