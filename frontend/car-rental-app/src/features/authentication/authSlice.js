@@ -7,6 +7,7 @@ const initialState = {
   failed: false,
   redirectTo: "",
   shouldRedirect: false,
+  errorMessage: "",
 };
 
 export const authSlice = createSlice({
@@ -20,16 +21,23 @@ export const authSlice = createSlice({
     allowRedirect: (state, action) => {
       state.shouldRedirect = action.payload;
     },
+    setFailed: (state, action) => {
+      state.failed = action.payload;
+    },
+    setErrorMessage: (state, action) => {
+      state.errorMessage = action.payload;
+    },
   },
 });
 
-export const { setRedirectAddress, allowRedirect } = authSlice.actions;
+export const {
+  setRedirectAddress,
+  allowRedirect,
+  setFailed,
+  setErrorMessage,
+} = authSlice.actions;
 
-export const selectLoggedInStatus = (state) => state.auth.loggedStatus;
-
-export const selectRedirectAddress = (state) => state.auth.redirectTo;
-
-export const selectShouldRedirect = (state) => state.auth.shouldRedirect;
+export const selectAll = (state) => state.auth;
 
 export const login = ({ login, password }) => {
   return async (dispatch) => {
@@ -44,8 +52,16 @@ export const login = ({ login, password }) => {
         dispatch(setRedirectAddress("/userPage"));
       }
       dispatch(allowRedirect(true));
+      dispatch(setFailed(false));
+      dispatch(setErrorMessage(""));
     } catch (error) {
-      console.log(error);
+      if (error.response.status === 403) {
+        dispatch(setFailed(true));
+        dispatch(setErrorMessage("Your login or password is incorrect."));
+      } else {
+        dispatch(setFailed(true));
+        dispatch(setErrorMessage("Unable to login."));
+      }
     }
   };
 };

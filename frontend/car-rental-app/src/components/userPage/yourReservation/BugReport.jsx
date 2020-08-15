@@ -14,7 +14,7 @@ import {
 } from "../../../features/your-cars/yourCarsSlice";
 import { useSelector, useDispatch } from "react-redux";
 
-const BugReport = () => {
+const BugReport = ({ bugDescribe, bugDescribeHandler }) => {
   const dispatch = useDispatch();
   const selectOpen = useSelector(selectBugopen);
 
@@ -41,12 +41,13 @@ const BugReport = () => {
         <DialogContent>
           <TextField
             id="outlined-multiline-static"
+            value={bugDescribe}
             label="Multiline"
             multiline
             rows={4}
             label="Bug report"
             variant="outlined"
-            onChange={(event) => dispatch(bugDescribeChane(event.target.value))}
+            onChange={(event) => bugDescribeHandler(event.target.value)}
           />
         </DialogContent>
         <DialogActions>

@@ -8,8 +8,8 @@ import java.util.List;
 
 @Repository
 public interface CarRepository extends CrudRepository<Car, Long> {
-    Car findByLicensePlate(String licensePlate);
+    Car findByLicensePlateAndIsOnCompany(String licensePlate, Boolean isOnCompany);
     List<Car> findAllByIsOnCompany(Boolean isOnCompany);
     List<Car> findAllByIsOnCompanyAndIsActive(Boolean isOnCompany, Boolean isActive);
-    Boolean existsByLicensePlate(String licensePlate);
+    Boolean existsByLicensePlateAndIsOnCompany(String licensePlate, Boolean isOnCompany);
 }

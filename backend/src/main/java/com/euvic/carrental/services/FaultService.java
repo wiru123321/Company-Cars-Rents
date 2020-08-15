@@ -25,22 +25,20 @@ public class FaultService implements FaultServiceInterface {
 
     @Override
     public Fault mapRestModel(final Long id, final FaultDTO faultDTO) {
-        return new Fault(id, carService.getEntityByLicensePlate(faultDTO.getCarLicensePlate()), faultDTO.getDescription(), faultDTO.getSetCarInactive(), true);
+        return new Fault(id, carService.getOnCompanyEntityByLicensePlate(faultDTO.getCarLicensePlate()), faultDTO.getDescription(), faultDTO.getSetCarInactive(), true);
     }
 
     @Override
-    public List<Fault> getAllEntitiesByCar(final Car car) {
+    public List<Fault> getAllActiveEntitiesByCar(final Car car) {
         final ArrayList<Fault> faultArrayList = new ArrayList<>();
-        faultArrayList.addAll(faultRepository.findAllByCar(car));
+        faultArrayList.addAll(faultRepository.findAllByIsActiveAndCar(true, car));
 
         return faultArrayList;
     }
 
-    public List<FaultDTO> getAllDTOsByCar(final Car car) {
-        final ArrayList<Fault> faultArrayList = new ArrayList<>();
-        faultArrayList.addAll(faultRepository.findAllByCar(car));
-
-        return mapEntityList(faultArrayList);
+    @Override
+    public List<FaultDTO> getAllActiveDTOsByCar(final Car car) {
+        return mapEntityList(getAllActiveEntitiesByCar(car));
     }
 
     @Override
@@ -101,5 +99,17 @@ public class FaultService implements FaultServiceInterface {
             faultDTOList.add(faultDTO);
         });
         return faultDTOList;
+    }
+
+    @Override
+    public List<Long> setAllFaultsAsInactiveForCertainCar(String licensePlate) {
+        Car car = carService.getOnCompanyEntityByLicensePlate(licensePlate);
+        List<Fault> faultList = getAllActiveEntitiesByCar(car);
+        List<Long>  deletedFaultIdList = new ArrayList<>();
+        faultList.forEach(fault -> {
+            fault.setIsActive(false);
+            deletedFaultIdList.add(faultRepository.save(fault).getId());
+        });
+        return deletedFaultIdList;
     }
 }

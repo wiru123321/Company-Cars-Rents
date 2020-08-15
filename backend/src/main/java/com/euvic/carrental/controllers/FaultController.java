@@ -29,7 +29,7 @@ public class FaultController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/active-faults/{licensePlate}")
     public ResponseEntity getAllActiveFaultsForCertainCar(@PathVariable String licensePlate) {
-        if(!carService.checkIfCarWithLicensePlateExists(licensePlate)){
+        if(!carService.checkIfOnCompanyCarWithLicensePlateExists(licensePlate)){
             ResponseEntity.status(HttpStatus.CONFLICT).body("Car with this license plate doesn't exist.");
         }
         return ResponseEntity.ok(faultService.getAllActiveFaultDTOsByCarLicensePlate(licensePlate));
@@ -37,11 +37,11 @@ public class FaultController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/fault")
     public ResponseEntity addFaultToDatabase(@RequestBody final FaultDTO faultDTO) {
-        if(!carService.checkIfCarWithLicensePlateExists(faultDTO.getCarLicensePlate())){
-            ResponseEntity.status(HttpStatus.CONFLICT).body("Car with this license plate doesn't exist.");
+        if(!carService.checkIfOnCompanyCarWithLicensePlateExists(faultDTO.getCarLicensePlate())){
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Car with this license plate doesn't exist.");
         }
-        else if(faultService.checkIfCarFaultWithDescriptionExists(carService.getEntityByLicensePlate(faultDTO.getCarLicensePlate()), faultDTO.getDescription())){
-            ResponseEntity.status(HttpStatus.CONFLICT).body("Fault with this description already exist for this car.");
+        else if(faultService.checkIfCarFaultWithDescriptionExists(carService.getOnCompanyEntityByLicensePlate(faultDTO.getCarLicensePlate()), faultDTO.getDescription())){
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Fault with this description already exist for this car.");
         }
 
         final Fault fault = faultService.mapRestModel(null, faultDTO);
@@ -55,14 +55,14 @@ public class FaultController {
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/fault")
     public ResponseEntity setFaultAsDeletedInDB(@RequestBody FaultDTO faultDTO) {
-        if(!carService.checkIfCarWithLicensePlateExists(faultDTO.getCarLicensePlate())){
-            ResponseEntity.status(HttpStatus.CONFLICT).body("Car with this license plate doesn't exist.");
+        if(!carService.checkIfOnCompanyCarWithLicensePlateExists(faultDTO.getCarLicensePlate())){
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Car with this license plate doesn't exist.");
         }
-        else if(!faultService.checkIfCarFaultWithDescriptionExists(carService.getEntityByLicensePlate(faultDTO.getCarLicensePlate()), faultDTO.getDescription())){
-            ResponseEntity.status(HttpStatus.CONFLICT).body("Fault with this description doesn't exist for this car.");
+        else if(!faultService.checkIfCarFaultWithDescriptionExists(carService.getOnCompanyEntityByLicensePlate(faultDTO.getCarLicensePlate()), faultDTO.getDescription())){
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Fault with this description doesn't exist for this car.");
         }
 
-        Car car = carService.getEntityByLicensePlate(faultDTO.getCarLicensePlate());
+        Car car = carService.getOnCompanyEntityByLicensePlate(faultDTO.getCarLicensePlate());
         return ResponseEntity.ok(faultService.setInactiveCarFaultWithDescription(car, faultDTO.getDescription()));
     }
 }

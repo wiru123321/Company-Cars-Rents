@@ -9,9 +9,9 @@ import java.util.List;
 public interface FaultServiceInterface {
     Fault mapRestModel(Long id, FaultDTO faultDTO);
 
-    List<Fault> getAllEntitiesByCar(Car car);
+    List<Fault> getAllActiveEntitiesByCar(Car car);
 
-    List<FaultDTO> getAllDTOsByCar(Car car);
+    List<FaultDTO> getAllActiveDTOsByCar(Car car);
 
     List<FaultDTO> getAllDTOs();
 
@@ -28,4 +28,6 @@ public interface FaultServiceInterface {
     Long setInactiveCarFaultWithDescription(Car car, String description);
 
     List<FaultDTO> getAllActiveFaultDTOsByCarLicensePlate(String licensePlate);
+
+    List<Long> setAllFaultsAsInactiveForCertainCar(String licensePlate);
 }

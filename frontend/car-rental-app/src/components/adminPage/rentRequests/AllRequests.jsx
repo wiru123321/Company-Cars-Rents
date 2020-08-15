@@ -4,6 +4,7 @@ import { selectAll } from "../../../features/rents/rentsSlice";
 import { Container } from "@material-ui/core";
 import RentRequestListItem from "./rentRequestsListing/RentRequestListItem";
 import NotFoundMessage from "../messages/NotFoundMessage";
+import RentAlert from "./RentAlert";
 
 const AllRequests = () => {
   const { pendingRents } = useSelector(selectAll);
@@ -16,6 +17,7 @@ const AllRequests = () => {
       ) : (
         <NotFoundMessage>There are no pending requests.</NotFoundMessage>
       )}
+      <RentAlert />
     </Container>
   );
 };
