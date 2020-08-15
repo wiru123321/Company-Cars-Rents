@@ -10,6 +10,7 @@ import NotFound from "../../messages/NotFoundMessage";
 import Car from "./Car";
 import CarMenu from "./CarMenu";
 import Search from "../searchbar/Search";
+
 const useStyles = makeStyles({
   content: {
     minHeight: "80vh",

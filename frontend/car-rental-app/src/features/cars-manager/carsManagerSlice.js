@@ -68,7 +68,6 @@ export const fetchCars = (filterActive) => async (dispatch) => {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     });
-    console.log(response.data);
     dispatch(setCars(response.data));
     dispatch(setFilteredCars(response.data));
   } catch (error) {}
@@ -81,14 +80,13 @@ export const fetchSingleCar = (licensePlate) => async (dispatch) => {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     });
-    console.log("SingleCar", response.data);
     dispatch(setCurrentCar(response.data));
   } catch (error) {
     console.log(error);
   }
 };
 
-export const updateCar = (licensePlate, car, fetchActive) => async (
+export const updateCar = (licensePlate, car, alert, fetchActive) => async (
   dispatch
 ) => {
   try {
@@ -102,45 +100,52 @@ export const updateCar = (licensePlate, car, fetchActive) => async (
         },
       }
     );
-    console.log(fetchActive);
     dispatch(fetchCars(fetchActive));
-  } catch (error) {
-    console.log(error);
+    alert.success("Updated successfully!");
+  } catch (err) {
+    alert.error("Failed to update!");
   }
 };
 
-export const addFault = (faultDTO, fetchActive) => async (dispatch) => {
+export const addFault = (faultDTO, alert, fetchActive) => async (dispatch) => {
   try {
     const response = await axios.post(API_URL + "/a/fault", faultDTO, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     });
-    console.log(fetchActive);
+
     dispatch(fetchCars(fetchActive));
-  } catch (error) {
-    console.log(error);
+    alert.success("Succesfully added issue!");
+  } catch (err) {
+    alert.error("Failed to add issue! Issues must not repeat!");
   }
 };
 
-export const setCarActivity = (licensePlate, isActive, fetchActive) => async (
-  dispatch
-) => {
+export const setCarActivity = (
+  licensePlate,
+  alert,
+  isActive,
+  fetchActive
+) => async (dispatch) => {
   try {
     const response = await axios(API_URL + `/a/car/activity/${licensePlate}`, {
       headers: { Authorization: "Bearer " + localStorage.getItem("token") },
       method: "DELETE",
       params: { isActive: isActive },
     });
-    console.log(isActive);
+
     dispatch(fetchSingleCar(licensePlate));
     dispatch(fetchCars(fetchActive));
-  } catch (error) {
-    console.log(error);
+    alert.success(`Car ${isActive ? "suspended" : "activated"}!`);
+  } catch (err) {
+    alert.error("Failed to change car activity.");
   }
 };
 
-export const deleteCar = (licensePlate, fetchActive) => async (dispatch) => {
+export const deleteCar = (licensePlate, alert, fetchActive) => async (
+  dispatch
+) => {
   try {
     const deleteResponse = await axios.delete(
       API_URL + `/a/car/${licensePlate}`,
@@ -153,12 +158,13 @@ export const deleteCar = (licensePlate, fetchActive) => async (dispatch) => {
     dispatch(fetchCars(fetchActive));
     dispatch(enterManageCarMode(false));
     dispatch(setCurrentCar(""));
-  } catch (error) {
-    console.log(error);
+    alert.success("Car successfully deleted!");
+  } catch (err) {
+    alert.error("Failed to delete car!");
   }
 };
 
-export const uploadPicture = (licensePlate, file, fetchActive) => async (
+export const uploadPicture = (licensePlate, file, alert, fetchActive) => async (
   dispatch
 ) => {
   try {
@@ -174,10 +180,10 @@ export const uploadPicture = (licensePlate, file, fetchActive) => async (
         },
       }
     );
-    console.log(upload);
     dispatch(fetchCars(fetchActive));
-  } catch (error) {
-    console.log(error);
+    alert.success("Uploaded successfully!");
+  } catch (err) {
+    alert.error("Failed to upload file.");
   }
 };
 

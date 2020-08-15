@@ -7,10 +7,11 @@ import {
   uploadPicture,
 } from "../../../../features/cars-manager/carsManagerSlice";
 import EditForm from "./EditForm";
-import axios from "axios";
-const API_URL = "http://localhost:8080";
+import { useAlert } from "react-alert";
+
 const Edit = () => {
   const dispatch = useDispatch();
+  const alert = useAlert();
   const { currentCar, filterActive } = useSelector(selectAll);
   const [mileage, setMileage] = useState(currentCar.mileage);
   const [lastInspection, setLastInspection] = useState(
@@ -33,7 +34,9 @@ const Edit = () => {
       mileage: mileage,
       lastInspection: lastInspection + "T00:00:00",
     };
-    dispatch(updateCar(currentCar.licensePlate, newCarDTO, filterActive));
+    dispatch(
+      updateCar(currentCar.licensePlate, newCarDTO, alert, filterActive)
+    );
   };
 
   const handlePhotoChange = (event) => {
@@ -42,7 +45,9 @@ const Edit = () => {
 
   const handlePhotoUpdate = (event) => {
     event.preventDefault();
-    dispatch(uploadPicture(currentCar.licensePlate, photo, filterActive));
+    dispatch(
+      uploadPicture(currentCar.licensePlate, photo, alert, filterActive)
+    );
   };
 
   return (
