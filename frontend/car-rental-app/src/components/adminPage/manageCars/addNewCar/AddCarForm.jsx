@@ -12,7 +12,6 @@ import {
 import SelectBoxForm from "./SelectBoxForm";
 import BoxPanel from "./BoxPanel";
 import ParkingForm from "./ParkingForm";
-import CircularProgress from "@material-ui/core/CircularProgress";
 
 const AddCarForm = () => {
   const [showAddPhotoButton, toggleshowAddPhotoButton] = useState(false);
@@ -117,6 +116,7 @@ const AddCarForm = () => {
     let image = {
       imageFile: imageFile,
     };
+    console.log(licensePlate);
     dispatch(addImage(image, licensePlate));
     toggleshowAddPhotoButton(false);
     toggleshowSaveButton(true);
