@@ -7,7 +7,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
@@ -17,22 +20,28 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.io.File;
+import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.springframework.test.util.AssertionErrors.assertEquals;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
+@SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("h2")
 public class FileServiceTest {
     private static final String sampleCarLicensePlate = "WN101";
-    private static final String urlControllerPath = String.format("/a/car/upload-car-image/%s", sampleCarLicensePlate);
+    private static final String urlUploadControllerPath = String.format("/a/car/upload-car-image/%s", sampleCarLicensePlate);
     private static final String targetFolder = System.getProperty("user.dir") + "/src/main/upload/static/images/cars";
     private static final String mainTestFileCreatedDuringTestNamePart = "car_image";
+
+
+    private static final String urlServeControllerPath = String.format("/u/car/download-car-image/%s", sampleCarLicensePlate);
 
     private static MockMvc mockMvc;
     private static DefaultMockMvcBuilder builder;
@@ -118,6 +127,15 @@ public class FileServiceTest {
         typeRepository.save(type1);
         typeRepository.save(type2);
         typeRepository.save(type3);
+
+        final Model model1 = new Model(null, "C350", markService.getEntityByName("Audi"));
+        final Model model2 = new Model(null, "Astra", markService.getEntityByName("Opel"));
+        final Model model3 = new Model(null, "M5", markService.getEntityByName("BMW"));
+
+        final Long modelId1 = modelService.addEntityToDB(model1);
+        final Long modelId2 = modelService.addEntityToDB(model2);
+        final Long modelId3 = modelService.addEntityToDB(model3);
+
     }
 
     @AfterEach
@@ -133,16 +151,7 @@ public class FileServiceTest {
     }
 
     @Test
-    public void testController() throws Exception {
-        final Model model1 = new Model(null, "C350", markService.getEntityByName("Audi"));
-        final Model model2 = new Model(null, "Astra", markService.getEntityByName("Opel"));
-        final Model model3 = new Model(null, "M5", markService.getEntityByName("BMW"));
-
-        final Long modelId1 = modelService.addEntityToDB(model1);
-        final Long modelId2 = modelService.addEntityToDB(model2);
-        final Long modelId3 = modelService.addEntityToDB(model3);
-
-
+    public void whenTestSamplePngGiven_ShouldUploadItToFolder() throws Exception {
         final Parking parking = new Parking(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
 
         final Long parkingId = parkingService.addEntityToDB(parking);
@@ -162,12 +171,42 @@ public class FileServiceTest {
         final Path pathForFileCreatedDuringTests = Paths.get(targetFolder, photoName);
 
         MockMultipartFile file = new MockMultipartFile("imageFile", photoName, MediaType.IMAGE_PNG_VALUE, Files.readAllBytes(sampleFile.toPath()));
-        mockMvc.perform(MockMvcRequestBuilders.multipart(urlControllerPath).file(file))
+        mockMvc.perform(MockMvcRequestBuilders.multipart(urlUploadControllerPath).file(file))
                 .andDo(print())
                 .andExpect(status().isInternalServerError());
         assertTrue(pathForFileCreatedDuringTests.toFile().exists());
 
         File fileCreatedDuringTests = new File(pathForFileCreatedDuringTests.toString());
         fileCreatedDuringTests.delete();
+    }
+
+    @Autowired
+    private TestRestTemplate testRestTemplate;
+
+    @LocalServerPort
+    int randomServerPort;
+
+    @Test
+    public void whenTestSamplePngGiven_shouldServeIt() throws Exception {
+        final Parking parking = new Parking(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
+
+        final Long parkingId = parkingService.addEntityToDB(parking);
+
+        final Car car = new Car(null, "WN101", 100, 4, 5, 5,
+                gearboxTypeService.getEntityByName("Automatic"), fuelTypeService.getEntityByName("Gasoline"),
+                LocalDateTime.of(2000, 3, 25, 0, 0), 1990, true, 200000, modelService.getEntityByName("C350"),
+                parkingService.getEntityById(parkingId), colourService.getEntityByName("Red"), typeService.getEntityByName("Sedan"));
+
+        car.setImagePath(targetFolder+"/tests/test_sample.png");
+        carService.addEntityToDB(car);
+
+        File sampleFile = new File(targetFolder+"/tests/test_sample.png");
+        long sampleFileLengthInBytes = sampleFile.length();
+
+        ResponseEntity<byte[]> entity = testRestTemplate.getForEntity(new URI("http://localhost:"+randomServerPort+urlServeControllerPath), byte[].class);
+        assertEquals("Wrong length\n", sampleFileLengthInBytes, entity.getHeaders().getContentLength());
+
+        byte[] image = Files.readAllBytes(sampleFile.toPath());
+        assertTrue(Arrays.equals(entity.getBody(), image));
     }
 }
