@@ -158,6 +158,28 @@ export const deleteCar = (licensePlate, fetchActive) => async (dispatch) => {
   }
 };
 
+export const uploadPicture = (licensePlate, file, fetchActive) => async (
+  dispatch
+) => {
+  try {
+    const data = new FormData();
+    data.append("imageFile", file);
+    const upload = await axios.post(
+      API_URL + `/a/car/upload-car-image/${licensePlate}`,
+      {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    console.log(upload);
+    dispatch(fetchCars(fetchActive));
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const filterCars = (cars, filterLicensePlate, filterMark) => (
   dispatch
 ) => {

@@ -3,7 +3,7 @@ import { Nav } from "react-bootstrap";
 import { Popover, Button, Container } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
 import { selectAll } from "../../../features/rents/rentsSlice";
-import { makeStyles } from "@material-ui/core";
+import { makeStyles, Badge } from "@material-ui/core";
 import ContentItem from "./ContentItem";
 import DriveEtaIcon from "@material-ui/icons/DriveEta";
 
@@ -40,12 +40,16 @@ const RequestsPopover = () => {
       <Nav.Link>
         <Button
           className={classes.button}
-          variant="contained"
-          color={pendingRents.length > 0 ? "secondary" : "default"}
+          // variant="contained"
           onClick={handleClick}
-          startIcon={pendingRents.length > 0 ? <DriveEtaIcon /> : ""}
         >
-          {pendingRents.length}
+          {pendingRents.length > 0 ? (
+            <Badge badgeContent={pendingRents.length} color="secondary">
+              <DriveEtaIcon color="secondary" />
+            </Badge>
+          ) : (
+            <DriveEtaIcon color="primary" />
+          )}
         </Button>
       </Nav.Link>
       <Popover
