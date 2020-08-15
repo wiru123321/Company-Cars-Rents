@@ -161,29 +161,21 @@ export const addCar = (carDTO) => async (dispatch) => {
 
 export const addImage = (file, licensePlate) => async (dispatch) => {
   let formData = new FormData();
-    const json = JSON.stringify(file);
-    const blob = new Blob([json], {
-      type: "application/json",
-    });
-    const data = new FormData();
-    data.append("imageFile", blob);
-    const response = await axios.post(
-      API_URL + "/a/car/upload-car-image/" + licensePlate,
-      data,
+  const json = JSON.stringify(file);
+  const blob = new Blob([json], {
+    type: "application/json",
+  });
+  const data = new FormData();
+  data.append("imageFile", blob);
+  const response = await axios
+    .post(API_URL + "/a/car/upload-car-image/" + licensePlate, data, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token"),
-      {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token"),
-          "content-type": "multipart/form-data",
+        "content-type": "multipart/form-data",
       },
     })
-    .then((response) => {
-    })
+    .then((response) => {})
     .catch((error) => console.log(JSON.stringify(error)));
-  } catch (error) {
-    console.log(error);
-  }
 };
 
 export default carsInfoSlice.reducer;
