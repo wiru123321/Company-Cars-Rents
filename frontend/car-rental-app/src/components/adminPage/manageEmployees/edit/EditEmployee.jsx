@@ -20,7 +20,7 @@ const useStyles = makeStyles({
 
 const EditEmployee = ({ employeeState, handleChange, handleSubmit }) => {
   const classes = useStyles();
-  const { name, surname, phoneNumber, email } = employeeState;
+
   return (
     <ValidatorForm onSubmit={handleSubmit} className={classes.details}>
       <Grid
@@ -41,7 +41,7 @@ const EditEmployee = ({ employeeState, handleChange, handleSubmit }) => {
             >
               <TextValidator
                 onChange={handleChange}
-                value={name}
+                value={employeeState.name}
                 name="name"
                 className={classes.textField}
                 placeholder="Name"
@@ -53,7 +53,7 @@ const EditEmployee = ({ employeeState, handleChange, handleSubmit }) => {
               />
               <TextValidator
                 onChange={handleChange}
-                value={phoneNumber}
+                value={employeeState.phoneNumber}
                 name="phoneNumber"
                 className={classes.textField}
                 placeholder="Phone number"
@@ -75,7 +75,7 @@ const EditEmployee = ({ employeeState, handleChange, handleSubmit }) => {
             >
               <TextValidator
                 onChange={handleChange}
-                value={surname}
+                value={employeeState.surname}
                 name="surname"
                 className={classes.textField}
                 placeholder="Surname"
@@ -87,7 +87,7 @@ const EditEmployee = ({ employeeState, handleChange, handleSubmit }) => {
               />
               <TextValidator
                 onChange={handleChange}
-                value={email}
+                value={employeeState.email}
                 name="email"
                 className={classes.textField}
                 placeholder="Email"

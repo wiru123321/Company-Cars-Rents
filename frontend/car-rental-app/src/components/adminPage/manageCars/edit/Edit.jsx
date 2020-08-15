@@ -1,13 +1,11 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Grid } from "@material-ui/core";
-import EditForm from "./EditForm";
-
 import {
-  fetchCars,
   updateCar,
   selectAll,
 } from "../../../../features/cars-manager/carsManagerSlice";
+import EditForm from "./EditForm";
 
 const Edit = () => {
   const dispatch = useDispatch();

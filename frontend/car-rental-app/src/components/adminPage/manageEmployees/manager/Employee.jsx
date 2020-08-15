@@ -7,7 +7,7 @@ import {
   makeStyles,
   Button,
 } from "@material-ui/core";
-import EditEmployee from "./edit/EditEmployee";
+import EditEmployee from "../edit/EditEmployee";
 import FaceIcon from "@material-ui/icons/Face";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import PhoneIcon from "@material-ui/icons/Phone";
@@ -17,7 +17,7 @@ import FingerprintIcon from "@material-ui/icons/Fingerprint";
 const useStyles = makeStyles({
   card: {
     minHeight: "20vh",
-    minWidth: "30vw",
+    minWidth: "45vw",
   },
   paper: {
     marginTop: "1%",
@@ -63,6 +63,7 @@ const Employee = ({ employee, handleDelete, handleUpdate }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     handleEdit();
+    setEdit(false);
   };
 
   const handleRemove = () => {

@@ -68,7 +68,6 @@ export const fetchAllUsers = () => async (dispatch) => {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     });
-
     dispatch(setUsers(response.data));
     dispatch(setFilteredEmployees(response.data));
   } catch (error) {
@@ -87,13 +86,7 @@ export const updateUser = (login, userUpdate) => async (dispatch) => {
         },
       }
     );
-    const fetchResponse = await axios.get(API_URL + "/a/users", {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("token"),
-      },
-    });
-    console.log(fetchResponse.data);
-    dispatch(setUsers(fetchResponse.data));
+    dispatch(fetchAllUsers());
     dispatch(setUpdateResult(true));
   } catch (error) {
     console.log(error);
@@ -108,7 +101,6 @@ export const deleteUser = (login) => async (dispatch) => {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     });
-
     dispatch(fetchAllUsers());
   } catch (error) {
     console.log(error);
@@ -117,13 +109,13 @@ export const deleteUser = (login) => async (dispatch) => {
 
 export const filterUsers = (users, loginFilters, nameFilters) => (dispatch) => {
   let filteredEmployees = users.filter((employee) =>
-    employee.login.includes(loginFilters)
+    employee.login.toLowerCase().includes(loginFilters.toLowerCase())
   );
 
   filteredEmployees = filteredEmployees.filter(
     (employee) =>
-      employee.name.includes(nameFilters) ||
-      employee.surname.includes(nameFilters)
+      employee.name.toLowerCase().includes(nameFilters.toLowerCase()) ||
+      employee.surname.toLowerCase().includes(nameFilters.toLowerCase())
   );
   dispatch(setFilteredEmployees(filteredEmployees));
 };

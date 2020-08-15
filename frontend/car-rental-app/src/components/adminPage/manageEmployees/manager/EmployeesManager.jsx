@@ -1,18 +1,25 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Grid } from "@material-ui/core";
+import { Grid, makeStyles } from "@material-ui/core";
 import {
   fetchAllUsers,
   selectAll,
   filterUsers,
   deleteUser,
   updateUser,
-} from "../../../features/employees-management/employeesManagerSlice";
-import NotFoundMessage from "../messages/NotFoundMessage";
-import Search from "./searchbar/Search";
+} from "../../../../features/employees-management/employeesManagerSlice";
+import NotFoundMessage from "../../messages/NotFoundMessage";
+import Search from "../searchbar/Search";
 import Employee from "./Employee";
 
+const useStyles = makeStyles({
+  content: {
+    minHeight: "80vh",
+  },
+});
+
 const EmployeesManager = () => {
+  const classes = useStyles();
   const dispatch = useDispatch();
   const { users, filteredEmployees, loginFilters, nameFilters } = useSelector(
     selectAll
@@ -33,7 +40,7 @@ const EmployeesManager = () => {
     dispatch(updateUser(login, user));
   };
   return (
-    <Grid>
+    <Grid className={classes.content}>
       <Grid container justify="center">
         <Search />
       </Grid>
@@ -41,6 +48,7 @@ const EmployeesManager = () => {
         {filteredEmployees.length > 0 ? (
           filteredEmployees.map((employee, index) => (
             <Employee
+              key={employee.login + index}
               employee={employee}
               handleDelete={handleDelete}
               handleUpdate={handleUpdate}

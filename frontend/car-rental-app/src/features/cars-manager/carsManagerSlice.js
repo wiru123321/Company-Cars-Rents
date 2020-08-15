@@ -162,10 +162,10 @@ export const filterCars = (cars, filterLicensePlate, filterMark) => (
   dispatch
 ) => {
   let filteredCars = cars.filter((car) =>
-    car.licensePlate.includes(filterLicensePlate)
+    car.licensePlate.toLowerCase().includes(filterLicensePlate.toLowerCase())
   );
   filteredCars = filteredCars.filter((car) =>
-    car.modelDTO.markDTO.name.includes(filterMark)
+    car.modelDTO.markDTO.name.toLowerCase().includes(filterMark.toLowerCase())
   );
   dispatch(setFilteredCars(filteredCars));
 };

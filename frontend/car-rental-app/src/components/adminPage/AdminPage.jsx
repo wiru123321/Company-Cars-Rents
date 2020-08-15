@@ -5,7 +5,7 @@ import UserNavbar from "./adminNavbar/AdminNavbar";
 import AddNewCar from "./manageCars/addNewCar/AddNewCar";
 import CarsManager from "./manageCars/manager/CarsManager";
 import AddEmployee from "./manageEmployees/addEmployee/AddEmployee";
-import EmployeesManager from "./manageEmployees/EmployeesManager";
+import EmployeesManager from "./manageEmployees/manager/EmployeesManager";
 import RentRequests from "./rentRequests/RentRequests";
 import Footer from "../footer/Footer";
 import { fetchPendingRents } from "../../features/rents/rentsSlice";
