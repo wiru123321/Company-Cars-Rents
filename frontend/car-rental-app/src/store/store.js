@@ -8,9 +8,9 @@ import startingCarParameterReducer from "../features/starting-car-parameter/star
 import userEmailSettingsReducer from "../features/user-settings/userEmailSettingsSlice";
 import userPasswordSettingsReducer from "../features/user-settings/userPasswordSettingsSlice";
 import userPhoneNumberSettingsReducer from "../features/user-settings/userPhoneNumberSettingsSlice";
-import carManagerReducer from "../features/car-management/carManagerSlice";
 import employeesManagerReducer from "../features/employees-management/employeesManagerSlice";
 import rentsReducer from "../features/rents/rentsSlice";
+import carsReducer from "../features/cars-manager/carsManagerSlice";
 
 export default configureStore({
   reducer: {
@@ -23,8 +23,8 @@ export default configureStore({
     userEmailSettings: userEmailSettingsReducer,
     userPasswordSettings: userPasswordSettingsReducer,
     userPhoneNumberSettings: userPhoneNumberSettingsReducer,
-    carsManager: carManagerReducer,
     employees: employeesManagerReducer,
     rent: rentsReducer,
+    cars: carsReducer,
   },
 });

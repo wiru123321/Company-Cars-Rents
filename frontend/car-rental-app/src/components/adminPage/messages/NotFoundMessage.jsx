@@ -2,16 +2,20 @@ import React from "react";
 import { Paper, Typography, Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core";
 const useStyles = makeStyles({
+  paper: {
+    marginTop: "1%",
+  },
   box: {
     height: "40vh",
+    width: "40vw",
   },
 });
-const NotFoundMessage = ({ children }) => {
+const NotFoundMessage = ({ children, raw }) => {
   const classes = useStyles();
   return (
-    <Paper>
+    <Paper className={classes.paper}>
       <Grid
-        className={classes.box}
+        className={!raw && classes.box}
         container
         direction="column"
         justify="center"

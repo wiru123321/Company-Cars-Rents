@@ -187,9 +187,9 @@ public class RentServiceTest {
 
         userRepository.save(user);
 
-        final Rent rent = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlate("SBE33212")
+        final Rent rent = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlateAndIsOnCompany("SBE33212", true)
                 , LocalDateTime.of(2000, 3, 25, 10, 0), LocalDateTime.of(2000, 3, 25, 18, 0)
-                , parkingService.getEntityById(parkingId1), parkingService.getEntityById(parkingId2), true, "comment", "Response");
+                , parkingService.getEntityById(parkingId1), parkingService.getEntityById(parkingId2), true, "comment", "Response", "");
 
         assertEquals(0, rentRepository.count());
         rentService.addEntityToDB(rent);
@@ -225,9 +225,9 @@ public class RentServiceTest {
 
         userRepository.save(user);
 
-        final Rent rent = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlate("SBE33212")
+        final Rent rent = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlateAndIsOnCompany("SBE33212", true)
                 , LocalDateTime.of(2000, 3, 25, 10, 0), LocalDateTime.of(2000, 3, 25, 18, 0)
-                , parkingService.getEntityById(parkingId1), parkingService.getEntityById(parkingId1), true, "comment", "Response");
+                , parkingService.getEntityById(parkingId1), parkingService.getEntityById(parkingId1), true, "comment", "Response", "");
 
         assertEquals(0, rentRepository.count());
         final Long rentId = rentService.addEntityToDB(rent);
@@ -289,8 +289,8 @@ public class RentServiceTest {
         final LocalDate dateTTo = LocalDate.of(2000, Month.MARCH, 30);
         final LocalDateTime dateFrom = LocalDateTime.of(2000, 3, 25, 0, 0);
         final LocalDateTime dateTo = LocalDateTime.of(2000, 3, 30, 0, 0);
-        final Rent rent = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlate("SBE33212"), dateFrom, dateTo
-                , parkingService.getEntityById(parkingId1), parkingService.getEntityById(parkingId2), true, "comment", "Response");
+        final Rent rent = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlateAndIsOnCompany("SBE33212", true), dateFrom, dateTo
+                , parkingService.getEntityById(parkingId1), parkingService.getEntityById(parkingId2), true, "comment", "Response", "");
         final Long rentId = rentService.addEntityToDB(rent);
 
         final RentDTO rentDTO = rentService.getDTOById(rentId);
@@ -340,8 +340,8 @@ public class RentServiceTest {
 
         final LocalDateTime dateFrom = LocalDateTime.of(2000, 3, 25, 0, 0);
         final LocalDateTime dateTo = LocalDateTime.of(2000, 3, 30, 0, 0);
-        final Rent rent = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlate("SBE33212"), dateFrom, dateTo
-                , parkingService.getEntityById(parkingId1), parkingService.getEntityById(parkingId1), true, "comment", "Response");
+        final Rent rent = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlateAndIsOnCompany("SBE33212", true), dateFrom, dateTo
+                , parkingService.getEntityById(parkingId1), parkingService.getEntityById(parkingId1), true, "comment", "Response", "");
         final Long rentId = rentService.addEntityToDB(rent);
 
         final RentDTO rentDTO1 = rentService.getDTOByCarDTOAndDateFrom(carDTO, dateFrom);
@@ -388,12 +388,12 @@ public class RentServiceTest {
 
         final LocalDateTime dateFrom = LocalDateTime.of(2000, 3, 25, 0, 0);
         final LocalDateTime dateTo = LocalDateTime.of(2000, 3, 30, 0, 0);
-        final Rent rent1 = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlate("SBE33212"), dateFrom, dateTo
-                , parkingService.getEntityById(parkingId1), parkingService.getEntityById(parkingId2), true, "comment", "Response");
-        final Rent rent2 = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlate("SBE33212"), dateFrom, dateTo
-                , parkingService.getEntityById(parkingId2), parkingService.getEntityById(parkingId3), true, "comment", "Response");
-        final Rent rent3 = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlate("SBE33212"), dateFrom, dateTo
-                , parkingService.getEntityById(parkingId3), parkingService.getEntityById(parkingId1), true, "comment", "Response");
+        final Rent rent1 = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlateAndIsOnCompany("SBE33212", true), dateFrom, dateTo
+                , parkingService.getEntityById(parkingId1), parkingService.getEntityById(parkingId2), true, "comment", "Response", "");
+        final Rent rent2 = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlateAndIsOnCompany("SBE33212", true), dateFrom, dateTo
+                , parkingService.getEntityById(parkingId2), parkingService.getEntityById(parkingId3), true, "comment", "Response", "");
+        final Rent rent3 = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlateAndIsOnCompany("SBE33212", true), dateFrom, dateTo
+                , parkingService.getEntityById(parkingId3), parkingService.getEntityById(parkingId1), true, "comment", "Response", "");
 
         assertEquals(0, rentRepository.count());
         final Long rentId1 = rentService.addEntityToDB(rent1);
@@ -436,12 +436,12 @@ public class RentServiceTest {
 
         final LocalDateTime dateFrom = LocalDateTime.of(2000, 3, 25, 0, 0);
         final LocalDateTime dateTo = LocalDateTime.of(2000, 3, 30, 0, 0);
-        final Rent rent1 = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlate("SBE33212"), dateFrom, dateTo
-                , parkingService.getEntityById(parkingId1), parkingService.getEntityById(parkingId2), true, "comment", "Response");
-        final Rent rent2 = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlate("SBE33212"), dateFrom, dateTo
-                , parkingService.getEntityById(parkingId2), parkingService.getEntityById(parkingId3), true, "comment", "Response");
-        final Rent rent3 = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlate("SBE33212"), dateFrom, dateTo
-                , parkingService.getEntityById(parkingId3), parkingService.getEntityById(parkingId1), true, "comment", "Response");
+        final Rent rent1 = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlateAndIsOnCompany("SBE33212", true), dateFrom, dateTo
+                , parkingService.getEntityById(parkingId1), parkingService.getEntityById(parkingId2), true, "comment", "Response", "");
+        final Rent rent2 = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlateAndIsOnCompany("SBE33212", true), dateFrom, dateTo
+                , parkingService.getEntityById(parkingId2), parkingService.getEntityById(parkingId3), true, "comment", "Response", "");
+        final Rent rent3 = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlateAndIsOnCompany("SBE33212", true), dateFrom, dateTo
+                , parkingService.getEntityById(parkingId3), parkingService.getEntityById(parkingId1), true, "comment", "Response", "");
         final Long rentId1 = rentService.addEntityToDB(rent1);
         final Long rentId2 = rentService.addEntityToDB(rent2);
         final Long rentId3 = rentService.addEntityToDB(rent3);
@@ -483,8 +483,8 @@ public class RentServiceTest {
 
         final LocalDateTime dateFrom = LocalDateTime.of(2000, 3, 25, 0, 0);
         final LocalDateTime dateTo = LocalDateTime.of(2000, 3, 30, 0, 0);
-        final Rent rent1 = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlate("SBE33212"), dateFrom, dateTo
-                , parkingService.getEntityById(parkingId1), parkingService.getEntityById(parkingId2), true, "comment", "Response");
+        final Rent rent1 = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlateAndIsOnCompany("SBE33212", true), dateFrom, dateTo
+                , parkingService.getEntityById(parkingId1), parkingService.getEntityById(parkingId2), true, "comment", "Response", "");
 
         final Long rentId1 = rentService.addEntityToDB(rent1);
 
@@ -543,14 +543,14 @@ public class RentServiceTest {
 
         final LocalDateTime dateFrom = LocalDateTime.of(2000, 3, 25, 0, 0);
         final LocalDateTime dateTo = LocalDateTime.of(2000, 3, 30, 0, 0);
-        final Rent rent1 = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlate("SBE33212"), dateFrom, dateTo
-                , parkingService.getEntityById(parkingId1), parkingService.getEntityById(parkingId2), false, "comment", "Response");
-        final Rent rent2 = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlate("SBE33212"), dateFrom, dateTo
-                , parkingService.getEntityById(parkingId3), parkingService.getEntityById(parkingId4), false, "comment", "Response");
-        final Rent rent3 = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlate("SBE33212"), dateFrom, dateTo
-                , parkingService.getEntityById(parkingId5), parkingService.getEntityById(parkingId6), false, "comment", "Response");
-        final Rent rent4 = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlate("SBE33212"), dateFrom, dateTo
-                , parkingService.getEntityById(parkingId7), parkingService.getEntityById(parkingId8), false, "comment", "Response");
+        final Rent rent1 = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlateAndIsOnCompany("SBE33212", true), dateFrom, dateTo
+                , parkingService.getEntityById(parkingId1), parkingService.getEntityById(parkingId2), false, "comment", "Response", "");
+        final Rent rent2 = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlateAndIsOnCompany("SBE33212", true), dateFrom, dateTo
+                , parkingService.getEntityById(parkingId3), parkingService.getEntityById(parkingId4), false, "comment", "Response", "");
+        final Rent rent3 = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlateAndIsOnCompany("SBE33212", true), dateFrom, dateTo
+                , parkingService.getEntityById(parkingId5), parkingService.getEntityById(parkingId6), false, "comment", "Response", "");
+        final Rent rent4 = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlateAndIsOnCompany("SBE33212", true), dateFrom, dateTo
+                , parkingService.getEntityById(parkingId7), parkingService.getEntityById(parkingId8), false, "comment", "Response", "");
 
 
         final List<RentPendingDTO> list = new ArrayList<>();
@@ -622,14 +622,14 @@ public class RentServiceTest {
 
         final LocalDateTime dateFrom = LocalDateTime.of(2000, 3, 25, 0, 0);
         final LocalDateTime dateTo = LocalDateTime.of(2000, 3, 30, 0, 0);
-        final Rent rent1 = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlate("SBE33212"), dateFrom, dateTo
-                , parkingService.getEntityById(parkingId1), parkingService.getEntityById(parkingId2), false, "comment", "Response");
-        final Rent rent2 = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlate("SBE33212"), dateFrom, dateTo
-                , parkingService.getEntityById(parkingId3), parkingService.getEntityById(parkingId4), true, "comment", "Response");
-        final Rent rent3 = new Rent(null, userService.getEntityByLogin("login1"), carRepository.findByLicensePlate("SBE33212"), dateFrom, dateTo
-                , parkingService.getEntityById(parkingId5), parkingService.getEntityById(parkingId6), true, "comment", "Response");
-        final Rent rent4 = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlate("SBE33212"), dateFrom, dateTo
-                , parkingService.getEntityById(parkingId7), parkingService.getEntityById(parkingId8), true, "comment", "Response");
+        final Rent rent1 = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlateAndIsOnCompany("SBE33212", true), dateFrom, dateTo
+                , parkingService.getEntityById(parkingId1), parkingService.getEntityById(parkingId2), false, "comment", "Response", "");
+        final Rent rent2 = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlateAndIsOnCompany("SBE33212", true), dateFrom, dateTo
+                , parkingService.getEntityById(parkingId3), parkingService.getEntityById(parkingId4), true, "comment", "Response", "");
+        final Rent rent3 = new Rent(null, userService.getEntityByLogin("login1"), carRepository.findByLicensePlateAndIsOnCompany("SBE33212", true), dateFrom, dateTo
+                , parkingService.getEntityById(parkingId5), parkingService.getEntityById(parkingId6), true, "comment", "Response", "");
+        final Rent rent4 = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlateAndIsOnCompany("SBE33212", true), dateFrom, dateTo
+                , parkingService.getEntityById(parkingId7), parkingService.getEntityById(parkingId8), true, "comment", "Response", "");
 
 
         List<RentPendingDTO> list = new ArrayList<>(rentService.getUserActiveRentDTOs());
@@ -688,14 +688,14 @@ public class RentServiceTest {
 
         final LocalDateTime dateFrom = LocalDateTime.of(2000, 3, 25, 0, 0);
         final LocalDateTime dateTo = LocalDateTime.of(2000, 3, 30, 0, 0);
-        final Rent rent1 = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlate("SBE33212"), dateFrom, dateTo
-                , parkingService.getEntityById(parkingId1), parkingService.getEntityById(parkingId2), false, "comment", "Response");
-        final Rent rent2 = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlate("SBE33212"), dateFrom, dateTo
-                , parkingService.getEntityById(parkingId3), parkingService.getEntityById(parkingId4), true, "comment", "Response");
-        final Rent rent3 = new Rent(null, userService.getEntityByLogin("login1"), carRepository.findByLicensePlate("SBE33212"), dateFrom, dateTo
-                , parkingService.getEntityById(parkingId5), parkingService.getEntityById(parkingId6), true, "comment", "Response");
-        final Rent rent4 = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlate("SBE33212"), dateFrom, dateTo
-                , parkingService.getEntityById(parkingId7), parkingService.getEntityById(parkingId8), true, "comment", "Response");
+        final Rent rent1 = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlateAndIsOnCompany("SBE33212", true), dateFrom, dateTo
+                , parkingService.getEntityById(parkingId1), parkingService.getEntityById(parkingId2), false, "comment", "Response", "");
+        final Rent rent2 = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlateAndIsOnCompany("SBE33212", true), dateFrom, dateTo
+                , parkingService.getEntityById(parkingId3), parkingService.getEntityById(parkingId4), true, "comment", "Response", "");
+        final Rent rent3 = new Rent(null, userService.getEntityByLogin("login1"), carRepository.findByLicensePlateAndIsOnCompany("SBE33212", true), dateFrom, dateTo
+                , parkingService.getEntityById(parkingId5), parkingService.getEntityById(parkingId6), true, "comment", "Response", "");
+        final Rent rent4 = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlateAndIsOnCompany("SBE33212", true), dateFrom, dateTo
+                , parkingService.getEntityById(parkingId7), parkingService.getEntityById(parkingId8), true, "comment", "Response", "");
 
 
         List<RentPendingDTO> list = new ArrayList<>(rentService.getUserInactiveRentDTOs());
@@ -782,14 +782,14 @@ public class RentServiceTest {
         final LocalDateTime dateFrom3 = LocalDateTime.of(2020, 5, 25, 0, 0);
         final LocalDateTime dateTo3 = LocalDateTime.of(2020, 5, 30, 0, 0);
 
-        final Rent rent1 = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlate("SBE00000"), dateFrom, dateTo
-                , parkingService.getEntityById(parkingId1), parkingService.getEntityById(parkingId2), false, "comment", "Response");
-        final Rent rent2 = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlate("SBE11111"), dateFrom1, dateTo1
-                , parkingService.getEntityById(parkingId3), parkingService.getEntityById(parkingId4), true, "comment", "Response");
-        final Rent rent3 = new Rent(null, userService.getEntityByLogin("login1"), carRepository.findByLicensePlate("SBE22222"), dateFrom2, dateTo2
-                , parkingService.getEntityById(parkingId5), parkingService.getEntityById(parkingId6), true, "comment", "Response");
-        final Rent rent4 = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlate("SBE33333"), dateFrom3, dateTo3
-                , parkingService.getEntityById(parkingId7), parkingService.getEntityById(parkingId8), true, "comment", "Response");
+        final Rent rent1 = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlateAndIsOnCompany("SBE00000", true), dateFrom, dateTo
+                , parkingService.getEntityById(parkingId1), parkingService.getEntityById(parkingId2), false, "comment", "Response", "");
+        final Rent rent2 = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlateAndIsOnCompany("SBE11111", true), dateFrom1, dateTo1
+                , parkingService.getEntityById(parkingId3), parkingService.getEntityById(parkingId4), true, "comment", "Response", "");
+        final Rent rent3 = new Rent(null, userService.getEntityByLogin("login1"), carRepository.findByLicensePlateAndIsOnCompany("SBE22222", true), dateFrom2, dateTo2
+                , parkingService.getEntityById(parkingId5), parkingService.getEntityById(parkingId6), true, "comment", "Response", "");
+        final Rent rent4 = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlateAndIsOnCompany("SBE33333", true), dateFrom3, dateTo3
+                , parkingService.getEntityById(parkingId7), parkingService.getEntityById(parkingId8), true, "comment", "Response", "");
 
         final Long rentId1 = rentService.addEntityToDB(rent1);
         final Long rentId2 = rentService.addEntityToDB(rent2);

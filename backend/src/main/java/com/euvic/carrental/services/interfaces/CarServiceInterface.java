@@ -10,7 +10,7 @@ public interface CarServiceInterface {
 
     CarDTO mapToCarDTO(Car car);
 
-    Car getEntityByLicensePlate(String licensePlate);
+    Car getOnCompanyEntityByLicensePlate(String licensePlate);
 
     CarDTO getDTOByLicensePlate(String licensePlate);
 
@@ -30,5 +30,7 @@ public interface CarServiceInterface {
 
     Long addExistingImageToExistingCar(String carImagePath, String licensePlate);
 
-    Boolean checkIfCarWithLicensePlateExists(String licensePlate);
+    Boolean checkIfOnCompanyCarWithLicensePlateExists(String licensePlate);
+
+    Long setCarActivity(Boolean isActive, String licensePlate);
 }

@@ -1,23 +1,20 @@
 import React, { useRef, useEffect, useState } from "react";
 import { Nav } from "react-bootstrap";
-import {
-  Popover,
-  Typography,
-  Button,
-  Paper,
-  Container,
-} from "@material-ui/core";
+import { Popover, Button, Container } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
-
-import ContentItem from "./ContentItem";
 import { selectAll } from "../../../features/rents/rentsSlice";
 import { makeStyles } from "@material-ui/core";
+import ContentItem from "./ContentItem";
+import DriveEtaIcon from "@material-ui/icons/DriveEta";
 
 const useStyles = makeStyles({
   paper: {
     maxHeight: "30vh",
     width: "30vw",
     padding: "8px",
+  },
+  button: {
+    borderRadius: "50%",
   },
 });
 
@@ -41,7 +38,13 @@ const RequestsPopover = () => {
   return (
     <>
       <Nav.Link>
-        <Button variant="contained" onClick={handleClick}>
+        <Button
+          className={classes.button}
+          variant="contained"
+          color={pendingRents.length > 0 ? "secondary" : "default"}
+          onClick={handleClick}
+          startIcon={pendingRents.length > 0 ? <DriveEtaIcon /> : ""}
+        >
           {pendingRents.length}
         </Button>
       </Nav.Link>

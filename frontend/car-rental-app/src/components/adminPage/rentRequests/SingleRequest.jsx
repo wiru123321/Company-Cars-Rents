@@ -12,7 +12,6 @@ import {
 import { rentRequestStyles } from "./rentRequestInfo/rentRequest.styles";
 import ParkingInfo from "./rentRequestInfo/ParkingInfo";
 import RequestedCarInfo from "./rentRequestInfo/RequestedCarInfo";
-import RentAlert from "./RentAlert";
 
 const SingleRequest = () => {
   const { currentRent, response } = useSelector(selectAll);
@@ -64,7 +63,6 @@ const SingleRequest = () => {
           handleReject={handleReject}
         />
       </Paper>
-      <RentAlert />
     </Container>
   );
 };
