@@ -14,7 +14,8 @@ RUN npm install && \
     npm install react-redux && \
     npm install @reduxjs/toolkit && \
     npm install axios && \
-    npm install react-alert-template-basic
+    npm install react-alert-template-basic && \
+    npm install react-alert
     
 COPY . .
 
