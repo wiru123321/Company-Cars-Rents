@@ -1,3 +1,6 @@
+
+# ---- Frontend dockerfile ---- #
+
 FROM node:13.12.0-alpine
 
 RUN adduser -D -u 8787 carRentalFront
@@ -6,7 +9,6 @@ WORKDIR /usr/app
 
 COPY package.json .
 
-# v1.3
 RUN npm install && \
     npm install -g react-scripts serve && \
     npm install @material-ui/core && \

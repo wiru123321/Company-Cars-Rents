@@ -1,4 +1,6 @@
-#FROM adoptopenjdk/openjdk11:ubi
+
+# ---- Backend dockerfile ---- #
+
 FROM gradle:jdk11
 
 WORKDIR /home/app
