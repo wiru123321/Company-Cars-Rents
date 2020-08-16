@@ -13,7 +13,8 @@ RUN npm install && \
     npm install @material-ui/icons && \
     npm install react-redux && \
     npm install @reduxjs/toolkit && \
-    npm install axios
+    npm install axios && \
+    npm install react-alert-template-basic
     
 COPY . .
 
