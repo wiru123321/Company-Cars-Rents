@@ -75,7 +75,7 @@ export const fetchAllUsers = () => async (dispatch) => {
   }
 };
 
-export const updateUser = (login, userUpdate) => async (dispatch) => {
+export const updateUser = (login, alert, userUpdate) => async (dispatch) => {
   try {
     const updateResponse = await axios.put(
       API_URL + `/a/user/${login}`,
@@ -87,14 +87,13 @@ export const updateUser = (login, userUpdate) => async (dispatch) => {
       }
     );
     dispatch(fetchAllUsers());
-    dispatch(setUpdateResult(true));
-  } catch (error) {
-    console.log(error);
-    dispatch(setUpdateResult(false));
+    alert.success("Successfully updated user!");
+  } catch (err) {
+    alert.error("Failed to update user!");
   }
 };
 
-export const deleteUser = (login) => async (dispatch) => {
+export const deleteUser = (login, alert) => async (dispatch) => {
   try {
     const deleteResponse = await axios.delete(API_URL + `/a/user/${login}`, {
       headers: {
@@ -102,8 +101,9 @@ export const deleteUser = (login) => async (dispatch) => {
       },
     });
     dispatch(fetchAllUsers());
-  } catch (error) {
-    console.log(error);
+    alert.success("Successfully deleted user!");
+  } catch (err) {
+    alert.error("Failed to delete user!");
   }
 };
 

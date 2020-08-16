@@ -15,7 +15,6 @@ public class FileService {
 
     final private CarService carService;
 
-    //TODO tests
     private static final String UPLOAD_DIRECTORY = System.getProperty("user.dir") + "/src/main/upload";
     private static final String STATIC_DIRECTORY = System.getProperty("user.dir") + "/src/main/upload/static";
     private static final String IMAGES_DIRECTORY = System.getProperty("user.dir") + "/src/main/upload/static/images";

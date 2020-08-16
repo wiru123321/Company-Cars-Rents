@@ -11,7 +11,7 @@ import {
 import NotFoundMessage from "../../messages/NotFoundMessage";
 import Search from "../searchbar/Search";
 import Employee from "./Employee";
-
+import { useAlert } from "react-alert";
 const useStyles = makeStyles({
   content: {
     minHeight: "80vh",
@@ -19,6 +19,7 @@ const useStyles = makeStyles({
 });
 
 const EmployeesManager = () => {
+  const alert = useAlert();
   const classes = useStyles();
   const dispatch = useDispatch();
   const { users, filteredEmployees, loginFilters, nameFilters } = useSelector(
@@ -34,10 +35,10 @@ const EmployeesManager = () => {
   }, [loginFilters, nameFilters]);
 
   const handleDelete = (login) => {
-    dispatch(deleteUser(login));
+    dispatch(deleteUser(login, alert));
   };
   const handleUpdate = (login, user) => {
-    dispatch(updateUser(login, user));
+    dispatch(updateUser(login, alert, user));
   };
   return (
     <Grid className={classes.content}>
