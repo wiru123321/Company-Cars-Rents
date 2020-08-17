@@ -44,6 +44,11 @@ public class RentController {
         return ResponseEntity.ok(rentService.getAllPendingRents());
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/a/rent/{id}")
+    public ResponseEntity<?> getRentWithId(@PathVariable final Long id) {
+        return ResponseEntity.ok(rentService.getDTOById(id));
+    }
+
     @RequestMapping(method = RequestMethod.GET, value = "/a/rent/car_history/{licensePlate}")
     public ResponseEntity<?> checkCarHistory(@PathVariable final String licensePlate) {
         return ResponseEntity.ok(rentHistoryService.getAllDTOsByCar(carService.getOnCompanyEntityByLicensePlate(licensePlate)));
@@ -157,9 +162,9 @@ public class RentController {
         return ResponseEntity.ok(rentService.getUserInactiveRentDTOs());
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/e/rent/carsOnTime")
-    public ResponseEntity<?> getCarsOnTime(@RequestBody final DateFromDateTo dateFromDateTo) {
-        return ResponseEntity.ok(rentService.getActiveCarsBetweenDates(dateFromDateTo));
+    @RequestMapping(method = RequestMethod.GET, value = "/e/rent/carsOnTime")
+    public ResponseEntity<?> getCarsOnTime(@RequestParam(value = "dateFrom") final String dateFrom, @RequestParam(value = "dateTo") final String dateTo) {
+        return ResponseEntity.ok(rentService.getActiveCarsBetweenDates(new DateFromDateTo(dateFrom, dateTo)));
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/e/rent/{licensePlate}")
@@ -255,7 +260,6 @@ public class RentController {
                     if (endRentDTO.getParkingDTO() != null)
                         parkingService.deleteParkingById(parkingToId);
 
-                    //TODO Dodaj funkcję, która zmieni miejsce odbioru pojazdu najbliższego wypożyczenia na ten na który jest ustawiony
                     responseCode = 200;
                     message = "ok";
                 } else {
