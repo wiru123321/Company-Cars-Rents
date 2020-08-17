@@ -16,10 +16,14 @@ import {
   acceptRentRequest,
   rejectRentRequest,
   fetchCarsBetweenDates,
+  changeRentCar,
+  getCar,
 } from "../../../features/rents/rentsSlice";
 import { rentRequestStyles } from "./rentRequestInfo/rentRequest.styles";
 import ParkingInfo from "./rentRequestInfo/ParkingInfo";
 import RequestedCarInfo from "./rentRequestInfo/RequestedCarInfo";
+import CarImage from "../../carsListing/CarImage";
+import CarInfo from "../../carsListing/CarInfo";
 
 const SingleRequest = () => {
   const { currentRent } = useSelector(selectAll);
@@ -67,6 +71,7 @@ const SingleRequest = () => {
 
         <RequestedCarInfo carDTO={currentRent.carDTO} />
         <ChangeCar
+          id={currentRent.id}
           dateFrom={currentRent.dateFrom}
           dateTo={currentRent.dateTo}
         />
@@ -81,9 +86,10 @@ const SingleRequest = () => {
   );
 };
 
-const ChangeCar = ({ dateFrom, dateTo }) => {
+const ChangeCar = ({ id, dateFrom, dateTo }) => {
   const [open, setOpen] = useState(false);
   const [cars, setCars] = useState([]);
+
   const dispatch = useDispatch();
 
   const handleOpen = () => {
@@ -109,7 +115,7 @@ const ChangeCar = ({ dateFrom, dateTo }) => {
         ChangeCar
       </Button>
       <Dialog open={open} onClose={handleClose}>
-        <ChangeCarModalMenu cars={cars} />
+        <ChangeCarModalMenu cars={cars} id={id} handleClose={handleClose} />
       </Dialog>
     </div>
   );
@@ -117,21 +123,62 @@ const ChangeCar = ({ dateFrom, dateTo }) => {
 
 const useStyles = makeStyles({
   paper: {
-    minHeight: "40vh",
-    minWidth: "50vh",
+    padding: "8px",
+    minHeight: "60vh",
+    minWidth: "60vh",
+  },
+  item: {
+    marginTop: "1%",
+    cursor: "pointer",
   },
 });
 
-const ChangeCarModalMenu = ({ cars }) => {
+const ChangeCarModalMenu = ({ id, cars, handleClose }) => {
   const classes = useStyles();
+  const [currentCarLicensePlate, setCurrentCar] = useState("");
+  const dispatch = useDispatch();
+  const handleCarChange = (car) => {
+    setCurrentCar(car.licensePlate);
+    console.log(car);
+  };
+
   return (
     <Paper className={classes.paper}>
       <Grid>
-        {cars.map((car, index) => (
-          <p>{car.licensePlate}</p>
-        ))}
+        {cars.map((car, index) => {
+          return (
+            <Paper
+              onClick={() => handleCarChange(car)}
+              className={classes.item}
+            >
+              <Grid container justify="space-evenly" alignItems="center">
+                <Grid item>
+                  <CarImage
+                    src={
+                      "http://localhost:8080/u/car/download-car-image/" +
+                      car.licensePlate
+                    }
+                  />
+                </Grid>
+                <Grid item>
+                  <CarInfo car={car} />
+                </Grid>
+              </Grid>
+            </Paper>
+          );
+        })}
+        <Button
+          onClick={() => {
+            if (currentCarLicensePlate) {
+              dispatch(changeRentCar(id, currentCarLicensePlate));
+              dispatch(getCar(id));
+              handleClose();
+            }
+          }}
+        >
+          Apply
+        </Button>
       </Grid>
-      <Button>Apply</Button>
     </Paper>
   );
 };

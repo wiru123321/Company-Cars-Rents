@@ -108,17 +108,12 @@ export const fetchCarsBetweenDates = (dateFromDateTo, setCars) => async (
   dispatch
 ) => {
   try {
-    console.log(dateFromDateTo);
-    const response = await axios.get(
-      API_URL + "/e/rent/carsOnTime",
-
-      {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-        params: dateFromDateTo,
-      }
-    );
+    const response = await axios.get(API_URL + "/e/rent/carsOnTime", {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+      params: dateFromDateTo,
+    });
     setCars(response.data);
     console.log("response", response);
   } catch (err) {
@@ -128,17 +123,31 @@ export const fetchCarsBetweenDates = (dateFromDateTo, setCars) => async (
 
 export const changeRentCar = (id, licensePlate) => async (dispatch) => {
   try {
-    const response = axios.put(
-      API_URL + `/e/rent/change_car_in_rent/${id}`,
-      licensePlate,
-      {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      }
-    );
-    console.log(response.data);
-  } catch (err) {}
+    const response = await axios(API_URL + `/a/rent/change_car_in_rent/${id}`, {
+      method: "put",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+      params: { licensePlate: licensePlate },
+    });
+    console.log(response);
+  } catch (err) {
+    console.log(err.response);
+  }
+};
+
+export const getCar = (id) => async (dispatch) => {
+  try {
+    const response = await axios(API_URL + `/a/rent/${id}`, {
+      method: "get",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
+    console.log(response);
+  } catch (err) {
+    console.log(err.response);
+  }
 };
 
 export default rentSlice.reducer;
