@@ -1,16 +1,16 @@
 stages:
 # ----- ALL BRANCH's ---- #
     - test
-# -------- Docker ------- #
+# ----- ONLY Docker ----- #
     - build
     - deploy
-# ------- Develop ------- #
+# ----- ONLY Develop ---- #
     - build_develop
     - deploy_develop
-# -------- Deploy ------- #
+# ----- ONLY Deploy ----- #
     - build_deploy
     - deploy_deploy
-# ------ Production ----- #
+# --- ONLY Production --- #
     - build_prod
     - deploy_prod
         
