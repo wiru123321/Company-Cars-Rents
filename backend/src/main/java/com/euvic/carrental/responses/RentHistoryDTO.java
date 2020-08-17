@@ -16,15 +16,15 @@ public class RentHistoryDTO {
     private ParkingHistoryDTO parkingHistoryDTOTo;
     private Boolean isActive;
     private Boolean isAccepted;
-    private String comment;
-    private String response;
+    private String reasonForTheLoan;
+    private String adminResponseForTheRequest;
     private String faultMessage;
 
     public RentHistoryDTO() {
 
     }
 
-    public RentHistoryDTO(final UserDTO userDTO, final CarDTO carDTO, final LocalDateTime dateFrom, final LocalDateTime dateTo, final ParkingHistoryDTO parkingHistoryDTOFrom, final ParkingHistoryDTO parkingHistoryDTOTo, final Boolean isActive, final Boolean isAccepted, final String comment, final String response, final String faultMessage) {
+    public RentHistoryDTO(final UserDTO userDTO, final CarDTO carDTO, final LocalDateTime dateFrom, final LocalDateTime dateTo, final ParkingHistoryDTO parkingHistoryDTOFrom, final ParkingHistoryDTO parkingHistoryDTOTo, final Boolean isActive, final Boolean isAccepted, final String reasonForTheLoan, final String adminResponseForTheRequest, final String faultMessage) {
         this.userDTO = userDTO;
         this.carDTO = carDTO;
         this.dateFrom = dateFrom;
@@ -33,8 +33,8 @@ public class RentHistoryDTO {
         this.parkingHistoryDTOTo = parkingHistoryDTOTo;
         this.isActive = isActive;
         this.isAccepted = isAccepted;
-        this.comment = comment;
-        this.response = response;
+        this.reasonForTheLoan = reasonForTheLoan;
+        this.adminResponseForTheRequest = adminResponseForTheRequest;
         this.faultMessage = faultMessage;
     }
 
@@ -47,8 +47,8 @@ public class RentHistoryDTO {
         this.parkingHistoryDTOTo = parkingHistoryDTOTo;
         this.isActive = rentHistory.getIsActive();
         this.isAccepted = rentHistory.getIsAccepted();
-        this.comment = rentHistory.getComment();
-        this.response = rentHistory.getResponse();
+        this.reasonForTheLoan = rentHistory.getReasonForTheLoan();
+        this.adminResponseForTheRequest = rentHistory.getAdminResponseForTheRequest();
         this.faultMessage = rentHistory.getFaultMessage();
     }
 }

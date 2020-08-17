@@ -52,7 +52,7 @@ public class RentController {
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/a/rent/change_car_in_rent/{id}")
-    public ResponseEntity<?> editRent(@PathVariable final Long id, @RequestBody final String licensePlate) {
+    public ResponseEntity<?> editRent(@PathVariable final Long id, @RequestParam final String licensePlate) {
 
         int responseCode;
         String message;
@@ -61,10 +61,10 @@ public class RentController {
             final Car car = carService.getOnCompanyEntityByLicensePlate(licensePlate);
             if (car == null)
                 throw new NullPointerException();
+            rent.setCar(car);
             if (rentService.checkCarAvailability(rent)) {
                 throw new NoSuchElementException();
             }
-            rent.setCar(car);
             rentService.addEntityToDB(rent);
             responseCode = 200;
             message = "Ok";
@@ -85,10 +85,12 @@ public class RentController {
         int responseCode;
         String message;
         final Car car = carService.getOnCompanyEntityByLicensePlate(rentPermitRejectDTO.getLicensePlate());
+
         if (car != null) {
             try {
                 rent.setIsActive(true);
-                rent.setResponse(rentPermitRejectDTO.getResponse());
+                rent.setCar(car);
+                rent.setAdminResponseForTheRequest(rentPermitRejectDTO.getResponse());
                 if (rentService.checkCarAvailability(rent)) {
                     rentService.addEntityToDB(rent);
                     responseCode = 200;
@@ -105,10 +107,7 @@ public class RentController {
             responseCode = 400;
             message = "Car with this license plate doesn't exist";
         }
-        return ResponseEntity.status(responseCode).
-
-                body(message);
-
+        return ResponseEntity.status(responseCode).body(message);
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/a/rent/reject/{id}")
@@ -121,7 +120,7 @@ public class RentController {
                 final ParkingHistory parkingFrom = new ParkingHistory(null, rent.getParkingFrom());
                 final ParkingHistory parkingTo = new ParkingHistory(null, rent.getParkingTo());
                 final RentHistory rentHistory = new RentHistory(null, rent.getUser(), rent.getCar(), rent.getDateFrom(), rent.getDateTo(), parkingFrom
-                        , parkingTo, true, false, rent.getComment(), rentPermitRejectDTO.getResponse(), "");
+                        , parkingTo, true, false, rent.getReasonForTheLoan(), rentPermitRejectDTO.getResponse(), "");
                 parkingHistoryService.addEntityToDB(parkingFrom);
                 parkingHistoryService.addEntityToDB(parkingTo);
                 rentHistoryService.addEntityToDB(rentHistory);
@@ -179,7 +178,10 @@ public class RentController {
                 } else {
                     id = parkingService.addEntityToDB(parkingService.mapRestModel(null, new ParkingDTO(car.getParking())));
                 }
-                final Rent rent = new Rent(null, user, car, rentDTO.getDateFrom(), rentDTO.getDateTo(), car.getParking(), parkingService.getEntityById(id), false, rentDTO.getComment(), "", "");
+                final Rent rent = new Rent(null, user, car, rentDTO.getDateFrom(), rentDTO.getDateTo(), car.getParking(), parkingService.getEntityById(id), false, rentDTO.getReasonForTheLoan(), "", "");
+                if (!rentService.checkCarAvailability(rent)) {
+                    throw new NoSuchElementException();
+                }
                 rentService.addEntityToDB(rent);
                 responseCode = 200;
                 message = "Ok";
@@ -187,10 +189,12 @@ public class RentController {
                 responseCode = 400;
                 message = "You have rent in this time or give invalid time range";
             }
-
         } catch (final NullPointerException e) {
             responseCode = 406;
             message = "Cannot find user or car in database";
+        } catch (final NoSuchElementException e) {
+            responseCode = 409;
+            message = "Car is already rented for this date";
         }
 
         return ResponseEntity.status(responseCode).body(message);
@@ -248,7 +252,7 @@ public class RentController {
                     }
 
                     final RentHistory rentHistory = new RentHistory(null, rent.getUser(), rent.getCar(), rent.getDateFrom(), rent.getDateTo(), parkingFrom
-                            , parkingTo, true, true, rent.getComment(), rent.getResponse(), endRentDTO.getFaultMessage());
+                            , parkingTo, true, true, rent.getReasonForTheLoan(), rent.getAdminResponseForTheRequest(), endRentDTO.getFaultMessage());
                     parkingHistoryService.addEntityToDB(parkingFrom);
                     parkingHistoryService.addEntityToDB(parkingTo);
                     rentHistoryService.addEntityToDB(rentHistory);
