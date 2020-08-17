@@ -33,7 +33,7 @@ public class ParkingHistoryService implements ParkingHistoryServiceInterface {
                 .collect(Collectors.toList());
     }
 
-    @Override //TODO użyj isPresent()
+    @Override
     public ParkingHistory getEntityById(final Long id) {
         return parkingHistoryRepository.findById(id).get();
     }

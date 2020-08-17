@@ -183,6 +183,35 @@ public class RentService implements RentServiceInterface {
         rentRepository.delete(rent);
     }
 
+    @Override
+    public boolean checkCarAvailability(final Rent rent) {
+        boolean toReturn = false;
+        try {
+            final List<Rent> rentList = this.getRentsByLicensePlate(rent.getCar().getLicensePlate());
+            rentList.remove(rent);
+            for (final Rent temp : rentList) {
+                if (!this.checkDate(rent.getDateFrom(), rent.getDateTo(), new DateFromDateTo(temp.getDateFrom(), temp.getDateTo()))) {
+                    toReturn = true;
+                }
+            }
+        } catch (final NullPointerException e) {
+            toReturn = false;
+        }
+        return toReturn;
+    }
+
+    private boolean checkDate(final LocalDateTime dateFrom, final LocalDateTime dateTo, final DateFromDateTo dateFromDateTo) {
+        return (dateFromDateTo.getDateFrom().isAfter(dateFrom)
+                && dateFromDateTo.getDateFrom().isBefore(dateTo))
+                || (dateFromDateTo.getDateTo().isAfter(dateFrom)
+                && dateFromDateTo.getDateTo().isBefore(dateTo))
+                || (dateFromDateTo.getDateFrom().isBefore(dateFrom)
+                && dateFromDateTo.getDateTo().isAfter(dateTo))
+
+                || (dateFromDateTo.getDateFrom().isEqual(dateFrom) || dateFromDateTo.getDateFrom().isEqual(dateTo))
+                || (dateFromDateTo.getDateTo().isEqual(dateFrom) || dateFromDateTo.getDateTo().isEqual(dateTo));
+    }
+
     private List<RentPendingDTO> convertRentListToRentPendingDTOList(final List<Rent> rentArrayList) {
         final ArrayList<RentPendingDTO> rentPendingDTOArrayList = new ArrayList<>();
 
@@ -203,16 +232,6 @@ public class RentService implements RentServiceInterface {
             }
         }
         return rentPendingDTOArrayList;
-    }
-
-    private boolean checkDate(final LocalDateTime dateFrom, final LocalDateTime dateTo, final DateFromDateTo dateFromDateTo) {
-        return (dateFromDateTo.getDateFrom().isAfter(dateFrom)
-                && dateFromDateTo.getDateFrom().isBefore(dateTo))
-                || (dateFromDateTo.getDateTo().isAfter(dateFrom)
-                && dateFromDateTo.getDateTo().isBefore(dateTo))
-
-                || (dateFromDateTo.getDateFrom().isEqual(dateFrom) || dateFromDateTo.getDateFrom().isEqual(dateTo))
-                || (dateFromDateTo.getDateTo().isEqual(dateFrom) || dateFromDateTo.getDateTo().isEqual(dateTo));
     }
 
     private boolean checkDateTimeChronological(final LocalDateTime dateFrom, final LocalDateTime dateTo) {
