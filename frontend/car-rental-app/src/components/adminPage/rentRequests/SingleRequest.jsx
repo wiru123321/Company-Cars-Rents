@@ -100,7 +100,7 @@ const ChangeCar = ({ dateFrom, dateTo }) => {
       dateFrom,
       dateTo,
     };
-    dispatch(fetchCarsBetweenDates(dateFromDateTo));
+    dispatch(fetchCarsBetweenDates(dateFromDateTo, setCars));
   };
 
   return (
@@ -109,7 +109,7 @@ const ChangeCar = ({ dateFrom, dateTo }) => {
         ChangeCar
       </Button>
       <Dialog open={open} onClose={handleClose}>
-        <ChangeCarModalMenu />
+        <ChangeCarModalMenu cars={cars} />
       </Dialog>
     </div>
   );
@@ -122,10 +122,15 @@ const useStyles = makeStyles({
   },
 });
 
-const ChangeCarModalMenu = () => {
+const ChangeCarModalMenu = ({ cars }) => {
   const classes = useStyles();
   return (
     <Paper className={classes.paper}>
+      <Grid>
+        {cars.map((car, index) => (
+          <p>{car.licensePlate}</p>
+        ))}
+      </Grid>
       <Button>Apply</Button>
     </Paper>
   );

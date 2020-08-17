@@ -104,14 +104,22 @@ export const fetchPendingRents = () => async (dispatch) => {
   }
 };
 
-export const fetchCarsBetweenDates = (dateFromDateTo) => async (dispatch) => {
+export const fetchCarsBetweenDates = (dateFromDateTo, setCars) => async (
+  dispatch
+) => {
   try {
-    const response = await axios.get(API_URL + "/e/rent/carsOnTime", {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("token"),
-      },
-      params: dateFromDateTo,
-    });
+    console.log(dateFromDateTo);
+    const response = await axios.get(
+      API_URL + "/e/rent/carsOnTime",
+
+      {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+        params: dateFromDateTo,
+      }
+    );
+    setCars(response.data);
     console.log("response", response);
   } catch (err) {
     console.log(err);
