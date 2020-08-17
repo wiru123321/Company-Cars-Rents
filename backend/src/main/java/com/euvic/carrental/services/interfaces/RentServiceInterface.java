@@ -42,4 +42,6 @@ public interface RentServiceInterface {
     List<Rent> getRentsByLicensePlate(String licensePlate);
 
     boolean checkCarAvailability(Rent rent);
+
+    void updateNextRent(Rent rent);
 }
