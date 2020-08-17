@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
 
 @RestController
@@ -158,9 +157,9 @@ public class RentController {
         return ResponseEntity.ok(rentService.getUserInactiveRentDTOs());
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/e/rent/carsOnTime")
-    public ResponseEntity<?> getCarsOnTime(@RequestParam final LocalDateTime dateFrom, @RequestParam final LocalDateTime dateTo) {
-        return ResponseEntity.ok(rentService.getActiveCarsBetweenDates(new DateFromDateTo(dateFrom, dateTo)));
+    @RequestMapping(method = RequestMethod.POST, value = "/e/rent/carsOnTime")
+    public ResponseEntity<?> getCarsOnTime(@RequestBody final DateFromDateTo dateFromDateTo) {
+        return ResponseEntity.ok(rentService.getActiveCarsBetweenDates(dateFromDateTo));
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/e/rent/{licensePlate}")
