@@ -11,7 +11,9 @@ const initialState = {
   reservationEndDate: "",
   reservationEndHour: "",
   isChoosen: false,
-  choose: false,
+  choose: true,
+  dateIsChoosen: true,
+  isCarFormActive: false,
   choosenCar: 0,
   cars: [],
 };
@@ -35,6 +37,12 @@ export const reservationSlice = createSlice({
     },
     firstnameChange: (state, action) => {
       state.firstName = action.payload;
+    },
+    dateIsChoosenHandler: (state) => {
+      state.dateIsChoosen = !state.dateIsChoosen;
+    },
+    isCarFormActiveHandler: (state) => {
+      state.isCarFormActive = !state.isCarFormActive;
     },
     lastnameChange: (state, action) => {
       state.lastName = action.payload;
@@ -69,6 +77,8 @@ export const {
   endHourChange,
   setCars,
   getCars,
+  dateIsChoosenHandler,
+  isCarFormActiveHandler,
 } = reservationSlice.actions;
 
 export const selectCars = (state) => state.reservation.cars;
@@ -76,13 +86,17 @@ export const selectCar = (state) =>
   state.reservation.cars[state.reservation.choosenCar];
 export const selectChoose = (state) => state.reservation.choose;
 export const selectIsChoosen = (state) => state.reservation.isChoosen;
+export const selectDateIsChoosen = (state) => state.reservation.dateIsChoosen;
+export const selectIsCarFormActive = (state) =>
+  state.reservation.isCarFormActive;
 
-export const fetchActiveCars = () => async (dispatch) => {
+export const fetchActiveCars = (dateFromDateTo) => async (dispatch) => {
   try {
-    const response = await axios.get(API_URL + "/ae/active-cars", {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("token"),
-      },
+    const response = await axios({
+      method: "get",
+      url: API_URL + "/e/rent/carsOnTime",
+      params: dateFromDateTo,
+      headers: { Authorization: "Bearer " + localStorage.getItem("token") },
     });
     console.log(response.data);
     dispatch(setCars(response.data));
