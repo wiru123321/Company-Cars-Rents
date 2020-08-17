@@ -275,8 +275,7 @@ public class RentService implements RentServiceInterface {
     }
 
     private List<RentDTO> getAllDTOsByTimeRange(final DateFromDateTo dateFromDateTo) {
-        final ArrayList<Rent> rentArrayList = new ArrayList<>();
-        rentRepository.findAll().forEach(rentArrayList::add);
+        final ArrayList<Rent> rentArrayList = new ArrayList<>(rentRepository.findAllByIsActive(true));
         final ArrayList<RentDTO> rentDTOArrayList = new ArrayList<>();
 
         if (!rentArrayList.isEmpty()) {
