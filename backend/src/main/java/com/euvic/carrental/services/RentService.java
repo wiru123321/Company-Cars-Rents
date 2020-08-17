@@ -100,7 +100,7 @@ public class RentService implements RentServiceInterface {
 
         final Rent rent;
         rent = new Rent(id, userService.getEntityByLogin(rentDTO.getUserDTO().getLogin()), carService.getOnCompanyEntityByLicensePlate(rentDTO.getCarDTO().getLicensePlate())
-                , rentDTO.getDateFrom(), rentDTO.getDateTo(), parkingService.getEntityById(parkingFromId), parkingService.getEntityById(parkingToId), rentDTO.getIsActive(), rentDTO.getComment(), rentDTO.getResponse(), rentDTO.getFaultMessage());
+                , rentDTO.getDateFrom(), rentDTO.getDateTo(), parkingService.getEntityById(parkingFromId), parkingService.getEntityById(parkingToId), rentDTO.getIsActive(), rentDTO.getReasonForTheLoan(), rentDTO.getAdminResponseForTheRequest(), rentDTO.getFaultMessage());
 
         return rent;
     }
@@ -255,14 +255,14 @@ public class RentService implements RentServiceInterface {
             for (final Rent rent : rentArrayList) {
                 final RentPendingDTO rentPendingDTO = new RentPendingDTO();
                 rentPendingDTO.setId(rent.getId());
-                rentPendingDTO.setComment(rent.getComment());
+                rentPendingDTO.setComment(rent.getReasonForTheLoan());
                 rentPendingDTO.setCarDTO(carService.getDTOByLicensePlate(rent.getCar().getLicensePlate()));
                 rentPendingDTO.setParkingFrom(new ParkingDTO(rent.getParkingFrom()));
                 rentPendingDTO.setParkingTo(new ParkingDTO(rent.getParkingTo()));
                 rentPendingDTO.setDateFrom(rent.getDateFrom());
                 rentPendingDTO.setDateTo(rent.getDateTo());
                 rentPendingDTO.setUserRentInfo(new UserRentInfo(rent.getUser().getName(), rent.getUser().getSurname(), rent.getUser().getPhoneNumber(), rent.getUser().getEmail()));
-                rentPendingDTO.setResponse(rent.getResponse());
+                rentPendingDTO.setResponse(rent.getAdminResponseForTheRequest());
                 rentPendingDTOArrayList.add(rentPendingDTO);
             }
         }

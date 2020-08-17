@@ -88,7 +88,7 @@ public class RentController {
         if (car != null) {
             try {
                 rent.setIsActive(true);
-                rent.setResponse(rentPermitRejectDTO.getResponse());
+                rent.setAdminResponseForTheRequest(rentPermitRejectDTO.getResponse());
                 if (!rentService.checkCarAvailability(rent)) {
                     rentService.addEntityToDB(rent);
                     responseCode = 200;
@@ -118,7 +118,7 @@ public class RentController {
                 final ParkingHistory parkingFrom = new ParkingHistory(null, rent.getParkingFrom());
                 final ParkingHistory parkingTo = new ParkingHistory(null, rent.getParkingTo());
                 final RentHistory rentHistory = new RentHistory(null, rent.getUser(), rent.getCar(), rent.getDateFrom(), rent.getDateTo(), parkingFrom
-                        , parkingTo, true, false, rent.getComment(), rentPermitRejectDTO.getResponse(), "");
+                        , parkingTo, true, false, rent.getReasonForTheLoan(), rentPermitRejectDTO.getResponse(), "");
                 parkingHistoryService.addEntityToDB(parkingFrom);
                 parkingHistoryService.addEntityToDB(parkingTo);
                 rentHistoryService.addEntityToDB(rentHistory);
@@ -176,7 +176,7 @@ public class RentController {
                 } else {
                     id = parkingService.addEntityToDB(parkingService.mapRestModel(null, new ParkingDTO(car.getParking())));
                 }
-                final Rent rent = new Rent(null, user, car, rentDTO.getDateFrom(), rentDTO.getDateTo(), car.getParking(), parkingService.getEntityById(id), false, rentDTO.getComment(), "", "");
+                final Rent rent = new Rent(null, user, car, rentDTO.getDateFrom(), rentDTO.getDateTo(), car.getParking(), parkingService.getEntityById(id), false, rentDTO.getReasonForTheLoan(), "", "");
                 rentService.addEntityToDB(rent);
                 responseCode = 200;
                 message = "Ok";
@@ -245,7 +245,7 @@ public class RentController {
                     }
 
                     final RentHistory rentHistory = new RentHistory(null, rent.getUser(), rent.getCar(), rent.getDateFrom(), rent.getDateTo(), parkingFrom
-                            , parkingTo, true, true, rent.getComment(), rent.getResponse(), endRentDTO.getFaultMessage());
+                            , parkingTo, true, true, rent.getReasonForTheLoan(), rent.getAdminResponseForTheRequest(), endRentDTO.getFaultMessage());
                     parkingHistoryService.addEntityToDB(parkingFrom);
                     parkingHistoryService.addEntityToDB(parkingTo);
                     rentHistoryService.addEntityToDB(rentHistory);
