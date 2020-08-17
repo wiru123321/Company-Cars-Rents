@@ -215,7 +215,7 @@ public class DatabaseLoader implements CommandLineRunner {
                     , LocalDateTime.of(2020, 12, 10, 0, 0)
                     , parkingService.getEntityById(parkingId1)
                     , parkingService.getEntityById(parkingId2)
-                    , false, "Simple comment", "Response", "");
+                    , true, "Simple comment", "Response", "");
 
             final Rent rent2 = new Rent(null
                     , userService.getEntityByLogin("walo123")

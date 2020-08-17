@@ -187,15 +187,15 @@ public class RentService implements RentServiceInterface {
     @Override //TODO test it
     public boolean checkCarAvailability(final Rent rent) {
         boolean toReturn = false;
-        try {
-            final List<Rent> rentList = this.getRentsByLicensePlate(rent.getCar().getLicensePlate());
+        final List<Rent> rentList = this.getRentsByLicensePlate(rent.getCar().getLicensePlate());
+        if (rentList.size() == 0) {
+            toReturn = true;
+        } else {
             for (final Rent temp : rentList) {
                 if (!this.checkDate(rent.getDateFrom(), rent.getDateTo(), new DateFromDateTo(temp.getDateFrom(), temp.getDateTo())) && !rent.getId().equals(temp.getId())) {
                     toReturn = true;
                 }
             }
-        } catch (final NullPointerException e) {
-            toReturn = true;
         }
         return toReturn;
     }
@@ -235,7 +235,8 @@ public class RentService implements RentServiceInterface {
 
     }
 
-    private boolean checkDate(final LocalDateTime dateFrom, final LocalDateTime dateTo, final DateFromDateTo dateFromDateTo) {
+    private boolean checkDate(final LocalDateTime dateFrom, final LocalDateTime dateTo,
+                              final DateFromDateTo dateFromDateTo) {
         return (dateFromDateTo.getDateFrom().isAfter(dateFrom)
                 && dateFromDateTo.getDateFrom().isBefore(dateTo))
                 || (dateFromDateTo.getDateTo().isAfter(dateFrom)

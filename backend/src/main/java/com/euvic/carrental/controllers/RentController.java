@@ -62,7 +62,7 @@ public class RentController {
             if (car == null)
                 throw new NullPointerException();
             rent.setCar(car);
-            if (!rentService.checkCarAvailability(rent)) {
+            if (rentService.checkCarAvailability(rent)) {
                 throw new NoSuchElementException();
             }
             rentService.addEntityToDB(rent);
@@ -85,12 +85,13 @@ public class RentController {
         int responseCode;
         String message;
         final Car car = carService.getOnCompanyEntityByLicensePlate(rentPermitRejectDTO.getLicensePlate());
+
         if (car != null) {
             try {
                 rent.setIsActive(true);
                 rent.setCar(car);
                 rent.setAdminResponseForTheRequest(rentPermitRejectDTO.getResponse());
-                if (!rentService.checkCarAvailability(rent)) {
+                if (rentService.checkCarAvailability(rent)) {
                     rentService.addEntityToDB(rent);
                     responseCode = 200;
                     message = "Updated";
