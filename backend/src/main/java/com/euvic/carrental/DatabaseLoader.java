@@ -215,7 +215,7 @@ public class DatabaseLoader implements CommandLineRunner {
                     , LocalDateTime.of(2020, 12, 10, 0, 0)
                     , parkingService.getEntityById(parkingId1)
                     , parkingService.getEntityById(parkingId2)
-                    , true, "Simple comment", "Response", "");
+                    , false, "Simple comment", "Response", "");
 
             final Rent rent2 = new Rent(null
                     , userService.getEntityByLogin("walo123")
@@ -224,7 +224,7 @@ public class DatabaseLoader implements CommandLineRunner {
                     , LocalDateTime.of(2020, 12, 10, 0, 0)
                     , parkingService.getEntityById(parkingId3)
                     , parkingService.getEntityById(parkingId4)
-                    , true, "walo comment", "Response", "");
+                    , false, "walo comment", "Response", "");
 
             final Rent rent3 = new Rent(null
                     , userService.getEntityByLogin("admin123")
@@ -233,7 +233,7 @@ public class DatabaseLoader implements CommandLineRunner {
                     , LocalDateTime.of(2020, 12, 1, 0, 0)
                     , parkingService.getEntityById(parkingId5)
                     , parkingService.getEntityById(parkingId6)
-                    , true, "kama comment", "Response", "");
+                    , false, "kama comment", "Response", "");
 
             final Rent rent4 = new Rent(null
                     , userService.getEntityByLogin("user123")
@@ -242,7 +242,7 @@ public class DatabaseLoader implements CommandLineRunner {
                     , LocalDateTime.of(2020, 9, 1, 0, 0)
                     , parkingService.getEntityById(parkingId7)
                     , parkingService.getEntityById(parkingId8)
-                    , true, "kama comment", "Response", "");
+                    , false, "kama comment", "Response", "");
 
             rentRepository.save(rent1);
             rentRepository.save(rent2);
