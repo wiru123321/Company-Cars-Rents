@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { selectAll } from "../../../features/rents/rentsSlice";
 import { Container } from "@material-ui/core";
@@ -8,6 +8,7 @@ import RentAlert from "./RentAlert";
 
 const AllRequests = () => {
   const { pendingRents } = useSelector(selectAll);
+
   return (
     <Container style={{ minHeight: "80vh", height: "auto", height: "100%" }}>
       {pendingRents.length > 0 ? (

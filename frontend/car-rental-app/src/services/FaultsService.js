@@ -18,7 +18,7 @@ export const fetchFaultsForCar = async (licensePlate, setFaults) => {
   } catch (error) {}
 };
 
-export const deleteFault = async (fault, licensePlate, setFaults) => {
+export const deleteFault = async (fault, licensePlate, setFaults, alert) => {
   try {
     const response = await axios(API_URL + "/a/fault", {
       headers: { Authorization: "Bearer " + localStorage.getItem("token") },
@@ -26,8 +26,8 @@ export const deleteFault = async (fault, licensePlate, setFaults) => {
       data: fault,
     });
     fetchFaultsForCar(licensePlate, setFaults);
-    console.log(response.data);
-  } catch (error) {
-    console.log(error);
+    alert.success("Successfully removed!");
+  } catch (err) {
+    alert.error("Failed to remove issue!");
   }
 };

@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Grid, Paper, Button, makeStyles } from "@material-ui/core";
+import { Grid, Paper, Button, Badge, makeStyles } from "@material-ui/core";
 import {
   selectAll,
   setViewId,
@@ -9,6 +9,7 @@ import {
   setCarActivity,
   deleteCar,
 } from "../../../../features/cars-manager/carsManagerSlice";
+import { fetchFaultsForCar } from "../../../../services/FaultsService";
 import Edit from "../edit/Edit";
 import IssuesList from "../issues/removeIssues/IssuesList";
 import AddIssues from "../issues/addIssues/AddIssues";
@@ -37,6 +38,11 @@ const CarMenu = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { currentCar, viewId, filterActive } = useSelector(selectAll);
+  const [issues, setIssues] = useState("");
+
+  useEffect(() => {
+    fetchFaultsForCar(currentCar.licensePlate, setIssues);
+  }, []);
 
   const toggleView = (id) => {
     dispatch(setViewId(id));
@@ -104,14 +110,16 @@ const CarMenu = () => {
         >
           Report issue
         </Button>
+
         <Button
           onClick={() => toggleView(2)}
           color={viewId === 2 ? "primary" : ""}
           variant={viewId === 2 ? "contained" : ""}
           startIcon={<ErrorIcon />}
         >
-          Issues
+          <Badge badgeContent={issues.length}>Issues</Badge>
         </Button>
+
         <Button
           onClick={toggleSuspend}
           color={currentCar.isActive ? "secondary" : "primary"}

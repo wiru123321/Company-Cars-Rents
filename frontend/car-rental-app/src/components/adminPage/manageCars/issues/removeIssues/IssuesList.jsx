@@ -7,10 +7,11 @@ import {
   deleteFault,
 } from "../../../../../services/FaultsService";
 import Issue from "./Issue";
-
+import { useAlert } from "react-alert";
 import NotFoundInfo from "../../../messages/NotFoundMessage";
 
 const IssuesList = () => {
+  const alert = useAlert();
   const dispatch = useDispatch();
   const { currentCar } = useSelector(selectAll);
   const [issues, setIssues] = useState([]);
@@ -20,7 +21,7 @@ const IssuesList = () => {
   }, []);
 
   const handleFaultDelete = (issue) => {
-    deleteFault(issue, currentCar.licensePlate, setIssues);
+    deleteFault(issue, currentCar.licensePlate, setIssues, alert);
   };
 
   return (

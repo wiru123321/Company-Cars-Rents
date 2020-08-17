@@ -1,27 +1,44 @@
 import React from "react";
-import { Grid } from "@material-ui/core";
+import { Grid, Typography, makeStyles } from "@material-ui/core";
+
+const useStyles = makeStyles({
+  title: {
+    fontSize: "2rem",
+  },
+  contentText: {
+    fontSize: "1.5rem",
+  },
+});
 
 export const UserData = ({ firstname, lastname }) => {
+  const classes = useStyles();
+
   return (
-    <React.Fragment>
+    <Grid container>
       <Grid item xs={4}>
-        <h1>
+        <Typography className={classes.title}>
           {firstname} {lastname}
-        </h1>
+        </Typography>
       </Grid>
-    </React.Fragment>
+    </Grid>
   );
 };
 
 export const ReservationDate = ({ beginDate, beginHour, endDate, endHour }) => {
+  const classes = useStyles();
+
   return (
-    <React.Fragment>
-      <Grid item xs={4}>
-        Reservation start: {beginDate} - {beginHour}
+    <Grid container justify="space-between" alignItems="center">
+      <Grid item xs={6}>
+        <Typography className={classes.contentText}>
+          Reservation start: {beginDate} - {beginHour}
+        </Typography>
       </Grid>
-      <Grid item xs={4}>
-        Reservation end: {endDate} - {endHour}
+      <Grid item xs={6}>
+        <Typography className={classes.contentText}>
+          Reservation end: {endDate} - {endHour}
+        </Typography>
       </Grid>
-    </React.Fragment>
+    </Grid>
   );
 };

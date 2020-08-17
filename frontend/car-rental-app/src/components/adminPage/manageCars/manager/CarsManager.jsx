@@ -59,7 +59,7 @@ const CarsManager = () => {
         <Search />
         {filteredCars.length > 0 ? (
           filteredCars.map((car, index) => (
-            <Car key={car.licensePlate} car={car} />
+            <Car key={index + car.licensePlate} car={car} />
           ))
         ) : (
           <NotFound>Empty</NotFound>

@@ -124,8 +124,8 @@ export const addFault = (faultDTO, alert, fetchActive) => async (dispatch) => {
 
 export const setCarActivity = (
   licensePlate,
-  alert,
   isActive,
+  alert,
   fetchActive
 ) => async (dispatch) => {
   try {
@@ -137,7 +137,7 @@ export const setCarActivity = (
 
     dispatch(fetchSingleCar(licensePlate));
     dispatch(fetchCars(fetchActive));
-    alert.success(`Car ${isActive ? "suspended" : "activated"}!`);
+    alert.success(`Car ${isActive ? "activated" : "suspended"}!`);
   } catch (err) {
     alert.error("Failed to change car activity.");
   }
@@ -160,7 +160,15 @@ export const deleteCar = (licensePlate, alert, fetchActive) => async (
     dispatch(setCurrentCar(""));
     alert.success("Car successfully deleted!");
   } catch (err) {
-    alert.error("Failed to delete car!");
+    if (err.response) {
+      if (err.response.status === 409) {
+        alert.error(err.response.data);
+      } else {
+        alert.error("Failed to delete car!");
+      }
+    } else {
+      alert.error("Failed to delete car! Check connection with cars!");
+    }
   }
 };
 
