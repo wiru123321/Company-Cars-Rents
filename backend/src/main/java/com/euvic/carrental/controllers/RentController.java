@@ -88,6 +88,7 @@ public class RentController {
         if (car != null) {
             try {
                 rent.setIsActive(true);
+                rent.setCar(car);
                 rent.setAdminResponseForTheRequest(rentPermitRejectDTO.getResponse());
                 if (!rentService.checkCarAvailability(rent)) {
                     rentService.addEntityToDB(rent);
