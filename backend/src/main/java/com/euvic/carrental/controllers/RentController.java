@@ -44,6 +44,11 @@ public class RentController {
         return ResponseEntity.ok(rentService.getAllPendingRents());
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/a/rent/{id}")
+    public ResponseEntity<?> getRentWithId(@PathVariable final Long id) {
+        return ResponseEntity.ok(rentService.getDTOById(id));
+    }
+
     @RequestMapping(method = RequestMethod.GET, value = "/a/rent/car_history/{licensePlate}")
     public ResponseEntity<?> checkCarHistory(@PathVariable final String licensePlate) {
         return ResponseEntity.ok(rentHistoryService.getAllDTOsByCar(carService.getOnCompanyEntityByLicensePlate(licensePlate)));
