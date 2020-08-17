@@ -76,7 +76,7 @@ public class RentController {
 
         return ResponseEntity.status(responseCode).body(message);
     }
-
+    
     @RequestMapping(method = RequestMethod.PUT, value = "/a/rent/permit/{id}")
     public ResponseEntity<?> permitRent(@PathVariable final Long id, @RequestBody final RentPermitRejectDTO rentPermitRejectDTO) {
         final Rent rent = rentService.getEntityById(id);
@@ -157,7 +157,7 @@ public class RentController {
         return ResponseEntity.ok(rentService.getUserInactiveRentDTOs());
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/e/rent/carsOnTime")
+    @RequestMapping(method = RequestMethod.GET, value = "/e/rent/carsOnTime")
     public ResponseEntity<?> getCarsOnTime(@RequestBody final DateFromDateTo dateFromDateTo) {
         return ResponseEntity.ok(rentService.getActiveCarsBetweenDates(dateFromDateTo));
     }
@@ -255,7 +255,6 @@ public class RentController {
                     if (endRentDTO.getParkingDTO() != null)
                         parkingService.deleteParkingById(parkingToId);
 
-                    //TODO Dodaj funkcję, która zmieni miejsce odbioru pojazdu najbliższego wypożyczenia na ten na który jest ustawiony
                     responseCode = 200;
                     message = "ok";
                 } else {

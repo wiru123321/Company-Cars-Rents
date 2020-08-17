@@ -204,7 +204,8 @@ public class RentService implements RentServiceInterface {
     public void updateNextRent(final Rent rent) {
         final Rent nextRent = this.getNearestRent(rent);
         if (nextRent != null) {
-            final Long parkingId = nextRent.getParkingFrom().getId();
+            final Long parkingId;
+            parkingId = nextRent.getParkingFrom().getId();
             nextRent.setParkingFrom(rent.getCar().getParking());
             parkingService.deleteParkingById(parkingId);
         }
