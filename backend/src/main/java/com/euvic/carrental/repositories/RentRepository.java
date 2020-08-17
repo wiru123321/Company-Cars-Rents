@@ -19,5 +19,5 @@ public interface RentRepository extends CrudRepository<Rent, Long> {
 
     List<Rent> findAllByUserAndIsActive(User user, boolean isActive);
 
-    List<Rent> findAllByCar(Car car);
+    List<Rent> findAllByCarAndIsActive(Car car, boolean isActive);
 }

@@ -88,9 +88,14 @@ public class RentController {
             try {
                 rent.setIsActive(true);
                 rent.setResponse(rentPermitRejectDTO.getResponse());
-                rentService.addEntityToDB(rent);
-                responseCode = 200;
-                message = "Updated";
+                if (rentService.checkCarAvailability(rent)) {
+                    rentService.addEntityToDB(rent);
+                    responseCode = 200;
+                    message = "Updated";
+                } else {
+                    responseCode = 400;
+                    message = "Car is rented";
+                }
             } catch (final NullPointerException | NoSuchElementException e) {
                 responseCode = 400;
                 message = "Invalid rent ID";
@@ -99,7 +104,10 @@ public class RentController {
             responseCode = 400;
             message = "Car with this license plate doesn't exist";
         }
-        return ResponseEntity.status(responseCode).body(message);
+        return ResponseEntity.status(responseCode).
+
+                body(message);
+
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/a/rent/reject/{id}")
@@ -242,6 +250,7 @@ public class RentController {
                     rentHistoryService.addEntityToDB(rentHistory);
                     final Long parkingFromId = rent.getParkingFrom().getId();
                     final Long parkingToId = rent.getParkingTo().getId();
+                    rentService.updateNextRent(rent);
                     rentService.deleteRent(rent);
                     parkingService.deleteParkingById(parkingFromId);
                     if (endRentDTO.getParkingDTO() != null)

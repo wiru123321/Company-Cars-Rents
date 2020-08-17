@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class RentService implements RentServiceInterface {
@@ -23,12 +24,14 @@ public class RentService implements RentServiceInterface {
     final private UserService userService;
     final private CarService carService;
     final private ParkingService parkingService;
+    final private ParkingHistoryService parkingHistoryService;
 
-    public RentService(final RentRepository rentRepository, final RentHistoryRepository rentHistoryRepository, final UserService userService, final CarService carService, final ParkingService parkingService) {
+    public RentService(final RentRepository rentRepository, final RentHistoryRepository rentHistoryRepository, final UserService userService, final CarService carService, final ParkingService parkingService, final ParkingHistoryService parkingHistoryService) {
         this.rentRepository = rentRepository;
         this.userService = userService;
         this.carService = carService;
         this.parkingService = parkingService;
+        this.parkingHistoryService = parkingHistoryService;
     }
 
     @Override
@@ -56,7 +59,7 @@ public class RentService implements RentServiceInterface {
     @Override
     public List<Rent> getRentsByLicensePlate(final String licensePlate) {
         final Car car = carService.getOnCompanyEntityByLicensePlate(licensePlate);
-        return rentRepository.findAllByCar(car);
+        return rentRepository.findAllByCarAndIsActive(car, true);
     }
 
     @Override
@@ -186,9 +189,8 @@ public class RentService implements RentServiceInterface {
         boolean toReturn = false;
         try {
             final List<Rent> rentList = this.getRentsByLicensePlate(rent.getCar().getLicensePlate());
-            rentList.remove(rent);
             for (final Rent temp : rentList) {
-                if (!this.checkDate(rent.getDateFrom(), rent.getDateTo(), new DateFromDateTo(temp.getDateFrom(), temp.getDateTo()))) {
+                if (!this.checkDate(rent.getDateFrom(), rent.getDateTo(), new DateFromDateTo(temp.getDateFrom(), temp.getDateTo())) && !rent.getId().equals(temp.getId())) {
                     toReturn = true;
                 }
             }
@@ -198,6 +200,39 @@ public class RentService implements RentServiceInterface {
         return toReturn;
     }
 
+    @Override //TODO test it, dorzuc sprawdzanie
+    public void updateNextRent(final Rent rent) {
+        final Rent nextRent = this.getNearestRent(rent);
+        if (nextRent != null) {
+            final Long parkingId = nextRent.getParkingFrom().getId();
+            nextRent.setParkingFrom(rent.getCar().getParking());
+            parkingService.deleteParkingById(parkingId);
+        }
+    }
+
+    private Rent getNearestRent(final Rent rent) {
+
+        try {
+            final List<Rent> rentList = this.getRentsByLicensePlate(rent.getCar().getLicensePlate());
+            rentList.remove(rent);
+            LocalDateTime minimum = rent.getDateTo();
+            int position = 0;
+            if (rentList.size() > 0) {
+                for (int i = 0; i < rentList.size(); i++) {
+                    if (minimum.isAfter(rent.getDateFrom())) {
+                        minimum = rent.getDateFrom();
+                        position = i;
+                    }
+                }
+                return rentList.get(position);
+            } else {
+                return null;
+            }
+        } catch (final NullPointerException | NoSuchElementException e) {
+            return null;
+        }
+
+    }
 
     private boolean checkDate(final LocalDateTime dateFrom, final LocalDateTime dateTo, final DateFromDateTo dateFromDateTo) {
         return (dateFromDateTo.getDateFrom().isAfter(dateFrom)
