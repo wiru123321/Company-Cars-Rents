@@ -6,16 +6,8 @@ const useStyles = makeStyles((theme) => ({
     height: "800px",
     padding: "8px",
   },
-  leftColumn: {
-    width: "40%",
-  },
-  rightColumn: {
-    width: "60%",
-  },
   btnPanel: {
     marginTop: "2%",
-    display: "flex",
-    flexDirection: "row",
     justifyContent: "space-evenly",
   },
   borderedBox: {

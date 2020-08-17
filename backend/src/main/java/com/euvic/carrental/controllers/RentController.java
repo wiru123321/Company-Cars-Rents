@@ -1,10 +1,7 @@
 package com.euvic.carrental.controllers;
 
 import com.euvic.carrental.model.*;
-import com.euvic.carrental.responses.DateFromDateTo;
-import com.euvic.carrental.responses.EndRentDTO;
-import com.euvic.carrental.responses.RentDTO;
-import com.euvic.carrental.responses.RentPermitRejectDTO;
+import com.euvic.carrental.responses.*;
 import com.euvic.carrental.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -55,7 +52,7 @@ public class RentController {
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/a/rent/change_car_in_rent/{id}")
-    public ResponseEntity<?> editRent(@PathVariable final Long id, @RequestBody final String licensePlate) {
+    public ResponseEntity<?> editRent(@PathVariable final Long id, @RequestParam final String licensePlate) {
 
         int responseCode;
         String message;
@@ -64,10 +61,10 @@ public class RentController {
             final Car car = carService.getOnCompanyEntityByLicensePlate(licensePlate);
             if (car == null)
                 throw new NullPointerException();
-            if (rentService.checkCarAvailability(rent)) {
+            rent.setCar(car);
+            if (!rentService.checkCarAvailability(rent)) {
                 throw new NoSuchElementException();
             }
-            rent.setCar(car);
             rentService.addEntityToDB(rent);
             responseCode = 200;
             message = "Ok";
@@ -91,8 +88,8 @@ public class RentController {
         if (car != null) {
             try {
                 rent.setIsActive(true);
-                rent.setResponse(rentPermitRejectDTO.getResponse());
-                if (rentService.checkCarAvailability(rent)) {
+                rent.setAdminResponseForTheRequest(rentPermitRejectDTO.getResponse());
+                if (!rentService.checkCarAvailability(rent)) {
                     rentService.addEntityToDB(rent);
                     responseCode = 200;
                     message = "Updated";
@@ -108,10 +105,7 @@ public class RentController {
             responseCode = 400;
             message = "Car with this license plate doesn't exist";
         }
-        return ResponseEntity.status(responseCode).
-
-                body(message);
-
+        return ResponseEntity.status(responseCode).body(message);
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/a/rent/reject/{id}")
@@ -124,7 +118,7 @@ public class RentController {
                 final ParkingHistory parkingFrom = new ParkingHistory(null, rent.getParkingFrom());
                 final ParkingHistory parkingTo = new ParkingHistory(null, rent.getParkingTo());
                 final RentHistory rentHistory = new RentHistory(null, rent.getUser(), rent.getCar(), rent.getDateFrom(), rent.getDateTo(), parkingFrom
-                        , parkingTo, true, false, rent.getComment(), rentPermitRejectDTO.getResponse(), "");
+                        , parkingTo, true, false, rent.getReasonForTheLoan(), rentPermitRejectDTO.getResponse(), "");
                 parkingHistoryService.addEntityToDB(parkingFrom);
                 parkingHistoryService.addEntityToDB(parkingTo);
                 rentHistoryService.addEntityToDB(rentHistory);
@@ -172,14 +166,17 @@ public class RentController {
         final User user = userService.getEntityByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
         final Car car = carService.getOnCompanyEntityByLicensePlate(licensePlate);
 
-        //TODO dodaj if, że jak ktoś nie poda parkingu końcowego to przypisze do samochodu ten początkowy
         int responseCode;
         final Long id;
         String message;
         try {
             if (rentService.checkMyRentsBeforeAddNewRent(rentDTO)) {
-                id = parkingService.addEntityToDB(parkingService.mapRestModel(null, rentDTO.getParkingDTOTo()));
-                final Rent rent = new Rent(null, user, car, rentDTO.getDateFrom(), rentDTO.getDateTo(), car.getParking(), parkingService.getEntityById(id), false, rentDTO.getComment(), "", "");
+                if (rentDTO.getParkingDTOTo() != null) {
+                    id = parkingService.addEntityToDB(parkingService.mapRestModel(null, rentDTO.getParkingDTOTo()));
+                } else {
+                    id = parkingService.addEntityToDB(parkingService.mapRestModel(null, new ParkingDTO(car.getParking())));
+                }
+                final Rent rent = new Rent(null, user, car, rentDTO.getDateFrom(), rentDTO.getDateTo(), car.getParking(), parkingService.getEntityById(id), false, rentDTO.getReasonForTheLoan(), "", "");
                 rentService.addEntityToDB(rent);
                 responseCode = 200;
                 message = "Ok";
@@ -248,7 +245,7 @@ public class RentController {
                     }
 
                     final RentHistory rentHistory = new RentHistory(null, rent.getUser(), rent.getCar(), rent.getDateFrom(), rent.getDateTo(), parkingFrom
-                            , parkingTo, true, true, rent.getComment(), rent.getResponse(), endRentDTO.getFaultMessage());
+                            , parkingTo, true, true, rent.getReasonForTheLoan(), rent.getAdminResponseForTheRequest(), endRentDTO.getFaultMessage());
                     parkingHistoryService.addEntityToDB(parkingFrom);
                     parkingHistoryService.addEntityToDB(parkingTo);
                     rentHistoryService.addEntityToDB(rentHistory);

@@ -9,6 +9,8 @@ import {
   selectIsChoosen,
   toggleChoose,
   undoChoose,
+  dateIsChoosenHandler,
+  isCarFormActiveHandler,
 } from "../../../features/car-reservation/reservationSlice";
 
 const SelectedCar = () => {
@@ -18,35 +20,51 @@ const SelectedCar = () => {
 
   const toggleCarChoose = () => dispatch(toggleChoose());
 
-  const undoSelection = () => dispatch(undoChoose());
+  const undoSelection = () => {
+    dispatch(dateIsChoosenHandler());
+    dispatch(isCarFormActiveHandler());
+  };
 
-  const SuggestButton = () => (
-    <Grid container direction="column" justify="center" alignItems="center">
-      <Button onClick={toggleCarChoose} variant="contained" color="primary">
-        Suggest a car
-      </Button>
-    </Grid>
-  );
+  // const SuggestButton = () => (
+  //   <Grid container direction="column" justify="center" alignItems="center">
+  //     <Button onClick={toggleCarChoose} variant="contained" color="primary">
+  //       Suggest a car
+  //     </Button>
+  //   </Grid>
+  // );
 
   const Car = ({ car }) => (
     <div>
-      <Box display="flex">
-        <CarImage src={car.src} />
-        <CarInfo car={car} />
-      </Box>
-      <div className={useStyles.btnPanel}>
-        <Button onClick={toggleCarChoose} variant="contained" color="primary">
-          Change car
-        </Button>
-        <Button onClick={undoSelection} variant="contained" color="secondary">
-          Undo selection
-        </Button>
-      </div>
+      <Grid
+        container
+        justify="center"
+        alignItems="center"
+        style={{ marginLeft: "22%" }}
+      >
+        <Box display="flex">
+          <CarImage
+            src={
+              "http://localhost:8080/u/car/download-car-image/" +
+              car.licensePlate
+            }
+          />
+          <CarInfo car={car} />
+        </Box>
+        <Box display="flex">
+          <Button onClick={toggleCarChoose} variant="contained" color="primary">
+            Change car
+          </Button>
+        </Box>
+        <Box display="flex">
+          <Button onClick={undoSelection} variant="contained" color="secondary">
+            Undo selection
+          </Button>
+        </Box>
+      </Grid>
     </div>
   );
 
   if (!isChoosen) {
-    return <SuggestButton />;
   } else {
     return <Car car={car} />;
   }
