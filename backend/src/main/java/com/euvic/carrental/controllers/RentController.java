@@ -76,7 +76,7 @@ public class RentController {
 
         return ResponseEntity.status(responseCode).body(message);
     }
-    
+
     @RequestMapping(method = RequestMethod.PUT, value = "/a/rent/permit/{id}")
     public ResponseEntity<?> permitRent(@PathVariable final Long id, @RequestBody final RentPermitRejectDTO rentPermitRejectDTO) {
         final Rent rent = rentService.getEntityById(id);
@@ -158,8 +158,8 @@ public class RentController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/e/rent/carsOnTime")
-    public ResponseEntity<?> getCarsOnTime(@RequestBody final DateFromDateTo dateFromDateTo) {
-        return ResponseEntity.ok(rentService.getActiveCarsBetweenDates(dateFromDateTo));
+    public ResponseEntity<?> getCarsOnTime(@RequestParam(value = "dateFrom") final String dateFrom, @RequestParam(value = "dateTo") final String dateTo) {
+        return ResponseEntity.ok(rentService.getActiveCarsBetweenDates(new DateFromDateTo(dateFrom, dateTo)));
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/e/rent/{licensePlate}")
