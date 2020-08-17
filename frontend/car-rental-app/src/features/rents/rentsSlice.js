@@ -8,7 +8,6 @@ const initialState = {
   currentRentIndex: "",
   currentRent: "",
   getAllRents: true,
-  response: "",
   didUpdate: false,
   didUpdateSuccess: false,
 };
@@ -27,9 +26,7 @@ const rentSlice = createSlice({
     showAll: (state) => {
       state.getAllRents = true;
     },
-    setResponse: (state, action) => {
-      state.response = action.payload;
-    },
+
     setUpdateResult: (state, action) => {
       state.didUpdate = true;
       state.didUpdateSuccess = action.payload;
@@ -105,6 +102,35 @@ export const fetchPendingRents = () => async (dispatch) => {
   } catch (error) {
     console.log(error);
   }
+};
+
+export const fetchCarsBetweenDates = (dateFromDateTo) => async (dispatch) => {
+  try {
+    const response = await axios.get(API_URL + "/e/rent/carsOnTime", {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+      params: dateFromDateTo,
+    });
+    console.log("response", response);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const changeRentCar = (id, licensePlate) => async (dispatch) => {
+  try {
+    const response = axios.put(
+      API_URL + `/e/rent/change_car_in_rent/${id}`,
+      licensePlate,
+      {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      }
+    );
+    console.log(response.data);
+  } catch (err) {}
 };
 
 export default rentSlice.reducer;

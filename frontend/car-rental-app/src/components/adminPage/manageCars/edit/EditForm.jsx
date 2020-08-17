@@ -87,7 +87,12 @@ const EditForm = ({
         </Grid>
         <Grid item>
           <form onSubmit={handlePhotoUpdate}>
-            <input onChange={handlePhotoChange} type="file" required />
+            <input
+              onChange={handlePhotoChange}
+              type="file"
+              required
+              placeholder="Choose file"
+            />
             <Button
               className={classes.button}
               startIcon={<PhotoCameraIcon />}

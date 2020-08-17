@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { Grid, Button } from "@material-ui/core";
 import { rentRequestStyles, TextArea } from "./rentRequest.styles.js";
+import RequestedCarInfo from "./RequestedCarInfo.jsx";
 
 const RentRequestControlPanel = ({
+  carDTO,
   response,
   handleResponseChange,
   handleAccept,
