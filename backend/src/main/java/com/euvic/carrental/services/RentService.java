@@ -200,7 +200,7 @@ public class RentService implements RentServiceInterface {
         return toReturn;
     }
 
-    @Override //TODO test it, dorzuc sprawdzanie
+    @Override //TODO test it
     public void updateNextRent(final Rent rent) {
         final Rent nextRent = this.getNearestRent(rent);
         if (nextRent != null) {

@@ -1,10 +1,7 @@
 package com.euvic.carrental.controllers;
 
 import com.euvic.carrental.model.*;
-import com.euvic.carrental.responses.DateFromDateTo;
-import com.euvic.carrental.responses.EndRentDTO;
-import com.euvic.carrental.responses.RentDTO;
-import com.euvic.carrental.responses.RentPermitRejectDTO;
+import com.euvic.carrental.responses.*;
 import com.euvic.carrental.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -172,13 +169,16 @@ public class RentController {
         final User user = userService.getEntityByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
         final Car car = carService.getOnCompanyEntityByLicensePlate(licensePlate);
 
-        //TODO dodaj if, że jak ktoś nie poda parkingu końcowego to przypisze do samochodu ten początkowy
         int responseCode;
         final Long id;
         String message;
         try {
             if (rentService.checkMyRentsBeforeAddNewRent(rentDTO)) {
-                id = parkingService.addEntityToDB(parkingService.mapRestModel(null, rentDTO.getParkingDTOTo()));
+                if (rentDTO.getParkingDTOTo() != null) {
+                    id = parkingService.addEntityToDB(parkingService.mapRestModel(null, rentDTO.getParkingDTOTo()));
+                } else {
+                    id = parkingService.addEntityToDB(parkingService.mapRestModel(null, new ParkingDTO(car.getParking())));
+                }
                 final Rent rent = new Rent(null, user, car, rentDTO.getDateFrom(), rentDTO.getDateTo(), car.getParking(), parkingService.getEntityById(id), false, rentDTO.getComment(), "", "");
                 rentService.addEntityToDB(rent);
                 responseCode = 200;
