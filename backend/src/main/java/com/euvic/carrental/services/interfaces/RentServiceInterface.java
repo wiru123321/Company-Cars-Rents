@@ -40,4 +40,6 @@ public interface RentServiceInterface {
     List<RentPendingDTO> getAllActiveRents();
 
     List<Rent> getRentsByLicensePlate(String licensePlate);
+
+    boolean checkCarAvailability(Rent rent);
 }

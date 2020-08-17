@@ -59,7 +59,9 @@ public class RentController {
             final Car car = carService.getOnCompanyEntityByLicensePlate(licensePlate);
             if (car == null)
                 throw new NullPointerException();
-            //TODO dodaj walidację czy samochód jest dostępny w terminie tego renta
+            if (rentService.checkCarAvailability(rent)) {
+                throw new NoSuchElementException();
+            }
             rent.setCar(car);
             rentService.addEntityToDB(rent);
             responseCode = 200;
@@ -67,6 +69,9 @@ public class RentController {
         } catch (final NullPointerException e) {
             responseCode = 400;
             message = "Rent or car doesn't exist";
+        } catch (final NoSuchElementException e) {
+            responseCode = 406;
+            message = "Car is not available";
         }
 
         return ResponseEntity.status(responseCode).body(message);
@@ -155,6 +160,7 @@ public class RentController {
         final User user = userService.getEntityByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
         final Car car = carService.getOnCompanyEntityByLicensePlate(licensePlate);
 
+        //TODO dodaj if, że jak ktoś nie poda parkingu końcowego to przypisze do samochodu ten początkowy
         int responseCode;
         final Long id;
         String message;
