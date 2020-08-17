@@ -52,7 +52,7 @@ public class RentController {
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/a/rent/change_car_in_rent/{id}")
-    public ResponseEntity<?> editRent(@PathVariable final Long id, @RequestBody final String licensePlate) {
+    public ResponseEntity<?> editRent(@PathVariable final Long id, @RequestParam final String licensePlate) {
 
         int responseCode;
         String message;
@@ -61,10 +61,10 @@ public class RentController {
             final Car car = carService.getOnCompanyEntityByLicensePlate(licensePlate);
             if (car == null)
                 throw new NullPointerException();
-            if (rentService.checkCarAvailability(rent)) {
+            rent.setCar(car);
+            if (!rentService.checkCarAvailability(rent)) {
                 throw new NoSuchElementException();
             }
-            rent.setCar(car);
             rentService.addEntityToDB(rent);
             responseCode = 200;
             message = "Ok";
@@ -89,7 +89,7 @@ public class RentController {
             try {
                 rent.setIsActive(true);
                 rent.setResponse(rentPermitRejectDTO.getResponse());
-                if (rentService.checkCarAvailability(rent)) {
+                if (!rentService.checkCarAvailability(rent)) {
                     rentService.addEntityToDB(rent);
                     responseCode = 200;
                     message = "Updated";
@@ -105,10 +105,7 @@ public class RentController {
             responseCode = 400;
             message = "Car with this license plate doesn't exist";
         }
-        return ResponseEntity.status(responseCode).
-
-                body(message);
-
+        return ResponseEntity.status(responseCode).body(message);
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/a/rent/reject/{id}")
