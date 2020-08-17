@@ -179,6 +179,9 @@ public class RentController {
                     id = parkingService.addEntityToDB(parkingService.mapRestModel(null, new ParkingDTO(car.getParking())));
                 }
                 final Rent rent = new Rent(null, user, car, rentDTO.getDateFrom(), rentDTO.getDateTo(), car.getParking(), parkingService.getEntityById(id), false, rentDTO.getReasonForTheLoan(), "", "");
+                if (!rentService.checkCarAvailability(rent)) {
+                    throw new NoSuchElementException();
+                }
                 rentService.addEntityToDB(rent);
                 responseCode = 200;
                 message = "Ok";
@@ -186,10 +189,12 @@ public class RentController {
                 responseCode = 400;
                 message = "You have rent in this time or give invalid time range";
             }
-
         } catch (final NullPointerException e) {
             responseCode = 406;
             message = "Cannot find user or car in database";
+        } catch (final NoSuchElementException e) {
+            responseCode = 409;
+            message = "Car is already rented for this date";
         }
 
         return ResponseEntity.status(responseCode).body(message);
