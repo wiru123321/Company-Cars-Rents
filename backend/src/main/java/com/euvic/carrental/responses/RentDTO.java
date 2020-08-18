@@ -18,7 +18,6 @@ public class RentDTO {
     private CarDTO carDTO;
     private ParkingDTO parkingDTOFrom;
     private ParkingDTO parkingDTOTo;
-    private Boolean isActive;
 
     public RentDTO() {
     }
@@ -36,20 +35,18 @@ public class RentDTO {
         this.carDTO = carDTO;
         this.parkingDTOFrom = parkingDTOFrom;
         this.parkingDTOTo = parkingDTOTo;
-        this.isActive = rentHistory.getIsActive();
         this.reasonForTheLoan = rentHistory.getReasonForTheLoan();
         this.adminResponseForTheRequest = rentHistory.getAdminResponseForTheRequest();
         this.faultMessage = rentHistory.getFaultMessage();
     }
 
-    public RentDTO(final LocalDateTime dateFrom, final LocalDateTime dateTo, final UserDTO userDTO, final CarDTO carDTO, final ParkingDTO parkingDTOFrom, final ParkingDTO parkingDTOTo, final Boolean isActive, final String reasonForTheLoan, final String adminResponseForTheRequest, final String faultMessage) {
+    public RentDTO(final LocalDateTime dateFrom, final LocalDateTime dateTo, final UserDTO userDTO, final CarDTO carDTO, final ParkingDTO parkingDTOFrom, final ParkingDTO parkingDTOTo, final String reasonForTheLoan, final String adminResponseForTheRequest, final String faultMessage) {
         this.dateFrom = dateFrom;
         this.dateTo = dateTo;
         this.userDTO = userDTO;
         this.carDTO = carDTO;
         this.parkingDTOFrom = parkingDTOFrom;
         this.parkingDTOTo = parkingDTOTo;
-        this.isActive = isActive;
         this.reasonForTheLoan = reasonForTheLoan;
         this.adminResponseForTheRequest = adminResponseForTheRequest;
         this.faultMessage = faultMessage;
@@ -62,7 +59,6 @@ public class RentDTO {
         this.carDTO = carDTO;
         this.parkingDTOFrom = parkingDTOFrom;
         this.parkingDTOTo = parkingDTOTo;
-        this.isActive = rent.getIsActive();
         this.reasonForTheLoan = rent.getReasonForTheLoan();
         this.adminResponseForTheRequest = rent.getAdminResponseForTheRequest();
         this.faultMessage = rent.getFaultMessage();

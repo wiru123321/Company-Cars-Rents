@@ -4,6 +4,7 @@ import com.euvic.carrental.model.Car;
 import com.euvic.carrental.model.RentHistory;
 import com.euvic.carrental.responses.CarDTO;
 import com.euvic.carrental.responses.RentHistoryDTO;
+import com.euvic.carrental.responses.RentHistoryEndPendingDTO;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -28,4 +29,6 @@ public interface RentHistoryServiceInterface {
     List<RentHistoryDTO> getAllDTOsByCar(Car car);
 
     void setToInactiveByLicensePlate(String licensePlate);
+
+    List<RentHistoryEndPendingDTO> getAllEndRentPending();
 }

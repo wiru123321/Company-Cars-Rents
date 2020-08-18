@@ -11,8 +11,9 @@ public class RentHistoryEndPendingDTO {
     private LocalDateTime dateFrom;
     private LocalDateTime dateTo;
     private CarDTO carDTO;
-    private String comment;
-    private String response;
+    private String reasonForTheLoan;
+    private String adminResponseForTheRequest;
+    private String faultMessage;
     private UserRentInfo userRentInfo;
     private ParkingHistoryDTO parkingFrom;
     private ParkingHistoryDTO parkingTo;
