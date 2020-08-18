@@ -5,58 +5,58 @@ import { Container, Grid, Button, Box } from "@material-ui/core";
 import { ReservationDate, UserPersonalData } from "./ReservationForm";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  firstnameChange,
-  lastnameChange,
-  beginDateChange,
-  beginHourChange,
-  endDateChange,
-  endHourChange,
-  fetchActiveCars,
+  fetchCarsAvaiableInDate,
   dateIsChoosenHandler,
   selectDateIsChoosen,
   selectIsCarFormActive,
   isCarFormActiveHandler,
+  beginDateChange,
+  beginHourChange,
+  endDateChange,
+  endHourChange,
+  selectbeginDate,
+  selectbeginHour,
+  selectendDate,
+  selectendHour,
 } from "../../../features/car-reservation/reservationSlice";
-import { useState } from "react";
 
 const Reservation = () => {
   const classes = useStyles();
-  const [beginDate, setBeginDate] = useState("");
-  const [beginHour, setBeginHour] = useState("");
-  const [endDate, setEndDate] = useState("");
-  const [endHour, setEndHour] = useState("");
+
+  const beginDate = useSelector(selectbeginDate);
+  const beginHour = useSelector(selectbeginHour);
+  const endDate = useSelector(selectendDate);
+  const endHour = useSelector(selectendHour);
+
   const dispatch = useDispatch();
 
   function handleBeginDateChange(event) {
-    setBeginDate(event.target.value);
+    dispatch(beginDateChange(event.target.value));
   }
 
   function handleBeginHourChange(event) {
-    setBeginHour(event.target.value);
+    dispatch(beginHourChange(event.target.value));
   }
 
   function handleEndDateChange(event) {
-    setEndDate(event.target.value);
+    dispatch(endDateChange(event.target.value));
   }
 
   function handleEndHourChange(event) {
-    setEndHour(event.target.value);
+    dispatch(endHourChange(event.target.value));
   }
   function sumbitHander() {
-    // if (beginDate && beginHour && endDate && endHour) {
-    // dateFrom: "2020-12-01T00:00:00",
-    //   dateTo: "2020-12-06T00:00:00",
+    console.log(beginDate + "T" + beginHour);
     let dateFromDateTo = {
-      // dateFrom: beginDate + "T" + beginHour + ":00",
-      // dateTo: endDate + "T" + endHour + ":00",
-      dateFrom: "2020-12-01T00:00:00",
-      dateTo: "2020-12-06T00:00:00",
+      dateFrom: beginDate + "T" + beginHour + ":00",
+      dateTo: endDate + "T" + endHour + ":00",
+      // dateFrom: "2020-12-01T00:00:00",
+      // dateTo: "2020-12-06T00:00:00",
     };
-    dispatch(fetchActiveCars(dateFromDateTo));
+    // dispatch(fetchCarsAvaiableInDate(dateFromDateTo));
     console.log(dateFromDateTo);
-    dispatch(dateIsChoosenHandler());
-    dispatch(isCarFormActiveHandler());
-    // }
+    // dispatch(dateIsChoosenHandler());
+    // dispatch(isCarFormActiveHandler());
   }
   let dateIsChoosen = useSelector(selectDateIsChoosen);
   let isCarFormActive = useSelector(selectIsCarFormActive);

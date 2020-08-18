@@ -279,7 +279,6 @@ public class RentService implements RentServiceInterface {
         final ArrayList<RentDTO> rentDTOArrayList = new ArrayList<>();
 
         if (!rentArrayList.isEmpty()) {
-
             for (final Rent rent : rentArrayList) {
                 if (this.checkDate(rent.getDateFrom(), rent.getDateTo(), dateFromDateTo)) {
                     final RentDTO rentDTO = new RentDTO(rent, userService.getDTOByLogin(rent.getUser().getLogin()), carService.getDTOByLicensePlate(rent.getCar().getLicensePlate())

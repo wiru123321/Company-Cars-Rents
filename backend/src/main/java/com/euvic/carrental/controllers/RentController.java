@@ -62,7 +62,7 @@ public class RentController {
             if (car == null)
                 throw new NullPointerException();
             rent.setCar(car);
-            if (rentService.checkCarAvailability(rent)) {
+            if (!rentService.checkCarAvailability(rent)) {
                 throw new NoSuchElementException();
             }
             rentService.addEntityToDB(rent);
