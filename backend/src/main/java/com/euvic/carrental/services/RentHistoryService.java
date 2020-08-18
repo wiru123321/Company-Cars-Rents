@@ -45,7 +45,7 @@ public class RentHistoryService implements RentHistoryServiceInterface {
     public RentHistory getEntityByCarAndDateFrom(final Car car, final LocalDateTime dateFrom) {
         return rentHistoryRepository.findByCarAndDateFrom(car, dateFrom);
     }
-    
+
     @Override
     public RentHistoryDTO getDTOById(final Long id) {
         final RentHistory rentHistory = rentHistoryRepository.findById(id).get();
