@@ -5,6 +5,7 @@ const API_URL = "http://localhost:8080";
 
 const initialState = {
   rents: [],
+  filteredRents: [],
   currentRent: "",
   enterMenuMode: false,
 };
@@ -22,6 +23,9 @@ const activeRentsSlice = createSlice({
     setMenuMode: (state, action) => {
       state.enterMenuMode = action.payload;
     },
+    setFilteredRents: (state, action) => {
+      state.filteredRents = action.payload;
+    },
   },
 });
 
@@ -29,6 +33,7 @@ export const {
   setRents,
   setCurrentRent,
   setMenuMode,
+  setFilteredRents,
 } = activeRentsSlice.actions;
 
 export const selectAll = (state) => state.activeRents;
@@ -101,6 +106,40 @@ export const getRentByID = (id) => async (dispatch) => {
   } catch (err) {
     console.log(err.response);
   }
+};
+
+export const filterRents = (rents, filters) => (dispatch) => {
+  const { name, surname, mark, model, licensePlate } = filters;
+
+  let filteredRents = rents.filter((rent) =>
+    filteredRents.userRentInfo.name.toLowerCase().includes(name.toLowerCase())
+  );
+
+  filteredRents = filteredRents.filter((rent) =>
+    filteredRents.userRentInfo.surname
+      .toLowerCase()
+      .includes(surname.toLowerCase())
+  );
+
+  filteredRents = filteredRents.filter((rent) =>
+    filteredRents.carDTO.modelDTO.markDTO.name
+      .toLowerCase()
+      .includes(mark.toLowerCase())
+  );
+
+  filteredRents = filteredRents.filter((rent) =>
+    filteredRents.carDTO.modelDTO.name
+      .toLowerCase()
+      .includes(model.toLowerCase())
+  );
+
+  filteredRents = filteredRents.filter((rent) =>
+    filteredRents.carDTO.licensePlate
+      .toLowerCase()
+      .includes(licensePlate.toLowerCase())
+  );
+
+  dispatch(setFilteredRents(filteredRents));
 };
 
 export default activeRentsSlice.reducer;
