@@ -45,6 +45,12 @@ public class RentController {
     public ResponseEntity<?> getRentWithId(@PathVariable final Long id) {
         return ResponseEntity.ok(rentService.getRentPendingDTOById(id));
     }
+    
+
+    @RequestMapping(method = RequestMethod.GET, value = "/a/rent/end_pending")
+    public ResponseEntity<?> getEndRentPending() {
+        return ResponseEntity.ok(rentHistoryService.getAllEndRentPending());
+    }
 
     @RequestMapping(method = RequestMethod.GET, value = "/a/rent/car_history/{licensePlate}")
     public ResponseEntity<?> checkCarHistory(@PathVariable final String licensePlate) {
@@ -76,6 +82,22 @@ public class RentController {
             message = "Car is not available";
         }
 
+        return ResponseEntity.status(responseCode).body(message);
+    }
+
+    @RequestMapping(method = RequestMethod.PUT, value = "/a/rent/permit_end_rent/{id}")
+    public ResponseEntity<?> permitEndRent(@PathVariable final Long id) {
+        final RentHistory rentHistory = rentHistoryService.getEntityById(id);
+        int responseCode;
+        String message;
+        try {
+            rentHistory.setIsActive(true);
+            responseCode = 200;
+            message = "Ok";
+        } catch (final NullPointerException | NoSuchElementException e) {
+            responseCode = 400;
+            message = "RentHistory with this ID doesn't exist";
+        }
         return ResponseEntity.status(responseCode).body(message);
     }
 
@@ -253,7 +275,7 @@ public class RentController {
                     }
 
                     final RentHistory rentHistory = new RentHistory(null, rent.getUser(), rent.getCar(), rent.getDateFrom(), rent.getDateTo(), parkingFrom
-                            , parkingTo, true, true, rent.getReasonForTheLoan(), rent.getAdminResponseForTheRequest(), endRentDTO.getFaultMessage());
+                            , parkingTo, false, true, rent.getReasonForTheLoan(), rent.getAdminResponseForTheRequest(), endRentDTO.getFaultMessage());
                     parkingHistoryService.addEntityToDB(parkingFrom);
                     parkingHistoryService.addEntityToDB(parkingTo);
                     rentHistoryService.addEntityToDB(rentHistory);
@@ -277,7 +299,7 @@ public class RentController {
                 message = "Rent doesn't exist";
             }
         } else {
-            responseCode = 400;
+            responseCode = 401;
             message = "Rent doesn't exist";
         }
 

@@ -75,7 +75,7 @@ export const changeRentCar = (id, licensePlate, alert) => async (dispatch) => {
       },
       params: { licensePlate: licensePlate },
     });
-    dispatch(getCar(id));
+    dispatch(getRentByID(id));
     alert.success("Car successfully changed!");
   } catch (err) {
     if (err.response) {
@@ -88,7 +88,7 @@ export const changeRentCar = (id, licensePlate, alert) => async (dispatch) => {
   }
 };
 
-export const getCar = (id) => async (dispatch) => {
+export const getRentByID = (id) => async (dispatch) => {
   try {
     const response = await axios(API_URL + `/a/rent/${id}`, {
       method: "get",
@@ -96,7 +96,8 @@ export const getCar = (id) => async (dispatch) => {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     });
-    console.log(response);
+    dispatch(setCurrentRent(response.data));
+    console.log("new rent", response.data);
   } catch (err) {
     console.log(err.response);
   }
