@@ -28,7 +28,7 @@ const ActiveRents = () => {
 
   useEffect(() => {
     dispatch(getActiveRents());
-  }, []);
+  }, [dispatch]);
 
   const menuMode = (rent) => {
     dispatch(setCurrentRent(rent));

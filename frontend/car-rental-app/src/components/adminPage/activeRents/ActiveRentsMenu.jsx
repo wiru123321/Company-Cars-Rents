@@ -10,10 +10,8 @@ import {
 import KeyboardBackspaceIcon from "@material-ui/icons/KeyboardBackspace";
 import InfoIcon from "@material-ui/icons/Info";
 import EditIcon from "@material-ui/icons/Edit";
-import ChangeCar from "./ChangeCar";
-import UserInfo from "./card/UserInfo";
-import ReservationDate from "./card/ReservationDate";
-import CarInfoCard from "./card/CarInfoCard";
+import ChangeCar from "./changeCarMenu/ChangeCar";
+import ReservationInfo from "./cards/ReservationInfo";
 
 const useStyles = makeStyles({
   paper: {
@@ -22,14 +20,8 @@ const useStyles = makeStyles({
     minWidth: "40vw",
     minHeight: "40vh",
   },
-  item: {
-    margin: "1%",
-    padding: "4px",
-    backgroundColor: "#DCDCDC",
-  },
-  title: {
-    fontSize: "1.5rem",
-    textAlign: "center",
+  nav: {
+    padding: "8px",
   },
 });
 
@@ -39,11 +31,17 @@ const ActiveRentsMenu = ({ exitMenu, currentRent }) => {
   return (
     <Grid container justify="center">
       <Paper className={classes.paper}>
-        <Grid container justify="space-evenly" alignItems="center">
+        <Grid
+          className={classes.nav}
+          container
+          justify="space-evenly"
+          alignItems="center"
+        >
           <Grid>
             <Button
               onClick={exitMenu}
-              variant="contained"
+              variant="text"
+              color="secondary"
               startIcon={<KeyboardBackspaceIcon />}
             >
               Back
@@ -52,7 +50,8 @@ const ActiveRentsMenu = ({ exitMenu, currentRent }) => {
           <Grid>
             <Button
               onClick={() => toggleInfo(true)}
-              variant="contained"
+              variant={info ? "contained" : "text"}
+              color="primary"
               startIcon={<InfoIcon />}
             >
               Info
@@ -61,7 +60,8 @@ const ActiveRentsMenu = ({ exitMenu, currentRent }) => {
           <Grid>
             <Button
               onClick={() => toggleInfo(false)}
-              variant="contained"
+              variant={!info ? "contained" : "text"}
+              color="primary"
               startIcon={<EditIcon />}
             >
               Change car
@@ -82,53 +82,6 @@ const ActiveRentsMenu = ({ exitMenu, currentRent }) => {
           )}
         </Grid>
       </Paper>
-    </Grid>
-  );
-};
-
-const ReservationInfo = ({ rent }) => {
-  const classes = useStyles();
-  return (
-    <Grid container direction="column">
-      <Paper className={classes.item}>
-        <UserInfo rent={rent} />
-      </Paper>
-      <Paper className={classes.item}>
-        <ReservationDate rent={rent} />
-      </Paper>
-      <Paper className={classes.item}>
-        <CarInfoCard car={rent.carDTO} />
-      </Paper>
-      <Paper className={classes.item}>
-        <ParkingInfo title="Start parking" parking={rent.parkingFrom} />
-      </Paper>
-      <Paper className={classes.item}>
-        <ParkingInfo title="End parking" parking={rent.parkingTo} />
-      </Paper>
-    </Grid>
-  );
-};
-
-const ParkingInfo = ({ title, parking }) => {
-  const classes = useStyles();
-  return (
-    <Grid container direction="column">
-      <Typography className={classes.title}>{title}</Typography>
-      <Divider />
-      <Grid container justify="space-evenly">
-        <Grid>
-          <Typography>Town: {parking.town}</Typography>
-          <Typography>Postal code: {parking.postalCode}</Typography>
-        </Grid>
-        <Grid>
-          <Typography>Street name: {parking.streetName}</Typography>
-          <Typography>Number: {parking.number}</Typography>
-        </Grid>
-      </Grid>
-      <Divider />
-      <Grid container justify="center">
-        <Typography>{parking.comment}</Typography>
-      </Grid>
     </Grid>
   );
 };

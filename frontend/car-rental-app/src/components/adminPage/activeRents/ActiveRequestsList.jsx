@@ -1,15 +1,8 @@
 import React from "react";
-import {
-  Grid,
-  Paper,
-  makeStyles,
-  Typography,
-  Button,
-  Divider,
-} from "@material-ui/core";
-import CarInfoCard from "./card/CarInfoCard";
-import UserInfo from "./card/UserInfo";
-import ReservationDate from "./card/ReservationDate";
+import { Grid, makeStyles, Typography } from "@material-ui/core";
+import RentCard from "./cards/RentCard";
+import NotFoundMessage from "../messages/NotFoundMessage";
+import FiltersBar from "./filter/FiltersBar";
 
 const useStyles = makeStyles({
   title: {
@@ -34,7 +27,7 @@ const ActiveRequestList = ({ rents, menuMode }) => {
   return (
     <Grid container>
       <Grid container direction="column" justify="center" alignItems="center">
-        <Typography className={classes.title}>Active rents</Typography>
+        <FiltersBar />
         {rents.length > 0 ? (
           rents.map((rent, index) => {
             const handleMenuModeChange = () => {
@@ -49,39 +42,10 @@ const ActiveRequestList = ({ rents, menuMode }) => {
             );
           })
         ) : (
-          <Grid>Active rents not found.</Grid>
+          <NotFoundMessage>Active rents not found.</NotFoundMessage>
         )}
       </Grid>
     </Grid>
-  );
-};
-
-const RentCard = ({ rent, handleMenuModeChange }) => {
-  const classes = useStyles();
-
-  return (
-    <Paper className={classes.paper}>
-      <Grid container direction="column">
-        <Paper className={classes.card}>
-          <UserInfo rent={rent} />
-        </Paper>
-        <Divider />
-        <Paper className={classes.card}>
-          <ReservationDate rent={rent} />
-        </Paper>
-        <Divider />
-        <Paper className={classes.card}>
-          <CarInfoCard car={rent.carDTO} />
-        </Paper>
-        <Button
-          onClick={handleMenuModeChange}
-          variant="outlined"
-          color="primary"
-        >
-          Manage
-        </Button>
-      </Grid>
-    </Paper>
   );
 };
 
