@@ -11,8 +11,8 @@ import java.time.LocalDateTime;
 public class RentDTO {
     private LocalDateTime dateFrom;
     private LocalDateTime dateTo;
-    private String comment;
-    private String response;
+    private String reasonForTheLoan;
+    private String adminResponseForTheRequest;
     private String faultMessage;
     private UserDTO userDTO;
     private CarDTO carDTO;
@@ -37,12 +37,12 @@ public class RentDTO {
         this.parkingDTOFrom = parkingDTOFrom;
         this.parkingDTOTo = parkingDTOTo;
         this.isActive = rentHistory.getIsActive();
-        this.comment = rentHistory.getComment();
-        this.response = rentHistory.getResponse();
+        this.reasonForTheLoan = rentHistory.getReasonForTheLoan();
+        this.adminResponseForTheRequest = rentHistory.getAdminResponseForTheRequest();
         this.faultMessage = rentHistory.getFaultMessage();
     }
 
-    public RentDTO(final LocalDateTime dateFrom, final LocalDateTime dateTo, final UserDTO userDTO, final CarDTO carDTO, final ParkingDTO parkingDTOFrom, final ParkingDTO parkingDTOTo, final Boolean isActive, final String comment, final String response, final String faultMessage) {
+    public RentDTO(final LocalDateTime dateFrom, final LocalDateTime dateTo, final UserDTO userDTO, final CarDTO carDTO, final ParkingDTO parkingDTOFrom, final ParkingDTO parkingDTOTo, final Boolean isActive, final String reasonForTheLoan, final String adminResponseForTheRequest, final String faultMessage) {
         this.dateFrom = dateFrom;
         this.dateTo = dateTo;
         this.userDTO = userDTO;
@@ -50,8 +50,8 @@ public class RentDTO {
         this.parkingDTOFrom = parkingDTOFrom;
         this.parkingDTOTo = parkingDTOTo;
         this.isActive = isActive;
-        this.comment = comment;
-        this.response = response;
+        this.reasonForTheLoan = reasonForTheLoan;
+        this.adminResponseForTheRequest = adminResponseForTheRequest;
         this.faultMessage = faultMessage;
     }
 
@@ -63,8 +63,8 @@ public class RentDTO {
         this.parkingDTOFrom = parkingDTOFrom;
         this.parkingDTOTo = parkingDTOTo;
         this.isActive = rent.getIsActive();
-        this.comment = rent.getComment();
-        this.response = rent.getResponse();
+        this.reasonForTheLoan = rent.getReasonForTheLoan();
+        this.adminResponseForTheRequest = rent.getAdminResponseForTheRequest();
         this.faultMessage = rent.getFaultMessage();
     }
 }

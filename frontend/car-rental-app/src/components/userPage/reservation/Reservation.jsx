@@ -3,32 +3,32 @@ import CarSuggestion from "./CarSuggestion";
 import useStyles from "./useStyles";
 import { Container, Grid, Button, Box } from "@material-ui/core";
 import { ReservationDate, UserPersonalData } from "./ReservationForm";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
-  firstnameChange,
-  lastnameChange,
+  fetchCarsAvaiableInDate,
+  dateIsChoosenHandler,
+  selectDateIsChoosen,
+  selectIsCarFormActive,
+  isCarFormActiveHandler,
   beginDateChange,
   beginHourChange,
   endDateChange,
   endHourChange,
-  fetchActiveCars,
+  selectbeginDate,
+  selectbeginHour,
+  selectendDate,
+  selectendHour,
 } from "../../../features/car-reservation/reservationSlice";
 
 const Reservation = () => {
   const classes = useStyles();
+
+  const beginDate = useSelector(selectbeginDate);
+  const beginHour = useSelector(selectbeginHour);
+  const endDate = useSelector(selectendDate);
+  const endHour = useSelector(selectendHour);
+
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(fetchActiveCars());
-  }, []);
-
-  function handleFirstnameChange(event) {
-    dispatch(firstnameChange(event.target.value));
-  }
-
-  function handleLastnameChange(event) {
-    dispatch(lastnameChange(event.target.value));
-  }
 
   function handleBeginDateChange(event) {
     dispatch(beginDateChange(event.target.value));
@@ -45,7 +45,21 @@ const Reservation = () => {
   function handleEndHourChange(event) {
     dispatch(endHourChange(event.target.value));
   }
-
+  function sumbitHander() {
+    console.log(beginDate + "T" + beginHour);
+    let dateFromDateTo = {
+      dateFrom: beginDate + "T" + beginHour + ":00",
+      dateTo: endDate + "T" + endHour + ":00",
+      // dateFrom: "2020-12-01T00:00:00",
+      // dateTo: "2020-12-06T00:00:00",
+    };
+    dispatch(fetchCarsAvaiableInDate(dateFromDateTo));
+    console.log(dateFromDateTo);
+    dispatch(dateIsChoosenHandler());
+    dispatch(isCarFormActiveHandler());
+  }
+  let dateIsChoosen = useSelector(selectDateIsChoosen);
+  let isCarFormActive = useSelector(selectIsCarFormActive);
   return (
     <Container
       className={classes.root}
@@ -56,35 +70,36 @@ const Reservation = () => {
         height: "100%",
       }}
     >
-      <Grid container direction="row" justify="left" alignItems="flex-start">
-        <Box className={classes.leftColumn}>
-          <Grid direction="column" justify="flex-start" alignItems="center">
-            <UserPersonalData
-              handleFirstnameChange={handleFirstnameChange}
-              handleLastnameChange={handleLastnameChange}
-            />
-            <ReservationDate
-              inputText="Reservation start:"
-              handleDateChange={handleBeginDateChange}
-              handleHourChange={handleBeginHourChange}
-            />
-            <ReservationDate
-              inputText="Reservation end:"
-              handleDateChange={handleEndDateChange}
-              handleHourChange={handleEndHourChange}
-            />
-            <Button
-              style={{ marginTop: "2%", width: "100%" }}
-              variant="contained"
-              color="primary"
-            >
-              Submit
-            </Button>
-          </Grid>
-        </Box>
-        <Container className={classes.rightColumn}>
-          <CarSuggestion />
-        </Container>
+      <Grid container direction="row" justify="center">
+        {dateIsChoosen ? (
+          <Box>
+            <Grid direction="column" alignItems="center">
+              <ReservationDate
+                inputText="Reservation start:"
+                handleDateChange={handleBeginDateChange}
+                handleHourChange={handleBeginHourChange}
+              />
+              <ReservationDate
+                inputText="Reservation end:"
+                handleDateChange={handleEndDateChange}
+                handleHourChange={handleEndHourChange}
+              />
+              <Button
+                style={{ marginTop: "2%", width: "100%" }}
+                variant="contained"
+                color="primary"
+                onClick={sumbitHander}
+              >
+                Submit
+              </Button>
+            </Grid>
+          </Box>
+        ) : null}
+        {isCarFormActive ? (
+          <Container>
+            <CarSuggestion />
+          </Container>
+        ) : null}
       </Grid>
     </Container>
   );

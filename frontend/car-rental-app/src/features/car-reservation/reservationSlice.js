@@ -4,14 +4,14 @@ import axios from "axios";
 const API_URL = "http://localhost:8080";
 
 const initialState = {
-  firstName: "",
-  lastName: "",
   reservationBeginDate: "",
   reservationBeginHours: "",
   reservationEndDate: "",
   reservationEndHour: "",
   isChoosen: false,
-  choose: false,
+  choose: true,
+  dateIsChoosen: true,
+  isCarFormActive: false,
   choosenCar: 0,
   cars: [],
 };
@@ -35,6 +35,12 @@ export const reservationSlice = createSlice({
     },
     firstnameChange: (state, action) => {
       state.firstName = action.payload;
+    },
+    dateIsChoosenHandler: (state) => {
+      state.dateIsChoosen = !state.dateIsChoosen;
+    },
+    isCarFormActiveHandler: (state) => {
+      state.isCarFormActive = !state.isCarFormActive;
     },
     lastnameChange: (state, action) => {
       state.lastName = action.payload;
@@ -69,6 +75,8 @@ export const {
   endHourChange,
   setCars,
   getCars,
+  dateIsChoosenHandler,
+  isCarFormActiveHandler,
 } = reservationSlice.actions;
 
 export const selectCars = (state) => state.reservation.cars;
@@ -77,15 +85,43 @@ export const selectCar = (state) =>
 export const selectChoose = (state) => state.reservation.choose;
 export const selectIsChoosen = (state) => state.reservation.isChoosen;
 
-export const fetchActiveCars = () => async (dispatch) => {
+export const selectbeginDate = (state) =>
+  state.reservation.reservationBeginDate;
+export const selectbeginHour = (state) =>
+  state.reservation.reservationBeginHours;
+export const selectendDate = (state) => state.reservation.reservationEndDate;
+export const selectendHour = (state) => state.reservation.reservationEndHour;
+
+export const selectDateIsChoosen = (state) => state.reservation.dateIsChoosen;
+export const selectIsCarFormActive = (state) =>
+  state.reservation.isCarFormActive;
+
+export const fetchCarsAvaiableInDate = (dateFromDateTo) => async (dispatch) => {
   try {
-    const response = await axios.get(API_URL + "/ae/active-cars", {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("token"),
-      },
+    const response = await axios({
+      method: "get",
+      url: API_URL + "/e/rent/carsOnTime",
+      params: dateFromDateTo,
+      headers: { Authorization: "Bearer " + localStorage.getItem("token") },
     });
     console.log(response.data);
     dispatch(setCars(response.data));
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const uploadReservCar = (licensePlate, formData) => async (dispatch) => {
+  try {
+    const response = await axios.post(
+      API_URL + `/e/rent/${licensePlate}`,
+      formData,
+      {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      }
+    );
   } catch (error) {
     console.log(error);
   }

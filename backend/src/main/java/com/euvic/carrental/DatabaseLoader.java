@@ -209,25 +209,25 @@ public class DatabaseLoader implements CommandLineRunner {
             carService.addEntityToDB(car3);
 
             final Rent rent1 = new Rent(null
-                    , userService.getEntityByLogin("user123")
+                    , userService.getEntityByLogin("kama123")
                     , carService.getOnCompanyEntityByLicensePlate("WN101")
                     , LocalDateTime.of(2020, 12, 7, 0, 0)
                     , LocalDateTime.of(2020, 12, 10, 0, 0)
                     , parkingService.getEntityById(parkingId1)
                     , parkingService.getEntityById(parkingId2)
-                    , false, "Simple comment", "Response", "");
+                    , true, "Simple comment", "Response", "");
 
             final Rent rent2 = new Rent(null
-                    , userService.getEntityByLogin("user123")
+                    , userService.getEntityByLogin("walo123")
                     , carService.getOnCompanyEntityByLicensePlate("SBE33212")
-                    , LocalDateTime.of(2020, 12, 1, 0, 0)
-                    , LocalDateTime.of(2020, 12, 6, 0, 0)
+                    , LocalDateTime.of(2020, 12, 7, 0, 0)
+                    , LocalDateTime.of(2020, 12, 10, 0, 0)
                     , parkingService.getEntityById(parkingId3)
                     , parkingService.getEntityById(parkingId4)
                     , false, "walo comment", "Response", "");
 
             final Rent rent3 = new Rent(null
-                    , userService.getEntityByLogin("user123")
+                    , userService.getEntityByLogin("admin123")
                     , carService.getOnCompanyEntityByLicensePlate("SBE11212")
                     , LocalDateTime.of(2020, 11, 25, 0, 0)
                     , LocalDateTime.of(2020, 12, 1, 0, 0)

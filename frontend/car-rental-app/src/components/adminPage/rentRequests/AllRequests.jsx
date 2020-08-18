@@ -18,7 +18,6 @@ const AllRequests = () => {
       ) : (
         <NotFoundMessage>There are no pending requests.</NotFoundMessage>
       )}
-      <RentAlert />
     </Container>
   );
 };

@@ -16,4 +16,6 @@ public interface RentHistoryRepository extends CrudRepository<RentHistory, Long>
     List<RentHistory> findAllByUser(User user);
 
     List<RentHistory> findAllByCar(Car car);
+
+    List<RentHistory> findAllByIsActive(boolean b);
 }

@@ -5,6 +5,10 @@ import "../../userPage/userNavbar/UserNavbar.css";
 import RequestsNavLink from "../rentRequestsPopover/RequestsNavLink";
 import { logout } from "../../../features/authentication/authSlice";
 import { useDispatch } from "react-redux";
+import {
+  setCurrentRent,
+  setMenuMode,
+} from "../../../features/rents/activeRentsSlice";
 
 const AdminNavbar = () => {
   const dispatch = useDispatch();
@@ -31,6 +35,16 @@ const AdminNavbar = () => {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="ml-auto">
+            <Nav.Link
+              onClick={() => {
+                dispatch(setCurrentRent(""));
+                dispatch(setMenuMode(false));
+              }}
+              href="#/adminPage/activeRents"
+              style={{ color: "#f3f169", fontSize: "25px" }}
+            >
+              Active rents
+            </Nav.Link>
             <RequestsNavLink />
             <RequestsPopover />
             <NavDropdown

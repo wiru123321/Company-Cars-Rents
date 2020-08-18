@@ -91,15 +91,11 @@ export const updateCar = (licensePlate, car, alert, fetchActive) => async (
 ) => {
   try {
     console.log(car);
-    const updateResponse = await axios.put(
-      API_URL + `/a/car/${licensePlate}`,
-      car,
-      {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      }
-    );
+    await axios.put(API_URL + `/a/car/${licensePlate}`, car, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
     dispatch(fetchCars(fetchActive));
     alert.success("Updated successfully!");
   } catch (err) {
@@ -109,7 +105,7 @@ export const updateCar = (licensePlate, car, alert, fetchActive) => async (
 
 export const addFault = (faultDTO, alert, fetchActive) => async (dispatch) => {
   try {
-    const response = await axios.post(API_URL + "/a/fault", faultDTO, {
+    await axios.post(API_URL + "/a/fault", faultDTO, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
@@ -129,7 +125,7 @@ export const setCarActivity = (
   fetchActive
 ) => async (dispatch) => {
   try {
-    const response = await axios(API_URL + `/a/car/activity/${licensePlate}`, {
+    await axios(API_URL + `/a/car/activity/${licensePlate}`, {
       headers: { Authorization: "Bearer " + localStorage.getItem("token") },
       method: "DELETE",
       params: { isActive: isActive },
@@ -147,14 +143,11 @@ export const deleteCar = (licensePlate, alert, fetchActive) => async (
   dispatch
 ) => {
   try {
-    const deleteResponse = await axios.delete(
-      API_URL + `/a/car/${licensePlate}`,
-      {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      }
-    );
+    await axios.delete(API_URL + `/a/car/${licensePlate}`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
     dispatch(fetchCars(fetchActive));
     dispatch(enterManageCarMode(false));
     dispatch(setCurrentCar(""));

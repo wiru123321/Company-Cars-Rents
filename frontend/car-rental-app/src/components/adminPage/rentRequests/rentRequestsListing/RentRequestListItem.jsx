@@ -29,7 +29,7 @@ const RentRequestListItem = ({ rent, index }) => {
         className={classes.box}
         container
         direction="column"
-        justify="space"
+        justify="center"
       >
         <Grid item>
           <UserData
