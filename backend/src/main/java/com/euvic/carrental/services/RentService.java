@@ -184,8 +184,8 @@ public class RentService implements RentServiceInterface {
         rentRepository.delete(rent);
     }
 
-    @Override //TODO test it
-    public boolean checkCarAvailability(final Rent rent) {
+    @Override //checkCarAvailability(final Rent rent)
+    public boolean checkIfRentIsAllowedToBeRequested(final Rent rent) {
         boolean toReturn = false;
         try {
             final List<Rent> rentList = this.getRentsByLicensePlate(rent.getCar().getLicensePlate());

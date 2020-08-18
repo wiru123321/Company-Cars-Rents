@@ -61,7 +61,7 @@ public class RentController {
             final Car car = carService.getOnCompanyEntityByLicensePlate(licensePlate);
             if (car == null)
                 throw new NullPointerException();
-            if (rentService.checkCarAvailability(rent)) {
+            if (rentService.checkIfRentIsAllowedToBeRequested(rent)) {
                 throw new NoSuchElementException();
             }
             rent.setCar(car);
@@ -89,7 +89,7 @@ public class RentController {
             try {
                 rent.setIsActive(true);
                 rent.setResponse(rentPermitRejectDTO.getResponse());
-                if (rentService.checkCarAvailability(rent)) {
+                if (rentService.checkIfRentIsAllowedToBeRequested(rent)) {
                     rentService.addEntityToDB(rent);
                     responseCode = 200;
                     message = "Updated";
