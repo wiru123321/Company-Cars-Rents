@@ -46,6 +46,11 @@ public class RentController {
         return ResponseEntity.ok(rentService.getRentPendingDTOById(id));
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/a/rent/end_pending")
+    public ResponseEntity<?> getEndRentPending() {
+        return ResponseEntity.ok(rentHistoryService.getAllEndRentPending());
+    }
+
     @RequestMapping(method = RequestMethod.GET, value = "/a/rent/car_history/{licensePlate}")
     public ResponseEntity<?> checkCarHistory(@PathVariable final String licensePlate) {
         return ResponseEntity.ok(rentHistoryService.getAllDTOsByCar(carService.getOnCompanyEntityByLicensePlate(licensePlate)));
@@ -253,7 +258,7 @@ public class RentController {
                     }
 
                     final RentHistory rentHistory = new RentHistory(null, rent.getUser(), rent.getCar(), rent.getDateFrom(), rent.getDateTo(), parkingFrom
-                            , parkingTo, true, true, rent.getReasonForTheLoan(), rent.getAdminResponseForTheRequest(), endRentDTO.getFaultMessage());
+                            , parkingTo, false, true, rent.getReasonForTheLoan(), rent.getAdminResponseForTheRequest(), endRentDTO.getFaultMessage());
                     parkingHistoryService.addEntityToDB(parkingFrom);
                     parkingHistoryService.addEntityToDB(parkingTo);
                     rentHistoryService.addEntityToDB(rentHistory);
@@ -277,7 +282,7 @@ public class RentController {
                 message = "Rent doesn't exist";
             }
         } else {
-            responseCode = 400;
+            responseCode = 401;
             message = "Rent doesn't exist";
         }
 
