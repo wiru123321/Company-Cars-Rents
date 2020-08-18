@@ -10,19 +10,7 @@ import {
 import ActiveRentsMenu from "./ActiveRentsMenu";
 import ActiveRequestList from "./ActiveRequestsList";
 
-const useStyles = makeStyles({
-  box: {
-    margin: "1%",
-  },
-  paper: {
-    minHeight: "30vh",
-    minWidth: "40vw",
-    padding: "8px",
-  },
-});
-
 const ActiveRents = () => {
-  const classes = useStyles();
   const dispatch = useDispatch();
   const { rents, enterMenuMode, currentRent } = useSelector(selectAll);
 

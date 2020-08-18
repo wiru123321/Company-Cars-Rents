@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Grid, Button, Box, TextField } from "@material-ui/core";
-import useStyles from "./useStyles";
 import CarImage from "../../carsListing/CarImage";
 import CarInfo from "../../carsListing/CarInfo";
 import {
   selectCar,
-  selectIsChoosen,
   toggleChoose,
   dateIsChoosenHandler,
   isCarFormActiveHandler,
@@ -20,7 +18,6 @@ import { ParkingData } from "./ReservationDataFormReserv";
 
 const SelectedCar = () => {
   const dispatch = useDispatch();
-  const isChoosen = useSelector(selectIsChoosen);
   const car = useSelector(selectCar);
 
   const [town, setTown] = useState(car.parkingDTO.town);
@@ -54,6 +51,8 @@ const SelectedCar = () => {
       },
     };
     dispatch(uploadReservCar(car.licensePlate, rentDTO));
+    dispatch(dateIsChoosenHandler());
+    dispatch(isCarFormActiveHandler());
   };
 
   const undoSelection = () => {

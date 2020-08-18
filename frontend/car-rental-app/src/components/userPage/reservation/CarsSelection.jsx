@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import CarImage from "../../carsListing/CarImage";
 import CarInfo from "../../carsListing/CarInfo";
 import { Grid, Button, Box, ListItem, List } from "@material-ui/core";
@@ -15,9 +15,6 @@ const CarsSelection = () => {
   const dispatch = useDispatch();
   const cars = useSelector(selectCars);
 
-  function toggleDismiss() {
-    dispatch(toggleChoose());
-  }
   function toggleSuggest(index) {
     dispatch(chooseCar(index));
     dispatch(toggleChoose());
