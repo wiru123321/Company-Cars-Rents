@@ -88,9 +88,9 @@ export const selectIsChoosen = (state) => state.reservation.isChoosen;
 export const selectbeginDate = (state) =>
   state.reservation.reservationBeginDate;
 export const selectbeginHour = (state) =>
-  state.reservation.reservationbeginHour;
-export const selectendDate = (state) => state.reservation.reservationendDate;
-export const selectendHour = (state) => state.reservation.reservationendHour;
+  state.reservation.reservationBeginHours;
+export const selectendDate = (state) => state.reservation.reservationEndDate;
+export const selectendHour = (state) => state.reservation.reservationEndHour;
 
 export const selectDateIsChoosen = (state) => state.reservation.dateIsChoosen;
 export const selectIsCarFormActive = (state) =>

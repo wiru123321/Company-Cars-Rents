@@ -53,10 +53,10 @@ const Reservation = () => {
       // dateFrom: "2020-12-01T00:00:00",
       // dateTo: "2020-12-06T00:00:00",
     };
-    // dispatch(fetchCarsAvaiableInDate(dateFromDateTo));
+    dispatch(fetchCarsAvaiableInDate(dateFromDateTo));
     console.log(dateFromDateTo);
-    // dispatch(dateIsChoosenHandler());
-    // dispatch(isCarFormActiveHandler());
+    dispatch(dateIsChoosenHandler());
+    dispatch(isCarFormActiveHandler());
   }
   let dateIsChoosen = useSelector(selectDateIsChoosen);
   let isCarFormActive = useSelector(selectIsCarFormActive);
