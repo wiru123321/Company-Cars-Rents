@@ -14,6 +14,8 @@ public interface RentHistoryServiceInterface {
 
     void setToInactiveByLicensePlate(String licensePlate);
 
+    RentHistoryEndPendingDTO getRentEndById(Long id);
+
     RentHistory getEntityById(Long id);
 
     RentHistory getEntityByCarAndDateFrom(Car car, LocalDateTime dateFrom);

@@ -46,7 +46,10 @@ public class RentController {
         return ResponseEntity.ok(rentService.getRentPendingDTOById(id));
     }
 
-    //TODO add method to get rentHistory by ID
+    @RequestMapping(method = RequestMethod.GET, value = "/a/rent/end/{id}")
+    public ResponseEntity<?> getEndRent(@PathVariable final Long id) {
+        return ResponseEntity.ok(rentHistoryService.getRentEndById(id));
+    }
 
     @RequestMapping(method = RequestMethod.GET, value = "/a/rent/end_pending")
     public ResponseEntity<?> getEndRentPending() {

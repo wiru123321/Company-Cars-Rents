@@ -69,6 +69,24 @@ public class RentHistoryService implements RentHistoryServiceInterface {
     }
 
     @Override
+    public RentHistoryEndPendingDTO getRentEndById(final Long id) {
+        final RentHistory rentHistory = rentHistoryRepository.findById(id).get();
+        final User user = rentHistory.getUser();
+        final RentHistoryEndPendingDTO temp = new RentHistoryEndPendingDTO();
+        temp.setId(rentHistory.getId());
+        temp.setDateFrom(rentHistory.getDateFrom());
+        temp.setDateTo(rentHistory.getDateTo());
+        temp.setCarDTO(carService.getDTOByLicensePlate(rentHistory.getCar().getLicensePlate()));
+        temp.setReasonForTheLoan(rentHistory.getReasonForTheLoan());
+        temp.setAdminResponseForTheRequest(rentHistory.getAdminResponseForTheRequest());
+        temp.setFaultMessage(rentHistory.getFaultMessage());
+        temp.setUserRentInfo(new UserRentInfo(user.getName(), user.getSurname(), user.getPhoneNumber(), user.getEmail()));
+        temp.setParkingFrom(parkingHistoryService.getDTOById(rentHistory.getParkingHistoryFrom().getId()));
+        temp.setParkingTo(parkingHistoryService.getDTOById(rentHistory.getParkingHistoryTo().getId()));
+        return temp;
+    }
+
+    @Override
     public RentHistoryDTO getDTOById(final Long id) {
         final RentHistory rentHistory = rentHistoryRepository.findById(id).get();
         final User user = rentHistory.getUser();
