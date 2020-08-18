@@ -70,14 +70,24 @@ public class RentService implements RentServiceInterface {
         final Parking parkingFrom = rent.getParkingFrom();
         final Parking parkingTo = rent.getParkingTo();
         final RentDTO rentDTO;
-        if (rent.getParkingTo() != null) {
-            rentDTO = new RentDTO(rent, userService.getDTOByLogin(user.getLogin()), carService.getDTOByLicensePlate(car.getLicensePlate())
-                    , parkingService.getDTOById(parkingFrom.getId()), parkingService.getDTOById(parkingTo.getId()));
-        } else {
-            rentDTO = new RentDTO(rent, userService.getDTOByLogin(user.getLogin()), carService.getDTOByLicensePlate(car.getLicensePlate())
-                    , parkingService.getDTOById(parkingFrom.getId()), null);
-        }
+
+        rentDTO = new RentDTO(rent, userService.getDTOByLogin(user.getLogin()), carService.getDTOByLicensePlate(car.getLicensePlate())
+                , parkingService.getDTOById(parkingFrom.getId()), parkingService.getDTOById(parkingTo.getId()));
+
         return rentDTO;
+    }
+
+    @Override
+    public RentPendingDTO getRentPendingDTOById(final Long id) {
+        final Rent rent = rentRepository.findById(id).get();
+        final User user = rent.getUser();
+        final Car car = rent.getCar();
+        final Parking parkingFrom = rent.getParkingFrom();
+        final Parking parkingTo = rent.getParkingTo();
+
+        return new RentPendingDTO(rent.getId(), rent.getReasonForTheLoan(), carService.getDTOByLicensePlate(car.getLicensePlate())
+                , rent.getDateFrom(), rent.getDateTo(), parkingService.getDTOById(parkingFrom.getId()), parkingService.getDTOById(parkingTo.getId())
+                , new UserRentInfo(user.getName(), user.getSurname(), user.getPhoneNumber(), user.getEmail()), rent.getAdminResponseForTheRequest());
     }
 
     @Override
@@ -256,14 +266,14 @@ public class RentService implements RentServiceInterface {
             for (final Rent rent : rentArrayList) {
                 final RentPendingDTO rentPendingDTO = new RentPendingDTO();
                 rentPendingDTO.setId(rent.getId());
-                rentPendingDTO.setComment(rent.getReasonForTheLoan());
+                rentPendingDTO.setReasonForTheLoan(rent.getReasonForTheLoan());
                 rentPendingDTO.setCarDTO(carService.getDTOByLicensePlate(rent.getCar().getLicensePlate()));
                 rentPendingDTO.setParkingFrom(new ParkingDTO(rent.getParkingFrom()));
                 rentPendingDTO.setParkingTo(new ParkingDTO(rent.getParkingTo()));
                 rentPendingDTO.setDateFrom(rent.getDateFrom());
                 rentPendingDTO.setDateTo(rent.getDateTo());
                 rentPendingDTO.setUserRentInfo(new UserRentInfo(rent.getUser().getName(), rent.getUser().getSurname(), rent.getUser().getPhoneNumber(), rent.getUser().getEmail()));
-                rentPendingDTO.setResponse(rent.getAdminResponseForTheRequest());
+                rentPendingDTO.setAdminResponseForTheRequest(rent.getAdminResponseForTheRequest());
                 rentPendingDTOArrayList.add(rentPendingDTO);
             }
         }

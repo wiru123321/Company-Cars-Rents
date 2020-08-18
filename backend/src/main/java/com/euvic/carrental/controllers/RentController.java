@@ -43,7 +43,7 @@ public class RentController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/a/rent/{id}")
     public ResponseEntity<?> getRentWithId(@PathVariable final Long id) {
-        return ResponseEntity.ok(rentService.getDTOById(id));
+        return ResponseEntity.ok(rentService.getRentPendingDTOById(id));
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/a/rent/car_history/{licensePlate}")
