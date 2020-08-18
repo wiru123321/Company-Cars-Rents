@@ -10,11 +10,11 @@ public interface MarkServiceInterface {
 
     Mark getEntityByName(String name);
 
-    MarkDTO getDTOByName(String name);
-
     Long addEntityToDB(Mark mark);
 
     Long updateMarkInDB(String oldMarkName, MarkDTO markDTO);
+
+    MarkDTO getDTOByName(String name);
 
     List<MarkDTO> getAllDTOs();
 }

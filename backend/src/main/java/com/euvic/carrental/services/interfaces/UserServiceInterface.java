@@ -8,27 +8,11 @@ import com.euvic.carrental.responses.User.UserUpdate;
 import java.util.List;
 
 public interface UserServiceInterface {
-    User mapRestModel(Long id, UserDTO userDTO);
-
-    User getEntityByLogin(String name);
-
-    User getEntityByEmail(String email);
-
-    UserDTO getDTOByEmail(String email);
+    Long updateUserInDB(String login, UserUpdate userUpdate);
 
     Long addEntityToDB(User user);
 
-    UserDTO getDTOByLogin(String login);
-
-    List<UserDTO> getAllDTOs();
-
-    Long updateUserInDB(String login, UserUpdate userUpdate);
-
     Long setUserIsNotActive(String login);
-
-    User mapCreationModel(Long id, UserCreation userCreation);
-
-    List<UserDTO> getAllActiveUserDTOs();
 
     Boolean checkIfUserWithLoginExists(String login);
 
@@ -36,13 +20,29 @@ public interface UserServiceInterface {
 
     boolean changePassword(User user, String password);
 
-    void changeEmail(User user, String email);
-
-    void changePhoneNumber(User user, String phoneNumber);
-
     boolean checkEmail(String email);
 
     boolean checkPhoneNumber(String phoneNumber);
 
+    void changeEmail(User user, String email);
+
+    void changePhoneNumber(User user, String phoneNumber);
+
+    User mapRestModel(Long id, UserDTO userDTO);
+
+    User getEntityByLogin(String name);
+
+    User getEntityByEmail(String email);
+
+    User mapCreationModel(Long id, UserCreation userCreation);
+
     User getEntityByLoginAndisActive(final String login, final Boolean isActive);
+
+    UserDTO getDTOByEmail(String email);
+
+    UserDTO getDTOByLogin(String login);
+
+    List<UserDTO> getAllDTOs();
+
+    List<UserDTO> getAllActiveUserDTOs();
 }

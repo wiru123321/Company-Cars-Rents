@@ -6,19 +6,19 @@ import com.euvic.carrental.responses.ParkingDTO;
 import java.util.List;
 
 public interface ParkingServiceInterface {
-    Parking mapRestModel(Long id, ParkingDTO parking);
-
-    List<ParkingDTO> getAllDTOsByTownName(String town);
-
-    List<ParkingDTO> getAllDTOs();
-
     Long addEntityToDB(Parking parking);
+
+    void updateParkingInDb(Long oldParkingId, ParkingDTO newParkingDTO);
+
+    void deleteParkingById(Long id);
+
+    Parking mapRestModel(Long id, ParkingDTO parking);
 
     Parking getEntityById(Long id);
 
     ParkingDTO getDTOById(Long id);
 
-    void updateParkingInDb(Long oldParkingId, ParkingDTO newParkingDTO);
+    List<ParkingDTO> getAllDTOsByTownName(String town);
 
-    void deleteParkingById(Long id);
+    List<ParkingDTO> getAllDTOs();
 }
