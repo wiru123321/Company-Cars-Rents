@@ -8,6 +8,8 @@ import java.util.List;
 public interface ParkingServiceInterface {
     Long addEntityToDB(Parking parking);
 
+    boolean checkIfParkingExist(Parking parking);
+
     void updateParkingInDb(Long oldParkingId, ParkingDTO newParkingDTO);
 
     void deleteParkingById(Long id);

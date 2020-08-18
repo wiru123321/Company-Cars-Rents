@@ -20,6 +20,11 @@ public class ParkingService implements ParkingServiceInterface {
     }
 
     @Override
+    public boolean checkIfParkingExist(final Parking parking) {
+        return parkingRepository.findById(parking.getId()).isPresent();
+    }
+
+    @Override
     public Long addEntityToDB(final Parking parking) {
         return parkingRepository.save(parking).getId();
     }
