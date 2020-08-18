@@ -42,6 +42,7 @@ const ActiveRequestList = ({ rents, menuMode }) => {
             };
             return (
               <RentCard
+                key={rent.id}
                 rent={rent}
                 handleMenuModeChange={handleMenuModeChange}
               />
