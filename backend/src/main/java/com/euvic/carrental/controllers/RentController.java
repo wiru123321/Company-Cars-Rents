@@ -84,6 +84,22 @@ public class RentController {
         return ResponseEntity.status(responseCode).body(message);
     }
 
+    @RequestMapping(method = RequestMethod.PUT, value = "/a/rent/permit_end_rent/{id}")
+    public ResponseEntity<?> permitEndRent(@PathVariable final Long id) {
+        final RentHistory rentHistory = rentHistoryService.getEntityById(id);
+        int responseCode;
+        String message;
+        try {
+            rentHistory.setIsActive(true);
+            responseCode = 200;
+            message = "Ok";
+        } catch (final NullPointerException | NoSuchElementException e) {
+            responseCode = 400;
+            message = "RentHistory with this ID doesn't exist";
+        }
+        return ResponseEntity.status(responseCode).body(message);
+    }
+
     @RequestMapping(method = RequestMethod.PUT, value = "/a/rent/permit/{id}")
     public ResponseEntity<?> permitRent(@PathVariable final Long id, @RequestBody final RentPermitRejectDTO rentPermitRejectDTO) {
         final Rent rent = rentService.getEntityById(id);
