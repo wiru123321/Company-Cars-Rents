@@ -73,7 +73,7 @@ const YourCarsList = () => {
     dispatch(fetchReservation());
     dispatch(fetchHistoryReservation());
     dispatch(fetchRequestReservation());
-  });
+  },[]);
   return (
     <Container
       style={{
