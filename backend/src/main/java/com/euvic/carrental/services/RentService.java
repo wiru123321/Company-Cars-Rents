@@ -40,6 +40,60 @@ public class RentService implements RentServiceInterface {
     }
 
     @Override
+    public void deleteRent(final Rent rent) {
+        rent.setCar(null);
+        rent.setParkingFrom(null);
+        rent.setParkingTo(null);
+        rent.setUser(null);
+        rentRepository.delete(rent);
+    }
+
+    @Override //TODO test it
+    public void updateNextRent(final Rent rent) {
+        final Rent nextRent = this.getNearestRent(rent);
+        if (nextRent != null) {
+            final Long parkingId;
+            parkingId = nextRent.getParkingFrom().getId();
+            nextRent.setParkingFrom(rent.getCar().getParking());
+            parkingService.deleteParkingById(parkingId);
+        }
+    }
+
+    @Override
+    public boolean checkIfRentIsAllowedToBeRequested(final Rent rent) {
+        boolean toReturn = true;
+        final List<Rent> rentList = this.getRentsByLicensePlate(rent.getCar().getLicensePlate());
+
+        if (rentList != null) {
+            for (final Rent temp : rentList) {
+                if (this.checkDate(rent.getDateFrom(), rent.getDateTo(), new DateFromDateTo(temp.getDateFrom(), temp.getDateTo()))) {
+                    toReturn = false;
+                }
+            }
+        }
+        return toReturn;
+    }
+
+    @Override
+    public boolean checkMyRentsBeforeAddNewRent(final RentDTO rentDTO) {
+        if (this.checkDateTimeChronological(rentDTO.getDateFrom(), rentDTO.getDateTo())) {
+            final User user = userService.getEntityByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
+            final List<Rent> rentList = rentRepository.findAllByUserAndIsActive(user, true);
+            final DateFromDateTo time = new DateFromDateTo();
+            time.setDateFrom(rentDTO.getDateFrom());
+            time.setDateTo(rentDTO.getDateTo());
+
+            for (final Rent rent : rentList) {
+                if (this.checkDate(rent.getDateFrom(), rent.getDateTo(), time)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
+    @Override
     public Rent getEntityById(final Long id) {
         final Rent rent;
 
@@ -57,9 +111,28 @@ public class RentService implements RentServiceInterface {
     }
 
     @Override
-    public List<Rent> getRentsByLicensePlate(final String licensePlate) {
-        final Car car = carService.getOnCompanyEntityByLicensePlate(licensePlate);
-        return rentRepository.findAllByCarAndIsActive(car, true);
+    public Rent mapRestModel(final Long id, final RentDTO rentDTO, final Long parkingFromId, final Long parkingToId) {
+
+        final Rent rent;
+        rent = new Rent(id, userService.getEntityByLogin(rentDTO.getUserDTO().getLogin()), carService.getOnCompanyEntityByLicensePlate(rentDTO.getCarDTO().getLicensePlate())
+                , rentDTO.getDateFrom(), rentDTO.getDateTo(), parkingService.getEntityById(parkingFromId), parkingService.getEntityById(parkingToId), true, rentDTO.getReasonForTheLoan(), rentDTO.getAdminResponseForTheRequest(), rentDTO.getFaultMessage());
+
+        return rent;
+    }
+
+    @Override
+    public RentDTO getDTOByCarDTOAndDateFrom(final CarDTO carDTO, final LocalDateTime dateFrom) {
+        final Car car = carService.getOnCompanyEntityByLicensePlate(carDTO.getLicensePlate());
+        final Rent rent = rentRepository.findByCarAndDateFrom(car, dateFrom);
+        final RentDTO rentDTO;
+        if (rent.getParkingTo() != null) {
+            rentDTO = new RentDTO(rent, userService.getDTOByLogin(rent.getUser().getLogin()), carDTO
+                    , parkingService.getDTOById(rent.getParkingFrom().getId()), parkingService.getDTOById(rent.getParkingTo().getId()));
+        } else {
+            rentDTO = new RentDTO(rent, userService.getDTOByLogin(rent.getUser().getLogin()), carDTO
+                    , parkingService.getDTOById(rent.getParkingFrom().getId()), null);
+        }
+        return rentDTO;
     }
 
     @Override
@@ -91,28 +164,9 @@ public class RentService implements RentServiceInterface {
     }
 
     @Override
-    public RentDTO getDTOByCarDTOAndDateFrom(final CarDTO carDTO, final LocalDateTime dateFrom) {
-        final Car car = carService.getOnCompanyEntityByLicensePlate(carDTO.getLicensePlate());
-        final Rent rent = rentRepository.findByCarAndDateFrom(car, dateFrom);
-        final RentDTO rentDTO;
-        if (rent.getParkingTo() != null) {
-            rentDTO = new RentDTO(rent, userService.getDTOByLogin(rent.getUser().getLogin()), carDTO
-                    , parkingService.getDTOById(rent.getParkingFrom().getId()), parkingService.getDTOById(rent.getParkingTo().getId()));
-        } else {
-            rentDTO = new RentDTO(rent, userService.getDTOByLogin(rent.getUser().getLogin()), carDTO
-                    , parkingService.getDTOById(rent.getParkingFrom().getId()), null);
-        }
-        return rentDTO;
-    }
-
-    @Override
-    public Rent mapRestModel(final Long id, final RentDTO rentDTO, final Long parkingFromId, final Long parkingToId) {
-
-        final Rent rent;
-        rent = new Rent(id, userService.getEntityByLogin(rentDTO.getUserDTO().getLogin()), carService.getOnCompanyEntityByLicensePlate(rentDTO.getCarDTO().getLicensePlate())
-                , rentDTO.getDateFrom(), rentDTO.getDateTo(), parkingService.getEntityById(parkingFromId), parkingService.getEntityById(parkingToId), true, rentDTO.getReasonForTheLoan(), rentDTO.getAdminResponseForTheRequest(), rentDTO.getFaultMessage());
-
-        return rent;
+    public List<Rent> getRentsByLicensePlate(final String licensePlate) {
+        final Car car = carService.getOnCompanyEntityByLicensePlate(licensePlate);
+        return rentRepository.findAllByCarAndIsActive(car, true);
     }
 
     @Override
@@ -166,60 +220,6 @@ public class RentService implements RentServiceInterface {
         return this.convertRentListToRentPendingDTOList(rentRepository.findAllByUserAndIsActive(user, false));
     }
 
-    @Override
-    public boolean checkMyRentsBeforeAddNewRent(final RentDTO rentDTO) {
-        if (this.checkDateTimeChronological(rentDTO.getDateFrom(), rentDTO.getDateTo())) {
-            final User user = userService.getEntityByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
-            final List<Rent> rentList = rentRepository.findAllByUserAndIsActive(user, true);
-            final DateFromDateTo time = new DateFromDateTo();
-            time.setDateFrom(rentDTO.getDateFrom());
-            time.setDateTo(rentDTO.getDateTo());
-
-            for (final Rent rent : rentList) {
-                if (this.checkDate(rent.getDateFrom(), rent.getDateTo(), time)) {
-                    return false;
-                }
-            }
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public void deleteRent(final Rent rent) {
-        rent.setCar(null);
-        rent.setParkingFrom(null);
-        rent.setParkingTo(null);
-        rent.setUser(null);
-        rentRepository.delete(rent);
-    }
-
-    @Override
-    public boolean checkIfRentIsAllowedToBeRequested(final Rent rent) {
-        boolean toReturn = true;
-        final List<Rent> rentList = this.getRentsByLicensePlate(rent.getCar().getLicensePlate());
-
-        if (rentList != null) {
-            for (final Rent temp : rentList) {
-                if (this.checkDate(rent.getDateFrom(), rent.getDateTo(), new DateFromDateTo(temp.getDateFrom(), temp.getDateTo()))) {
-                    toReturn = false;
-                }
-            }
-        }
-        return toReturn;
-    }
-
-    @Override //TODO test it
-    public void updateNextRent(final Rent rent) {
-        final Rent nextRent = this.getNearestRent(rent);
-        if (nextRent != null) {
-            final Long parkingId;
-            parkingId = nextRent.getParkingFrom().getId();
-            nextRent.setParkingFrom(rent.getCar().getParking());
-            parkingService.deleteParkingById(parkingId);
-        }
-    }
-
     private Rent getNearestRent(final Rent rent) {
 
         try {
@@ -242,6 +242,10 @@ public class RentService implements RentServiceInterface {
             return null;
         }
 
+    }
+
+    private boolean checkDateTimeChronological(final LocalDateTime dateFrom, final LocalDateTime dateTo) {
+        return !dateFrom.isAfter(dateTo);
     }
 
     private boolean checkDate(final LocalDateTime dateFrom, final LocalDateTime dateTo,
@@ -279,10 +283,6 @@ public class RentService implements RentServiceInterface {
         return rentPendingDTOArrayList;
     }
 
-    private boolean checkDateTimeChronological(final LocalDateTime dateFrom, final LocalDateTime dateTo) {
-        return !dateFrom.isAfter(dateTo);
-    }
-
     private List<RentDTO> getAllDTOsByTimeRange(final DateFromDateTo dateFromDateTo) {
         final ArrayList<Rent> rentArrayList = new ArrayList<>(rentRepository.findAllByIsActive(true));
         final ArrayList<RentDTO> rentDTOArrayList = new ArrayList<>();
@@ -298,4 +298,5 @@ public class RentService implements RentServiceInterface {
         }
         return rentDTOArrayList;
     }
+
 }

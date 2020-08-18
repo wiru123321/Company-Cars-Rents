@@ -1,13 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import {
-  Grid,
-  Button,
-  Paper,
-  Typography,
-  makeStyles,
-  Divider,
-} from "@material-ui/core";
+import { Grid, Button, makeStyles, Divider } from "@material-ui/core";
 import {
   fetchCarsBetweenDates,
   changeRentCar,

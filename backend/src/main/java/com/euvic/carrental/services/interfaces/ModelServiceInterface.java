@@ -6,6 +6,12 @@ import com.euvic.carrental.responses.ModelDTO;
 import java.util.List;
 
 public interface ModelServiceInterface {
+    void updateModelInDb(Long oldModelId, ModelDTO newModelDTO);
+
+    Long addEntityToDB(Model model);
+
+    Long updateModelInDbFromFront(String oldModelName, ModelDTO newModelDTO);
+
     Model mapRestModel(Long id, ModelDTO modelDTO);
 
     Model getEntityByName(String name);
@@ -14,11 +20,5 @@ public interface ModelServiceInterface {
 
     ModelDTO getDTOByName(String name);
 
-    Long addEntityToDB(Model model);
-
     List<ModelDTO> getAllDTOs();
-
-    void updateModelInDb(Long oldModelId, ModelDTO newModelDTO);
-
-    Long updateModelInDbFromFront(String oldModelName, ModelDTO newModelDTO);
 }

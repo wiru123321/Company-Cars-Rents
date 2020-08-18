@@ -20,13 +20,20 @@ public class GearboxTypeService implements GearboxTypeServiceInterface {
     }
 
     @Override
-    public GearboxType mapRestModel(final Long id, final GearBoxTypeDTO model) {
-        return new GearboxType(id, model.getName());
+    public Long updateGearboxTypeInDB(final String oldGearboxTypeName, final GearBoxTypeDTO gearBoxTypeDTO) {
+        final GearboxType oldGearboxType = this.getEntityByName(oldGearboxTypeName);
+        oldGearboxType.setName(gearBoxTypeDTO.getName());
+        return gearboxTypeRepository.save(oldGearboxType).getId();
     }
 
     @Override
     public Long addEntityToDB(final GearboxType gearboxType) {
         return gearboxTypeRepository.save(gearboxType).getId();
+    }
+
+    @Override
+    public GearboxType mapRestModel(final Long id, final GearBoxTypeDTO model) {
+        return new GearboxType(id, model.getName());
     }
 
     @Override
@@ -38,13 +45,6 @@ public class GearboxTypeService implements GearboxTypeServiceInterface {
     public GearBoxTypeDTO getDTOByName(final String name) {
         final GearboxType gearboxType = gearboxTypeRepository.findByName(name);
         return new GearBoxTypeDTO(gearboxType);
-    }
-
-    @Override
-    public Long updateGearboxTypeInDB(final String oldGearboxTypeName, final GearBoxTypeDTO gearBoxTypeDTO) {
-        final GearboxType oldGearboxType = this.getEntityByName(oldGearboxTypeName);
-        oldGearboxType.setName(gearBoxTypeDTO.getName());
-        return gearboxTypeRepository.save(oldGearboxType).getId();
     }
 
     @Override

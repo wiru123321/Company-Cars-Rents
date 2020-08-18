@@ -13,37 +13,37 @@ import java.util.List;
 public interface RentServiceInterface {
     Long addEntityToDB(Rent rent);
 
+    void deleteRent(Rent rent);
+
+    void updateNextRent(Rent rent);
+
+    boolean checkMyRentsBeforeAddNewRent(RentDTO rentDTO);
+
+    boolean checkIfRentIsAllowedToBeRequested(Rent rent);
+
     Rent getEntityById(Long id);
 
     Rent getEntityByCarAndDateFrom(Car car, LocalDateTime dateFrom);
+
+    Rent mapRestModel(Long id, RentDTO rentDTO, Long parkingFromId, Long parkingToId);
+
+    RentPendingDTO getRentPendingDTOById(Long id);
 
     RentDTO getDTOById(Long id);
 
     RentDTO getDTOByCarDTOAndDateFrom(CarDTO carDTO, LocalDateTime dateFrom);
 
-    Rent mapRestModel(Long id, RentDTO rentDTO, Long parkingFromId, Long parkingToId);
+    List<Rent> getRentsByLicensePlate(String licensePlate);
 
     List<CarDTO> getActiveCarsBetweenDates(DateFromDateTo dateFromDateTo);
 
+    List<RentDTO> getAllDTOs();
+
     List<RentPendingDTO> getAllPendingRents();
 
-    List<RentDTO> getAllDTOs();
+    List<RentPendingDTO> getAllActiveRents();
 
     List<RentPendingDTO> getUserInactiveRentDTOs();
 
     List<RentPendingDTO> getUserActiveRentDTOs();
-
-    void deleteRent(Rent rent);
-
-    boolean checkMyRentsBeforeAddNewRent(RentDTO rentDTO);
-
-    List<RentPendingDTO> getAllActiveRents();
-
-    List<Rent> getRentsByLicensePlate(String licensePlate);
-
-    RentPendingDTO getRentPendingDTOById(Long id);
-
-    boolean checkIfRentIsAllowedToBeRequested(Rent rent);
-
-    void updateNextRent(Rent rent);
 }

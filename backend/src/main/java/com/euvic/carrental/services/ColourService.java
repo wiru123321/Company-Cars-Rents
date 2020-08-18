@@ -20,13 +20,8 @@ public class ColourService implements ColourServiceInterface {
     }
 
     @Override
-    public Colour getEntityByName(final String name) {
-        return colourRepository.getByName(name);
-    }
-
-    @Override
-    public ColourDTO getDTOByName(final String name) {
-        return new ColourDTO(colourRepository.getByName(name));
+    public Long addEntityToDB(final Colour colour) {
+        return colourRepository.save(colour).getId();
     }
 
     @Override
@@ -35,15 +30,20 @@ public class ColourService implements ColourServiceInterface {
         oldColour.setName(colourDTO.getName());
         return colourRepository.save(oldColour).getId();
     }
-
+    
     @Override
-    public Long addEntityToDB(final Colour colour) {
-        return colourRepository.save(colour).getId();
+    public Colour getEntityByName(final String name) {
+        return colourRepository.getByName(name);
     }
 
     @Override
     public Colour mapRestModel(final Long id, final ColourDTO colour) {
         return new Colour(id, colour.getName());
+    }
+
+    @Override
+    public ColourDTO getDTOByName(final String name) {
+        return new ColourDTO(colourRepository.getByName(name));
     }
 
     @Override

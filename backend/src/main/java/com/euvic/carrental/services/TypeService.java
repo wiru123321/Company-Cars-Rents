@@ -23,6 +23,13 @@ public class TypeService implements TypeServiceInterface {
     }
 
     @Override
+    public Long updateTypeInDB(final String oldTypeName, final TypeDTO typeDTO) {
+        final Type oldType = this.getEntityByName(oldTypeName);
+        oldType.setName(typeDTO.getName());
+        return typeRepository.save(oldType).getId();
+    }
+
+    @Override
     public Long addEntityToDB(final Type type) {
         return typeRepository.save(type).getId();
     }
@@ -41,13 +48,6 @@ public class TypeService implements TypeServiceInterface {
     public TypeDTO getDTOByName(final String name) {
         final Type type = typeRepository.findByName(name);
         return new TypeDTO(type);
-    }
-
-    @Override
-    public Long updateTypeInDB(final String oldTypeName, final TypeDTO typeDTO) {
-        final Type oldType = this.getEntityByName(oldTypeName);
-        oldType.setName(typeDTO.getName());
-        return typeRepository.save(oldType).getId();
     }
 
     @Override
