@@ -1,14 +1,11 @@
 import React, { useState } from "react";
-import { Box, Button, makeStyles, Grid } from "@material-ui/core";
-import { Save } from "@material-ui/icons";
+import { Box } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import {
   selectAll,
   addCar,
   reset,
-  imageFileChange,
-  addImage,
 } from "../../../../features/add-car-info/carsInfoSlice";
 import SelectBoxForm from "./SelectBoxForm";
 import BoxPanel from "./BoxPanel";
@@ -22,22 +19,8 @@ const AddCarForm = () => {
   const [showSaveButton, toggleshowSaveButton] = useState(true);
   const [showFormError, toggleshowFormError] = useState(false);
   const [photo, setPhoto] = useState("");
-  const useStyles = makeStyles((theme) => ({
-    root: {
-      "& > *": {
-        margin: theme.spacing(1),
-      },
-    },
-    input: {
-      display: "none",
-    },
-    button: {
-      margin: theme.spacing(1),
-    },
-  }));
 
   const dispatch = useDispatch();
-  const classes = useStyles();
   const CarInfo = useSelector(selectAll);
   let error1 = "";
 

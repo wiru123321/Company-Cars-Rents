@@ -144,7 +144,6 @@ export const backTheCarBack = (id, parkingDTO) => async (dispatch) => {
     console.log(error);
   }
 };
-//TODO backend poprawic ma dostęp do tej metody.
 export const updateCar = (licensePlate, car) => async (dispatch) => {
   try {
     const updateResponse = await axios.put(

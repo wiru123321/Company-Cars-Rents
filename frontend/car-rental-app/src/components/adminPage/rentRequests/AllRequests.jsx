@@ -1,10 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 import { selectAll } from "../../../features/rents/rentsSlice";
 import { Container } from "@material-ui/core";
 import RentRequestListItem from "./rentRequestsListing/RentRequestListItem";
 import NotFoundMessage from "../messages/NotFoundMessage";
-import RentAlert from "./RentAlert";
 
 const AllRequests = () => {
   const { pendingRents } = useSelector(selectAll);

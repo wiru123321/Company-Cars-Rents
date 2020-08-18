@@ -1,14 +1,5 @@
-import React, { useState } from "react";
-import {
-  Container,
-  Paper,
-  Divider,
-  Button,
-  Grid,
-  Dialog,
-  makeStyles,
-} from "@material-ui/core";
-import RequestedCarInfo from "../rentRequests/rentRequestInfo/RequestedCarInfo";
+import React from "react";
+import { Paper, Button, Grid, makeStyles } from "@material-ui/core";
 import CarImage from "../../carsListing/CarImage";
 import CarInfo from "../../carsListing/CarInfo";
 

@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import CarSuggestion from "./CarSuggestion";
 import useStyles from "./useStyles";
 import { Container, Grid, Button, Box } from "@material-ui/core";
-import { ReservationDate, UserPersonalData } from "./ReservationForm";
+import { ReservationDate } from "./ReservationForm";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchCarsAvaiableInDate,
@@ -50,8 +50,6 @@ const Reservation = () => {
     let dateFromDateTo = {
       dateFrom: beginDate + "T" + beginHour + ":00",
       dateTo: endDate + "T" + endHour + ":00",
-      // dateFrom: "2020-12-01T00:00:00",
-      // dateTo: "2020-12-06T00:00:00",
     };
     dispatch(fetchCarsAvaiableInDate(dateFromDateTo));
     console.log(dateFromDateTo);

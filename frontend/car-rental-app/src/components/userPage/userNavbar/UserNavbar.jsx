@@ -1,5 +1,5 @@
 import React from "react";
-import { Navbar, Nav, NavDropdown } from "react-bootstrap";
+import { Navbar, Nav } from "react-bootstrap";
 import { logout } from "../../../features/authentication/authSlice";
 import { useDispatch } from "react-redux";
 import "./UserNavbar.css";
@@ -22,7 +22,7 @@ const UserNavbar = () => {
             src="https://www.euvic.pl/wp-content/uploads/2019/11/logo-euvic-it-1.png"
             width="140"
             height="60"
-            class="d-inline-block align-top"
+            className="d-inline-block align-top"
             alt="logo"
           />
         </Navbar.Brand>

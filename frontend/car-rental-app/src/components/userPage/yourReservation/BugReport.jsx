@@ -9,7 +9,6 @@ import {
 } from "@material-ui/core";
 import {
   selectBugopen,
-  bugDescribeChane,
   bugOpenChange,
 } from "../../../features/your-cars/yourCarsSlice";
 import { useSelector, useDispatch } from "react-redux";
@@ -42,7 +41,6 @@ const BugReport = ({ bugDescribe, bugDescribeHandler }) => {
           <TextField
             id="outlined-multiline-static"
             value={bugDescribe}
-            label="Multiline"
             multiline
             rows={4}
             label="Bug report"
