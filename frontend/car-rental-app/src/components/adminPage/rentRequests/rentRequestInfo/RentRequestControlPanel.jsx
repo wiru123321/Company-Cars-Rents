@@ -4,7 +4,6 @@ import { rentRequestStyles, TextArea } from "./rentRequest.styles.js";
 import RequestedCarInfo from "./RequestedCarInfo.jsx";
 
 const RentRequestControlPanel = ({
-  carDTO,
   response,
   handleResponseChange,
   handleAccept,
@@ -24,7 +23,7 @@ const RentRequestControlPanel = ({
         value={response}
         onChange={handleResponseChange}
         placeholder="Justification..."
-        requierd
+        required
       />
       <Grid
         container

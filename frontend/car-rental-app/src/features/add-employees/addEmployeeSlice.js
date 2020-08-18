@@ -94,7 +94,7 @@ export const selectAllUsers = (state) => state.addEmployee.users;
 
 export const addUser = (userCration) => async (dispatch) => {
   try {
-    const response = await axios.post(API_URL + "/a/user", userCration, {
+    await axios.post(API_URL + "/a/user", userCration, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
