@@ -204,13 +204,9 @@ public class RentController {
                 } else {
                     id = parkingService.addEntityToDB(parkingService.mapRestModel(null, new ParkingDTO(car.getParking())));
                 }
-                final Rent rent;
-                if (!parkingService.checkIfParkingExist(car.getParking())) {
-                    rent = new Rent(null, user, car, rentDTO.getDateFrom(), rentDTO.getDateTo(), car.getParking(), parkingService.getEntityById(id), false, rentDTO.getReasonForTheLoan(), "", "");
-                } else {
-                    final Long newParkingId = parkingService.addEntityToDB(parkingService.mapRestModel(null, new ParkingDTO(car.getParking())));
-                    rent = new Rent(null, user, car, rentDTO.getDateFrom(), rentDTO.getDateTo(), parkingService.getEntityById(newParkingId), parkingService.getEntityById(id), false, rentDTO.getReasonForTheLoan(), "", "");
-                }
+
+                final Long parkingFromId = parkingService.addEntityToDB(parkingService.mapRestModel(null, new ParkingDTO(car.getParking())));
+                final Rent rent = new Rent(null, user, car, rentDTO.getDateFrom(), rentDTO.getDateTo(), parkingService.getEntityById(parkingFromId), parkingService.getEntityById(id), false, rentDTO.getReasonForTheLoan(), "", "");
 
                 if (!rentService.checkIfRentIsAllowedToBeRequested(rent)) {
                     throw new NoSuchElementException();
