@@ -8,13 +8,13 @@ import java.util.List;
 public interface ColourServiceInterface {
     Colour getEntityByName(String name);
 
-    ColourDTO getDTOByName(String name);
+    Colour mapRestModel(Long id, ColourDTO colour);
 
     Long addEntityToDB(Colour colour);
 
-    Colour mapRestModel(Long id, ColourDTO colour);
-
     Long updateColourInDB(String oldColourName, ColourDTO colourDTO);
+
+    ColourDTO getDTOByName(String name);
 
     List<ColourDTO> getAllDTOs();
 }

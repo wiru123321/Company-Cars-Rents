@@ -12,23 +12,23 @@ import java.util.List;
 public interface RentHistoryServiceInterface {
     Long addEntityToDB(RentHistory rentHistory);
 
+    void setToInactiveByLicensePlate(String licensePlate);
+
     RentHistory getEntityById(Long id);
 
     RentHistory getEntityByCarAndDateFrom(Car car, LocalDateTime dateFrom);
 
+    RentHistory mapRestModel(Long id, RentHistoryDTO rentHistoryDTO, Long parkingHistoryFromId, Long parkingHistoryToId, Boolean isActive, Boolean isAccepted);
+
     RentHistoryDTO getDTOById(Long id);
 
     RentHistoryDTO getDTOByCarDTOAndDateFrom(CarDTO carDTO, LocalDateTime dateFrom);
-
-    RentHistory mapRestModel(Long id, RentHistoryDTO rentHistoryDTO, Long parkingHistoryFromId, Long parkingHistoryToId, Boolean isActive, Boolean isAccepted);
 
     List<RentHistoryDTO> getAllDTOs();
 
     List<RentHistoryDTO> getUserRentHistoryDTOs();
 
     List<RentHistoryDTO> getAllDTOsByCar(Car car);
-
-    void setToInactiveByLicensePlate(String licensePlate);
 
     List<RentHistoryEndPendingDTO> getAllEndRentPending();
 }
