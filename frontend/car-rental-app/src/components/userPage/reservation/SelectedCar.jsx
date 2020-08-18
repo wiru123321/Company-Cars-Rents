@@ -39,10 +39,10 @@ const SelectedCar = () => {
 
   const toggleCarReserve = () => {
     let rentDTO = {
-      dateFrom: "2020-12-01T00:00:00",
-      dateTo: "2020-12-06T00:00:00",
-      comment: commentToReservation,
-      response: "",
+      dateFrom: beginDate + "T" + beginHour + ":00",
+      dateTo: endDate + "T" + endHour + ":00",
+      reasonForTheLoan: commentToReservation,
+      adminResponseForTheRequest: "",
       faultMessage: "",
       carDTO: car,
       parkingDTOTo: {
