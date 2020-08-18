@@ -48,6 +48,8 @@ export const getActiveRents = () => async (dispatch) => {
     });
 
     dispatch(setCurrentRent(""));
+
+    dispatch(setFilteredRents(response.data));
     dispatch(setRents(response.data));
   } catch (err) {
     console.log(err.response);
@@ -111,35 +113,27 @@ export const getRentByID = (id) => async (dispatch) => {
 export const filterRents = (rents, filters) => (dispatch) => {
   const { name, surname, mark, model, licensePlate } = filters;
 
-  let filteredRents = rents.filter((rent) =>
-    filteredRents.userRentInfo.name.toLowerCase().includes(name.toLowerCase())
+  let filtered = rents.filter((rent) =>
+    rent.userRentInfo.name.toLowerCase().includes(name.toLowerCase())
   );
 
-  filteredRents = filteredRents.filter((rent) =>
-    filteredRents.userRentInfo.surname
-      .toLowerCase()
-      .includes(surname.toLowerCase())
+  filtered = filtered.filter((rent) =>
+    rent.userRentInfo.surname.toLowerCase().includes(surname.toLowerCase())
   );
 
-  filteredRents = filteredRents.filter((rent) =>
-    filteredRents.carDTO.modelDTO.markDTO.name
-      .toLowerCase()
-      .includes(mark.toLowerCase())
+  filtered = filtered.filter((rent) =>
+    rent.carDTO.modelDTO.markDTO.name.toLowerCase().includes(mark.toLowerCase())
   );
 
-  filteredRents = filteredRents.filter((rent) =>
-    filteredRents.carDTO.modelDTO.name
-      .toLowerCase()
-      .includes(model.toLowerCase())
+  filtered = filtered.filter((rent) =>
+    rent.carDTO.modelDTO.name.toLowerCase().includes(model.toLowerCase())
   );
 
-  filteredRents = filteredRents.filter((rent) =>
-    filteredRents.carDTO.licensePlate
-      .toLowerCase()
-      .includes(licensePlate.toLowerCase())
+  filtered = filtered.filter((rent) =>
+    rent.carDTO.licensePlate.toLowerCase().includes(licensePlate.toLowerCase())
   );
 
-  dispatch(setFilteredRents(filteredRents));
+  dispatch(setFilteredRents(filtered));
 };
 
 export default activeRentsSlice.reducer;

@@ -7,26 +7,57 @@ const useStyles = makeStyles({
   },
 });
 
-const FiltersInput = () => {
+const FiltersInput = ({ onChange, name, placeholder, value }) => {
   const classes = useStyles();
 
   return (
     <Paper className={classes.input}>
-      <Input />
+      <Input
+        onChange={onChange}
+        value={value}
+        name={name}
+        placeholder={placeholder}
+      />
     </Paper>
   );
 };
 
-const FiltersBar = () => {
+const FiltersBar = ({ handleChange, filters, handleReset }) => {
   const classes = useStyles();
+
   return (
-    <Grid container justify="center">
-      <FiltersInput />
-      <FiltersInput />
-      <FiltersInput />
-      <FiltersInput />
-      <FiltersInput />
-      <Button>Reset</Button>
+    <Grid container justify="space-evenly">
+      <FiltersInput
+        onChange={handleChange}
+        value={filters.name}
+        name="name"
+        placeholder="Users name"
+      />
+      <FiltersInput
+        onChange={handleChange}
+        value={filters.surname}
+        name="surname"
+        placeholder="Users surname"
+      />
+      <FiltersInput
+        onChange={handleChange}
+        value={filters.mark}
+        name="mark"
+        placeholder="Car mark"
+      />
+      <FiltersInput
+        onChange={handleChange}
+        value={filters.model}
+        name="model"
+        placeholder="Car model"
+      />
+      <FiltersInput
+        onChange={handleChange}
+        value={filters.licensePlate}
+        name="licensePlate"
+        placeholder="Car license plate"
+      />
+      <Button onClick={handleReset}>Reset</Button>
     </Grid>
   );
 };

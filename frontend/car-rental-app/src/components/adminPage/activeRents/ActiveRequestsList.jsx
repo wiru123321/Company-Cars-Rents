@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, makeStyles, Typography } from "@material-ui/core";
+import { Grid, makeStyles, Typography, Paper } from "@material-ui/core";
 import RentCard from "./cards/RentCard";
 import NotFoundMessage from "../messages/NotFoundMessage";
 import FiltersBar from "./filter/FiltersBar";
@@ -8,6 +8,12 @@ const useStyles = makeStyles({
   title: {
     margin: "2%",
     fontSize: "2rem",
+  },
+  nav: {
+    margin: "2%",
+    padding: "8px",
+    backgroundColor: "#DCDCDC",
+    minWidth: "60vw",
   },
   paper: {
     margin: "2%",
@@ -22,12 +28,25 @@ const useStyles = makeStyles({
   },
 });
 
-const ActiveRequestList = ({ rents, menuMode }) => {
+const ActiveRequestList = ({
+  rents,
+  menuMode,
+  handleFilterChange,
+  filters,
+  handleReset,
+}) => {
   const classes = useStyles();
+
   return (
     <Grid container>
       <Grid container direction="column" justify="center" alignItems="center">
-        <FiltersBar />
+        <Paper className={classes.nav}>
+          <FiltersBar
+            handleChange={handleFilterChange}
+            filters={filters}
+            handleReset={handleReset}
+          />
+        </Paper>
         {rents.length > 0 ? (
           rents.map((rent, index) => {
             const handleMenuModeChange = () => {
