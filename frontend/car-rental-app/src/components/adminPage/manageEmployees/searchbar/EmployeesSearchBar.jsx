@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  Grid,
-  Typography,
-  Paper,
-  Input,
-  Button,
-  Divider,
-} from "@material-ui/core";
+import { Grid, Paper, Input, Button, Divider } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import { makeStyles } from "@material-ui/core";
 

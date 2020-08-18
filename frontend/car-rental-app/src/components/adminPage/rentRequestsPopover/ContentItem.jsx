@@ -1,6 +1,6 @@
 import React from "react";
-import { Paper, Typography, Button, Grid, Divider } from "@material-ui/core";
-import { useDispatch, useSelector } from "react-redux";
+import { Typography, Button, Grid, Divider } from "@material-ui/core";
+import { useDispatch } from "react-redux";
 import { chooseRequest } from "../../../features/rents/rentsSlice";
 import { makeStyles } from "@material-ui/core";
 const useStyles = makeStyles({

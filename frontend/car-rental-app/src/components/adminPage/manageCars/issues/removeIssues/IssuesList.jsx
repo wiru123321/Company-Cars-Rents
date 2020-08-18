@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { Grid } from "@material-ui/core";
 import { selectAll } from "../../../../../features/cars-manager/carsManagerSlice";
 import {
@@ -12,7 +12,6 @@ import NotFoundInfo from "../../../messages/NotFoundMessage";
 
 const IssuesList = () => {
   const alert = useAlert();
-  const dispatch = useDispatch();
   const { currentCar } = useSelector(selectAll);
   const [issues, setIssues] = useState([]);
 

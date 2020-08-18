@@ -803,11 +803,10 @@ public class RentServiceTest {
                 , LocalDateTime.of(2021, 4, 1, 0, 0));
 
         List<CarDTO> list = new ArrayList<>(rentService.getActiveCarsBetweenDates(date2));
-
         assertEquals(4, list.size());
 
         list = rentService.getActiveCarsBetweenDates(date1);
-        assertEquals(1, list.size());
+        assertEquals(2, list.size());
     }
 
     @Test
@@ -872,13 +871,12 @@ public class RentServiceTest {
         final LocalDateTime dateFrom3 = LocalDateTime.of(2020, 5, 25, 0, 0);
         final LocalDateTime dateTo3 = LocalDateTime.of(2020, 5, 30, 0, 0);
 
-        final Rent shouldNotBeAllowedRent = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlateAndIsOnCompany("SBE00000", true), dateFrom2, dateTo2
+        final Rent shouldNotBeAllowedRent = new Rent(100L, userService.getEntityByLogin("login"), carRepository.findByLicensePlateAndIsOnCompany("SBE00000", true), dateFrom2, dateTo2
                 , parkingService.getEntityById(parkingId5), parkingService.getEntityById(parkingId6), false, "comment", "Response", "");
-        final Rent shouldBeAllowedRent = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlateAndIsOnCompany("SBE00000", true), dateFrom3, dateTo3
+        final Rent shouldBeAllowedRent = new Rent(101L, userService.getEntityByLogin("login"), carRepository.findByLicensePlateAndIsOnCompany("SBE00000", true), dateFrom3, dateTo3
                 , parkingService.getEntityById(parkingId7), parkingService.getEntityById(parkingId8), false, "comment", "Response", "");
 
-
-        assertFalse(rentService.checkIfRentIsAllowedToBeRequested(shouldNotBeAllowedRent));
         assertTrue(rentService.checkIfRentIsAllowedToBeRequested(shouldBeAllowedRent));
+        assertFalse(rentService.checkIfRentIsAllowedToBeRequested(shouldNotBeAllowedRent));
     }
 }

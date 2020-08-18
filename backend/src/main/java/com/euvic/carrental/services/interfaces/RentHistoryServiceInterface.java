@@ -20,7 +20,7 @@ public interface RentHistoryServiceInterface {
 
     RentHistoryDTO getDTOByCarDTOAndDateFrom(CarDTO carDTO, LocalDateTime dateFrom);
 
-    RentHistory mapRestModel(Long id, RentHistoryDTO rentHistoryDTO, Long parkingHistoryFromId, Long parkingHistoryToId);
+    RentHistory mapRestModel(Long id, RentHistoryDTO rentHistoryDTO, Long parkingHistoryFromId, Long parkingHistoryToId, Boolean isActive, Boolean isAccepted);
 
     List<RentHistoryDTO> getAllDTOs();
 

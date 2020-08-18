@@ -194,16 +194,15 @@ public class RentService implements RentServiceInterface {
         rentRepository.delete(rent);
     }
 
-    @Override //checkCarAvailability(final Rent rent)
+    @Override
     public boolean checkIfRentIsAllowedToBeRequested(final Rent rent) {
-        boolean toReturn = false;
+        boolean toReturn = true;
         final List<Rent> rentList = this.getRentsByLicensePlate(rent.getCar().getLicensePlate());
-        if (rentList.size() == 0) {
-            toReturn = true;
-        } else {
+
+        if (rentList != null) {
             for (final Rent temp : rentList) {
-                if (!this.checkDate(rent.getDateFrom(), rent.getDateTo(), new DateFromDateTo(temp.getDateFrom(), temp.getDateTo())) && !rent.getId().equals(temp.getId())) {
-                    toReturn = true;
+                if (this.checkDate(rent.getDateFrom(), rent.getDateTo(), new DateFromDateTo(temp.getDateFrom(), temp.getDateTo()))) {
+                    toReturn = false;
                 }
             }
         }

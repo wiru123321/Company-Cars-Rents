@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Container, List, ListItem, Link } from "@material-ui/core";
+import React from "react";
+import { Container, List, ListItem } from "@material-ui/core";
 const CarInfo = ({ car }) => {
   const {
     capacityOfPeople,
