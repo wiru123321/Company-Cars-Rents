@@ -301,7 +301,7 @@ public class RentHistoryServiceTest {
 
         final RentHistoryDTO rentHistoryDTO = rentHistoryService.getDTOById(rentHistoryId);
 
-        final RentHistory restModelToEntityModel = rentHistoryService.mapRestModel(null, rentHistoryDTO, parkingHistoryId1, parkingHistoryId2);
+        final RentHistory restModelToEntityModel = rentHistoryService.mapRestModel(null, rentHistoryDTO, parkingHistoryId1, parkingHistoryId2, true, false);
         assertAll(() -> {
             assertNotEquals(restModelToEntityModel.getId(), rentHistory.getId());
             assertEquals(restModelToEntityModel.getUser(), rentHistory.getUser());
@@ -361,7 +361,7 @@ public class RentHistoryServiceTest {
             assertEquals(rentHistory.getDateTo(), rentHistoryDTO1.getDateTo());
             assertEquals(rentHistory.getParkingHistoryFrom().getTown(), rentHistoryDTO1.getParkingHistoryDTOFrom().getTown());
             assertEquals(rentHistory.getParkingHistoryTo().getTown(), rentHistoryDTO1.getParkingHistoryDTOTo().getTown());
-            assertEquals(rentHistory.getIsActive(), rentHistoryDTO1.getIsActive());
+            assertEquals(rentHistory.getIsActive(), true);
         });
     }
 
