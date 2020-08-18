@@ -39,6 +39,20 @@ public class RentHistoryService implements RentHistoryServiceInterface {
     }
 
     @Override
+    public void setToInactiveByLicensePlate(final String licensePlate) {
+        final Car car = carService.getOnCompanyEntityByLicensePlate(licensePlate);
+        final List<RentHistory> rentHistoryList = rentHistoryRepository.findAllByCar(car);
+        for (final RentHistory temp : rentHistoryList) {
+            temp.getParkingHistoryFrom().setIsActive(false);
+            temp.getParkingHistoryTo().setIsActive(false);
+            parkingHistoryService.addEntityToDB(temp.getParkingHistoryFrom());
+            parkingHistoryService.addEntityToDB(temp.getParkingHistoryTo());
+            temp.setIsActive(false);
+            rentHistoryRepository.save(temp);
+        }
+    }
+
+    @Override
     public RentHistory getEntityById(final Long id) {
         return rentHistoryRepository.findById(id).get();
     }
@@ -46,6 +60,12 @@ public class RentHistoryService implements RentHistoryServiceInterface {
     @Override
     public RentHistory getEntityByCarAndDateFrom(final Car car, final LocalDateTime dateFrom) {
         return rentHistoryRepository.findByCarAndDateFrom(car, dateFrom);
+    }
+
+    @Override
+    public RentHistory mapRestModel(final Long id, final RentHistoryDTO rentHistoryDTO, final Long parkingHistoryFromId, final Long parkingHistoryToId, final Boolean isActive, final Boolean isAccepted) {
+        return new RentHistory(id, userService.getEntityByLogin(rentHistoryDTO.getUserDTO().getLogin()), carService.getOnCompanyEntityByLicensePlate(rentHistoryDTO.getCarDTO().getLicensePlate())
+                , rentHistoryDTO.getDateFrom(), rentHistoryDTO.getDateTo(), parkingHistoryService.getEntityById(parkingHistoryFromId), parkingHistoryService.getEntityById(parkingHistoryToId), isActive, isAccepted, rentHistoryDTO.getReasonForTheLoan(), rentHistoryDTO.getAdminResponseForTheRequest(), rentHistoryDTO.getFaultMessage());
     }
 
     @Override
@@ -70,12 +90,6 @@ public class RentHistoryService implements RentHistoryServiceInterface {
     }
 
     @Override
-    public RentHistory mapRestModel(final Long id, final RentHistoryDTO rentHistoryDTO, final Long parkingHistoryFromId, final Long parkingHistoryToId, final Boolean isActive, final Boolean isAccepted) {
-        return new RentHistory(id, userService.getEntityByLogin(rentHistoryDTO.getUserDTO().getLogin()), carService.getOnCompanyEntityByLicensePlate(rentHistoryDTO.getCarDTO().getLicensePlate())
-                , rentHistoryDTO.getDateFrom(), rentHistoryDTO.getDateTo(), parkingHistoryService.getEntityById(parkingHistoryFromId), parkingHistoryService.getEntityById(parkingHistoryToId), isActive, isAccepted, rentHistoryDTO.getReasonForTheLoan(), rentHistoryDTO.getAdminResponseForTheRequest(), rentHistoryDTO.getFaultMessage());
-    }
-
-    @Override
     public List<RentHistoryDTO> getAllDTOs() {
         final ArrayList<RentHistory> rentHistoryArrayList = new ArrayList<>();
         rentHistoryRepository.findAll().forEach(rentHistoryArrayList::add);
@@ -88,20 +102,6 @@ public class RentHistoryService implements RentHistoryServiceInterface {
         });
 
         return rentHistoryDTOArrayList;
-    }
-
-    @Override
-    public void setToInactiveByLicensePlate(final String licensePlate) {
-        final Car car = carService.getOnCompanyEntityByLicensePlate(licensePlate);
-        final List<RentHistory> rentHistoryList = rentHistoryRepository.findAllByCar(car);
-        for (final RentHistory temp : rentHistoryList) {
-            temp.getParkingHistoryFrom().setIsActive(false);
-            temp.getParkingHistoryTo().setIsActive(false);
-            parkingHistoryService.addEntityToDB(temp.getParkingHistoryFrom());
-            parkingHistoryService.addEntityToDB(temp.getParkingHistoryTo());
-            temp.setIsActive(false);
-            rentHistoryRepository.save(temp);
-        }
     }
 
     @Override
