@@ -41,7 +41,9 @@ public interface RentServiceInterface {
 
     List<Rent> getRentsByLicensePlate(String licensePlate);
 
-    boolean checkCarAvailability(Rent rent);
+    RentPendingDTO getRentPendingDTOById(Long id);
+
+    boolean checkIfRentIsAllowedToBeRequested(Rent rent);
 
     void updateNextRent(Rent rent);
 }

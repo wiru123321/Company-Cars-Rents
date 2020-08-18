@@ -809,4 +809,78 @@ public class RentServiceTest {
         list = rentService.getActiveCarsBetweenDates(date1);
         assertEquals(1, list.size());
     }
+
+    @Test
+    void whenRentEntityGiven_shouldAttachedCarAvailability(){
+        final Parking parking1 = new Parking(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
+        final Parking parking2 = new Parking(null, "Radom", "40-222", "Jaka 32", "A-8", "Parking przy sklepie Tesco", true);
+        final Parking parking3 = new Parking(null, "Kielce", "40-623", "Weteranow 54", "B-4", "Parking przy dworcu", true);
+        final Parking parking4 = new Parking(null, "Kielce", "40-623", "Weteranow 54", "B-4", "Parking przy dworcu", true);
+        final Parking parking5 = new Parking(null, "Kielce", "40-623", "Weteranow 54", "B-4", "Parking przy dworcu", true);
+        final Parking parking6 = new Parking(null, "Kielce", "40-623", "Weteranow 54", "B-4", "Parking przy dworcu", true);
+        final Parking parking7 = new Parking(null, "Kielce", "40-623", "Weteranow 54", "B-4", "Parking przy dworcu", true);
+        final Parking parking8 = new Parking(null, "Kielce", "40-623", "Weteranow 54", "B-4", "Parking przy dworcu", true);
+
+        final Long parkingId1 = parkingService.addEntityToDB(parking1);
+        final Long parkingId2 = parkingService.addEntityToDB(parking2);
+        final Long parkingId3 = parkingService.addEntityToDB(parking3);
+        final Long parkingId4 = parkingService.addEntityToDB(parking4);
+        final Long parkingId5 = parkingService.addEntityToDB(parking5);
+        final Long parkingId6 = parkingService.addEntityToDB(parking6);
+        final Long parkingId7 = parkingService.addEntityToDB(parking7);
+        final Long parkingId8 = parkingService.addEntityToDB(parking8);
+
+        final Car car = new Car(null, "SBE00000", 120, 1, 4, 3,
+                gearboxTypeService.getEntityByName("Manual"), fuelTypeService.getEntityByName("Diesel"),
+                LocalDateTime.of(2000, 3, 25, 0, 0), 2005, true, 120
+                , modelService.getEntityByName("Astra"),
+                parkingService.getEntityById(parkingId1), colourService.getEntityByName("Red"), typeService.getEntityByName("Coupe"));
+
+        carRepository.save(car);
+
+        final Role role1 = new Role(null, "Admin");
+        final Role role2 = new Role(null, "User");
+
+        roleRepository.save(role1);
+        roleRepository.save(role2);
+
+        final User user = new User(null, "login", "password", "email@email.com", "name", "surname", "123789456", roleService.getEntityByRoleName("User"));
+        final User user1 = new User(null, "login1", "password", "email@email.com", "www", "eee", "333333333", roleService.getEntityByRoleName("Admin"));
+
+        userRepository.save(user);
+        userRepository.save(user1);
+
+        final LocalDateTime dateFrom = LocalDateTime.of(2020, 3, 27, 0, 0);
+        final LocalDateTime dateTo = LocalDateTime.of(2020, 3, 30, 0, 0);
+
+        final LocalDateTime dateFrom1 = LocalDateTime.of(2020, 3, 20, 0, 0);
+        final LocalDateTime dateTo1 = LocalDateTime.of(2020, 3, 26, 0, 0);
+
+
+        final Rent rent1 = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlateAndIsOnCompany("SBE00000", true), dateFrom, dateTo
+                , parkingService.getEntityById(parkingId1), parkingService.getEntityById(parkingId2), true, "comment", "Response", "");
+        final Rent rent2 = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlateAndIsOnCompany("SBE00000", true), dateFrom1, dateTo1
+                , parkingService.getEntityById(parkingId3), parkingService.getEntityById(parkingId4), true, "comment", "Response", "");
+
+        final Long rentId1 = rentService.addEntityToDB(rent1);
+        final Long rentId2 = rentService.addEntityToDB(rent2);
+
+
+
+        final LocalDateTime dateFrom2 = LocalDateTime.of(2020, 3, 28, 0, 0);
+        final LocalDateTime dateTo2 = LocalDateTime.of(2020, 3, 29, 0, 0);
+
+        final LocalDateTime dateFrom3 = LocalDateTime.of(2020, 5, 25, 0, 0);
+        final LocalDateTime dateTo3 = LocalDateTime.of(2020, 5, 30, 0, 0);
+
+        final Rent shouldNotBeAllowedRent = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlateAndIsOnCompany("SBE00000", true), dateFrom2, dateTo2
+                , parkingService.getEntityById(parkingId5), parkingService.getEntityById(parkingId6), false, "comment", "Response", "");
+        final Rent shouldBeAllowedRent = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlateAndIsOnCompany("SBE00000", true), dateFrom3, dateTo3
+                , parkingService.getEntityById(parkingId7), parkingService.getEntityById(parkingId8), false, "comment", "Response", "");
+
+
+
+        assertFalse(rentService.checkIfRentIsAllowedToBeRequested(shouldNotBeAllowedRent));
+        assertTrue(rentService.checkIfRentIsAllowedToBeRequested(shouldBeAllowedRent));
+    }
 }

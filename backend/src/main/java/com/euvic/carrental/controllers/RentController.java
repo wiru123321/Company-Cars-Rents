@@ -43,7 +43,7 @@ public class RentController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/a/rent/{id}")
     public ResponseEntity<?> getRentWithId(@PathVariable final Long id) {
-        return ResponseEntity.ok(rentService.getDTOById(id));
+        return ResponseEntity.ok(rentService.getRentPendingDTOById(id));
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/a/rent/car_history/{licensePlate}")
@@ -62,7 +62,7 @@ public class RentController {
             if (car == null)
                 throw new NullPointerException();
             rent.setCar(car);
-            if (!rentService.checkCarAvailability(rent)) {
+            if (!rentService.checkIfRentIsAllowedToBeRequested(rent)) {
                 throw new NoSuchElementException();
             }
             rentService.addEntityToDB(rent);
@@ -91,7 +91,7 @@ public class RentController {
                 rent.setIsActive(true);
                 rent.setCar(car);
                 rent.setAdminResponseForTheRequest(rentPermitRejectDTO.getResponse());
-                if (rentService.checkCarAvailability(rent)) {
+                if (rentService.checkIfRentIsAllowedToBeRequested(rent)) {
                     rentService.addEntityToDB(rent);
                     responseCode = 200;
                     message = "Updated";
@@ -179,7 +179,7 @@ public class RentController {
                     id = parkingService.addEntityToDB(parkingService.mapRestModel(null, new ParkingDTO(car.getParking())));
                 }
                 final Rent rent = new Rent(null, user, car, rentDTO.getDateFrom(), rentDTO.getDateTo(), car.getParking(), parkingService.getEntityById(id), false, rentDTO.getReasonForTheLoan(), "", "");
-                if (!rentService.checkCarAvailability(rent)) {
+                if (!rentService.checkIfRentIsAllowedToBeRequested(rent)) {
                     throw new NoSuchElementException();
                 }
                 rentService.addEntityToDB(rent);
@@ -189,6 +189,7 @@ public class RentController {
                 responseCode = 400;
                 message = "You have rent in this time or give invalid time range";
             }
+
         } catch (final NullPointerException e) {
             responseCode = 406;
             message = "Cannot find user or car in database";
