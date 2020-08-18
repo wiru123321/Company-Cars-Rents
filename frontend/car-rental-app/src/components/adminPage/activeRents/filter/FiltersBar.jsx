@@ -1,5 +1,6 @@
 import React from "react";
 import { makeStyles, Grid, Paper, Input, Button } from "@material-ui/core";
+import SearchIcon from "@material-ui/icons/Search";
 
 const useStyles = makeStyles({
   input: {
@@ -12,6 +13,7 @@ const FiltersInput = ({ onChange, name, placeholder, value }) => {
 
   return (
     <Paper className={classes.input}>
+      <SearchIcon />
       <Input
         onChange={onChange}
         value={value}
@@ -57,7 +59,9 @@ const FiltersBar = ({ handleChange, filters, handleReset }) => {
         name="licensePlate"
         placeholder="Car license plate"
       />
-      <Button onClick={handleReset}>Reset</Button>
+      <Paper className={classes.input}>
+        <Button onClick={handleReset}>Reset</Button>
+      </Paper>
     </Grid>
   );
 };

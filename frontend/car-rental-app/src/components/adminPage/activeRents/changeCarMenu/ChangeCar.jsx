@@ -55,7 +55,7 @@ const ChangeCar = ({ car, rent, dateFrom, dateTo }) => {
               <CarItem key={car.licensePlate} car={car} changeCar={changeCar} />
             ))
           ) : (
-            <NotFound>Not found cars.</NotFound>
+            <NotFound>Could not find cars.</NotFound>
           )}
         </>
       );

@@ -12,8 +12,10 @@ import { rentRequestStyles } from "./rentRequestInfo/rentRequest.styles";
 import RequestInfo from "./rentRequestInfo/RequestInfo";
 import ParkingInfo from "./rentRequestInfo/ParkingInfo";
 import CarsModal from "../modal/CarsModal";
+import { useAlert } from "react-alert";
 
 const SingleRequest = () => {
+  const alert = useAlert();
   const { currentRent } = useSelector(selectAll);
   const dispatch = useDispatch();
   const classes = rentRequestStyles();
@@ -28,19 +30,27 @@ const SingleRequest = () => {
 
   const handleAccept = () => {
     dispatch(
-      acceptRentRequest(currentRent.id, {
-        licensePlate: carLicensePlate,
-        response: response,
-      })
+      acceptRentRequest(
+        currentRent.id,
+        {
+          licensePlate: carLicensePlate,
+          response: response,
+        },
+        alert
+      )
     );
   };
 
   const handleReject = () => {
     dispatch(
-      rejectRentRequest(currentRent.id, {
-        licensePlate: carLicensePlate,
-        response: response,
-      })
+      rejectRentRequest(
+        currentRent.id,
+        {
+          licensePlate: carLicensePlate,
+          response: response,
+        },
+        alert
+      )
     );
   };
 

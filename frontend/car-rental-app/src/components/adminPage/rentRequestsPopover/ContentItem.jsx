@@ -37,7 +37,7 @@ const ContentItem = ({ rent, index }) => {
         <Typography>Reservation start: {dateFrom.slice(0, 10)}</Typography>
         <Typography>Reservation end: {dateTo.slice(0, 10)}</Typography>
         <Button variant="contained" onClick={setActiveRequest} href={linkPath}>
-          consider
+          check
         </Button>
       </Grid>
       <Divider />

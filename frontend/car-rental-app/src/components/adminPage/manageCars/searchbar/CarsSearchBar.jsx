@@ -6,7 +6,8 @@ const useStyles = makeStyles({
   box: {
     marginTop: "1%",
     width: "60vw",
-    padding: "8px",
+    padding: "18px",
+    backgroundColor: "#0e153a",
   },
   searchActive: {
     backgroundColor: "green",
@@ -15,6 +16,9 @@ const useStyles = makeStyles({
   searchInactive: {
     backgroundColor: "red",
     color: "white",
+  },
+  button: {
+    backgroundColor: "white",
   },
 });
 
@@ -53,15 +57,23 @@ const CarsSearchBar = ({
             </Paper>
           </Grid>
           <Grid item xs={3}>
-            <Button
-              onClick={toggleActiveFilter}
-              color={filterActive ? "secondary" : "primary"}
-            >
-              Search for {filterActive ? "Suspended" : "Active"} cars
-            </Button>
+            <Grid container>
+              <Paper>
+                <Button
+                  onClick={toggleActiveFilter}
+                  color={filterActive ? "secondary" : "primary"}
+                >
+                  Search for {filterActive ? "Suspended" : "Active"} cars
+                </Button>
+              </Paper>
+            </Grid>
           </Grid>
           <Grid item xs={2}>
-            <Button onClick={handleReset}>Reset</Button>
+            <Grid container>
+              <Paper>
+                <Button onClick={handleReset}>Reset</Button>
+              </Paper>
+            </Grid>
           </Grid>
         </Grid>
       </Grid>

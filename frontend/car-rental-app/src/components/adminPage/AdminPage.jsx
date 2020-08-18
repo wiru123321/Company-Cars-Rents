@@ -8,7 +8,7 @@ import AddEmployee from "./manageEmployees/addEmployee/AddEmployee";
 import EmployeesManager from "./manageEmployees/manager/EmployeesManager";
 import RentRequests from "./rentRequests/RentRequests";
 import Footer from "../footer/Footer";
-import ActiveRents from "./activeRents/ActiveRents";
+import ActiveRents from "./activeRents/rents/ActiveRents";
 import { fetchPendingRents } from "../../features/rents/rentsSlice";
 
 const AdminPage = () => {
