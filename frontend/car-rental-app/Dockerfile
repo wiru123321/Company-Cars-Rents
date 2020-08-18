@@ -21,15 +21,14 @@ RUN npm install && \
     
 COPY . .
 
-RUN react-scripts build
+RUN react-scripts build && \
+    rm -r build && \
+    rm -r node_modules
 
 EXPOSE 5000
 
-CMD ["serve","-s", "build"]
-
-RUN rm -r build && \
-    rm -r node_modules
-
 USER carRentalFront
+
+CMD ["serve","-s", "build"]
 
 # /bin/sh Work
