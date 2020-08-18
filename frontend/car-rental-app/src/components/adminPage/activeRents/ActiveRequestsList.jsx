@@ -1,29 +1,10 @@
 import React from "react";
-import { Grid, makeStyles, Typography } from "@material-ui/core";
+import { Grid, makeStyles } from "@material-ui/core";
 import RentCard from "./cards/RentCard";
 import NotFoundMessage from "../messages/NotFoundMessage";
 import FiltersBar from "./filter/FiltersBar";
 
-const useStyles = makeStyles({
-  title: {
-    margin: "2%",
-    fontSize: "2rem",
-  },
-  paper: {
-    margin: "2%",
-    padding: "8px",
-    minHeight: "30vh",
-    minWidth: "50vw",
-  },
-  card: {
-    margin: "2%",
-    padding: "8px",
-    backgroundColor: "#DCDCDC",
-  },
-});
-
 const ActiveRequestList = ({ rents, menuMode }) => {
-  const classes = useStyles();
   return (
     <Grid container>
       <Grid container direction="column" justify="center" alignItems="center">

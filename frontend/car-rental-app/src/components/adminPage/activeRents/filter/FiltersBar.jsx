@@ -18,7 +18,6 @@ const FiltersInput = () => {
 };
 
 const FiltersBar = () => {
-  const classes = useStyles();
   return (
     <Grid container justify="center">
       <FiltersInput />
