@@ -13,6 +13,8 @@ import {
   selectbeginHour,
   selectendDate,
   selectendHour,
+  selectStepFour,
+  setStepFour,
 } from "../../../features/car-reservation/reservationSlice";
 import { ParkingData } from "./ReservationDataFormReserv";
 import { useAlert } from "react-alert";
@@ -62,8 +64,7 @@ const SelectedCar = () => {
       postalCode &&
       streetName
     ) {
-      dispatch(dateIsChoosenHandler());
-      dispatch(isCarFormActiveHandler());
+      dispatch(setStepFour());
     }
   };
 
@@ -88,16 +89,6 @@ const SelectedCar = () => {
           />
           <CarInfo car={car} />
         </Box>
-        <Box display="flex">
-          <Button onClick={toggleCarChoose} variant="contained" color="primary">
-            Change car
-          </Button>
-        </Box>
-        <Box display="flex">
-          <Button onClick={undoSelection} variant="contained" color="secondary">
-            Undo selection
-          </Button>
-        </Box>
       </Grid>
       <Grid container justify="center" alignItems="center">
         <TextField
@@ -110,7 +101,7 @@ const SelectedCar = () => {
       </Grid>
       <Grid container justify="center" alignItems="center">
         <h1 style={{ fontSize: "30px", marginTop: "5vh" }}>
-          Enter parking where do you want to give back the car.
+          Enter parking where do you want to give back the car
         </h1>
       </Grid>
 
@@ -128,7 +119,7 @@ const SelectedCar = () => {
       />
       <Grid container justify="center" alignItems="center">
         <Button onClick={toggleCarReserve} variant="contained" color="primary">
-          Reserve car.
+          Reserve car
         </Button>
       </Grid>
     </div>

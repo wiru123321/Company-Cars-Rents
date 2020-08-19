@@ -18,22 +18,15 @@ import {
 const CarsSelection = () => {
   const dispatch = useDispatch();
   const cars = useSelector(selectCars);
+  let btnColor = "";
 
   function toggleSuggest(index) {
+    btnColor = '"primary"';
     dispatch(chooseCar(index));
-    dispatch(toggleChoose());
   }
-
-  const toggleCarChoose = () => {
-    dispatch(dateIsChoosenHandler());
-    dispatch(isCarFormActiveHandler());
-  };
 
   return (
     <Grid container direction="column" justify="center" alignItems="center">
-      <Button onClick={toggleCarChoose} variant="contained" color="secondary">
-        Back To reservation form.
-      </Button>
       <List>
         {cars.map((car, index) => (
           <ListItem key={index}>
@@ -48,6 +41,7 @@ const CarsSelection = () => {
               <div>
                 <Button
                   variant="contained"
+                  color={btnColor}
                   onClick={() => toggleSuggest(index)}
                 >
                   Select
