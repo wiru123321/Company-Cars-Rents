@@ -1,7 +1,7 @@
 import React from "react";
 import { Paper, Button, Grid, makeStyles } from "@material-ui/core";
-import CarImage from "../../carsListing/CarImage";
-import CarInfo from "../../carsListing/CarInfo";
+import CarInfoCard from "../activeRents/resrvationUi/CarInfoCard";
+import DoneIcon from "@material-ui/icons/Done";
 
 const API_URL = "http://localhost:8080";
 
@@ -16,18 +16,22 @@ const useStyles = makeStyles({
   active: {
     margin: "1%",
     padding: "8px",
-    backgroundColor: "white",
     cursor: "pointer",
   },
   item: {
     margin: "1%",
     padding: "8px",
-    backgroundColor: "grey",
+    backgroundColor: "#FFFAFA",
     cursor: "pointer",
   },
   okButton: {
     width: "100%",
     padding: "4px",
+  },
+  activeIcon: {
+    backgroundColor: "#00FF7F",
+    minWidth: "6vw",
+    textAlign: "center",
   },
 });
 
@@ -39,22 +43,30 @@ const ModalContent = ({
   currentIndex,
 }) => {
   const classes = useStyles();
+
   return (
     <Grid container>
       <Grid className={classes.paper}>
         {cars.map((car, index) => {
+          const handleCarChange = () => {
+            changeCurrentCar(car);
+            setActive(index);
+          };
           return (
-            <Paper
-              className={currentIndex === index ? classes.active : classes.item}
-              onClick={() => {
-                changeCurrentCar(car);
-                setActive(index);
-              }}
-            >
-              <CarImage
-                src={API_URL + "/u/car/download-car-image/" + car.licensePlate}
-              />
-              <CarInfo car={car} />
+            <Paper className={classes.item} onClick={handleCarChange}>
+              <Grid
+                container
+                direction="column"
+                justify="center"
+                alignItems="center"
+              >
+                <CarInfoCard car={car} />
+                {currentIndex === index && (
+                  <Paper className={classes.activeIcon}>
+                    <DoneIcon />
+                  </Paper>
+                )}
+              </Grid>
             </Paper>
           );
         })}

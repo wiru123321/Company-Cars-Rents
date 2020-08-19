@@ -9,6 +9,7 @@ const Footer = () => {
     <Grid
       container
       style={{
+        marginTop: "1%",
         textAlign: "center",
         height: "15vh",
         backgroundColor: "#0e153a",
