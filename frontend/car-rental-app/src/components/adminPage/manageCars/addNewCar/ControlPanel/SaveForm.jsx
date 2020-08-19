@@ -9,7 +9,7 @@ const SaveForm = ({ submit }) => {
         <Button
           variant="contained"
           color="primary"
-          size="normal"
+          size="medium"
           startIcon={<Save />}
           type="submit"
           onClick={submit}

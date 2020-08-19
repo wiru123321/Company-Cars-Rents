@@ -24,7 +24,7 @@ const AdminPage = () => {
       <UserNavbar />
       <HashRouter basename="/adminPage">
         <Switch>
-          <Route path="/" exact component={AddNewCar} />
+          <Route path="/" component={AddNewCar} />
           <Route path="/pendingRents" component={PendingRents} />
           <Route path="/activeRents" component={ActiveRents} />
           <Route path="/removeCar" component={CarsManager} />
