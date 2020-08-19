@@ -228,7 +228,7 @@ public class FaultServiceTest {
     }
 
     @Test
-    void shouldReturnAllActiveCarDBFaultsDTO_And_AllDBFaultsDTO_And_AllActiveCarFaultsDTO_And_AllActiveFaultDTOsByCarLicenseplate() {
+    void shouldReturnAllActiveCarDBFaultsDTO() {
         final Car car = carService.getOnCompanyEntityByLicensePlate("SBE33212");
 
         final Fault fault1 = new Fault(null, car, "sd", false, false);
@@ -241,17 +241,66 @@ public class FaultServiceTest {
         faultRepository.save(fault3);
         assertEquals(3, faultRepository.count());
 
-        final List<FaultDTO> faultDTOList1 = faultService.getAllActiveDTOsByCar(car);
-        final List<FaultDTO> faultDTOList2 = faultService.getAllDTOs();
-        final List<FaultDTO> faultDTOList3 = faultService.getAllActiveFaultDTOs();
-        final List<FaultDTO> faultDTOList4 = faultService.getAllActiveFaultDTOsByCarLicensePlate("SBE33212");
+        final List<FaultDTO> faultDTOList = faultService.getAllActiveDTOsByCar(car);
 
-        assertAll(() -> {
-            assertEquals(2, faultDTOList1.size());
-            assertEquals(faultRepository.count(), faultDTOList2.size());
-            assertEquals(2, faultDTOList3.size());
-            assertEquals(2, faultDTOList4.size());
-        });
+        assertEquals(2, faultDTOList.size());
+    }
+
+    @Test
+    void shouldReturnAllDBFaultsDTO(){
+        final Car car = carService.getOnCompanyEntityByLicensePlate("SBE33212");
+
+        final Fault fault1 = new Fault(null, car, "sd", false, false);
+        final Fault fault2 = new Fault(null, car, "dd", false, true);
+        final Fault fault3 = new Fault(null, car, "we", false, true);
+
+        assertEquals(0, faultRepository.count());
+        faultRepository.save(fault1);
+        faultRepository.save(fault2);
+        faultRepository.save(fault3);
+        assertEquals(3, faultRepository.count());
+
+        final List<FaultDTO> faultDTOList = faultService.getAllDTOs();
+
+        assertEquals(faultRepository.count(), faultDTOList.size());
+    }
+
+    @Test
+    void shouldReturnAllActiveCarFaultsDTO(){
+        final Car car = carService.getOnCompanyEntityByLicensePlate("SBE33212");
+
+        final Fault fault1 = new Fault(null, car, "sd", false, false);
+        final Fault fault2 = new Fault(null, car, "dd", false, true);
+        final Fault fault3 = new Fault(null, car, "we", false, true);
+
+        assertEquals(0, faultRepository.count());
+        faultRepository.save(fault1);
+        faultRepository.save(fault2);
+        faultRepository.save(fault3);
+        assertEquals(3, faultRepository.count());
+
+        final List<FaultDTO> faultDTOList = faultService.getAllActiveFaultDTOs();
+
+        assertEquals(2, faultDTOList.size());
+    }
+
+    @Test
+    void shouldReturnAllActiveFaultDTOsByCarLicensePlate(){
+        final Car car = carService.getOnCompanyEntityByLicensePlate("SBE33212");
+
+        final Fault fault1 = new Fault(null, car, "sd", false, false);
+        final Fault fault2 = new Fault(null, car, "dd", false, true);
+        final Fault fault3 = new Fault(null, car, "we", false, true);
+
+        assertEquals(0, faultRepository.count());
+        faultRepository.save(fault1);
+        faultRepository.save(fault2);
+        faultRepository.save(fault3);
+        assertEquals(3, faultRepository.count());
+
+        final List<FaultDTO> faultDTOList = faultService.getAllActiveFaultDTOsByCarLicensePlate("SBE33212");
+
+        assertEquals(2, faultDTOList.size());
     }
 
     @Test
@@ -268,17 +317,25 @@ public class FaultServiceTest {
     @Test
     void shouldCheckIfCarFaultWithDescriptionExists_And_IfTrue_setItNotActive(){
         final Car car = carService.getOnCompanyEntityByLicensePlate("SBE33212");
+        final Fault fault = new Fault(null, car, "nothing1", false, true);
+        assertEquals(0, faultRepository.count());
+        Long faultId = faultService.addEntityToDB(fault);
+        assertEquals(1, faultRepository.count());
+
+        assertTrue(faultService.checkIfCarFaultWithDescriptionExists(car, fault.getDescription()));
+    }
+
+    @Test
+    void whenGivenFaultCarAndFaultDescription_shouldSetThisFaultInactive(){
+        final Car car = carService.getOnCompanyEntityByLicensePlate("SBE33212");
         final Fault fault1 = new Fault(null, car, "nothing1", false, true);
         final Fault fault2 = new Fault(null, car, "nothing2", false, true);
         final Fault fault3 = new Fault(null, car, "nothing3", false, true);
-        final Fault fault4 = new Fault(null, car, "nothing4", false, true);
         assertEquals(0, faultRepository.count());
         Long faultId1 = faultService.addEntityToDB(fault1);
         Long faultId2 = faultService.addEntityToDB(fault2);
         Long faultId3 = faultService.addEntityToDB(fault3);
-        Long faultId4 = faultService.addEntityToDB(fault4);
-        assertEquals(4, faultRepository.count());
-        assertTrue(faultService.checkIfCarFaultWithDescriptionExists(car, fault1.getDescription()));
+        assertEquals(3, faultRepository.count());
 
         faultService.setInactiveCarFaultWithDescription(car, fault1.getDescription());
         Fault deletedFault1 = faultService.getEntityById(faultId1);
@@ -286,19 +343,29 @@ public class FaultServiceTest {
             assertFalse(deletedFault1.getIsActive());
             assertTrue(fault2.getIsActive());
             assertTrue(fault3.getIsActive());
-            assertTrue(fault4.getIsActive());
         });
+    }
 
+    @Test
+    void whenGivenCarDescription_shouldSetAllItsFaultsInactive(){
+        final Car car = carService.getOnCompanyEntityByLicensePlate("SBE33212");
+        final Fault fault1 = new Fault(null, car, "nothing1", false, true);
+        final Fault fault2 = new Fault(null, car, "nothing2", false, true);
+        final Fault fault3 = new Fault(null, car, "nothing3", false, true);
+        assertEquals(0, faultRepository.count());
+        Long faultId1 = faultService.addEntityToDB(fault1);
+        Long faultId2 = faultService.addEntityToDB(fault2);
+        Long faultId3 = faultService.addEntityToDB(fault3);
+        assertEquals(3, faultRepository.count());
 
         faultService.setAllFaultsAsInactiveForCertainCar("SBE33212");
+        Fault deletedFault1 = faultService.getEntityById(faultId1);
         Fault deletedFault2 = faultService.getEntityById(faultId2);
         Fault deletedFault3 = faultService.getEntityById(faultId3);
-        Fault deletedFault4 = faultService.getEntityById(faultId4);
         assertAll(()->{
             assertFalse(deletedFault1.getIsActive());
             assertFalse(deletedFault2.getIsActive());
             assertFalse(deletedFault3.getIsActive());
-            assertFalse(deletedFault4.getIsActive());
         });
     }
 }

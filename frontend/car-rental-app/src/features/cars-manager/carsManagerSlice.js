@@ -114,6 +114,7 @@ export const addFault = (faultDTO, alert, fetchActive) => async (dispatch) => {
     dispatch(fetchCars(fetchActive));
     alert.success("Succesfully added issue!");
   } catch (err) {
+    console.log(err.response);
     alert.error("Failed to add issue! Issues must not repeat!");
   }
 };
