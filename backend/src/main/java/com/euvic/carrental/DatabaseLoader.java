@@ -249,11 +249,11 @@ public class DatabaseLoader implements CommandLineRunner {
             rentRepository.save(rent3);
             rentRepository.save(rent4);
 
-            final Fault fault1 = new Fault(null, car1, "Wybita przednia szyba", false, true);
-            final Fault fault2 = new Fault(null, car1, "Zarysowany zderzak", false, false);
-            final Fault fault3 = new Fault(null, car1, "Wyrwane drzwi", false, true);
-            final Fault fault4 = new Fault(null, car2, "Zarysowany lakier", false, false);
-            final Fault fault5 = new Fault(null, car2, "Przebita opona", false, true);
+            final Fault fault1 = new Fault(null, car1, "Wybita przednia szyba", LocalDateTime.of(2020, 3, 20, 0, 0), false, true);
+            final Fault fault2 = new Fault(null, car1, "Zarysowany zderzak", LocalDateTime.of(2020, 3, 21, 0, 0), false, false);
+            final Fault fault3 = new Fault(null, car1, "Wyrwane drzwi", LocalDateTime.of(2020, 3, 22, 0, 0), false, true);
+            final Fault fault4 = new Fault(null, car2, "Zarysowany lakier", LocalDateTime.of(2020, 3, 23, 0, 0), false, false);
+            final Fault fault5 = new Fault(null, car2, "Przebita opona", LocalDateTime.of(2020, 3, 24, 0, 0), false, true);
 
             faultService.addEntityToDB(fault1);
             faultService.addEntityToDB(fault2);

@@ -160,15 +160,16 @@ public class FaultServiceTest {
         final Car car = carService.getOnCompanyEntityByLicensePlate("SBE33212");
         final CarDTO carDTO = carService.getDTOByLicensePlate("SBE33212");
 
-        final Fault fault = new Fault(null, car, "nothing", false, true);
+        final Fault fault = new Fault(null, car, "nothing", LocalDateTime.of(2020, 3, 25, 0, 0), false, true);
 
-        final FaultDTO faultDTO = new FaultDTO(carDTO.getLicensePlate(), "nothing", false);
+        final FaultDTO faultDTO = new FaultDTO(carDTO.getLicensePlate(), "nothing", LocalDateTime.of(2020, 3, 25, 0, 0), false);
 
         final Fault restModelToEntityModel = faultService.mapRestModel(null, faultDTO);
         assertAll(() -> {
             assertEquals(restModelToEntityModel.getCar(), fault.getCar());
             assertEquals(restModelToEntityModel.getId(), fault.getId());
             assertEquals(restModelToEntityModel.getDescription(), fault.getDescription());
+            assertEquals(restModelToEntityModel.getFaultDate(), fault.getFaultDate());
             assertEquals(restModelToEntityModel.getSetCarInactive(), fault.getSetCarInactive());
             assertEquals(restModelToEntityModel.getIsActive(), fault.getIsActive());
         });
@@ -178,7 +179,7 @@ public class FaultServiceTest {
     void shouldReturnDBFaultEntity() {
         final Car car = carService.getOnCompanyEntityByLicensePlate("SBE33212");
 
-        final Fault fault = new Fault(null, car, "nothing", false, true);
+        final Fault fault = new Fault(null, car, "nothing", LocalDateTime.of(2020, 3, 25, 0, 0), false, true);
 
         assertEquals(0, faultRepository.count());
         final Long faultId = faultService.addEntityToDB(fault);
@@ -191,6 +192,7 @@ public class FaultServiceTest {
             assertNotEquals(null, serviceFault1.getId());
             assertEquals(fault.getCar(), serviceFault1.getCar());
             assertEquals(fault.getDescription(), serviceFault1.getDescription());
+            assertEquals(fault.getFaultDate(), serviceFault1.getFaultDate());
             assertEquals(fault.getSetCarInactive(), serviceFault1.getSetCarInactive());
             assertEquals(fault.getIsActive(), serviceFault1.getIsActive());
 
@@ -198,6 +200,7 @@ public class FaultServiceTest {
             assertNotEquals(null, serviceFault2.getId());
             assertEquals(fault.getCar(), serviceFault2.getCar());
             assertEquals(fault.getDescription(), serviceFault2.getDescription());
+            assertEquals(fault.getFaultDate(), serviceFault2.getFaultDate());
             assertEquals(fault.getSetCarInactive(), serviceFault2.getSetCarInactive());
             assertEquals(fault.getIsActive(), serviceFault2.getIsActive());
         });
@@ -207,7 +210,7 @@ public class FaultServiceTest {
     void shouldReturnDBFaultDTO() {
         final Car car = carService.getOnCompanyEntityByLicensePlate("SBE33212");
 
-        final Fault fault = new Fault(null, car, "nothing", false, true);
+        final Fault fault = new Fault(null, car, "nothing", LocalDateTime.of(2020, 3, 25, 0, 0), false, true);
         assertEquals(0, faultRepository.count());
         final Long faultId = faultService.addEntityToDB(fault);
         assertEquals(1, faultRepository.count());
@@ -217,11 +220,13 @@ public class FaultServiceTest {
 
         assertAll(() -> {
             assertEquals(fault.getDescription(), faultDTO1.getDescription());
+            assertEquals(fault.getFaultDate(), faultDTO1.getFaultDate());
             assertEquals(fault.getSetCarInactive(), faultDTO1.getSetCarInactive());
             assertEquals(fault.getCar().getLicensePlate(), faultDTO1.getCarLicensePlate());
 
 
             assertEquals(fault.getDescription(), faultDTO2.getDescription());
+            assertEquals(fault.getFaultDate(), faultDTO2.getFaultDate());
             assertEquals(fault.getSetCarInactive(), faultDTO2.getSetCarInactive());
             assertEquals(fault.getCar().getLicensePlate(), faultDTO2.getCarLicensePlate());
         });
@@ -231,9 +236,9 @@ public class FaultServiceTest {
     void shouldReturnAllActiveCarDBFaultsDTO() {
         final Car car = carService.getOnCompanyEntityByLicensePlate("SBE33212");
 
-        final Fault fault1 = new Fault(null, car, "sd", false, false);
-        final Fault fault2 = new Fault(null, car, "dd", false, true);
-        final Fault fault3 = new Fault(null, car, "we", false, true);
+        final Fault fault1 = new Fault(null, car, "sd", LocalDateTime.of(2020, 3, 24, 0, 0), false, false);
+        final Fault fault2 = new Fault(null, car, "dd", LocalDateTime.of(2020, 3, 25, 0, 0), false, true);
+        final Fault fault3 = new Fault(null, car, "we", LocalDateTime.of(2020, 3, 26, 0, 0), false, true);
 
         assertEquals(0, faultRepository.count());
         faultRepository.save(fault1);
@@ -250,9 +255,9 @@ public class FaultServiceTest {
     void shouldReturnAllDBFaultsDTO(){
         final Car car = carService.getOnCompanyEntityByLicensePlate("SBE33212");
 
-        final Fault fault1 = new Fault(null, car, "sd", false, false);
-        final Fault fault2 = new Fault(null, car, "dd", false, true);
-        final Fault fault3 = new Fault(null, car, "we", false, true);
+        final Fault fault1 = new Fault(null, car, "sd", LocalDateTime.of(2020, 3, 24, 0, 0), false, false);
+        final Fault fault2 = new Fault(null, car, "dd", LocalDateTime.of(2020, 3, 25, 0, 0), false, true);
+        final Fault fault3 = new Fault(null, car, "we", LocalDateTime.of(2020, 3, 26, 0, 0), false, true);
 
         assertEquals(0, faultRepository.count());
         faultRepository.save(fault1);
@@ -269,9 +274,9 @@ public class FaultServiceTest {
     void shouldReturnAllActiveCarFaultsDTO(){
         final Car car = carService.getOnCompanyEntityByLicensePlate("SBE33212");
 
-        final Fault fault1 = new Fault(null, car, "sd", false, false);
-        final Fault fault2 = new Fault(null, car, "dd", false, true);
-        final Fault fault3 = new Fault(null, car, "we", false, true);
+        final Fault fault1 = new Fault(null, car, "sd", LocalDateTime.of(2020, 3, 24, 0, 0), false, false);
+        final Fault fault2 = new Fault(null, car, "dd", LocalDateTime.of(2020, 3, 25, 0, 0), false, true);
+        final Fault fault3 = new Fault(null, car, "we", LocalDateTime.of(2020, 3, 26, 0, 0), false, true);
 
         assertEquals(0, faultRepository.count());
         faultRepository.save(fault1);
@@ -288,9 +293,9 @@ public class FaultServiceTest {
     void shouldReturnAllActiveFaultDTOsByCarLicensePlate(){
         final Car car = carService.getOnCompanyEntityByLicensePlate("SBE33212");
 
-        final Fault fault1 = new Fault(null, car, "sd", false, false);
-        final Fault fault2 = new Fault(null, car, "dd", false, true);
-        final Fault fault3 = new Fault(null, car, "we", false, true);
+        final Fault fault1 = new Fault(null, car, "sd", LocalDateTime.of(2020, 3, 24, 0, 0), false, false);
+        final Fault fault2 = new Fault(null, car, "dd", LocalDateTime.of(2020, 3, 25, 0, 0), false, true);
+        final Fault fault3 = new Fault(null, car, "we", LocalDateTime.of(2020, 3, 26, 0, 0), false, true);
 
         assertEquals(0, faultRepository.count());
         faultRepository.save(fault1);
@@ -307,7 +312,7 @@ public class FaultServiceTest {
     void whenFaultEntityGiven_shouldAddFaultEntityToDB() {
         final Car car = carService.getOnCompanyEntityByLicensePlate("SBE33212");
 
-        final Fault fault = new Fault(null, car, "nothing", false, true);
+        final Fault fault = new Fault(null, car, "sd", LocalDateTime.of(2020, 3, 24, 0, 0), false, false);
 
         assertEquals(0, faultRepository.count());
         faultService.addEntityToDB(fault);
@@ -315,9 +320,9 @@ public class FaultServiceTest {
     }
 
     @Test
-    void shouldCheckIfCarFaultWithDescriptionExists_And_IfTrue_setItNotActive(){
+    void shouldCheckIfCarFaultWithDescriptionExists(){
         final Car car = carService.getOnCompanyEntityByLicensePlate("SBE33212");
-        final Fault fault = new Fault(null, car, "nothing1", false, true);
+        final Fault fault = new Fault(null, car, "sd", LocalDateTime.of(2020, 3, 24, 0, 0), false, true);
         assertEquals(0, faultRepository.count());
         Long faultId = faultService.addEntityToDB(fault);
         assertEquals(1, faultRepository.count());
@@ -328,9 +333,9 @@ public class FaultServiceTest {
     @Test
     void whenGivenFaultCarAndFaultDescription_shouldSetThisFaultInactive(){
         final Car car = carService.getOnCompanyEntityByLicensePlate("SBE33212");
-        final Fault fault1 = new Fault(null, car, "nothing1", false, true);
-        final Fault fault2 = new Fault(null, car, "nothing2", false, true);
-        final Fault fault3 = new Fault(null, car, "nothing3", false, true);
+        final Fault fault1 = new Fault(null, car, "dd", LocalDateTime.of(2020, 3, 25, 0, 0), false, true);
+        final Fault fault2 = new Fault(null, car, "sd", LocalDateTime.of(2020, 3, 24, 0, 0), false, false);
+        final Fault fault3 = new Fault(null, car, "we", LocalDateTime.of(2020, 3, 26, 0, 0), false, true);
         assertEquals(0, faultRepository.count());
         Long faultId1 = faultService.addEntityToDB(fault1);
         Long faultId2 = faultService.addEntityToDB(fault2);
@@ -341,7 +346,7 @@ public class FaultServiceTest {
         Fault deletedFault1 = faultService.getEntityById(faultId1);
         assertAll(()->{
             assertFalse(deletedFault1.getIsActive());
-            assertTrue(fault2.getIsActive());
+            assertFalse(fault2.getIsActive());
             assertTrue(fault3.getIsActive());
         });
     }
@@ -349,9 +354,9 @@ public class FaultServiceTest {
     @Test
     void whenGivenCarDescription_shouldSetAllItsFaultsInactive(){
         final Car car = carService.getOnCompanyEntityByLicensePlate("SBE33212");
-        final Fault fault1 = new Fault(null, car, "nothing1", false, true);
-        final Fault fault2 = new Fault(null, car, "nothing2", false, true);
-        final Fault fault3 = new Fault(null, car, "nothing3", false, true);
+        final Fault fault1 = new Fault(null, car, "sd", LocalDateTime.of(2020, 3, 24, 0, 0), false, false);
+        final Fault fault2 = new Fault(null, car, "dd", LocalDateTime.of(2020, 3, 25, 0, 0), false, true);
+        final Fault fault3 = new Fault(null, car, "we", LocalDateTime.of(2020, 3, 26, 0, 0), false, true);
         assertEquals(0, faultRepository.count());
         Long faultId1 = faultService.addEntityToDB(fault1);
         Long faultId2 = faultService.addEntityToDB(fault2);
