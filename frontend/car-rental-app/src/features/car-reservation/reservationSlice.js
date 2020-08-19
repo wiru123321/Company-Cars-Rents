@@ -96,7 +96,9 @@ export const selectDateIsChoosen = (state) => state.reservation.dateIsChoosen;
 export const selectIsCarFormActive = (state) =>
   state.reservation.isCarFormActive;
 
-export const fetchCarsAvaiableInDate = (dateFromDateTo) => async (dispatch) => {
+export const fetchCarsAvaiableInDate = (dateFromDateTo, alert) => async (
+  dispatch
+) => {
   try {
     const response = await axios({
       method: "get",
@@ -106,12 +108,16 @@ export const fetchCarsAvaiableInDate = (dateFromDateTo) => async (dispatch) => {
     });
     console.log(response.data);
     dispatch(setCars(response.data));
+    alert.success("Success");
   } catch (error) {
     console.log(error);
+    alert.error("Wrong data input, please check entered data.");
   }
 };
 
-export const uploadReservCar = (licensePlate, formData) => async (dispatch) => {
+export const uploadReservCar = (licensePlate, formData, alert) => async (
+  dispatch
+) => {
   try {
     const response = await axios.post(
       API_URL + `/e/rent/${licensePlate}`,
@@ -122,8 +128,10 @@ export const uploadReservCar = (licensePlate, formData) => async (dispatch) => {
         },
       }
     );
+    alert.success("Success");
   } catch (error) {
     console.log(error);
+    alert.error("Wrong data input, please check entered data.");
   }
 };
 

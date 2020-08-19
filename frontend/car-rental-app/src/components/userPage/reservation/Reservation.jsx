@@ -19,9 +19,11 @@ import {
   selectendDate,
   selectendHour,
 } from "../../../features/car-reservation/reservationSlice";
+import { useAlert } from "react-alert";
 
 const Reservation = () => {
   const classes = useStyles();
+  const alert = useAlert();
 
   const beginDate = useSelector(selectbeginDate);
   const beginHour = useSelector(selectbeginHour);
@@ -51,10 +53,12 @@ const Reservation = () => {
       dateFrom: beginDate + "T" + beginHour + ":00",
       dateTo: endDate + "T" + endHour + ":00",
     };
-    dispatch(fetchCarsAvaiableInDate(dateFromDateTo));
-    console.log(dateFromDateTo);
-    dispatch(dateIsChoosenHandler());
-    dispatch(isCarFormActiveHandler());
+
+    dispatch(fetchCarsAvaiableInDate(dateFromDateTo, alert));
+    if (beginDate && beginHour && endDate && endHour && endHour) {
+      dispatch(dateIsChoosenHandler());
+      dispatch(isCarFormActiveHandler());
+    }
   }
   let dateIsChoosen = useSelector(selectDateIsChoosen);
   let isCarFormActive = useSelector(selectIsCarFormActive);
@@ -76,11 +80,15 @@ const Reservation = () => {
                 inputText="Reservation start:"
                 handleDateChange={handleBeginDateChange}
                 handleHourChange={handleBeginHourChange}
+                valueDate={beginDate}
+                valueHour={beginHour}
               />
               <ReservationDate
                 inputText="Reservation end:"
                 handleDateChange={handleEndDateChange}
                 handleHourChange={handleEndHourChange}
+                valueDate={endDate}
+                valueHour={endHour}
               />
               <Button
                 style={{ marginTop: "2%", width: "100%" }}
