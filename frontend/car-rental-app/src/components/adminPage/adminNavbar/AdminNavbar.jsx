@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import RequestsPopover from "../rentRequestsPopover/RequestsPopover";
 import { Navbar, Nav, NavDropdown } from "react-bootstrap";
 import "../../userPage/userNavbar/UserNavbar.css";
@@ -10,8 +10,34 @@ import {
   setMenuMode,
 } from "../../../features/rents/activeRentsSlice";
 
+const BrandImage = () => (
+  <Navbar.Brand href="#adminPage">
+    <img
+      src="https://www.euvic.pl/wp-content/uploads/2019/11/logo-euvic-it-1.png"
+      width="140"
+      height="60"
+      className="d-inline-block align-top"
+      alt="logo"
+    />
+  </Navbar.Brand>
+);
+
 const AdminNavbar = () => {
   const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(logout());
+  };
+
+  const handleActiveRentsSelect = () => {
+    dispatch(setCurrentRent(""));
+    dispatch(setMenuMode(false));
+  };
+
+  const handlePendingRentsSelect = () => {
+    dispatch(setCurrentRent(""));
+    dispatch(setMenuMode(false));
+  };
   return (
     <div>
       <Navbar
@@ -20,26 +46,19 @@ const AdminNavbar = () => {
         className="bg-color-nav"
         variant="dark"
       >
-        <Navbar.Brand
-          href="#adminPage"
-          style={{ color: "#f3f169", fontSize: "25px" }}
-        >
-          <img
-            src="https://www.euvic.pl/wp-content/uploads/2019/11/logo-euvic-it-1.png"
-            width="140"
-            height="60"
-            className="d-inline-block align-top"
-            alt="logo"
-          />
-        </Navbar.Brand>
+        <BrandImage />
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="ml-auto">
             <Nav.Link
-              onClick={() => {
-                dispatch(setCurrentRent(""));
-                dispatch(setMenuMode(false));
-              }}
+              onClick={handlePendingRentsSelect}
+              href="#/adminPage/pendingRents"
+              style={{ color: "#f3f169", fontSize: "25px" }}
+            >
+              Pending rents
+            </Nav.Link>
+            <Nav.Link
+              onClick={handleActiveRentsSelect}
               href="#/adminPage/activeRents"
               style={{ color: "#f3f169", fontSize: "25px" }}
             >
@@ -77,7 +96,7 @@ const AdminNavbar = () => {
             </NavDropdown>
             <Nav.Link
               href="/login"
-              onClick={() => dispatch(logout())}
+              onClick={handleLogout}
               style={{ color: "red", fontSize: "25px" }}
             >
               Logout

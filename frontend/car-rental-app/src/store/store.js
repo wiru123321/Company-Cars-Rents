@@ -12,6 +12,7 @@ import employeesManagerReducer from "../features/employees-management/employeesM
 import rentsReducer from "../features/rents/rentsSlice";
 import carsReducer from "../features/cars-manager/carsManagerSlice";
 import activeRentsReducer from "../features/rents/activeRentsSlice";
+import pendingRentsReducer from "../features/rents/pendingRents";
 
 export default configureStore({
   reducer: {
@@ -28,5 +29,6 @@ export default configureStore({
     rent: rentsReducer,
     cars: carsReducer,
     activeRents: activeRentsReducer,
+    pendingRents: pendingRentsReducer,
   },
 });
