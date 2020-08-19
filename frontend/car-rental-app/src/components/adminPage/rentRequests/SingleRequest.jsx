@@ -1,43 +1,65 @@
-import React from "react";
-import { Container, Paper, Divider } from "@material-ui/core";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import RequestInfo from "./rentRequestInfo/RequestInfo";
-import RentRequestControlPanel from "./rentRequestInfo/RentRequestControlPanel";
+import { Container, Paper, Divider } from "@material-ui/core";
 import {
   selectAll,
-  setResponse,
   acceptRentRequest,
   rejectRentRequest,
+  fetchCarsBetweenDates,
 } from "../../../features/rents/rentsSlice";
+import RentRequestControlPanel from "./rentRequestInfo/RentRequestControlPanel";
 import { rentRequestStyles } from "./rentRequestInfo/rentRequest.styles";
+import RequestInfo from "./rentRequestInfo/RequestInfo";
 import ParkingInfo from "./rentRequestInfo/ParkingInfo";
-import RequestedCarInfo from "./rentRequestInfo/RequestedCarInfo";
+import CarsModal from "../modal/CarsModal";
+import { useAlert } from "react-alert";
 
 const SingleRequest = () => {
-  const { currentRent, response } = useSelector(selectAll);
+  const alert = useAlert();
+  const { currentRent } = useSelector(selectAll);
   const dispatch = useDispatch();
   const classes = rentRequestStyles();
+  const [response, setResponse] = useState("");
+  const [carLicensePlate, setCarLicensePlate] = useState(
+    currentRent.carDTO.licensePlate
+  );
 
   const handleResponseChange = (event) => {
-    dispatch(setResponse(event.target.value));
+    setResponse(event.target.value);
   };
 
   const handleAccept = () => {
     dispatch(
-      acceptRentRequest(currentRent.id, {
-        licensePlate: currentRent.carDTO.licensePlate,
-        response: response,
-      })
+      acceptRentRequest(
+        currentRent.id,
+        {
+          licensePlate: carLicensePlate,
+          response: response,
+        },
+        alert
+      )
     );
   };
 
   const handleReject = () => {
     dispatch(
-      rejectRentRequest(currentRent.id, {
-        licensePlate: currentRent.carDTO.licensePlate,
-        response: response,
-      })
+      rejectRentRequest(
+        currentRent.id,
+        {
+          licensePlate: carLicensePlate,
+          response: response,
+        },
+        alert
+      )
     );
+  };
+
+  const fetchAvailableCars = (setCars) => {
+    let dateFromDateTo = {
+      dateFrom: currentRent.dateFrom,
+      dateTo: currentRent.dateTo,
+    };
+    dispatch(fetchCarsBetweenDates(dateFromDateTo, setCars));
   };
 
   return (
@@ -55,7 +77,7 @@ const SingleRequest = () => {
           parkingTo={currentRent.parkingTo}
         />
         <Divider />
-        <RequestedCarInfo carDTO={currentRent.carDTO} />
+        <CarsModal car={currentRent.carDTO} fetchCars={fetchAvailableCars} />
         <RentRequestControlPanel
           response={response}
           handleResponseChange={handleResponseChange}

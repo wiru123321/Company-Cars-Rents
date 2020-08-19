@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { Grid } from "@material-ui/core";
 import { selectAll } from "../../../../../features/cars-manager/carsManagerSlice";
 import {
@@ -7,11 +7,11 @@ import {
   deleteFault,
 } from "../../../../../services/FaultsService";
 import Issue from "./Issue";
-
+import { useAlert } from "react-alert";
 import NotFoundInfo from "../../../messages/NotFoundMessage";
 
 const IssuesList = () => {
-  const dispatch = useDispatch();
+  const alert = useAlert();
   const { currentCar } = useSelector(selectAll);
   const [issues, setIssues] = useState([]);
 
@@ -20,7 +20,7 @@ const IssuesList = () => {
   }, []);
 
   const handleFaultDelete = (issue) => {
-    deleteFault(issue, currentCar.licensePlate, setIssues);
+    deleteFault(issue, currentCar.licensePlate, setIssues, alert);
   };
 
   return (

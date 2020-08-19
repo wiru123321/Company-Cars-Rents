@@ -91,15 +91,11 @@ export const updateCar = (licensePlate, car, alert, fetchActive) => async (
 ) => {
   try {
     console.log(car);
-    const updateResponse = await axios.put(
-      API_URL + `/a/car/${licensePlate}`,
-      car,
-      {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      }
-    );
+    await axios.put(API_URL + `/a/car/${licensePlate}`, car, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
     dispatch(fetchCars(fetchActive));
     alert.success("Updated successfully!");
   } catch (err) {
@@ -109,7 +105,7 @@ export const updateCar = (licensePlate, car, alert, fetchActive) => async (
 
 export const addFault = (faultDTO, alert, fetchActive) => async (dispatch) => {
   try {
-    const response = await axios.post(API_URL + "/a/fault", faultDTO, {
+    await axios.post(API_URL + "/a/fault", faultDTO, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
@@ -124,12 +120,12 @@ export const addFault = (faultDTO, alert, fetchActive) => async (dispatch) => {
 
 export const setCarActivity = (
   licensePlate,
-  alert,
   isActive,
+  alert,
   fetchActive
 ) => async (dispatch) => {
   try {
-    const response = await axios(API_URL + `/a/car/activity/${licensePlate}`, {
+    await axios(API_URL + `/a/car/activity/${licensePlate}`, {
       headers: { Authorization: "Bearer " + localStorage.getItem("token") },
       method: "DELETE",
       params: { isActive: isActive },
@@ -137,7 +133,7 @@ export const setCarActivity = (
 
     dispatch(fetchSingleCar(licensePlate));
     dispatch(fetchCars(fetchActive));
-    alert.success(`Car ${isActive ? "suspended" : "activated"}!`);
+    alert.success(`Car ${isActive ? "activated" : "suspended"}!`);
   } catch (err) {
     alert.error("Failed to change car activity.");
   }
@@ -147,20 +143,25 @@ export const deleteCar = (licensePlate, alert, fetchActive) => async (
   dispatch
 ) => {
   try {
-    const deleteResponse = await axios.delete(
-      API_URL + `/a/car/${licensePlate}`,
-      {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      }
-    );
+    await axios.delete(API_URL + `/a/car/${licensePlate}`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
     dispatch(fetchCars(fetchActive));
     dispatch(enterManageCarMode(false));
     dispatch(setCurrentCar(""));
     alert.success("Car successfully deleted!");
   } catch (err) {
-    alert.error("Failed to delete car!");
+    if (err.response) {
+      if (err.response.status === 409) {
+        alert.error(err.response.data);
+      } else {
+        alert.error("Failed to delete car!");
+      }
+    } else {
+      alert.error("Failed to delete car! Check connection with cars!");
+    }
   }
 };
 

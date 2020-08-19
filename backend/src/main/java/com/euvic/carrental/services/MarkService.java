@@ -20,22 +20,6 @@ public class MarkService implements MarkServiceInterface {
     }
 
     @Override
-    public Mark mapRestModel(final Long id, final MarkDTO model) {
-        return new Mark(id, model.getName());
-    }
-
-    @Override
-    public MarkDTO getDTOByName(final String name) {
-        final Mark mark = markRepository.findByName(name);
-        return new MarkDTO(mark);
-    }
-
-    @Override
-    public Mark getEntityByName(final String name) {
-        return markRepository.findByName(name);
-    }
-
-    @Override
     public Long addEntityToDB(final Mark mark) {
         return markRepository.save(mark).getId();
     }
@@ -45,6 +29,22 @@ public class MarkService implements MarkServiceInterface {
         final Mark oldMark = this.getEntityByName(oldMarkName);
         oldMark.setName(markDTO.getName());
         return markRepository.save(oldMark).getId();
+    }
+
+    @Override
+    public Mark mapRestModel(final Long id, final MarkDTO model) {
+        return new Mark(id, model.getName());
+    }
+
+    @Override
+    public Mark getEntityByName(final String name) {
+        return markRepository.findByName(name);
+    }
+
+    @Override
+    public MarkDTO getDTOByName(final String name) {
+        final Mark mark = markRepository.findByName(name);
+        return new MarkDTO(mark);
     }
 
     @Override

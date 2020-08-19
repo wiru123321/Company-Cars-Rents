@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Grid, Paper, Button, makeStyles } from "@material-ui/core";
+import { Grid, Paper, Button, Badge, makeStyles } from "@material-ui/core";
 import {
   selectAll,
   setViewId,
@@ -9,9 +9,11 @@ import {
   setCarActivity,
   deleteCar,
 } from "../../../../features/cars-manager/carsManagerSlice";
+import { fetchFaultsForCar } from "../../../../services/FaultsService";
 import Edit from "../edit/Edit";
 import IssuesList from "../issues/removeIssues/IssuesList";
 import AddIssues from "../issues/addIssues/AddIssues";
+import CarsHistory from "../carHistory/CarsHistory";
 import KeyboardBackspaceIcon from "@material-ui/icons/KeyboardBackspace";
 import NotInterestedIcon from "@material-ui/icons/NotInterested";
 import ClearIcon from "@material-ui/icons/Clear";
@@ -19,6 +21,7 @@ import ErrorIcon from "@material-ui/icons/Error";
 import EditIcon from "@material-ui/icons/Edit";
 import ReportProblemIcon from "@material-ui/icons/ReportProblem";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
+import HistoryIcon from "@material-ui/icons/History";
 import { useAlert } from "react-alert";
 
 const useStyles = makeStyles({
@@ -37,6 +40,11 @@ const CarMenu = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { currentCar, viewId, filterActive } = useSelector(selectAll);
+  const [issues, setIssues] = useState("");
+
+  useEffect(() => {
+    fetchFaultsForCar(currentCar.licensePlate, setIssues);
+  }, []);
 
   const toggleView = (id) => {
     dispatch(setViewId(id));
@@ -70,6 +78,8 @@ const CarMenu = () => {
       return <AddIssues />;
     } else if (viewId === 2) {
       return <IssuesList />;
+    } else if (viewId === 3) {
+      return <CarsHistory />;
     }
   };
 
@@ -104,14 +114,25 @@ const CarMenu = () => {
         >
           Report issue
         </Button>
+
         <Button
           onClick={() => toggleView(2)}
           color={viewId === 2 ? "primary" : ""}
           variant={viewId === 2 ? "contained" : ""}
           startIcon={<ErrorIcon />}
         >
-          Issues
+          <Badge badgeContent={issues.length}>Issues</Badge>
         </Button>
+
+        <Button
+          onClick={() => toggleView(3)}
+          color={viewId === 3 ? "primary" : ""}
+          variant={viewId === 3 ? "contained" : ""}
+          startIcon={<HistoryIcon />}
+        >
+          History
+        </Button>
+
         <Button
           onClick={toggleSuspend}
           color={currentCar.isActive ? "secondary" : "primary"}

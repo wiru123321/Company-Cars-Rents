@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import SwipeableViews from "react-swipeable-views";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { useTheme } from "@material-ui/core/styles";
 import {
   Box,
   Container,
@@ -14,12 +14,10 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   selectReservation,
   fetchReservation,
-  selectImg,
   fetchHistoryReservation,
   selectHistoryReservation,
   selectRequestReservation,
   fetchRequestReservation,
-  selectEndingformchoose,
 } from "../../../features/your-cars/yourCarsSlice";
 import YourReservationForm from "./YourReservationForm";
 function TabPanel(props) {
@@ -55,15 +53,7 @@ function a11yProps(index) {
   };
 }
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    backgroundColor: theme.palette.background.paper,
-    width: 500,
-  },
-}));
-
 const YourCarsList = () => {
-  const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
   const active = false;
@@ -79,13 +69,11 @@ const YourCarsList = () => {
   const reservations = useSelector(selectReservation);
   const historyReservations = useSelector(selectHistoryReservation);
   const requestReservation = useSelector(selectRequestReservation);
-  const endingFormChoose = useSelector(selectEndingformchoose);
-  const img = useSelector(selectImg);
   useEffect(() => {
     dispatch(fetchReservation());
     dispatch(fetchHistoryReservation());
     dispatch(fetchRequestReservation());
-  }, []);
+  },[]);
   return (
     <Container
       style={{

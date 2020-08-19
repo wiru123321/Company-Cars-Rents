@@ -39,6 +39,24 @@ const EndingReservationForm = () => {
   const [bugDescribe, setBugDescribe] = useState(
     reservation[selectCarIndex].faultMessage
   );
+
+  function submitCar() {
+    let newReservation = {
+      parkingDTIO: {
+        town: town,
+        streetName: streetName,
+        postalCode: postalCode,
+        number: number,
+        comment: comment,
+      },
+      faultMessage: bugDescribe,
+    };
+    console.log(newReservation);
+    dispatch(backTheCarBack(reservation[selectCarIndex].id, newReservation));
+    setTimeout(function () {
+      dispatch(acceptForm());
+    }, 1500);
+  }
   return (
     <Container
       maxWidth="lg"
@@ -89,24 +107,10 @@ const EndingReservationForm = () => {
             variant="contained"
             color="primary"
             onClick={() => {
-              dispatch(acceptForm());
-              let newReservation = {
-                parkingDTIO: {
-                  town: town,
-                  streetName: streetName,
-                  postalCode: postalCode,
-                  number: number,
-                  comment: comment,
-                },
-                faultMessage: bugDescribe,
-              };
-              console.log(newReservation);
-              dispatch(
-                backTheCarBack(reservation[selectCarIndex].id, newReservation)
-              );
+              submitCar();
             }}
           >
-            Give Car Back
+            Give the car back
           </Button>
         </Grid>
         <Grid xs={12} container justify="center" style={{ marginTop: "1vh" }}>

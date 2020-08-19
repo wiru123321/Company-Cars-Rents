@@ -1,7 +1,7 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Nav } from "react-bootstrap";
 import { Popover, Button, Container } from "@material-ui/core";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { selectAll } from "../../../features/rents/rentsSlice";
 import { makeStyles, Badge } from "@material-ui/core";
 import ContentItem from "./ContentItem";
@@ -20,7 +20,6 @@ const useStyles = makeStyles({
 
 const RequestsPopover = () => {
   const classes = useStyles();
-  const dispatch = useDispatch();
   const { pendingRents } = useSelector(selectAll);
   const [anchorEl, setAnchorEl] = useState(null);
 

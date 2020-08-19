@@ -3,11 +3,6 @@ import { Grid, Paper, Typography, Button } from "@material-ui/core";
 import ChangeEmail from "./ChangeEmail";
 import ChangePassword from "./ChangePassword";
 import ChangePhoneNumber from "./ChangePhoneNumber";
-import {
-  updateEmail,
-  updatePassword,
-  updatePhoneNumber,
-} from "../../../services/UserSettingsService";
 
 const ChangeHeader = () => (
   <Grid

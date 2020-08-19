@@ -29,7 +29,7 @@ public class ParkingServiceTest {
     @Test
     void whenParkingDTOGiven_thenReturnParkingEntity() {
         final Parking parking = new Parking(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
-        final ParkingDTO parkingDTO = new ParkingDTO("Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
+        final ParkingDTO parkingDTO = new ParkingDTO("Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea");
         assertAll(() -> {
             assertEquals(parkingService.mapRestModel(null, parkingDTO).getId(), parking.getId());
             assertEquals(parkingService.mapRestModel(null, parkingDTO).getTown(), parking.getTown());
@@ -102,7 +102,7 @@ public class ParkingServiceTest {
     void whenParkingDTOGiven_shouldUpdateExistingDBParking() {
         final Parking parking = new Parking(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
 
-        final ParkingDTO parkingDTO = new ParkingDTO("Chorzow", "40-321", "Jakas 23", "E-1", "Parking przy Tesco", true);
+        final ParkingDTO parkingDTO = new ParkingDTO("Chorzow", "40-321", "Jakas 23", "E-1", "Parking przy Tesco");
         assertEquals(0, parkingRepository.count());
         final Long parkingId = parkingService.addEntityToDB(parking);
         assertEquals(1, parkingRepository.count());

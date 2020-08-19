@@ -12,6 +12,7 @@ import NotFoundMessage from "../../messages/NotFoundMessage";
 import Search from "../searchbar/Search";
 import Employee from "./Employee";
 import { useAlert } from "react-alert";
+
 const useStyles = makeStyles({
   content: {
     minHeight: "80vh",

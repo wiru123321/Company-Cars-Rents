@@ -13,12 +13,3 @@ export const logout = () => {
   localStorage.removeItem("token");
   localStorage.removeItem("role");
 };
-
-const saveToken = (token) => {
-  localStorage.setItem("token", token);
-};
-
-const handleRemove = () => {
-  localStorage.removeItem("token");
-  localStorage.removeItem("role");
-};

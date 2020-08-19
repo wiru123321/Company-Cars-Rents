@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography, Grid } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import FacebookIcon from "@material-ui/icons/Facebook";
 import YouTubeIcon from "@material-ui/icons/YouTube";
 import MailIcon from "@material-ui/icons/Mail";
@@ -11,7 +11,8 @@ const Footer = () => {
       style={{
         textAlign: "center",
         height: "15vh",
-        backgroundColor: "#3f51b5",
+        backgroundColor: "#0e153a",
+        // backgroundColor: "#3f51b5",
       }}
       direction="column"
       justify="space-evenly"

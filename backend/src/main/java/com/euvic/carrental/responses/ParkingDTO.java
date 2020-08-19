@@ -29,7 +29,7 @@ public class ParkingDTO {
         this.comment = entity.getComment();
     }
 
-    public ParkingDTO(final String town, final String postalCode, final String street, final String number, final String comment, final boolean isActive) {
+    public ParkingDTO(final String town, final String postalCode, final String street, final String number, final String comment) {
         this.town = town;
         this.postalCode = postalCode;
         this.streetName = street;

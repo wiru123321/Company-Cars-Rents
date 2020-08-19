@@ -77,15 +77,11 @@ export const fetchAllUsers = () => async (dispatch) => {
 
 export const updateUser = (login, alert, userUpdate) => async (dispatch) => {
   try {
-    const updateResponse = await axios.put(
-      API_URL + `/a/user/${login}`,
-      userUpdate,
-      {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      }
-    );
+    await axios.put(API_URL + `/a/user/${login}`, userUpdate, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
     dispatch(fetchAllUsers());
     alert.success("Successfully updated user!");
   } catch (err) {
@@ -95,7 +91,7 @@ export const updateUser = (login, alert, userUpdate) => async (dispatch) => {
 
 export const deleteUser = (login, alert) => async (dispatch) => {
   try {
-    const deleteResponse = await axios.delete(API_URL + `/a/user/${login}`, {
+    await axios.delete(API_URL + `/a/user/${login}`, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },

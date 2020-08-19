@@ -2,12 +2,21 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { UserData, ReservationDate } from "./ItemComponents";
 import { chooseRequest } from "../../../../features/rents/rentsSlice";
-import { Grid, Button, Paper } from "@material-ui/core";
-import { rentRequestStyles } from "../rentRequestInfo/rentRequest.styles";
+import { Grid, Button, Paper, Divider, makeStyles } from "@material-ui/core";
+
+const useStyles = makeStyles({
+  paper: {
+    padding: "8px",
+    marginTop: "1%",
+  },
+  box: {
+    minHeight: "10vh",
+  },
+});
 
 const RentRequestListItem = ({ rent, index }) => {
   const linkPath = "#/adminPage/rentRequest";
-  const classes = rentRequestStyles();
+  const classes = useStyles();
   const dispatch = useDispatch();
   const { userRentInfo, dateFrom, dateTo } = rent;
   function setActiveRequest() {
@@ -16,14 +25,20 @@ const RentRequestListItem = ({ rent, index }) => {
 
   return (
     <Paper className={classes.paper}>
-      <Grid container>
-        <Grid item xs={12}>
+      <Grid
+        className={classes.box}
+        container
+        direction="column"
+        justify="center"
+      >
+        <Grid item>
           <UserData
             firstname={userRentInfo.name}
             lastname={userRentInfo.surname}
           />
+          <Divider />
         </Grid>
-        <Grid container item xs={12}>
+        <Grid item>
           <ReservationDate
             beginDate={dateFrom.slice(0, 10)}
             beginHour={dateFrom.slice(10, 19)}
@@ -31,9 +46,16 @@ const RentRequestListItem = ({ rent, index }) => {
             endHour={dateTo.slice(10, 19)}
           />
         </Grid>
-        <Button color="primary" onClick={setActiveRequest} href={linkPath}>
-          check
-        </Button>
+        <Grid item>
+          <Button
+            style={{ width: "100%" }}
+            color="primary"
+            onClick={setActiveRequest}
+            href={linkPath}
+          >
+            check
+          </Button>
+        </Grid>
       </Grid>
     </Paper>
   );

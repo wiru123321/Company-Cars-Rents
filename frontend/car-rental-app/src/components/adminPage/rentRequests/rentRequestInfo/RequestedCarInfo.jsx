@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Paper, Typography, Grid, Divider } from "@material-ui/core";
+import { Typography, Grid } from "@material-ui/core";
 import CarInfo from "../../../carsListing/CarInfo";
 import CarImage from "../../../carsListing/CarImage";
 

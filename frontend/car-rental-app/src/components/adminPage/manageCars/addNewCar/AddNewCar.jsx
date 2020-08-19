@@ -3,23 +3,7 @@ import React from "react";
 import Cointainer from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import AddCarForm from "./AddCarForm";
-import {
-  brandChange,
-  typeChange,
-  licencePlateChange,
-  fuelTypeChange,
-  yearChange,
-  milageChange,
-  hpChange,
-  peopleCapacityChange,
-  doorsNumberChange,
-  colorChange,
-  gearboxTypeChange,
-  trunkCapacityChange,
-  imageUrlChange,
-  reset,
-  addCar,
-} from "../../../../features/add-car-info/carsInfoSlice";
+import { reset } from "../../../../features/add-car-info/carsInfoSlice";
 import {
   fetchMarks,
   fetchTypes,

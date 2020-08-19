@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Grid, Button } from "@material-ui/core";
 import { rentRequestStyles, TextArea } from "./rentRequest.styles.js";
 
@@ -22,7 +22,7 @@ const RentRequestControlPanel = ({
         value={response}
         onChange={handleResponseChange}
         placeholder="Justification..."
-        requierd
+        required
       />
       <Grid
         container

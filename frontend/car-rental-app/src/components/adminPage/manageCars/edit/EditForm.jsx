@@ -1,13 +1,6 @@
 import React from "react";
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
-import {
-  Grid,
-  Paper,
-  Button,
-  Typography,
-  makeStyles,
-  Input,
-} from "@material-ui/core";
+import { Grid, Paper, Button, Typography, makeStyles } from "@material-ui/core";
 import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
 
 const useStyles = makeStyles({
@@ -87,7 +80,12 @@ const EditForm = ({
         </Grid>
         <Grid item>
           <form onSubmit={handlePhotoUpdate}>
-            <input onChange={handlePhotoChange} type="file" required />
+            <input
+              onChange={handlePhotoChange}
+              type="file"
+              required
+              placeholder="Choose file"
+            />
             <Button
               className={classes.button}
               startIcon={<PhotoCameraIcon />}
