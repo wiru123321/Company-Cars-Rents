@@ -15,10 +15,12 @@ import {
   selectendHour,
 } from "../../../features/car-reservation/reservationSlice";
 import { ParkingData } from "./ReservationDataFormReserv";
+import { useAlert } from "react-alert";
 
 const SelectedCar = () => {
   const dispatch = useDispatch();
   const car = useSelector(selectCar);
+  const alert = useAlert();
 
   const [town, setTown] = useState(car.parkingDTO.town);
   const [streetName, setStreetName] = useState(car.parkingDTO.streetName);
@@ -50,9 +52,19 @@ const SelectedCar = () => {
         comment: comment,
       },
     };
-    dispatch(uploadReservCar(car.licensePlate, rentDTO));
-    dispatch(dateIsChoosenHandler());
-    dispatch(isCarFormActiveHandler());
+    dispatch(uploadReservCar(car.licensePlate, rentDTO, alert));
+    if (
+      beginDate &&
+      beginHour &&
+      endDate &&
+      endHour &&
+      town &&
+      postalCode &&
+      streetName
+    ) {
+      dispatch(dateIsChoosenHandler());
+      dispatch(isCarFormActiveHandler());
+    }
   };
 
   const undoSelection = () => {
@@ -91,15 +103,14 @@ const SelectedCar = () => {
         <TextField
           onChange={(event) => setCommentToReservation(event.target.value)}
           value={commentToReservation}
-          label="Why you want this car"
+          label="Why do you want this car"
           variant="outlined"
           margin="normal"
-          required
         />
       </Grid>
       <Grid container justify="center" alignItems="center">
         <h1 style={{ fontSize: "30px", marginTop: "5vh" }}>
-          Enter parking where you want to give back the car.
+          Enter parking where do you want to give back the car.
         </h1>
       </Grid>
 
