@@ -12,6 +12,7 @@ import BoxPanel from "./BoxPanel";
 import ParkingForm from "./ParkingForm";
 import PhotoForm from "./ControlPanel/PhotoForm";
 import SaveForm from "./ControlPanel/SaveForm";
+import { useAlert } from "react-alert";
 const API_URL = "http://localhost:8080";
 
 const AddCarForm = () => {
@@ -19,6 +20,7 @@ const AddCarForm = () => {
   const [showSaveButton, toggleshowSaveButton] = useState(true);
   const [showFormError, toggleshowFormError] = useState(false);
   const [photo, setPhoto] = useState("");
+  const alert = useAlert();
 
   const dispatch = useDispatch();
   const CarInfo = useSelector(selectAll);
@@ -38,7 +40,6 @@ const AddCarForm = () => {
     colourDTO,
     gearBoxTypeDTO,
     capacityOfTrunkScale,
-    imageFile,
     lastInspection,
     town,
     streetName,
@@ -93,9 +94,9 @@ const AddCarForm = () => {
       toggleshowAddPhotoButton(true);
       toggleshowSaveButton(false);
       toggleshowFormError(false);
-      dispatch(addCar(car));
+      dispatch(addCar(car, alert));
     } else {
-      toggleshowFormError(true);
+      alert.error("Wrong data input, please check entered data.");
     }
   }
 
@@ -106,6 +107,7 @@ const AddCarForm = () => {
 
   function submitImage(event) {
     event.preventDefault();
+    let isUploaded = false;
     let formData = new FormData();
     formData.append("imageFile", photo);
     axios
@@ -117,11 +119,15 @@ const AddCarForm = () => {
       })
       .then((response) => {
         console.log(response);
+        alert.success("Success");
+        isUploaded = true;
       })
-      .catch((error) => console.log(JSON.stringify(error)));
-    toggleshowAddPhotoButton(false);
-    toggleshowSaveButton(true);
-    dispatch(reset());
+      .catch(alert.error("Wrong photo upload."));
+    if (isUploaded) {
+      toggleshowAddPhotoButton(false);
+      toggleshowSaveButton(true);
+      dispatch(reset());
+    }
   }
 
   return (
@@ -166,13 +172,6 @@ const AddCarForm = () => {
       {showSaveButton ? (
         <Box display="flex" justifyContent="center">
           <SaveForm submit={submit} />
-          {showFormError ? (
-            <Box>
-              <p>Error in form! Please check form one more.</p>
-            </Box>
-          ) : (
-            <div></div>
-          )}
         </Box>
       ) : (
         <Box display="flex" justifyContent="center">
