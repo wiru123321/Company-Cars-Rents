@@ -96,6 +96,7 @@ public class RentController {
         String message;
         try {
             rentHistory.setIsActive(true);
+            rentHistoryService.addEntityToDB(rentHistory);
             responseCode = 200;
             message = "Ok";
         } catch (final NullPointerException | NoSuchElementException e) {
