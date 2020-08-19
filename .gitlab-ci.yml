@@ -1,15 +1,16 @@
 stages:
-# -------- Docker ------- #
+# ----- ALL BRANCH's ---- #
     - test
+# ----- ONLY Docker ----- #
     - build
     - deploy
-# ------- Develop ------- #
+# ----- ONLY Develop ---- #
     - build_develop
     - deploy_develop
-# -------- Deploy ------- #
+# ----- ONLY Deploy ----- #
     - build_deploy
     - deploy_deploy
-# ------ Production ----- #
+# --- ONLY Production --- #
     - build_prod
     - deploy_prod
         
@@ -56,7 +57,6 @@ build_docker:
 deploy_docker:
     stage: deploy
     script:
-        # Ta opcja tez nie dziala
         - docker-compose -p docker -f docker-compose.docker.yml down
         - docker-compose -p docker -f docker-compose.docker.yml up -d
     tags: 
@@ -69,7 +69,7 @@ deploy_docker:
 build_develop:
     stage: build_develop
     script:
-        - docker-compose -p develop -f docker-compose.develop.yml build --parallel
+        - docker-compose -p develop -f docker-compose.develop.yml build 
     tags:
         - build_develop
     only:
@@ -90,7 +90,7 @@ deploy_develop:
 build_deploy:
     stage: build_deploy
     script:
-        - docker-compose -p deploy -f docker-compose.deploy.yml build --parallel
+        - docker-compose -p deploy -f docker-compose.deploy.yml build 
     tags:
         - build_deploy
     only:
@@ -111,7 +111,7 @@ deploy_deploy:
 build_production:
     stage: build_prod
     script:
-        - docker-compose -p prod build --parallel
+        - docker-compose -p prod build
     tags:
         - build_prod
     only:

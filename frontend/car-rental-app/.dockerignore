@@ -1,4 +1,6 @@
 
+# --- .dockerignore for frontend --- #
+
 # --- Dont need this files --- #
 
 Dockerfile

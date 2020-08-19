@@ -1,6 +1,14 @@
 
+# --- .dockerignore for backend --- #
+
 # --- Dont need this files --- #
 
 Dockerfile
 .dockerignore
 .gitignore
+
+# --- Deleted after build --- #
+
+#   build
+#   build.gradle
+#   build.gradle.orig
