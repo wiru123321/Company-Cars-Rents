@@ -18,9 +18,12 @@ import {
 } from "../../../features/your-cars/yourCarsSlice";
 import { ParkingData } from "./ReservationDataForm";
 import BugReport from "./BugReport";
+import { useAlert } from "react-alert";
 
 const EndingReservationForm = () => {
   const dispatch = useDispatch();
+  const alert = useAlert();
+
   const reservation = useSelector(selectReservation);
   const selectCarIndex = useSelector(selectIndex);
   const [town, setTown] = useState(reservation[selectCarIndex].parkingTo.town);
@@ -52,7 +55,9 @@ const EndingReservationForm = () => {
       faultMessage: bugDescribe,
     };
     console.log(newReservation);
-    dispatch(backTheCarBack(reservation[selectCarIndex].id, newReservation));
+    dispatch(
+      backTheCarBack(reservation[selectCarIndex].id, newReservation, alert)
+    );
     setTimeout(function () {
       dispatch(acceptForm());
     }, 1500);

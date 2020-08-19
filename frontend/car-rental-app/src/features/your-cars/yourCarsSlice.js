@@ -132,7 +132,7 @@ export const fetchCarImage = (licensePlate) => async (dispatch) => {
   }
 };
 
-export const backTheCarBack = (id, parkingDTO) => async (dispatch) => {
+export const backTheCarBack = (id, parkingDTO, alert) => async (dispatch) => {
   try {
     const response = await axios({
       method: "delete",
@@ -140,10 +140,13 @@ export const backTheCarBack = (id, parkingDTO) => async (dispatch) => {
       data: parkingDTO,
       headers: { Authorization: "Bearer " + localStorage.getItem("token") },
     });
+    alert.success("Success");
   } catch (error) {
     console.log(error);
+    alert.error("Wrong data input, please check entered data.");
   }
 };
+
 export const updateCar = (licensePlate, car) => async (dispatch) => {
   try {
     const updateResponse = await axios.put(
