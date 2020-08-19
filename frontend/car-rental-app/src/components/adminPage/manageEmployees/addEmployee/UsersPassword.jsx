@@ -23,7 +23,10 @@ const UsersPassword = ({
           "required",
           "matchRegexp:^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$",
         ]}
-        errorMessages={["this field is required", "password is not valid"]}
+        errorMessages={[
+          "this field is required",
+          "Password must be at least 8 characters, including at least on special character and uppercase letter.",
+        ]}
       />
       <TextValidator
         className={classes.textArea}
@@ -35,7 +38,10 @@ const UsersPassword = ({
           "required",
           "matchRegexp:^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$",
         ]}
-        errorMessages={["this field is required", "password is not valid"]}
+        errorMessages={[
+          "this field is required",
+          "Password must be at least 8 characters, including at least one special character and uppercase letter.",
+        ]}
       />
     </Grid>
   );

@@ -9,6 +9,7 @@ import EmployeesManager from "./manageEmployees/manager/EmployeesManager";
 import RentRequests from "./rentRequests/RentRequests";
 import Footer from "../footer/Footer";
 import ActiveRents from "./activeRents/rents/ActiveRents";
+import PendingRents from "./pendingRents/PendingRents";
 import { fetchPendingRents } from "../../features/rents/rentsSlice";
 
 const AdminPage = () => {
@@ -24,6 +25,7 @@ const AdminPage = () => {
       <HashRouter basename="/adminPage">
         <Switch>
           <Route path="/" exact component={AddNewCar} />
+          <Route path="/pendingRents" component={PendingRents} />
           <Route path="/activeRents" component={ActiveRents} />
           <Route path="/removeCar" component={CarsManager} />
           <Route path="/addEmployee" component={AddEmployee} />

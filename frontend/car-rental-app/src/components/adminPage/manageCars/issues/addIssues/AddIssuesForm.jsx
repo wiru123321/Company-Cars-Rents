@@ -5,6 +5,7 @@ import {
   Paper,
   Button,
   Checkbox,
+  Input,
   TextareaAutosize,
   Typography,
   makeStyles,
@@ -19,7 +20,7 @@ const useStyles = makeStyles({
     width: "60ch",
   },
   textArea: {
-    width: "40vw",
+    minWidth: "20vw",
     padding: "4px",
     minHeight: "10vh",
     maxHeight: "30vh",

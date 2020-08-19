@@ -64,7 +64,14 @@ const ActiveRentsMenu = ({ exitMenu, currentRent }) => {
         <Divider />
         <Grid container direction="column" justify="center" alignItems="center">
           {info ? (
-            <ReservationInfo rent={currentRent} />
+            <ReservationInfo
+              user={currentRent.userRentInfo}
+              parkingFrom={currentRent.parkingFrom}
+              parkingTo={currentRent.parkingTo}
+              car={currentRent.carDTO}
+              dateFrom={currentRent.dateFrom}
+              dateTo={currentRent.dateTo}
+            />
           ) : (
             <ChangeCar
               rent={currentRent}
