@@ -33,7 +33,7 @@ public interface RentServiceInterface {
 
     RentDTO getDTOByCarDTOAndDateFrom(CarDTO carDTO, LocalDateTime dateFrom);
 
-    List<Rent> getRentsByLicensePlate(String licensePlate);
+    List<Rent> getActiveRentsByLicensePlate(String licensePlate);
 
     List<CarDTO> getActiveCarsBetweenDates(DateFromDateTo dateFromDateTo);
 
