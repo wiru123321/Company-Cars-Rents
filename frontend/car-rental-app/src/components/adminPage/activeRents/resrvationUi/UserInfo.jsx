@@ -4,18 +4,17 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import EmailIcon from "@material-ui/icons/Email";
 import PhoneIcon from "@material-ui/icons/Phone";
 
-const UserInfo = ({ rent }) => {
+const UserInfo = ({ user }) => {
   return (
     <Grid container justify="space-evenly">
       <Typography>
-        <AccountCircleIcon /> {rent.userRentInfo.name}{" "}
-        {rent.userRentInfo.surname}
+        <AccountCircleIcon /> {user.name} {user.surname}
       </Typography>
       <Typography>
-        <EmailIcon /> {rent.userRentInfo.email}
+        <EmailIcon /> {user.email}
       </Typography>
       <Typography>
-        <PhoneIcon /> {rent.userRentInfo.phoneNumber}
+        <PhoneIcon /> {user.phoneNumber}
       </Typography>
     </Grid>
   );

@@ -28,7 +28,7 @@ const useStyles = makeStyles({
 
 const RequestInfo = ({ rent }) => {
   const classes = useStyles();
-  const { userRentInfo, dateFrom, dateTo, comment } = rent;
+  const { userRentInfo, dateFrom, dateTo, adminResponseForTheRequest } = rent;
   return (
     <>
       <Grid container justify="center">
@@ -48,7 +48,7 @@ const RequestInfo = ({ rent }) => {
       <Grid>
         <Typography className={classes.subTitle}>Description: </Typography>
         <Paper className={classes.paper}>
-          <Typography>{comment}</Typography>
+          <Typography>{adminResponseForTheRequest}</Typography>
         </Paper>
       </Grid>
       <Divider style={{ marginTop: "1%" }} />
@@ -75,7 +75,7 @@ const UserDetails = ({ name, surname, email, phoneNumber }) => {
   );
 };
 
-const ReservationDetails = ({ dateFrom, dateTo, comment }) => (
+const ReservationDetails = ({ dateFrom, dateTo }) => (
   <Grid container direction="row" justify="space-evenly" alignItems="center">
     <Divider orientation="vertical" flexItem />
     <Grid item xs={3}>

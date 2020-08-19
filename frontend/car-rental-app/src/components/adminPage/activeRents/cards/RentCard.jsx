@@ -14,11 +14,15 @@ const useStyles = makeStyles({
     padding: "8px",
     minHeight: "30vh",
     minWidth: "30vw",
+    backgroundColor: "#A9A9A9",
   },
   card: {
     margin: "2%",
     padding: "8px",
     backgroundColor: "#DCDCDC",
+  },
+  button: {
+    backgroundColor: "white",
   },
 });
 
@@ -29,17 +33,18 @@ const RentCard = ({ rent, handleMenuModeChange }) => {
     <Paper className={classes.paper}>
       <Grid container direction="column">
         <Paper className={classes.card}>
-          <UserInfo rent={rent} />
+          <UserInfo user={rent.userRentInfo} />
         </Paper>
         <Divider />
         <Paper className={classes.card}>
-          <ReservationDate rent={rent} />
+          <ReservationDate dateFrom={rent.dateFrom} dateTo={rent.dateTo} />
         </Paper>
         <Divider />
         <Paper className={classes.card}>
           <CarInfoCard car={rent.carDTO} />
         </Paper>
         <Button
+          className={classes.button}
           onClick={handleMenuModeChange}
           variant="outlined"
           color="primary"

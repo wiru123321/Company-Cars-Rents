@@ -18,10 +18,10 @@ const ReservationInfo = ({ rent }) => {
   return (
     <Grid container direction="column">
       <Paper className={classes.item}>
-        <UserInfo rent={rent} />
+        <UserInfo user={rent.userRentInfo} />
       </Paper>
       <Paper className={classes.item}>
-        <ReservationDate rent={rent} />
+        <ReservationDate dateFrom={rent.dateFrom} dateTo={rent.dateTo} />
       </Paper>
       <Paper className={classes.item}>
         <CarInfoCard car={rent.carDTO} />

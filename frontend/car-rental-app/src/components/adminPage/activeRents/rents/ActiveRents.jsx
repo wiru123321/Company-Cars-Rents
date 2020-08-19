@@ -7,12 +7,7 @@ import {
   setCurrentRent,
   setMenuMode,
   filterRents,
-  setNameFilter,
-  setSurnameFilter,
-  setMarkFilter,
-  setModelFilter,
-  setLicensePlateFilter,
-} from "../../../features/rents/activeRentsSlice";
+} from "../../../../features/rents/activeRentsSlice";
 import ActiveRentsMenu from "./ActiveRentsMenu";
 import ActiveRequestList from "./ActiveRequestsList";
 

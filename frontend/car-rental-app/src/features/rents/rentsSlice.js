@@ -54,7 +54,7 @@ export const {
 
 export const selectAll = (state) => state.rent;
 
-export const acceptRentRequest = (rentId, rentPermitRejectDTO) => async (
+export const acceptRentRequest = (rentId, rentPermitRejectDTO, alert) => async (
   dispatch
 ) => {
   try {
@@ -66,13 +66,13 @@ export const acceptRentRequest = (rentId, rentPermitRejectDTO) => async (
 
     dispatch(chooseRequest(""));
     dispatch(fetchPendingRents());
-    dispatch(setUpdateResult(true));
-  } catch (error) {
-    dispatch(setUpdateResult(false));
+    alert.success("Request accepted!");
+  } catch (err) {
+    alert.error("Failed to accept request!");
   }
 };
 
-export const rejectRentRequest = (rentId, rentPermitRejectDTO) => async (
+export const rejectRentRequest = (rentId, rentPermitRejectDTO, alert) => async (
   dispatch
 ) => {
   try {
@@ -86,9 +86,9 @@ export const rejectRentRequest = (rentId, rentPermitRejectDTO) => async (
     });
     dispatch(chooseRequest(""));
     dispatch(fetchPendingRents());
-    dispatch(setUpdateResult(true));
-  } catch (error) {
-    dispatch(setUpdateResult(false));
+    alert.success("Request rejected!");
+  } catch (err) {
+    alert.error("Failed to reject request!");
   }
 };
 
@@ -99,7 +99,7 @@ export const fetchPendingRents = () => async (dispatch) => {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     });
-    console.log(response.data);
+
     dispatch(setPendingRents(response.data));
   } catch (error) {
     console.log(error);
@@ -117,13 +117,12 @@ export const fetchCarsBetweenDates = (dateFromDateTo, setCars) => async (
       params: dateFromDateTo,
     });
     setCars(response.data);
-    console.log("response", response);
   } catch (err) {
     console.log(err);
   }
 };
 
-export const changeRentCar = (id, licensePlate) => async (dispatch) => {
+export const changeRentCar = (id, licensePlate, alert) => async (dispatch) => {
   try {
     const response = await axios(API_URL + `/a/rent/change_car_in_rent/${id}`, {
       method: "put",
@@ -133,8 +132,9 @@ export const changeRentCar = (id, licensePlate) => async (dispatch) => {
       params: { licensePlate: licensePlate },
     });
     dispatch(getCar(id));
-    console.log(response);
+    alert.success("Car was changed!");
   } catch (err) {
+    alert.error("Failed to change car!");
     console.log(err.response);
   }
 };
@@ -147,7 +147,6 @@ export const getCar = (id) => async (dispatch) => {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     });
-    console.log(response);
   } catch (err) {
     console.log(err.response);
   }

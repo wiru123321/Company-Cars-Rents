@@ -13,6 +13,7 @@ import { fetchFaultsForCar } from "../../../../services/FaultsService";
 import Edit from "../edit/Edit";
 import IssuesList from "../issues/removeIssues/IssuesList";
 import AddIssues from "../issues/addIssues/AddIssues";
+import CarsHistory from "../carHistory/CarsHistory";
 import KeyboardBackspaceIcon from "@material-ui/icons/KeyboardBackspace";
 import NotInterestedIcon from "@material-ui/icons/NotInterested";
 import ClearIcon from "@material-ui/icons/Clear";
@@ -20,6 +21,7 @@ import ErrorIcon from "@material-ui/icons/Error";
 import EditIcon from "@material-ui/icons/Edit";
 import ReportProblemIcon from "@material-ui/icons/ReportProblem";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
+import HistoryIcon from "@material-ui/icons/History";
 import { useAlert } from "react-alert";
 
 const useStyles = makeStyles({
@@ -76,6 +78,8 @@ const CarMenu = () => {
       return <AddIssues />;
     } else if (viewId === 2) {
       return <IssuesList />;
+    } else if (viewId === 3) {
+      return <CarsHistory />;
     }
   };
 
@@ -118,6 +122,15 @@ const CarMenu = () => {
           startIcon={<ErrorIcon />}
         >
           <Badge badgeContent={issues.length}>Issues</Badge>
+        </Button>
+
+        <Button
+          onClick={() => toggleView(3)}
+          color={viewId === 3 ? "primary" : ""}
+          variant={viewId === 3 ? "contained" : ""}
+          startIcon={<HistoryIcon />}
+        >
+          History
         </Button>
 
         <Button

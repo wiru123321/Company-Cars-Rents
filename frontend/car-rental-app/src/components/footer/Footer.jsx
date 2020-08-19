@@ -11,7 +11,8 @@ const Footer = () => {
       style={{
         textAlign: "center",
         height: "15vh",
-        backgroundColor: "#3f51b5",
+        backgroundColor: "#0e153a",
+        // backgroundColor: "#3f51b5",
       }}
       direction="column"
       justify="space-evenly"
