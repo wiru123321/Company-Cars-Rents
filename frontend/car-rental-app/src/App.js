@@ -31,6 +31,7 @@ function App() {
         <Route exact path="/login" component={LoginPage} />
         <PrivateRoute path="/adminPage" role="ADMIN" component={AdminPage} />
         <PrivateRoute path="/userPage" role="EMPLOYEE" component={UserPage} />
+        <Route exact path="*" component={LoginPage} />
       </Switch>
     </Router>
   );

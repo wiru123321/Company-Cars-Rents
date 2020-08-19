@@ -12,6 +12,9 @@ const useStyles = makeStyles({
   box: {
     minHeight: "10vh",
   },
+  checkButton: {
+    width: "100%",
+  },
 });
 
 const RentRequestListItem = ({ rent, index }) => {
@@ -48,7 +51,7 @@ const RentRequestListItem = ({ rent, index }) => {
         </Grid>
         <Grid item>
           <Button
-            style={{ width: "100%" }}
+            className={classes.checkButton}
             color="primary"
             onClick={setActiveRequest}
             href={linkPath}
