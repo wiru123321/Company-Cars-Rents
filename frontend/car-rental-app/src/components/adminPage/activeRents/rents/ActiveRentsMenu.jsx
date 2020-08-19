@@ -21,6 +21,7 @@ const useStyles = makeStyles({
 const ActiveRentsMenu = ({ exitMenu, currentRent }) => {
   const classes = useStyles();
   const [info, toggleInfo] = useState(true);
+
   return (
     <Grid container justify="center">
       <Paper className={classes.paper}>

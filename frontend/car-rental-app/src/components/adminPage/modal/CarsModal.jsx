@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button, Dialog } from "@material-ui/core";
 import RequestedCarInfo from "../rentRequests/rentRequestInfo/RequestedCarInfo";
-import ModalContent from "./ModalContent";
+import ModalContent from "./DialogContent";
 
 const CarModal = ({ car, fetchCars }) => {
   const [open, setOpen] = useState(false);

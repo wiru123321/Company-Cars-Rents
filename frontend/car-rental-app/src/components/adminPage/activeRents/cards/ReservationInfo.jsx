@@ -22,6 +22,7 @@ const ReservationInfo = ({
   parkingTo,
 }) => {
   const classes = useStyles();
+
   return (
     <Grid container direction="column">
       <Paper className={classes.item}>

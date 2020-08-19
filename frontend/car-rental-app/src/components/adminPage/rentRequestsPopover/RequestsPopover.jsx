@@ -36,12 +36,8 @@ const RequestsPopover = () => {
 
   return (
     <>
-      <Nav.Link>
-        <Button
-          className={classes.button}
-          // variant="contained"
-          onClick={handleClick}
-        >
+      <Nav.Link title="Finished rents waiting for accept.">
+        <Button className={classes.button} onClick={handleClick}>
           {pendingRents.length > 0 ? (
             <Badge badgeContent={pendingRents.length} color="secondary">
               <DriveEtaIcon color="secondary" />

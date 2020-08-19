@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Grid } from "@material-ui/core";
+import { Grid, makeStyles } from "@material-ui/core";
 import {
   fetchPendingEndRents,
   acceptPendingRent,
@@ -10,7 +10,15 @@ import { useAlert } from "react-alert";
 import PendingRentItem from "./PendingRentItem";
 import NotFoundMessage from "../messages/NotFoundMessage";
 
+const useStyles = makeStyles({
+  content: {
+    minHeight: "80vh",
+    minWidth: "60vw",
+  },
+});
+
 const PendingRents = () => {
+  const classes = useStyles();
   const alert = useAlert();
   const dispatch = useDispatch();
   const { rents } = useSelector(selectAll);
@@ -25,7 +33,7 @@ const PendingRents = () => {
 
   return (
     <Grid
-      style={{ minHeight: "80vh", minWidth: "60vw" }}
+      className={classes.content}
       container
       direction="column"
       justify="center"

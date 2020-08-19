@@ -24,7 +24,7 @@ const RentRequestListItem = ({ rent, index }) => {
   }
 
   return (
-    <Paper className={classes.paper}>
+    <Paper elevation={6} className={classes.paper}>
       <Grid
         className={classes.box}
         container

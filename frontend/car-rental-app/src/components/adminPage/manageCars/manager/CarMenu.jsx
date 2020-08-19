@@ -84,7 +84,7 @@ const CarMenu = () => {
   };
 
   return (
-    <Paper className={classes.paper}>
+    <Paper elevation={6} className={classes.paper}>
       <Grid
         className={classes.navigation}
         container

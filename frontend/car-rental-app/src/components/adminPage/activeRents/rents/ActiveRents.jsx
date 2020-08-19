@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Grid } from "@material-ui/core";
+import { Grid, makeStyles } from "@material-ui/core";
 import {
   selectAll,
   getActiveRents,
@@ -11,7 +11,15 @@ import {
 import ActiveRentsMenu from "./ActiveRentsMenu";
 import ActiveRequestList from "./ActiveRequestsList";
 
+const useStyles = makeStyles({
+  content: {
+    minHeight: "80vh",
+  },
+});
+
 const ActiveRents = () => {
+  const classes = useStyles();
+  const dispatch = useDispatch();
   const [filters, setFilters] = useState({
     name: "",
     surname: "",
@@ -19,8 +27,6 @@ const ActiveRents = () => {
     model: "",
     licensePlate: "",
   });
-
-  const dispatch = useDispatch();
 
   const { filteredRents, enterMenuMode, currentRent, rents } = useSelector(
     selectAll
@@ -59,7 +65,7 @@ const ActiveRents = () => {
   };
 
   return (
-    <Grid style={{ minHeight: "80vh" }}>
+    <Grid className={classes.content}>
       {enterMenuMode === true ? (
         <ActiveRentsMenu exitMenu={exitMenu} currentRent={currentRent} />
       ) : (

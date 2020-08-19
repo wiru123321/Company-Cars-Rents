@@ -103,6 +103,7 @@ const Employee = ({ employee, handleDelete, handleUpdate }) => {
 
 const ControlPanel = ({ edit, toggleEdit, handleRemove }) => {
   const classes = useStyles();
+
   return (
     <Grid className={classes.navPanel} container justify="space-evenly">
       <Button onClick={toggleEdit} variant="contained" color="primary">

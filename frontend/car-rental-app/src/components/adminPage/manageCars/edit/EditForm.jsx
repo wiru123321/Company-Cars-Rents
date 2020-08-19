@@ -32,6 +32,7 @@ const EditForm = ({
   handlePhotoUpdate,
 }) => {
   const classes = useStyles();
+
   return (
     <ValidatorForm onSubmit={handleSubmit}>
       <Grid

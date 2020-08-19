@@ -13,6 +13,7 @@ const RequestsNavLink = () => {
 
   return (
     <Nav.Link
+      title="Rent request waiting for check."
       onClick={setActiveRequestToNone}
       href={linkPath}
       style={{ color: "#f3f169", fontSize: "25px" }}

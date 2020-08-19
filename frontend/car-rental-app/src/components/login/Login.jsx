@@ -33,7 +33,6 @@ const Login = () => {
   const classes = useStyles();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [validate, setValidate] = useState(false);
   const { redirectTo, shouldRedirect, failed, errorMessage } = useSelector(
     selectAll
   );

@@ -47,22 +47,24 @@ const ActiveRequestList = ({
             handleReset={handleReset}
           />
         </Paper>
-        {rents.length > 0 ? (
-          rents.map((rent, index) => {
-            const handleMenuModeChange = () => {
-              menuMode(rent);
-            };
-            return (
-              <RentCard
-                key={rent.id}
-                rent={rent}
-                handleMenuModeChange={handleMenuModeChange}
-              />
-            );
-          })
-        ) : (
-          <NotFoundMessage>Active rents not found.</NotFoundMessage>
-        )}
+        <Grid>
+          {rents.length > 0 ? (
+            rents.map((rent, index) => {
+              const handleMenuModeChange = () => {
+                menuMode(rent);
+              };
+              return (
+                <RentCard
+                  key={rent.id}
+                  rent={rent}
+                  handleMenuModeChange={handleMenuModeChange}
+                />
+              );
+            })
+          ) : (
+            <NotFoundMessage>Active rents not found.</NotFoundMessage>
+          )}
+        </Grid>
       </Grid>
     </Grid>
   );
