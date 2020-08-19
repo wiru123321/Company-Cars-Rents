@@ -13,7 +13,7 @@ const useStyles = makeStyles({
     backgroundColor: "#0e153a",
   },
   searchField: {
-    padding: "4px",
+    padding: "8px",
   },
   inputField: {
     minWidth: "30ch",
@@ -60,9 +60,9 @@ const EmployeesSearchBar = ({
           </Grid>
           <Divider orientation="vertical" flexItem />
           <Grid item xs={1}>
-            <Paper className={classes.searchField}>
-              <Button onClick={resetChanges}>Reset</Button>
-            </Paper>
+            <Button onClick={resetChanges}>
+              <Paper className={classes.searchField}>Reset</Paper>
+            </Button>
           </Grid>
         </Grid>
       </Paper>

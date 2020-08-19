@@ -31,7 +31,6 @@ export const fetchPendingEndRents = () => async (dispatch) => {
       },
     });
     dispatch(setRents(response.data));
-    console.log(response);
   } catch (err) {
     console.log(err);
   }
@@ -48,7 +47,6 @@ export const acceptPendingRent = (id, alert) => async (dispatch) => {
     });
     dispatch(fetchPendingEndRents());
     alert.success("Rent accepted.");
-    console.log(response);
   } catch (err) {
     alert.error("Failed to accept rent.");
     console.log(err);

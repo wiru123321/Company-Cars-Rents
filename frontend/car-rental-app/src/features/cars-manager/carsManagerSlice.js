@@ -114,8 +114,16 @@ export const addFault = (faultDTO, alert, fetchActive) => async (dispatch) => {
     dispatch(fetchCars(fetchActive));
     alert.success("Succesfully added issue!");
   } catch (err) {
-    console.log(err.response);
-    alert.error("Failed to add issue! Issues must not repeat!");
+    if (err.response) {
+      if (err.response.status === 409) {
+        console.log(err.response);
+        alert.error(err.response.data);
+      } else {
+        alert.error("Failed to add issue!");
+      }
+    } else {
+      alert.error("Failed to add issue! Issues must not repeat!");
+    }
   }
 };
 
@@ -136,7 +144,13 @@ export const setCarActivity = (
     dispatch(fetchCars(fetchActive));
     alert.success(`Car ${isActive ? "activated" : "suspended"}!`);
   } catch (err) {
-    alert.error("Failed to change car activity.");
+    if (err.response) {
+      alert.error(
+        "Failed to change car activity. Check if car has active rents."
+      );
+    } else {
+      alert.error("Failed to change car activity.");
+    }
   }
 };
 

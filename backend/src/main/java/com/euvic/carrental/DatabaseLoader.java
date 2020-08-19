@@ -150,7 +150,7 @@ public class DatabaseLoader implements CommandLineRunner {
             userRepository.save(new User(null, "admin123", passwordEncoder.encode("apassword123"), "admin@email.com", "Jan", "Kowalski", "123456789", roleRepository.findByName("ADMIN")));
             userRepository.save(new User(null, "user123", passwordEncoder.encode("upassword123"), "user@email.com", "Andrzej", "Wywrot", "123456798", roleRepository.findByName("EMPLOYEE")));
             userRepository.save(new User(null, "kama123", passwordEncoder.encode("upassword123"), "user@email.com", "Kamil", "Susek", "700100110", roleRepository.findByName("EMPLOYEE")));
-            userRepository.save(new User(null, "walo123", passwordEncoder.encode("upassword123"), "walo@email.com", "Wojciech", "Waleszczyk", "666999666", roleRepository.findByName("EMPLOYEE")));
+            userRepository.save(new User(null, "walo123", passwordEncoder.encode("upassword123"), "Wojtekmaj2@o2.pl", "Wojciech", "Waleszczyk", "508376153", roleRepository.findByName("EMPLOYEE")));
 
             final Model model1 = new Model(null, "C350", markService.getEntityByName("Audi"));
             final Model model2 = new Model(null, "Astra", markService.getEntityByName("Opel"));
@@ -249,11 +249,11 @@ public class DatabaseLoader implements CommandLineRunner {
             rentRepository.save(rent3);
             rentRepository.save(rent4);
 
-            final Fault fault1 = new Fault(null, car1, "Wybita przednia szyba", false, true);
-            final Fault fault2 = new Fault(null, car1, "Zarysowany zderzak", false, false);
-            final Fault fault3 = new Fault(null, car1, "Wyrwane drzwi", false, true);
-            final Fault fault4 = new Fault(null, car2, "Zarysowany lakier", false, false);
-            final Fault fault5 = new Fault(null, car2, "Przebita opona", false, true);
+            final Fault fault1 = new Fault(null, car1, "Wybita przednia szyba", LocalDateTime.of(2020, 3, 20, 0, 0), false, true);
+            final Fault fault2 = new Fault(null, car1, "Zarysowany zderzak", LocalDateTime.of(2020, 3, 21, 0, 0), false, false);
+            final Fault fault3 = new Fault(null, car1, "Wyrwane drzwi", LocalDateTime.of(2020, 3, 22, 0, 0), false, true);
+            final Fault fault4 = new Fault(null, car2, "Zarysowany lakier", LocalDateTime.of(2020, 3, 23, 0, 0), false, false);
+            final Fault fault5 = new Fault(null, car2, "Przebita opona", LocalDateTime.of(2020, 3, 24, 0, 0), false, true);
 
             faultService.addEntityToDB(fault1);
             faultService.addEntityToDB(fault2);

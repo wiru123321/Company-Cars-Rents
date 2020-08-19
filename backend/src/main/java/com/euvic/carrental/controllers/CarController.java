@@ -69,12 +69,10 @@ public class CarController {
         if (carService.checkIfOnCompanyCarWithLicensePlateExists(carDTO.getLicensePlate())) {
             return new ResponseEntity<>("Car with given license plate already exist.", HttpStatus.CONFLICT);
         }
-
         final Parking parking = parkingService.mapRestModel(null, carDTO.getParkingDTO());
         final Long parkingId = parkingService.addEntityToDB(parking);
         final Model model = modelService.mapRestModel(null, carDTO.getModelDTO());
         final Long modelId = modelService.addEntityToDB(model);
-
         final Car car = carService.mapRestModel(null, carDTO, parkingId, modelId);
         return ResponseEntity.ok(carService.addEntityToDB(car));
     }
@@ -84,7 +82,9 @@ public class CarController {
         if (!carService.checkIfOnCompanyCarWithLicensePlateExists(newCarDTO.getLicensePlate())) {
             return new ResponseEntity<>("Car with given license plate doesn't exist.", HttpStatus.CONFLICT);
         }
-
+        if ((!newCarDTO.getIsActive()) && (rentService.getActiveRentsByLicensePlate(licensePlate) != null)) {
+            return new ResponseEntity<>("Car with given license plate has not ended rents, so it can not be set as inactive.", HttpStatus.CONFLICT);
+        }
         return ResponseEntity.ok(carService.updateCarInDB(licensePlate, newCarDTO));
     }
 
@@ -92,6 +92,9 @@ public class CarController {
     public ResponseEntity<?> setCarActivityInDB(@RequestParam("isActive") final Boolean isActive, @PathVariable final String licensePlate) {
         if (!carService.checkIfOnCompanyCarWithLicensePlateExists(licensePlate)) {
             return new ResponseEntity<>("Car with given license plate doesn't exist.", HttpStatus.CONFLICT);
+        }
+        if ((!isActive) && (rentService.getActiveRentsByLicensePlate(licensePlate) != null)) {
+            return new ResponseEntity<>("Car with given license plate has not ended rents, so it can not be set as inactive.", HttpStatus.CONFLICT);
         }
 
         return ResponseEntity.ok(carService.setCarActivity(isActive, licensePlate));
@@ -102,7 +105,7 @@ public class CarController {
         if (!carService.checkIfOnCompanyCarWithLicensePlateExists(licensePlate)) {
             return new ResponseEntity<>("Car with given license plate doesn't exist.", HttpStatus.CONFLICT);
         }
-        if (rentService.getRentsByLicensePlate(licensePlate) == null) {
+        if (rentService.getActiveRentsByLicensePlate(licensePlate) == null) {
             final List<Long> deletedCarFaultIds = faultService.setAllFaultsAsInactiveForCertainCar(licensePlate);
             final Long deletedCarId = carService.setCarIsNotInCompany(licensePlate);
             rentHistoryService.setToInactiveByLicensePlate(licensePlate);
@@ -111,23 +114,19 @@ public class CarController {
         } else {
             return new ResponseEntity<>("Car with active rents cannot be deleted", HttpStatus.CONFLICT);
         }
-
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/a/car/upload-car-image/{licensePlate}", produces = {MediaType.IMAGE_PNG_VALUE, "application/json"})
     public ResponseEntity<?> uploadCarImageForExistingCar(@RequestParam("imageFile") final MultipartFile file, @PathVariable final String licensePlate) {
-
         if (!carService.checkIfOnCompanyCarWithLicensePlateExists(licensePlate)) {
             return new ResponseEntity<>("Car with given license plate doesn't exist.", HttpStatus.CONFLICT);
         }
-
         final String addedImagePath;
         try {
             addedImagePath = fileService.uploadCarImage(file);
         } catch (final IOException e) {
             return new ResponseEntity<>("Image get not uploaded", HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
         return ResponseEntity.ok(carService.addExistingImageToExistingCar(addedImagePath, licensePlate));
     }
 

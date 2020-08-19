@@ -38,8 +38,10 @@ const useStyles = makeStyles({
 
 const AddIssuesForm = ({
   description,
+  date,
   setCarInactive,
   handleDescriptionChange,
+  handleDateChange,
   handleCarInactiveChange,
   handleSubmit,
 }) => {
@@ -61,6 +63,17 @@ const AddIssuesForm = ({
             placeholder="Issue description..."
             className={classes.textArea}
           />
+        </Paper>
+        <Paper className={classes.paper}>
+          <Typography>
+            Issue date:{" "}
+            <Input
+              onChange={handleDateChange}
+              value={date}
+              type="date"
+              required
+            />
+          </Typography>
         </Paper>
         <Paper className={classes.paper}>
           <Typography>

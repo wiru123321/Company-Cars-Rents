@@ -1,22 +1,18 @@
 import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Grid } from "@material-ui/core";
-import AddIssuesForm from "./AddIssuesForm";
-import {
-  selectAll,
-  addFault,
-} from "../../../../../features/cars-manager/carsManagerSlice";
+import { addFault } from "../../../features/cars-manager/carsManagerSlice";
 import { useAlert } from "react-alert";
+import AddIssuesForm from "../manageCars/issues/addIssues/AddIssuesForm";
 
-const AddIssues = () => {
+const AddFaultDialog = ({ licensePlate }) => {
   const alert = useAlert();
-  const dispatch = useDispatch();
-  const { currentCar, filterActive } = useSelector(selectAll);
   const [description, setDescription] = useState("");
   const [date, setDate] = useState("");
   const [setCarInactive, changeCarInactive] = useState(false);
+  const dispatch = useDispatch();
 
-  const resetForm = () => {
+  const handleReset = () => {
     setDescription("");
     changeCarInactive(false);
   };
@@ -29,40 +25,35 @@ const AddIssues = () => {
     setDate(event.target.value);
   };
 
-  const handleCarInactiveChange = (event) => {
+  const handleCarActivityChange = (event) => {
     changeCarInactive(event.target.checked);
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    dispatch(
-      addFault(
-        {
-          description,
-          setCarInactive,
-          faultDate: date + "T00:00:00",
-          carLicensePlate: currentCar.licensePlate,
-        },
-        alert,
-        filterActive
-      )
-    );
-    resetForm();
+    let fault = {
+      description: description,
+      faultDate: date + "T00:00:00",
+      setCarInactive: setCarInactive,
+      carLicensePlate: licensePlate,
+    };
+
+    dispatch(addFault(fault, alert));
+    handleReset();
   };
 
   return (
-    <Grid container justify="center">
+    <Grid container style={{ padding: "8px" }}>
       <AddIssuesForm
         description={description}
         date={date}
         setCarInactive={setCarInactive}
         handleDescriptionChange={handleDescriptionChange}
         handleDateChange={handleDateChange}
-        handleCarInactiveChange={handleCarInactiveChange}
+        handleCarInactiveChange={handleCarActivityChange}
         handleSubmit={handleSubmit}
       />
     </Grid>
   );
 };
-
-export default AddIssues;
+export default AddFaultDialog;

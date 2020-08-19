@@ -22,6 +22,12 @@ const useStyles = makeStyles({
 const Car = ({ car }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
+
+  const handleManage = () => {
+    dispatch(setCurrentCar(car));
+    dispatch(enterManageCarMode(true));
+  };
+
   return (
     <Paper className={classes.content}>
       <Grid container justify="space-evenly" alignItems="center">
@@ -39,10 +45,9 @@ const Car = ({ car }) => {
       </Grid>
       <Grid container justify="center" alignItems="center">
         <Button
-          onClick={() => {
-            dispatch(setCurrentCar(car));
-            dispatch(enterManageCarMode(true));
-          }}
+          color="primary"
+          variant="outlined"
+          onClick={handleManage}
           className={classes.maxWidthButton}
         >
           Manage
