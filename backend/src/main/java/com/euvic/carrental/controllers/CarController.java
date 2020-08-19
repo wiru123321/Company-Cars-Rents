@@ -84,6 +84,9 @@ public class CarController {
         if (!carService.checkIfOnCompanyCarWithLicensePlateExists(newCarDTO.getLicensePlate())) {
             return new ResponseEntity<>("Car with given license plate doesn't exist.", HttpStatus.CONFLICT);
         }
+        if ((!newCarDTO.getIsActive())&&(rentService.getRentsByLicensePlate(licensePlate) != null)) {
+            return new ResponseEntity<>("Car with given license plate has not ended rents, so it can not be set as inactive.", HttpStatus.CONFLICT);
+        }
 
         return ResponseEntity.ok(carService.updateCarInDB(licensePlate, newCarDTO));
     }
@@ -92,6 +95,9 @@ public class CarController {
     public ResponseEntity<?> setCarActivityInDB(@RequestParam("isActive") final Boolean isActive, @PathVariable final String licensePlate) {
         if (!carService.checkIfOnCompanyCarWithLicensePlateExists(licensePlate)) {
             return new ResponseEntity<>("Car with given license plate doesn't exist.", HttpStatus.CONFLICT);
+        }
+        if ((!isActive)&&(rentService.getRentsByLicensePlate(licensePlate) != null)) {
+            return new ResponseEntity<>("Car with given license plate has not ended rents, so it can not be set as inactive.", HttpStatus.CONFLICT);
         }
 
         return ResponseEntity.ok(carService.setCarActivity(isActive, licensePlate));
