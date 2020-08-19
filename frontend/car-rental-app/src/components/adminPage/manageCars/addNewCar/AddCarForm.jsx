@@ -122,7 +122,7 @@ const AddCarForm = () => {
         alert.success("Success");
         isUploaded = true;
       })
-      .catch(alert.error("Wrong photo upload."));
+      .catch((error) => console.log(JSON.stringify(error)));
     if (isUploaded) {
       toggleshowAddPhotoButton(false);
       toggleshowSaveButton(true);

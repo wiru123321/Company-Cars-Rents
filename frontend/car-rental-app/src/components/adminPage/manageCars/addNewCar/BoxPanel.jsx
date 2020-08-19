@@ -148,8 +148,6 @@ const BoxPanel = ({
               dispatch(lastInspectionChange(event.target.value))
             }
             value={lastInspection}
-            validators={["required"]}
-            errorMessages={["this field is required"]}
           />
         </Box>
       </Box>
