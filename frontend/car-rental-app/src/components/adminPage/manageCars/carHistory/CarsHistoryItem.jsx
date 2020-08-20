@@ -10,7 +10,7 @@ const useStyles = makeStyles({
     fontSize: "2rem",
   },
   paper: {
-    margin: "1%",
+    margin: "2%",
     padding: "8px",
     minWidth: "30vw",
   },
@@ -24,13 +24,15 @@ const useStyles = makeStyles({
 const CarsHistoryItem = ({ rent }) => {
   const [hide, setHide] = useState(true);
 
+  console.log(rent);
+
   const toggleHide = () => {
     setHide(!hide);
   };
 
   const classes = useStyles();
   return (
-    <Paper className={classes.paper}>
+    <Paper elevation={6} className={classes.paper}>
       <Grid container direction="column">
         {!hide && (
           <Paper className={classes.card}>

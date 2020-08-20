@@ -203,6 +203,22 @@ export const uploadPicture = (licensePlate, file, alert, fetchActive) => async (
   }
 };
 
+export const fetchHistory = (licensePlate, setHistory) => async (dispatch) => {
+  try {
+    const response = await axios.get(
+      API_URL + "/a/rent/car_history/" + licensePlate,
+      {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      }
+    );
+    setHistory(response.data);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export const filterCars = (cars, filterLicensePlate, filterMark) => (
   dispatch
 ) => {

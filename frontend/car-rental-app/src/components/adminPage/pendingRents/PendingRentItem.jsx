@@ -1,10 +1,23 @@
 import React, { useState } from "react";
-import { Grid, Paper, Button, Dialog } from "@material-ui/core";
+import { Grid, Paper, Button, Dialog, makeStyles } from "@material-ui/core";
 import ReservationInfo from "../activeRents/cards/ReservationInfo";
 import AddFaultDialog from "./AddFaultDialog";
 import FaultMessage from "./FaultMessage";
 
+const useStyles = makeStyles({
+  root: {
+    marginTop: "1%",
+    minWidth: "30vw",
+    padding: "4px",
+  },
+  navPanel: {
+    padding: "4px",
+    backgroundColor: "#DCDCDC",
+  },
+});
+
 const PendingRentItem = ({ rent, handleAccept }) => {
+  const classes = useStyles();
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => {
@@ -20,7 +33,7 @@ const PendingRentItem = ({ rent, handleAccept }) => {
   };
 
   return (
-    <Paper style={{ minWidth: "30vw" }}>
+    <Paper className={classes.root}>
       <ReservationInfo
         user={rent.userRentInfo}
         dateFrom={rent.dateFrom}
@@ -30,7 +43,7 @@ const PendingRentItem = ({ rent, handleAccept }) => {
         car={rent.carDTO}
       />
       <FaultMessage faultMessage={rent.faultMessage} />
-      <Paper style={{ padding: "8px" }}>
+      <Paper className={classes.navPanel}>
         <Grid container justify="space-evenly">
           <Button onClick={handleOpen} variant="contained" color="secondary">
             Add issue

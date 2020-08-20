@@ -1,32 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { Grid } from "@material-ui/core";
-import { selectAll } from "../../../../features/cars-manager/carsManagerSlice";
-import { useSelector } from "react-redux";
-import axios from "axios";
+import {
+  selectAll,
+  fetchHistory,
+} from "../../../../features/cars-manager/carsManagerSlice";
+import { useSelector, useDispatch } from "react-redux";
 import NotFoundMessage from "../../messages/NotFoundMessage";
 import CarsHistoryItem from "./CarsHistoryItem";
 
-const API_URL = "http://localhost:8080";
-
 const CarsHistory = () => {
+  const dispatch = useDispatch();
   const { currentCar } = useSelector(selectAll);
-  const [history, setHistory] = useState("");
-  const fetchHistory = () => {
-    axios
-      .get(API_URL + "/a/rent/car_history/" + currentCar.licensePlate, {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      })
-      .then((resp) => {
-        console.log(resp.data);
-        setHistory(resp.data);
-      })
-      .catch((err) => console.log(err));
-  };
+  const [history, setHistory] = useState([]);
 
   useEffect(() => {
-    fetchHistory();
+    dispatch(fetchHistory(currentCar.licensePlate, setHistory));
   }, []);
 
   return (

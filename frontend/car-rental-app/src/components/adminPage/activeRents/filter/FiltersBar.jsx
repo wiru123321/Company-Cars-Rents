@@ -1,65 +1,49 @@
 import React from "react";
-import { makeStyles, Grid, Paper, Input, Button } from "@material-ui/core";
-import SearchIcon from "@material-ui/icons/Search";
+import { makeStyles, Grid, Paper, Button } from "@material-ui/core";
+import FilterInput from "./FilterInput";
 
 const useStyles = makeStyles({
-  input: {
+  button: {
     padding: "4px",
   },
 });
-
-const FiltersInput = ({ onChange, name, placeholder, value }) => {
-  const classes = useStyles();
-
-  return (
-    <Paper className={classes.input}>
-      <SearchIcon />
-      <Input
-        onChange={onChange}
-        value={value}
-        name={name}
-        placeholder={placeholder}
-      />
-    </Paper>
-  );
-};
 
 const FiltersBar = ({ handleChange, filters, handleReset }) => {
   const classes = useStyles();
 
   return (
     <Grid container justify="space-evenly">
-      <FiltersInput
+      <FilterInput
         onChange={handleChange}
         value={filters.name}
         name="name"
         placeholder="Users name"
       />
-      <FiltersInput
+      <FilterInput
         onChange={handleChange}
         value={filters.surname}
         name="surname"
         placeholder="Users surname"
       />
-      <FiltersInput
+      <FilterInput
         onChange={handleChange}
         value={filters.mark}
         name="mark"
         placeholder="Car mark"
       />
-      <FiltersInput
+      <FilterInput
         onChange={handleChange}
         value={filters.model}
         name="model"
         placeholder="Car model"
       />
-      <FiltersInput
+      <FilterInput
         onChange={handleChange}
         value={filters.licensePlate}
         name="licensePlate"
         placeholder="Car license plate"
       />
-      <Paper className={classes.input}>
+      <Paper className={classes.button}>
         <Button onClick={handleReset}>Reset</Button>
       </Paper>
     </Grid>

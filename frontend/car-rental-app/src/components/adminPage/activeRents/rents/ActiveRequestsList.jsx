@@ -12,7 +12,7 @@ const useStyles = makeStyles({
   nav: {
     margin: "1%",
     padding: "18px",
-    backgroundColor: "#0e153a",
+    backgroundColor: "#A9A9A9",
     minWidth: "70vw",
   },
   paper: {
@@ -40,29 +40,31 @@ const ActiveRequestList = ({
   return (
     <Grid container>
       <Grid container direction="column" justify="center" alignItems="center">
-        <Paper className={classes.nav}>
+        <Paper elevation={6} className={classes.nav}>
           <FiltersBar
             handleChange={handleFilterChange}
             filters={filters}
             handleReset={handleReset}
           />
         </Paper>
-        {rents.length > 0 ? (
-          rents.map((rent, index) => {
-            const handleMenuModeChange = () => {
-              menuMode(rent);
-            };
-            return (
-              <RentCard
-                key={rent.id}
-                rent={rent}
-                handleMenuModeChange={handleMenuModeChange}
-              />
-            );
-          })
-        ) : (
-          <NotFoundMessage>Active rents not found.</NotFoundMessage>
-        )}
+        <Grid>
+          {rents.length > 0 ? (
+            rents.map((rent, index) => {
+              const handleMenuModeChange = () => {
+                menuMode(rent);
+              };
+              return (
+                <RentCard
+                  key={rent.id}
+                  rent={rent}
+                  handleMenuModeChange={handleMenuModeChange}
+                />
+              );
+            })
+          ) : (
+            <NotFoundMessage>Active rents not found.</NotFoundMessage>
+          )}
+        </Grid>
       </Grid>
     </Grid>
   );

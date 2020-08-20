@@ -51,6 +51,7 @@ const AdminNavbar = () => {
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="ml-auto">
             <Nav.Link
+              title="Finished rents waiting for accept"
               onClick={handlePendingRentsSelect}
               href="#/adminPage/pendingRents"
               style={{ color: "#f3f169", fontSize: "25px" }}
@@ -58,6 +59,7 @@ const AdminNavbar = () => {
               Pending rents
             </Nav.Link>
             <Nav.Link
+              title="Current rents"
               onClick={handleActiveRentsSelect}
               href="#/adminPage/activeRents"
               style={{ color: "#f3f169", fontSize: "25px" }}
@@ -72,8 +74,13 @@ const AdminNavbar = () => {
               }
               id="collasible-nav-dropdown"
             >
-              <NavDropdown.Item href="#adminPage">Add car</NavDropdown.Item>
-              <NavDropdown.Item href="#adminPage/removeCar">
+              <NavDropdown.Item title="Add new car." href="#adminPage">
+                Add car
+              </NavDropdown.Item>
+              <NavDropdown.Item
+                title="Remove, update or manage cars."
+                href="#adminPage/removeCar"
+              >
                 Manage car
               </NavDropdown.Item>
               <NavDropdown.Divider />
@@ -86,15 +93,22 @@ const AdminNavbar = () => {
               }
               id="collasible-nav-dropdown"
             >
-              <NavDropdown.Item href="#adminPage/addEmployee">
+              <NavDropdown.Item
+                title="Add new employee."
+                href="#adminPage/addEmployee"
+              >
                 Add employee
               </NavDropdown.Item>
-              <NavDropdown.Item href="#adminPage/removeEmployer">
+              <NavDropdown.Item
+                title="Remove, update or check employees."
+                href="#adminPage/removeEmployer"
+              >
                 Manage employees
               </NavDropdown.Item>
               <NavDropdown.Divider />
             </NavDropdown>
             <Nav.Link
+              title="Logout"
               href="/login"
               onClick={handleLogout}
               style={{ color: "red", fontSize: "25px" }}

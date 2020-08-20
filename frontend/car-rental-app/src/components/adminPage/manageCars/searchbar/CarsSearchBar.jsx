@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Paper, InputBase, Button, makeStyles } from "@material-ui/core";
+import { Grid, Paper, Input, Button, makeStyles } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 
 const useStyles = makeStyles({
@@ -7,7 +7,10 @@ const useStyles = makeStyles({
     marginTop: "1%",
     width: "60vw",
     padding: "18px",
-    backgroundColor: "#0e153a",
+    backgroundColor: "#A9A9A9",
+  },
+  searchField: {
+    padding: "8px",
   },
   searchActive: {
     backgroundColor: "green",
@@ -33,28 +36,32 @@ const CarsSearchBar = ({
 }) => {
   const classes = useStyles();
   return (
-    <Paper className={classes.box}>
+    <Paper elevation={6} className={classes.box}>
       <Grid container direction="column" alignItems="center">
         <Grid container justify="space-between" alignItems="center">
           <Grid item xs={3}>
-            <Paper>
-              <SearchIcon />
-              <InputBase
-                onChange={handleLicensePlateFilter}
-                value={filterLicensePlate}
-                placeholder="Search license plate"
-              />
-            </Paper>
+            <Grid container>
+              <Paper className={classes.searchField}>
+                <SearchIcon />
+                <Input
+                  onChange={handleLicensePlateFilter}
+                  value={filterLicensePlate}
+                  placeholder="Search license plate"
+                />
+              </Paper>
+            </Grid>
           </Grid>
           <Grid item xs={3}>
-            <Paper>
-              <SearchIcon />
-              <InputBase
-                onChange={handleMarkFilter}
-                value={filterMark}
-                placeholder="Search mark"
-              />
-            </Paper>
+            <Grid container>
+              <Paper className={classes.searchField}>
+                <SearchIcon />
+                <Input
+                  onChange={handleMarkFilter}
+                  value={filterMark}
+                  placeholder="Search mark"
+                />
+              </Paper>
+            </Grid>
           </Grid>
           <Grid item xs={3}>
             <Grid container>

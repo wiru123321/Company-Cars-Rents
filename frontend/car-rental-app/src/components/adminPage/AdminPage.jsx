@@ -20,9 +20,9 @@ const AdminPage = () => {
   }, []);
 
   return (
-    <div style={{ height: "100%" }}>
+    <div style={{ height: "100%", backgroundColor: "#708090" }}>
       <UserNavbar />
-      <HashRouter basename="/adminPage">
+      <HashRouter basename="/adminPage/">
         <Switch>
           <Route path="/" exact component={AddNewCar} />
           <Route path="/pendingRents" component={PendingRents} />
@@ -31,6 +31,7 @@ const AdminPage = () => {
           <Route path="/addEmployee" component={AddEmployee} />
           <Route path="/removeEmployer" component={EmployeesManager} />
           <Route path="/rentRequest" component={RentRequests} />
+          <Route path="*" exact component={AddNewCar} />
         </Switch>
       </HashRouter>
       <Footer />
