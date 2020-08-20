@@ -96,7 +96,6 @@ public class CarController {
         if ((!isActive) && (rentService.getActiveRentsByLicensePlate(licensePlate) != null)) {
             return new ResponseEntity<>("Car with given license plate has not ended rents, so it can not be set as inactive.", HttpStatus.CONFLICT);
         }
-
         return ResponseEntity.ok(carService.setCarActivity(isActive, licensePlate));
     }
 
