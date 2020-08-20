@@ -16,16 +16,14 @@ public class RentController {
     private final RentService rentService;
     private final CarService carService;
     private final ParkingService parkingService;
-    private final ParkingHistoryService parkingHistoryService;
     private final RentHistoryService rentHistoryService;
 
     @Autowired
-    public RentController(final UserService userService, final RentService rentService, final CarService carService, final ParkingService parkingService, final ParkingHistoryService parkingHistoryService, final RentHistoryService rentHistoryService) {
+    public RentController(final UserService userService, final RentService rentService, final CarService carService, final ParkingService parkingService, final RentHistoryService rentHistoryService) {
         this.userService = userService;
         this.rentService = rentService;
         this.carService = carService;
         this.parkingService = parkingService;
-        this.parkingHistoryService = parkingHistoryService;
         this.rentHistoryService = rentHistoryService;
     }
 
@@ -183,7 +181,6 @@ public class RentController {
         return ResponseEntity.status(HttpStatus.OK).body("Passed");
     }
 
-    //TODO test it
     @RequestMapping(method = RequestMethod.DELETE, value = "/e/rent/end_rent/{id}")
     public ResponseEntity<?> endRent(@PathVariable final Long id, @RequestBody final EndRentDTO endRentDTO) {
         final Rent rent = rentService.getEntityById(id);

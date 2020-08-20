@@ -277,7 +277,7 @@ public class RentService implements RentServiceInterface {
     }
 
     private boolean checkIfDateIsAfterCurrentDate(final LocalDateTime from) {
-        return from.isAfter(LocalDateTime.now());
+        return from.isAfter(LocalDateTime.now().plusMinutes(15));
     }
 
     private List<RentPendingDTO> convertRentListToRentPendingDTOList(final List<Rent> rentArrayList) {
