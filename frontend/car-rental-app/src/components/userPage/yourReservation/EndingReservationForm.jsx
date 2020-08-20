@@ -45,7 +45,7 @@ const EndingReservationForm = () => {
 
   function submitCar() {
     let newReservation = {
-      parkingDTIO: {
+      parkingDTO: {
         town: town,
         streetName: streetName,
         postalCode: postalCode,
