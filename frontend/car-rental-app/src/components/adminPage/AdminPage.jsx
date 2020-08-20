@@ -20,7 +20,7 @@ const AdminPage = () => {
   }, []);
 
   return (
-    <div style={{ height: "100%" }}>
+    <div style={{ height: "100%", backgroundColor: "#708090" }}>
       <UserNavbar />
       <HashRouter basename="/adminPage/">
         <Switch>

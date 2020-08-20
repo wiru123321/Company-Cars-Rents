@@ -11,7 +11,7 @@ const useStyles = makeStyles({
   content: {
     padding: "8px",
     marginTop: "1%",
-    width: "50vw",
+    minWidth: "40vw",
   },
   maxWidthButton: {
     minWidth: "100%",

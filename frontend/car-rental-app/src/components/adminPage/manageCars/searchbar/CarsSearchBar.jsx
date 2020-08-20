@@ -7,7 +7,7 @@ const useStyles = makeStyles({
     marginTop: "1%",
     width: "60vw",
     padding: "18px",
-    backgroundColor: "#0e153a",
+    backgroundColor: "#A9A9A9",
   },
   searchField: {
     padding: "8px",
@@ -36,7 +36,7 @@ const CarsSearchBar = ({
 }) => {
   const classes = useStyles();
   return (
-    <Paper className={classes.box}>
+    <Paper elevation={6} className={classes.box}>
       <Grid container direction="column" alignItems="center">
         <Grid container justify="space-between" alignItems="center">
           <Grid item xs={3}>

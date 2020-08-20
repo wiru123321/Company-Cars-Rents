@@ -10,7 +10,7 @@ const useStyles = makeStyles({
   searchBar: {
     padding: "16px",
     minWidth: "50vw",
-    backgroundColor: "#0e153a",
+    backgroundColor: "#A9A9A9",
   },
   searchField: {
     padding: "8px",
@@ -30,7 +30,7 @@ const EmployeesSearchBar = ({
   const classes = useStyles();
   return (
     <Grid className={classes.box}>
-      <Paper className={classes.searchBar}>
+      <Paper elevation={4} className={classes.searchBar}>
         <Grid container justify="space-evenly" alignItems="center">
           <Grid item xs={5}>
             <Grid container>
