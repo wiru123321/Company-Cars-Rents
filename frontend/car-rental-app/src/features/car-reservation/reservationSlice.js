@@ -12,13 +12,14 @@ const initialState = {
   choose: true,
   dateIsChoosen: true,
   isCarFormActive: false,
-  choosenCar: 0,
+  choosenCar: "",
   stepOne: true,
   stepTwo: false,
   stepThree: false,
   stepFour: false,
   finishForm: false,
   isEndOfForm: true,
+  disableBack: false,
   cars: [],
 };
 
@@ -93,6 +94,9 @@ export const reservationSlice = createSlice({
     setChoose: (state) => {
       state.choose = !state.choose;
     },
+    setdisableBack: (state) => {
+      state.disableBack = !state.disableBack;
+    },
   },
 });
 
@@ -118,6 +122,7 @@ export const {
   setisChoosen,
   setChoose,
   setisEndOfForm,
+  setdisableBack,
 } = reservationSlice.actions;
 
 export const selectCars = (state) => state.reservation.cars;
@@ -141,6 +146,8 @@ export const selectStepOne = (state) => state.reservation.stepOne;
 export const selectStepTwo = (state) => state.reservation.stepTwo;
 export const selectStepThree = (state) => state.reservation.stepThree;
 export const selectStepFour = (state) => state.reservation.stepFour;
+export const selectchoosenCar = (state) => state.reservation.choosenCar;
+export const selectdisableBack = (state) => state.reservation.disableBack;
 
 export const selectIsCarFormActive = (state) =>
   state.reservation.isCarFormActive;

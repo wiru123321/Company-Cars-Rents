@@ -40,32 +40,43 @@ const Reservation = () => {
 
   function handleBeginDateChange(event) {
     dispatch(beginDateChange(event.target.value));
+    if (beginDate && beginHour && endDate && endHour) {
+      dispatch(setisEndOfForm());
+    }
   }
 
   function handleBeginHourChange(event) {
     dispatch(beginHourChange(event.target.value));
+    if (beginDate && beginHour && endDate && endHour) {
+      dispatch(setisEndOfForm());
+    }
   }
 
   function handleEndDateChange(event) {
     dispatch(endDateChange(event.target.value));
+    if (beginDate && beginHour && endDate && endHour) {
+      dispatch(setisEndOfForm());
+    }
   }
 
   function handleEndHourChange(event) {
-    dispatch(setisEndOfForm());
     dispatch(endHourChange(event.target.value));
+    if (beginDate && beginHour && endDate && endHour) {
+      dispatch(setisEndOfForm());
+    }
   }
   function sumbitDataHander() {
     let dateFromDateTo = {
       dateFrom: beginDate + "T" + beginHour + ":00",
       dateTo: endDate + "T" + endHour + ":00",
     };
-    if (beginDate && beginHour && endDate && endHour && endHour) {
+    if (beginDate && beginHour && endDate && endHour) {
       dispatch(setStepOne());
       dispatch(setStepTwo());
     }
 
     dispatch(fetchCarsAvaiableInDate(dateFromDateTo, alert));
-    if (beginDate && beginHour && endDate && endHour && endHour) {
+    if (beginDate && beginHour && endDate && endHour) {
       dispatch(dateIsChoosenHandler());
       dispatch(isCarFormActiveHandler());
     }

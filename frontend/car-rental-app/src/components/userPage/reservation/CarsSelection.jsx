@@ -7,16 +7,18 @@ import {
   selectCars,
   chooseCar,
   setisEndOfForm,
+  selectchoosenCar,
 } from "../../../features/car-reservation/reservationSlice";
+import DoneIcon from "@material-ui/icons/Done";
 
 const CarsSelection = () => {
   const dispatch = useDispatch();
   const cars = useSelector(selectCars);
+  const currentIndex = useSelector(selectchoosenCar);
   let btnColor = "";
 
   function toggleSuggest(index) {
     dispatch(chooseCar(index));
-    dispatch(setisEndOfForm());
   }
 
   return (
@@ -44,6 +46,17 @@ const CarsSelection = () => {
                 </div>
               </Box>
             </ListItem>
+            {index === currentIndex && (
+              <Paper
+                style={{
+                  backgroundColor: "#00FF7F",
+                  minWidth: "6vw",
+                  textAlign: "center",
+                }}
+              >
+                <DoneIcon />
+              </Paper>
+            )}
           </Paper>
         ))}
       </List>

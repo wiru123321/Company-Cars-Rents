@@ -15,6 +15,7 @@ import {
   selectendHour,
   setStepFour,
   setisEndOfForm,
+  setdisableBack,
 } from "../../../features/car-reservation/reservationSlice";
 import { ParkingData } from "./ReservationDataFormReserv";
 import { useAlert } from "react-alert";
@@ -35,8 +36,6 @@ const SelectedCar = () => {
   const beginHour = useSelector(selectbeginHour);
   const endDate = useSelector(selectendDate);
   const endHour = useSelector(selectendHour);
-
-  const toggleCarChoose = () => dispatch(toggleChoose());
 
   const toggleCarReserve = () => {
     let rentDTO = {
@@ -66,12 +65,8 @@ const SelectedCar = () => {
     ) {
       dispatch(setStepFour());
       dispatch(setisEndOfForm());
+      dispatch(setdisableBack());
     }
-  };
-
-  const undoSelection = () => {
-    dispatch(dateIsChoosenHandler());
-    dispatch(isCarFormActiveHandler());
   };
   return (
     <div>
