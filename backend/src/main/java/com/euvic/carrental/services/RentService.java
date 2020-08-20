@@ -59,6 +59,20 @@ public class RentService implements RentServiceInterface {
         }
     }
 
+    @Override //TODO test it
+    public void deleteAndUpdateRentAndParkings(final Rent rent, final ParkingDTO parkingDTO) {
+        final Long parkingFromId = rent.getParkingFrom().getId();
+        final Long parkingToId = rent.getParkingTo().getId();
+        if (parkingDTO != null) {
+            this.updateNextRent(rent);
+        }
+        this.deleteRent(rent);
+        parkingService.deleteParkingById(parkingFromId);
+        if (parkingDTO == null) {
+            parkingService.deleteParkingById(parkingToId);
+        }
+    }
+
     @Override
     public boolean checkIfRentIsAllowedToBeRequested(final Rent rent) {
         boolean toReturn = true;

@@ -29,6 +29,17 @@ public class ParkingService implements ParkingServiceInterface {
         return parkingRepository.save(parking).getId();
     }
 
+    @Override //TODO test it
+    public Long choosesNotNullParkingAndAddToDB(final ParkingDTO parkingDTOFromCar, final ParkingDTO parkingDTOFromUser) {
+        final Long id;
+        if (parkingDTOFromUser != null) {
+            id = this.addEntityToDB(this.mapRestModel(null, parkingDTOFromUser));
+        } else {
+            id = this.addEntityToDB(this.mapRestModel(null, parkingDTOFromCar));
+        }
+        return id;
+    }
+
     @Override
     public void updateParkingInDb(final Long oldParkingId, final ParkingDTO newParkingDTO) {
         final Parking updatedParking = this.mapRestModel(oldParkingId, newParkingDTO);

@@ -1,14 +1,8 @@
 package com.euvic.carrental.services;
 
-import com.euvic.carrental.model.Car;
-import com.euvic.carrental.model.ParkingHistory;
-import com.euvic.carrental.model.RentHistory;
-import com.euvic.carrental.model.User;
+import com.euvic.carrental.model.*;
 import com.euvic.carrental.repositories.RentHistoryRepository;
-import com.euvic.carrental.responses.CarDTO;
-import com.euvic.carrental.responses.ParkingHistoryDTO;
-import com.euvic.carrental.responses.RentHistoryDTO;
-import com.euvic.carrental.responses.RentHistoryEndPendingDTO;
+import com.euvic.carrental.responses.*;
 import com.euvic.carrental.responses.User.UserRentInfo;
 import com.euvic.carrental.services.interfaces.RentHistoryServiceInterface;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -50,6 +44,17 @@ public class RentHistoryService implements RentHistoryServiceInterface {
             temp.setIsActive(false);
             rentHistoryRepository.save(temp);
         }
+    }
+
+    @Override //TODO Test it
+    public void addNewRentHistoryWhenAdministratorRejectRequest(final RentPermitRejectDTO rentPermitRejectDTO, final Rent rent) {
+        final ParkingHistory parkingFrom = new ParkingHistory(null, rent.getParkingFrom());
+        final ParkingHistory parkingTo = new ParkingHistory(null, rent.getParkingTo());
+        final RentHistory rentHistory = new RentHistory(null, rent.getUser(), rent.getCar(), rent.getDateFrom(), rent.getDateTo(), parkingFrom
+                , parkingTo, true, false, rent.getReasonForTheLoan(), rentPermitRejectDTO.getResponse(), "");
+        parkingHistoryService.addEntityToDB(parkingFrom);
+        parkingHistoryService.addEntityToDB(parkingTo);
+        this.addEntityToDB(rentHistory);
     }
 
     @Override
