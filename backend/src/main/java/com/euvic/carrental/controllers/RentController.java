@@ -62,6 +62,7 @@ public class RentController {
         return ResponseEntity.ok(rentHistoryService.getAllDTOsByCar(carService.getOnCompanyEntityByLicensePlate(licensePlate)));
     }
 
+    //TODO refactor
     @RequestMapping(method = RequestMethod.PUT, value = "/a/rent/change_car_in_rent/{id}")
     public ResponseEntity<?> editRent(@PathVariable final Long id, @RequestParam final String licensePlate) {
 
@@ -90,6 +91,7 @@ public class RentController {
         return ResponseEntity.status(responseCode).body(message);
     }
 
+    //TODO refactor
     @RequestMapping(method = RequestMethod.PUT, value = "/a/rent/permit_end_rent/{id}")
     public ResponseEntity<?> permitEndRent(@PathVariable final Long id) {
         final RentHistory rentHistory = rentHistoryService.getEntityById(id);
@@ -107,6 +109,7 @@ public class RentController {
         return ResponseEntity.status(responseCode).body(message);
     }
 
+    //TODO refactor
     @RequestMapping(method = RequestMethod.PUT, value = "/a/rent/permit/{id}")
     public ResponseEntity<?> permitRent(@PathVariable final Long id, @RequestBody final RentPermitRejectDTO rentPermitRejectDTO) {
         final Rent rent = rentService.getEntityById(id);
@@ -138,6 +141,7 @@ public class RentController {
         return ResponseEntity.status(responseCode).body(message);
     }
 
+    //TODO refactor
     @RequestMapping(method = RequestMethod.DELETE, value = "/a/rent/reject/{id}")
     public ResponseEntity<?> rejectRent(@PathVariable final Long id, @RequestBody final RentPermitRejectDTO rentPermitRejectDTO) {
         final Rent rent = rentService.getEntityById(id);
@@ -191,6 +195,7 @@ public class RentController {
         return ResponseEntity.ok(rentService.getActiveCarsBetweenDates(new DateFromDateTo(dateFrom, dateTo)));
     }
 
+    //TODO refactor
     @RequestMapping(method = RequestMethod.POST, value = "/e/rent/{licensePlate}")
     public ResponseEntity<?> addRent(@PathVariable final String licensePlate, @RequestBody final RentDTO rentDTO) {
         final User user = userService.getEntityByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
@@ -232,6 +237,7 @@ public class RentController {
         return ResponseEntity.status(responseCode).body(message);
     }
 
+    //TODO refactor
     @RequestMapping(method = RequestMethod.DELETE, value = "/e/rent/revoke_request/{id}")
     public ResponseEntity<?> revokeRentRequest(@PathVariable final Long id) {
         final User user = userService.getEntityByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
@@ -260,6 +266,7 @@ public class RentController {
         return ResponseEntity.status(responseCode).body(message);
     }
 
+    //TODO refactor
     @RequestMapping(method = RequestMethod.DELETE, value = "/e/rent/end_rent/{id}")
     public ResponseEntity<?> endRent(@PathVariable final Long id, @RequestBody final EndRentDTO endRentDTO) {
         final Rent rent = rentService.getEntityById(id);

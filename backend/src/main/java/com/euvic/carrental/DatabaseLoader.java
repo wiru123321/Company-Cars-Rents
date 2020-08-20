@@ -152,7 +152,7 @@ public class DatabaseLoader implements CommandLineRunner {
             userRepository.save(new User(null, "kama123", passwordEncoder.encode("upassword123"), "Kamil@email.com", "Kamil", "Susek", "663232767", roleRepository.findByName("EMPLOYEE")));
             userRepository.save(new User(null, "walo123", passwordEncoder.encode("upassword123"), "Wojtekmaj2@o2.pl", "Wojciech", "Waleszczyk", "508376153", roleRepository.findByName("EMPLOYEE")));
 
-            final Model model1 = new Model(null, "C350", markService.getEntityByName("Audi"));
+            final Model model1 = new Model(null, "TT", markService.getEntityByName("Audi"));
             final Model model2 = new Model(null, "Astra", markService.getEntityByName("Opel"));
             final Model model3 = new Model(null, "M5", markService.getEntityByName("BMW"));
 
@@ -188,20 +188,24 @@ public class DatabaseLoader implements CommandLineRunner {
             final Long parkingId12 = parkingService.addEntityToDB(parking12);
 
 
+            String exampleCarsPhotosDir = System.getProperty("user.dir") + "/src/main/upload/static/images/cars/examples/";
             final Car car1 = new Car(null, "WN101", 100, 4, 5, 5,
                     gearboxTypeService.getEntityByName("Automatic"), fuelTypeService.getEntityByName("Gasoline"),
                     LocalDateTime.of(2000, 3, 25, 0, 0), 1990, true, 200000, modelService.getEntityById(modelId1),
                     parkingService.getEntityById(parkingId10), colourService.getEntityByName("Red"), typeService.getEntityByName("Sedan"));
+            car1.setImagePath(exampleCarsPhotosDir + "AudiTT.png");
 
             final Car car2 = new Car(null, "SBE33212", 120, 1, 4, 3,
                     gearboxTypeService.getEntityByName("Manual"), fuelTypeService.getEntityByName("Diesel"),
                     LocalDateTime.of(2000, 3, 25, 0, 0), 2000, true, 120000, modelService.getEntityById(modelId2),
                     parkingService.getEntityById(parkingId11), colourService.getEntityByName("Blue"), typeService.getEntityByName("Coupe"));
+            car2.setImagePath(exampleCarsPhotosDir + "OpelAstra.png");
 
             final Car car3 = new Car(null, "SBE11212", 250, 4, 5, 5,
                     gearboxTypeService.getEntityByName("Automatic"), fuelTypeService.getEntityByName("Diesel"),
                     LocalDateTime.of(2000, 3, 25, 0, 0), 2014, true, 100000, modelService.getEntityById(modelId3),
                     parkingService.getEntityById(parkingId12), colourService.getEntityByName("Green"), typeService.getEntityByName("Sedan"));
+            car3.setImagePath(exampleCarsPhotosDir + "BMWM5.png");
 
             carService.addEntityToDB(car1);
             carService.addEntityToDB(car2);

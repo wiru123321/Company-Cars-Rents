@@ -88,7 +88,7 @@ const AdminNavbar = () => {
             <NavDropdown
               title={
                 <span style={{ color: "#f3f169", fontSize: "25px" }}>
-                  Employer
+                  Employee
                 </span>
               }
               id="collasible-nav-dropdown"

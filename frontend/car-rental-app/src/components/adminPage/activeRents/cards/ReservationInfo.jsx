@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Paper, makeStyles } from "@material-ui/core";
+import { Grid, Paper, makeStyles, Typography } from "@material-ui/core";
 import UserInfo from "../resrvationUi/UserInfo";
 import ReservationDate from "../resrvationUi/ReservationDate";
 import CarInfoCard from "../resrvationUi/CarInfoCard";
@@ -20,6 +20,7 @@ const ReservationInfo = ({
   car,
   parkingFrom,
   parkingTo,
+  adminResponseForTheRequest,
 }) => {
   const classes = useStyles();
 
@@ -40,6 +41,12 @@ const ReservationInfo = ({
       <Paper className={classes.item}>
         <ParkingInfo title="End parking" parking={parkingTo} />
       </Paper>
+      {adminResponseForTheRequest && (
+        <Paper className={classes.item}>
+          <Typography>Admins response</Typography>
+          <Typography>{adminResponseForTheRequest}</Typography>
+        </Paper>
+      )}
     </Grid>
   );
 };

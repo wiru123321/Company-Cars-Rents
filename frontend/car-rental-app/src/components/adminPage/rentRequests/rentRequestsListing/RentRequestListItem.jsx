@@ -2,7 +2,14 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { UserData, ReservationDate } from "./ItemComponents";
 import { chooseRequest } from "../../../../features/rents/rentsSlice";
-import { Grid, Button, Paper, Divider, makeStyles } from "@material-ui/core";
+import {
+  Grid,
+  Button,
+  Paper,
+  Divider,
+  makeStyles,
+  Typography,
+} from "@material-ui/core";
 
 const useStyles = makeStyles({
   paper: {
@@ -10,10 +17,19 @@ const useStyles = makeStyles({
     marginTop: "1%",
   },
   box: {
-    minHeight: "10vh",
+    minHeight: "30vh",
   },
   checkButton: {
+    padding: "4px",
+    marginTop: "1%",
     width: "100%",
+  },
+  title: {
+    fontSize: "1.6rem",
+  },
+  reason: {
+    padding: "8px",
+    wordWrap: "break-word",
   },
 });
 
@@ -44,10 +60,20 @@ const RentRequestListItem = ({ rent, index }) => {
         <Grid item>
           <ReservationDate
             beginDate={dateFrom.slice(0, 10)}
-            beginHour={dateFrom.slice(10, 19)}
+            beginHour={dateFrom.slice(11, 19)}
             endDate={dateTo.slice(0, 10)}
-            endHour={dateTo.slice(10, 19)}
+            endHour={dateTo.slice(11, 19)}
           />
+        </Grid>
+        <Grid item>
+          <Paper elevation={6} className={classes.reason}>
+            <Typography className={classes.title}>Rent reason:</Typography>
+            {rent.reasonForTheLoan ? (
+              <Typography>{rent.reasonForTheLoan}</Typography>
+            ) : (
+              <Typography>None</Typography>
+            )}
+          </Paper>
         </Grid>
         <Grid item>
           <Button

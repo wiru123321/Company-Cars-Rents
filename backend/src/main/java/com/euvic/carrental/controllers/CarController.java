@@ -3,6 +3,7 @@ package com.euvic.carrental.controllers;
 import com.euvic.carrental.model.Car;
 import com.euvic.carrental.model.Model;
 import com.euvic.carrental.model.Parking;
+import com.euvic.carrental.model.Rent;
 import com.euvic.carrental.responses.CarDTO;
 import com.euvic.carrental.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,7 +83,8 @@ public class CarController {
         if (!carService.checkIfOnCompanyCarWithLicensePlateExists(newCarDTO.getLicensePlate())) {
             return new ResponseEntity<>("Car with given license plate doesn't exist.", HttpStatus.CONFLICT);
         }
-        if ((!newCarDTO.getIsActive()) && (rentService.getActiveRentsByLicensePlate(licensePlate) != null)) {
+        List<Rent> carActiveRents = rentService.getActiveRentsByLicensePlate(licensePlate);
+        if ((!newCarDTO.getIsActive()) && (!carActiveRents.isEmpty())) {
             return new ResponseEntity<>("Car with given license plate has not ended rents, so it can not be set as inactive.", HttpStatus.CONFLICT);
         }
         return ResponseEntity.ok(carService.updateCarInDB(licensePlate, newCarDTO));
@@ -93,11 +95,11 @@ public class CarController {
         if (!carService.checkIfOnCompanyCarWithLicensePlateExists(licensePlate)) {
             return new ResponseEntity<>("Car with given license plate doesn't exist.", HttpStatus.CONFLICT);
         }
-        if ((!isActive) && (rentService.getActiveRentsByLicensePlate(licensePlate) != null)) {
+        List<Rent> carActiveRents = rentService.getActiveRentsByLicensePlate(licensePlate);
+        if ((!isActive) && (!carActiveRents.isEmpty())) {
             return new ResponseEntity<>("Car with given license plate has not ended rents, so it can not be set as inactive.", HttpStatus.CONFLICT);
         }
-
-        return ResponseEntity.ok(carService.setCarActivity(isActive, licensePlate));
+         return ResponseEntity.ok(carService.setCarActivity(isActive, licensePlate));
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/a/car/{licensePlate}")

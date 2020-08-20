@@ -41,6 +41,7 @@ const PendingRentItem = ({ rent, handleAccept }) => {
         parkingFrom={rent.parkingFrom}
         parkingTo={rent.parkingTo}
         car={rent.carDTO}
+        adminResponseForTheRequest={rent.adminResponseForTheRequest}
       />
       <FaultMessage faultMessage={rent.faultMessage} />
       <Paper className={classes.navPanel}>
