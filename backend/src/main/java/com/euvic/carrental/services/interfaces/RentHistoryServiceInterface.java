@@ -1,12 +1,12 @@
 package com.euvic.carrental.services.interfaces;
 
 import com.euvic.carrental.model.Car;
+import com.euvic.carrental.model.ParkingHistory;
 import com.euvic.carrental.model.Rent;
 import com.euvic.carrental.model.RentHistory;
 import com.euvic.carrental.responses.CarDTO;
 import com.euvic.carrental.responses.RentHistoryDTO;
 import com.euvic.carrental.responses.RentHistoryEndPendingDTO;
-import com.euvic.carrental.responses.RentPermitRejectDTO;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,7 +16,7 @@ public interface RentHistoryServiceInterface {
 
     void setToInactiveByLicensePlate(String licensePlate);
 
-    void addNewRentHistoryWhenAdministratorRejectRequest(RentPermitRejectDTO rentPermitRejectDTO, Rent rent);
+    void addNewRentHistoryWhenRentEnd(String adminResponse, Rent rent, ParkingHistory parkingHistoryTo);
 
     RentHistoryEndPendingDTO getRentEndById(Long id);
 

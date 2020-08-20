@@ -76,14 +76,18 @@ public class RentService implements RentServiceInterface {
     @Override
     public boolean checkIfRentIsAllowedToBeRequested(final Rent rent) {
         boolean toReturn = true;
-        final List<Rent> rentList = this.getActiveRentsByLicensePlate(rent.getCar().getLicensePlate());
+        if (this.checkIfDateIsAfterCurrentDate(rent.getDateFrom())) {
+            final List<Rent> rentList = this.getActiveRentsByLicensePlate(rent.getCar().getLicensePlate());
 
-        if (rentList != null) {
-            for (final Rent temp : rentList) {
-                if (this.checkDate(rent.getDateFrom(), rent.getDateTo(), new DateFromDateTo(temp.getDateFrom(), temp.getDateTo()))) {
-                    toReturn = false;
+            if (rentList != null) {
+                for (final Rent temp : rentList) {
+                    if (this.checkDate(rent.getDateFrom(), rent.getDateTo(), new DateFromDateTo(temp.getDateFrom(), temp.getDateTo()))) {
+                        toReturn = false;
+                    }
                 }
             }
+        } else {
+            toReturn = false;
         }
         return toReturn;
     }
@@ -270,6 +274,10 @@ public class RentService implements RentServiceInterface {
                 && dateFromDateTo.getDateTo().isAfter(dateTo))
                 || (dateFromDateTo.getDateFrom().isEqual(dateFrom) || dateFromDateTo.getDateFrom().isEqual(dateTo))
                 || (dateFromDateTo.getDateTo().isEqual(dateFrom) || dateFromDateTo.getDateTo().isEqual(dateTo));
+    }
+
+    private boolean checkIfDateIsAfterCurrentDate(final LocalDateTime from) {
+        return from.isAfter(LocalDateTime.now());
     }
 
     private List<RentPendingDTO> convertRentListToRentPendingDTOList(final List<Rent> rentArrayList) {
