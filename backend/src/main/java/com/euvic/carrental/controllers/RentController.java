@@ -9,8 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-
 @RestController
 @CrossOrigin
 public class RentController {
@@ -120,7 +118,7 @@ public class RentController {
         if (rent.getIsActive()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Rent request doesn't exist");
         }
-        rentHistoryService.addNewRentHistoryWhenAdministratorRejectRequest(rentPermitRejectDTO, rent);
+        rentHistoryService.addNewRentHistoryWhenRentEnd(rentPermitRejectDTO.getResponse(), rent, null);
         rentService.deleteAndUpdateRentAndParkings(rent, null);
 
         return ResponseEntity.status(HttpStatus.OK).body("Passed");
@@ -162,7 +160,7 @@ public class RentController {
         final Long parkingFromId = parkingService.addEntityToDB(parkingService.mapRestModel(null, new ParkingDTO(car.getParking())));
         final Rent rent = new Rent(null, user, car, rentDTO.getDateFrom(), rentDTO.getDateTo(), parkingService.getEntityById(parkingFromId), parkingService.getEntityById(id), false, rentDTO.getReasonForTheLoan(), "", "");
         if (!rentService.checkIfRentIsAllowedToBeRequested(rent)) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Car is already rented for this date");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Car is already rented for this date or date is before current date");
         }
         rentService.addEntityToDB(rent);
         return ResponseEntity.status(HttpStatus.OK).body("Passed");
@@ -185,7 +183,7 @@ public class RentController {
         return ResponseEntity.status(HttpStatus.OK).body("Passed");
     }
 
-    //TODO refactor
+    //TODO test it
     @RequestMapping(method = RequestMethod.DELETE, value = "/e/rent/end_rent/{id}")
     public ResponseEntity<?> endRent(@PathVariable final Long id, @RequestBody final EndRentDTO endRentDTO) {
         final Rent rent = rentService.getEntityById(id);
@@ -198,7 +196,6 @@ public class RentController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Rent is not belong to this user");
         }
 
-        final ParkingHistory parkingFrom = new ParkingHistory(null, rent.getParkingFrom());
         final ParkingHistory parkingTo;
 
         if (endRentDTO.getParkingDTO() == null) {
@@ -211,12 +208,7 @@ public class RentController {
             rent.getCar().setParking(carParking);
         }
 
-        final RentHistory rentHistory = new RentHistory(null, rent.getUser(), rent.getCar(), rent.getDateFrom(), LocalDateTime.now(), parkingFrom
-                , parkingTo, false, true, rent.getReasonForTheLoan(), rent.getAdminResponseForTheRequest(), endRentDTO.getFaultMessage());
-        parkingHistoryService.addEntityToDB(parkingFrom);
-        parkingHistoryService.addEntityToDB(parkingTo);
-        rentHistoryService.addEntityToDB(rentHistory);
-
+        rentHistoryService.addNewRentHistoryWhenRentEnd(rent.getAdminResponseForTheRequest(), rent, parkingTo);
         carService.addEntityToDB(rent.getCar());
         rentService.deleteAndUpdateRentAndParkings(rent, endRentDTO.getParkingDTO());
 

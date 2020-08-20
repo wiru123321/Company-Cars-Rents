@@ -2,7 +2,10 @@ package com.euvic.carrental.services;
 
 import com.euvic.carrental.model.*;
 import com.euvic.carrental.repositories.RentHistoryRepository;
-import com.euvic.carrental.responses.*;
+import com.euvic.carrental.responses.CarDTO;
+import com.euvic.carrental.responses.ParkingHistoryDTO;
+import com.euvic.carrental.responses.RentHistoryDTO;
+import com.euvic.carrental.responses.RentHistoryEndPendingDTO;
 import com.euvic.carrental.responses.User.UserRentInfo;
 import com.euvic.carrental.services.interfaces.RentHistoryServiceInterface;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -11,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class RentHistoryService implements RentHistoryServiceInterface {
@@ -47,11 +51,12 @@ public class RentHistoryService implements RentHistoryServiceInterface {
     }
 
     @Override //TODO Test it
-    public void addNewRentHistoryWhenAdministratorRejectRequest(final RentPermitRejectDTO rentPermitRejectDTO, final Rent rent) {
+    public void addNewRentHistoryWhenRentEnd(final String adminResponse, final Rent rent, final ParkingHistory parkingHistoryTo) {
         final ParkingHistory parkingFrom = new ParkingHistory(null, rent.getParkingFrom());
-        final ParkingHistory parkingTo = new ParkingHistory(null, rent.getParkingTo());
+        final ParkingHistory parkingTo;
+        parkingTo = Objects.requireNonNullElseGet(parkingHistoryTo, () -> new ParkingHistory(null, rent.getParkingTo()));
         final RentHistory rentHistory = new RentHistory(null, rent.getUser(), rent.getCar(), rent.getDateFrom(), rent.getDateTo(), parkingFrom
-                , parkingTo, true, false, rent.getReasonForTheLoan(), rentPermitRejectDTO.getResponse(), "");
+                , parkingTo, true, false, rent.getReasonForTheLoan(), adminResponse, "");
         parkingHistoryService.addEntityToDB(parkingFrom);
         parkingHistoryService.addEntityToDB(parkingTo);
         this.addEntityToDB(rentHistory);
