@@ -147,9 +147,9 @@ public class DatabaseLoader implements CommandLineRunner {
             }
             stringList.clear();
 
-            userRepository.save(new User(null, "admin123", passwordEncoder.encode("apassword123"), "admin@email.com", "Jan", "Kowalski", "123456789", roleRepository.findByName("ADMIN")));
-            userRepository.save(new User(null, "user123", passwordEncoder.encode("upassword123"), "user@email.com", "Andrzej", "Wywrot", "123456798", roleRepository.findByName("EMPLOYEE")));
-            userRepository.save(new User(null, "kama123", passwordEncoder.encode("upassword123"), "user@email.com", "Kamil", "Susek", "700100110", roleRepository.findByName("EMPLOYEE")));
+            userRepository.save(new User(null, "admin123", passwordEncoder.encode("apassword123"), "admin@email.com", "Jan", "Kowalski", "513238338", roleRepository.findByName("ADMIN")));
+            userRepository.save(new User(null, "user123", passwordEncoder.encode("upassword123"), "user@email.com", "Andrzej", "Wywrot", "713782393", roleRepository.findByName("EMPLOYEE")));
+            userRepository.save(new User(null, "kama123", passwordEncoder.encode("upassword123"), "Kamil@email.com", "Kamil", "Susek", "663232767", roleRepository.findByName("EMPLOYEE")));
             userRepository.save(new User(null, "walo123", passwordEncoder.encode("upassword123"), "Wojtekmaj2@o2.pl", "Wojciech", "Waleszczyk", "508376153", roleRepository.findByName("EMPLOYEE")));
 
             final Model model1 = new Model(null, "C350", markService.getEntityByName("Audi"));
@@ -170,7 +170,6 @@ public class DatabaseLoader implements CommandLineRunner {
             final Parking parking7 = new Parking(null, "Piotrowice", "40-333", "Bydgoska 77", "E-6", "Parking przy sklepiku Avea", true);
             final Parking parking8 = new Parking(null, "Kraków", "40-444", "Jaka 32", "A-8", "Parking przy sklepie Tesco", true);
             final Parking parking9 = new Parking(null, "Rzeszów", "40-555", "Weteranow 2", "B-4", "Parking przy dworcu", true);
-
             final Parking parking10 = new Parking(null, "Brzęczów", "22-333", "Pacyfistów 3", "C2", "Żabka", true);
             final Parking parking11 = new Parking(null, "Bydgoszcz", "22-222", "Wygidaiłów 77", "A1", "Biedronka", true);
             final Parking parking12 = new Parking(null, "Wrocław", "22-111", "Męczenników 32", "A5", "Lidl", true);
@@ -215,7 +214,7 @@ public class DatabaseLoader implements CommandLineRunner {
                     , LocalDateTime.of(2020, 12, 10, 0, 0)
                     , parkingService.getEntityById(parkingId1)
                     , parkingService.getEntityById(parkingId2)
-                    , true, "Simple comment", "Response", "");
+                    , true, "I have ill daughter.", "Response", "");
 
             final Rent rent2 = new Rent(null
                     , userService.getEntityByLogin("walo123")
@@ -224,7 +223,7 @@ public class DatabaseLoader implements CommandLineRunner {
                     , LocalDateTime.of(2020, 12, 10, 0, 0)
                     , parkingService.getEntityById(parkingId3)
                     , parkingService.getEntityById(parkingId4)
-                    , false, "walo comment", "Response", "");
+                    , false, "Tired of people in public transport.", "Response", "");
 
             final Rent rent3 = new Rent(null
                     , userService.getEntityByLogin("admin123")
@@ -233,7 +232,7 @@ public class DatabaseLoader implements CommandLineRunner {
                     , LocalDateTime.of(2020, 12, 1, 0, 0)
                     , parkingService.getEntityById(parkingId5)
                     , parkingService.getEntityById(parkingId6)
-                    , false, "kama comment", "Response", "");
+                    , false, "Business trip.", "Response", "");
 
             final Rent rent4 = new Rent(null
                     , userService.getEntityByLogin("user123")
@@ -242,7 +241,7 @@ public class DatabaseLoader implements CommandLineRunner {
                     , LocalDateTime.of(2020, 9, 1, 0, 0)
                     , parkingService.getEntityById(parkingId7)
                     , parkingService.getEntityById(parkingId8)
-                    , false, "kama comment", "Response", "");
+                    , false, "Give me lambo, please.", "Response", "");
 
             rentRepository.save(rent1);
             rentRepository.save(rent2);
