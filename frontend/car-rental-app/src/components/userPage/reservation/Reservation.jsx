@@ -21,6 +21,7 @@ import {
   setStepOne,
   setStepTwo,
   selectFinishForm,
+  setisEndOfForm,
 } from "../../../features/car-reservation/reservationSlice";
 import { useAlert } from "react-alert";
 import HorizontalLinearStepper from "./Stepper";
@@ -50,6 +51,7 @@ const Reservation = () => {
   }
 
   function handleEndHourChange(event) {
+    dispatch(setisEndOfForm());
     dispatch(endHourChange(event.target.value));
   }
   function sumbitDataHander() {

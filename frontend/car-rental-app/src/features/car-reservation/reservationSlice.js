@@ -18,7 +18,7 @@ const initialState = {
   stepThree: false,
   stepFour: false,
   finishForm: false,
-  isEndOfForm: false,
+  isEndOfForm: true,
   cars: [],
 };
 

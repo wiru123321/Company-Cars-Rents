@@ -1,5 +1,7 @@
 import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import SkipNextRoundedIcon from "@material-ui/icons/SkipNextRounded";
+import SkipPreviousRoundedIcon from "@material-ui/icons/SkipPreviousRounded";
 import {
   Stepper,
   Step,
@@ -46,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function getSteps() {
-  return ["Select car rent data...", "Select car...", "Reserv a car!"];
+  return ["Select car rent data...", "Select car...", "Reserve a car!"];
 }
 
 function getStepContent(step) {
@@ -56,7 +58,7 @@ function getStepContent(step) {
     case 1:
       return "Select car...";
     case 2:
-      return "Reserv a car!";
+      return "Reserve a car!";
     default:
       return "Unknown step";
   }
@@ -84,6 +86,7 @@ const HorizontalLinearStepper = ({
   const handleNext = () => {
     if (StepOne && !StepThree) {
       sumbitDataHander();
+      dispatch(setisEndOfForm());
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
     }
     if (StepTwo && !StepThree) {
@@ -94,6 +97,7 @@ const HorizontalLinearStepper = ({
     if (StepThree) {
       dispatch(setFinishForm());
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      handleReset();
     }
   };
 
@@ -105,6 +109,7 @@ const HorizontalLinearStepper = ({
     if (!StepTwo) {
       dispatch(toggleChoose());
       setActiveStep((prevActiveStep) => prevActiveStep - 1);
+      dispatch(setisEndOfForm());
     }
   };
 
@@ -137,40 +142,36 @@ const HorizontalLinearStepper = ({
         })}
       </Stepper>
       <Grid container direction="row" justify="center">
-        {activeStep === steps.length ? (
+        <div>
+          <Typography className={classes.instructions}>
+            {getStepContent(activeStep)}
+          </Typography>
           <div>
-            <Typography className={classes.instructions}>
-              All steps completed - you&apos;re finished
-            </Typography>
-            <Button onClick={handleReset} className={classes.button}>
-              Reset
+            <Button
+              disabled={activeStep === 0}
+              onClick={handleBack}
+              className={classes.button}
+              startIcon={<SkipPreviousRoundedIcon />}
+            >
+              Back
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleNext}
+              className={classes.button}
+              disabled={isEndOfForm}
+            >
+              {activeStep === steps.length - 1 ? (
+                "Finish"
+              ) : (
+                <>
+                  Next <SkipNextRoundedIcon />
+                </>
+              )}
             </Button>
           </div>
-        ) : (
-          <div>
-            <Typography className={classes.instructions}>
-              {getStepContent(activeStep)}
-            </Typography>
-            <div>
-              <Button
-                disabled={activeStep === 0}
-                onClick={handleBack}
-                className={classes.button}
-              >
-                Back
-              </Button>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleNext}
-                className={classes.button}
-                disabled={isEndOfForm}
-              >
-                {activeStep === steps.length - 1 ? "Finish" : "Next"}
-              </Button>
-            </div>
-          </div>
-        )}
+        </div>
       </Grid>
     </div>
   );
