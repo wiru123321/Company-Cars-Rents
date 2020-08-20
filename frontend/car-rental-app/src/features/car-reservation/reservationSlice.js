@@ -18,6 +18,7 @@ const initialState = {
   stepThree: false,
   stepFour: false,
   finishForm: false,
+  isEndOfForm: false,
   cars: [],
 };
 
@@ -86,6 +87,9 @@ export const reservationSlice = createSlice({
     setisChoosen: (state) => {
       state.isChoosen = !state.isChoosen;
     },
+    setisEndOfForm: (state) => {
+      state.isEndOfForm = !state.isEndOfForm;
+    },
     setChoose: (state) => {
       state.choose = !state.choose;
     },
@@ -113,6 +117,7 @@ export const {
   setFinishForm,
   setisChoosen,
   setChoose,
+  setisEndOfForm,
 } = reservationSlice.actions;
 
 export const selectCars = (state) => state.reservation.cars;
@@ -128,6 +133,7 @@ export const selectbeginHour = (state) =>
 export const selectendDate = (state) => state.reservation.reservationEndDate;
 export const selectendHour = (state) => state.reservation.reservationEndHour;
 export const selectFinishForm = (state) => state.reservation.finishForm;
+export const selectisEndOfForm = (state) => state.reservation.isEndOfForm;
 
 export const selectDateIsChoosen = (state) => state.reservation.dateIsChoosen;
 

@@ -13,8 +13,8 @@ import {
   selectbeginHour,
   selectendDate,
   selectendHour,
-  selectStepFour,
   setStepFour,
+  setisEndOfForm,
 } from "../../../features/car-reservation/reservationSlice";
 import { ParkingData } from "./ReservationDataFormReserv";
 import { useAlert } from "react-alert";
@@ -65,6 +65,7 @@ const SelectedCar = () => {
       streetName
     ) {
       dispatch(setStepFour());
+      dispatch(setisEndOfForm());
     }
   };
 
