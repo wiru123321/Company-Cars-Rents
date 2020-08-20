@@ -25,13 +25,13 @@ const AdminPage = () => {
       <HashRouter basename="/adminPage">
         <Switch>
 <<<<<<< HEAD
+          <Route path="/" exact component={AddNewCar} />
+||||||| 6370df4
           <Route path="/" component={AddNewCar} />
-||||||| fef150a
-          <Route path="/" exact component={AddNewCar} />
 =======
-          <Route path="/" exact component={AddNewCar} />
+          <Route exact path="/" component={AddNewCar} />
+>>>>>>> b8cfff2a2745b030e6e036775a14ca7bca44f43b
           <Route path="/pendingRents" component={PendingRents} />
->>>>>>> 4d8b1b952db9dc14c4ed256d1596e8a97c8ce58b
           <Route path="/activeRents" component={ActiveRents} />
           <Route path="/removeCar" component={CarsManager} />
           <Route path="/addEmployee" component={AddEmployee} />

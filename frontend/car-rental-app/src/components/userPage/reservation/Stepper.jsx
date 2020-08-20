@@ -24,6 +24,8 @@ import {
   beginHourChange,
   endDateChange,
   endHourChange,
+  selectisEndOfForm,
+  setisEndOfForm,
 } from "../../../features/car-reservation/reservationSlice";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -73,6 +75,7 @@ const HorizontalLinearStepper = ({
   const StepOne = useSelector(selectStepOne);
   const StepTwo = useSelector(selectStepTwo);
   const StepThree = useSelector(selectStepThree);
+  const isEndOfForm = useSelector(selectisEndOfForm);
 
   const isStepOptional = (step) => {
     return step === 1;
@@ -86,6 +89,7 @@ const HorizontalLinearStepper = ({
     if (StepTwo && !StepThree) {
       dispatch(toggleChoose());
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      dispatch(setisEndOfForm());
     }
     if (StepThree) {
       dispatch(setFinishForm());
@@ -160,6 +164,7 @@ const HorizontalLinearStepper = ({
                 color="primary"
                 onClick={handleNext}
                 className={classes.button}
+                disabled={isEndOfForm}
               >
                 {activeStep === steps.length - 1 ? "Finish" : "Next"}
               </Button>
