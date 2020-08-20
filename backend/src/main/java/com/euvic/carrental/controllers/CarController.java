@@ -80,11 +80,11 @@ public class CarController {
 
     @RequestMapping(method = RequestMethod.PUT, value = "/a/car/{licensePlate}")
     public ResponseEntity<?> updateDataBaseCar(@PathVariable final String licensePlate, @RequestBody final CarDTO newCarDTO) {
-        List<Rent> rents = rentService.getActiveRentsByLicensePlate(licensePlate);
         if (!carService.checkIfOnCompanyCarWithLicensePlateExists(newCarDTO.getLicensePlate())) {
             return new ResponseEntity<>("Car with given license plate doesn't exist.", HttpStatus.CONFLICT);
         }
-        if ((!newCarDTO.getIsActive()) && (!rents.isEmpty())) {
+        List<Rent> carActiveRents = rentService.getActiveRentsByLicensePlate(licensePlate);
+        if ((!newCarDTO.getIsActive()) && (!carActiveRents.isEmpty())) {
             return new ResponseEntity<>("Car with given license plate has not ended rents, so it can not be set as inactive.", HttpStatus.CONFLICT);
         }
         return ResponseEntity.ok(carService.updateCarInDB(licensePlate, newCarDTO));
@@ -92,11 +92,11 @@ public class CarController {
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/a/car/activity/{licensePlate}")
     public ResponseEntity<?> setCarActivityInDB(@RequestParam("isActive") final Boolean isActive, @PathVariable final String licensePlate) {
-        List<Rent> rents = rentService.getActiveRentsByLicensePlate(licensePlate);
         if (!carService.checkIfOnCompanyCarWithLicensePlateExists(licensePlate)) {
             return new ResponseEntity<>("Car with given license plate doesn't exist.", HttpStatus.CONFLICT);
         }
-        if ((!isActive) && (!rents.isEmpty())) {
+        List<Rent> carActiveRents = rentService.getActiveRentsByLicensePlate(licensePlate);
+        if ((!isActive) && (!carActiveRents.isEmpty())) {
             return new ResponseEntity<>("Car with given license plate has not ended rents, so it can not be set as inactive.", HttpStatus.CONFLICT);
         }
          return ResponseEntity.ok(carService.setCarActivity(isActive, licensePlate));
