@@ -3,6 +3,7 @@ package com.euvic.carrental.controllers;
 import com.euvic.carrental.model.Car;
 import com.euvic.carrental.model.Model;
 import com.euvic.carrental.model.Parking;
+import com.euvic.carrental.model.Rent;
 import com.euvic.carrental.responses.CarDTO;
 import com.euvic.carrental.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,10 +80,11 @@ public class CarController {
 
     @RequestMapping(method = RequestMethod.PUT, value = "/a/car/{licensePlate}")
     public ResponseEntity<?> updateDataBaseCar(@PathVariable final String licensePlate, @RequestBody final CarDTO newCarDTO) {
+        List<Rent> rents = rentService.getActiveRentsByLicensePlate(licensePlate);
         if (!carService.checkIfOnCompanyCarWithLicensePlateExists(newCarDTO.getLicensePlate())) {
             return new ResponseEntity<>("Car with given license plate doesn't exist.", HttpStatus.CONFLICT);
         }
-        if ((!newCarDTO.getIsActive()) && (rentService.getActiveRentsByLicensePlate(licensePlate) != null)) {
+        if ((!newCarDTO.getIsActive()) && (!rents.isEmpty())) {
             return new ResponseEntity<>("Car with given license plate has not ended rents, so it can not be set as inactive.", HttpStatus.CONFLICT);
         }
         return ResponseEntity.ok(carService.updateCarInDB(licensePlate, newCarDTO));
@@ -90,13 +92,14 @@ public class CarController {
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/a/car/activity/{licensePlate}")
     public ResponseEntity<?> setCarActivityInDB(@RequestParam("isActive") final Boolean isActive, @PathVariable final String licensePlate) {
+        List<Rent> rents = rentService.getActiveRentsByLicensePlate(licensePlate);
         if (!carService.checkIfOnCompanyCarWithLicensePlateExists(licensePlate)) {
             return new ResponseEntity<>("Car with given license plate doesn't exist.", HttpStatus.CONFLICT);
         }
-        if ((!isActive) && (rentService.getActiveRentsByLicensePlate(licensePlate) != null)) {
+        if ((!isActive) && (!rents.isEmpty())) {
             return new ResponseEntity<>("Car with given license plate has not ended rents, so it can not be set as inactive.", HttpStatus.CONFLICT);
         }
-        return ResponseEntity.ok(carService.setCarActivity(isActive, licensePlate));
+         return ResponseEntity.ok(carService.setCarActivity(isActive, licensePlate));
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/a/car/{licensePlate}")
