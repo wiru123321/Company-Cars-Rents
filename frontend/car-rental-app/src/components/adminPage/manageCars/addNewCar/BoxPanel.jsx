@@ -32,7 +32,7 @@ const BoxPanel = ({
         <Box>
           <TextValidator
             className={classes.textArea}
-            label="Licence Plate"
+            label="License Plate"
             onChange={(event) =>
               dispatch(licencePlateChange(event.target.value))
             }

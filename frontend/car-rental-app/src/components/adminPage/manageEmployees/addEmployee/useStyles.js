@@ -4,6 +4,16 @@ const useStyles = makeStyles((theme) => ({
   root: {
     textAlign: "center",
   },
+  paper: {
+    minWidth: "40vw",
+    padding: "8px",
+  },
+  content: {
+    marginTop: "8%",
+    minWidth: "30vw",
+    minHeight: "60vh",
+    textAlign: "center",
+  },
   textArea: {
     marginTop: "1%",
     width: "60ch",
@@ -13,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     width: "55ch",
   },
   buttonArea: {
-    marginTop: "1%",
+    marginTop: "5%",
   },
 }));
 
