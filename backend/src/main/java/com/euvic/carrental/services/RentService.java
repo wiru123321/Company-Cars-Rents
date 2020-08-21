@@ -73,6 +73,14 @@ public class RentService implements RentServiceInterface {
         }
     }
 
+    @Override //TODO test it
+    public void deleteRentsByUser(final User user) {
+        final List<Rent> rentList = rentRepository.findAllByUser(user);
+        for (final Rent temp : rentList) {
+            this.deleteAndUpdateRentAndParkings(temp, null);
+        }
+    }
+
     @Override
     public boolean checkIfRentIsAllowedToBeRequested(final Rent rent) {
         boolean toReturn = true;
@@ -279,6 +287,11 @@ public class RentService implements RentServiceInterface {
 
     private boolean checkIfDateIsAfterCurrentDate(final LocalDateTime from) {
         return from.isAfter(LocalDateTime.now().plusMinutes(15));
+    }
+
+    private boolean checkIfRentIsCurrentlyActive(final Rent rent) {
+        final LocalDateTime now = LocalDateTime.now();
+        return rent.getDateFrom().isBefore(now) && rent.getDateTo().isAfter(now);
     }
 
     private List<RentPendingDTO> convertRentListToRentPendingDTOList(final List<Rent> rentArrayList) {
