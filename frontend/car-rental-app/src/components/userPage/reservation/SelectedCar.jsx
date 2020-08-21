@@ -1,13 +1,10 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Grid, Button, Box, TextField } from "@material-ui/core";
+import { Grid, Button, Box, TextField, Paper } from "@material-ui/core";
 import CarImage from "../../carsListing/CarImage";
 import CarInfo from "../../carsListing/CarInfo";
 import {
   selectCar,
-  toggleChoose,
-  dateIsChoosenHandler,
-  isCarFormActiveHandler,
   uploadReservCar,
   selectbeginDate,
   selectbeginHour,
@@ -76,16 +73,22 @@ const SelectedCar = () => {
         alignItems="center"
         style={{ marginLeft: "22%" }}
       >
-        <Box display="flex">
-          <CarImage
-            src={
-              "http://localhost:8080/u/car/download-car-image/" +
-              car.licensePlate
-            }
-          />
-          <CarInfo car={car} />
-        </Box>
+        <Paper
+          elevation={6}
+          style={{ marginBottom: "1vh", marginRight: "20vw" }}
+        >
+          <Box display="flex">
+            <CarImage
+              src={
+                "http://localhost:8080/u/car/download-car-image/" +
+                car.licensePlate
+              }
+            />
+            <CarInfo car={car} />
+          </Box>
+        </Paper>
       </Grid>
+
       <Grid container justify="center" alignItems="center">
         <TextField
           onChange={(event) => setCommentToReservation(event.target.value)}

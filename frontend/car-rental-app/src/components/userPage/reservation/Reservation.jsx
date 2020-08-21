@@ -40,30 +40,18 @@ const Reservation = () => {
 
   function handleBeginDateChange(event) {
     dispatch(beginDateChange(event.target.value));
-    if (beginDate && beginHour && endDate && endHour) {
-      dispatch(setisEndOfForm());
-    }
   }
 
   function handleBeginHourChange(event) {
     dispatch(beginHourChange(event.target.value));
-    if (beginDate && beginHour && endDate && endHour) {
-      dispatch(setisEndOfForm());
-    }
   }
 
   function handleEndDateChange(event) {
     dispatch(endDateChange(event.target.value));
-    if (beginDate && beginHour && endDate && endHour) {
-      dispatch(setisEndOfForm());
-    }
   }
 
   function handleEndHourChange(event) {
     dispatch(endHourChange(event.target.value));
-    if (beginDate && beginHour && endDate && endHour) {
-      dispatch(setisEndOfForm());
-    }
   }
   function sumbitDataHander() {
     let dateFromDateTo = {

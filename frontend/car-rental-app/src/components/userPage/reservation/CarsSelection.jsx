@@ -6,8 +6,8 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   selectCars,
   chooseCar,
-  setisEndOfForm,
   selectchoosenCar,
+  setisEndOfFormValue,
 } from "../../../features/car-reservation/reservationSlice";
 import DoneIcon from "@material-ui/icons/Done";
 
@@ -15,10 +15,10 @@ const CarsSelection = () => {
   const dispatch = useDispatch();
   const cars = useSelector(selectCars);
   const currentIndex = useSelector(selectchoosenCar);
-  let btnColor = "";
 
   function toggleSuggest(index) {
     dispatch(chooseCar(index));
+    dispatch(setisEndOfFormValue());
   }
 
   return (
@@ -38,7 +38,6 @@ const CarsSelection = () => {
                 <div>
                   <Button
                     variant="contained"
-                    color={btnColor}
                     onClick={() => toggleSuggest(index)}
                   >
                     Select

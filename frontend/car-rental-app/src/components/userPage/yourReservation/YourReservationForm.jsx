@@ -28,11 +28,21 @@ const YouReservationForm = ({ reservations, isActive }) => {
                   justify="center"
                   alignItems="flex-start"
                 >
-                  <Box>
-                    <label>Rent date from: {reservation.dateFrom}</label>
+                  <Box style={{ width: "15vw" }}>
+                    <label>
+                      Rent date from:{" "}
+                      {reservation.dateFrom.slice(0, 10) +
+                        " " +
+                        reservation.dateFrom.slice(11, 19)}
+                    </label>
                   </Box>
-                  <Box>
-                    <label>Rent date to: {reservation.dateTo}</label>
+                  <Box style={{ width: "17vw" }}>
+                    <label>
+                      Rent date to:{" "}
+                      {reservation.dateTo.slice(0, 10) +
+                        " " +
+                        reservation.dateTo.slice(11, 19)}
+                    </label>
                   </Box>
                 </Grid>
               </Box>
