@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin
 public class RentController {
@@ -140,7 +142,12 @@ public class RentController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/e/rent/carsOnTime")
     public ResponseEntity<?> getCarsOnTime(@RequestParam(value = "dateFrom") final String dateFrom, @RequestParam(value = "dateTo") final String dateTo) {
-        return ResponseEntity.ok(rentService.getActiveCarsBetweenDates(new DateFromDateTo(dateFrom, dateTo)));
+
+        final List<CarDTO> carDTOList = rentService.getActiveCarsBetweenDates(new DateFromDateTo(dateFrom, dateTo));
+        if (carDTOList.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("There is no car");
+        }
+        return ResponseEntity.ok(carDTOList);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/e/rent/{licensePlate}")

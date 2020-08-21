@@ -90,6 +90,8 @@ const HorizontalLinearStepper = ({
     if (StepOne && !StepThree) {
       sumbitDataHander();
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      dispatch(setisEndOfForm());
+      dispatch(setdisableBack());
     }
     if (StepTwo && !StepThree) {
       dispatch(toggleChoose());
@@ -107,6 +109,7 @@ const HorizontalLinearStepper = ({
     if (!StepOne && StepTwo) {
       setActiveStep((prevActiveStep) => prevActiveStep - 1);
       backToDataFrom();
+      dispatch(setdisableBack());
     }
     if (!StepTwo) {
       dispatch(toggleChoose());
@@ -130,6 +133,7 @@ const HorizontalLinearStepper = ({
     dispatch(endHourChange(""));
     dispatch(setdisableBack());
     dispatch(setisEndOfForm());
+    window.location.reload(false);
   };
 
   return (

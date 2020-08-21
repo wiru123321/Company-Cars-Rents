@@ -188,7 +188,7 @@ public class DatabaseLoader implements CommandLineRunner {
             final Long parkingId12 = parkingService.addEntityToDB(parking12);
 
 
-            String exampleCarsPhotosDir = System.getProperty("user.dir") + "/src/main/upload/static/images/cars/examples/";
+            final String exampleCarsPhotosDir = System.getProperty("user.dir") + "/src/main/upload/static/images/cars/examples/";
             final Car car1 = new Car(null, "WN101", 100, 4, 5, 5,
                     gearboxTypeService.getEntityByName("Automatic"), fuelTypeService.getEntityByName("Gasoline"),
                     LocalDateTime.of(2000, 3, 25, 0, 0), 1990, true, 200000, modelService.getEntityById(modelId1),
@@ -212,7 +212,7 @@ public class DatabaseLoader implements CommandLineRunner {
             carService.addEntityToDB(car3);
 
             final Rent rent1 = new Rent(null
-                    , userService.getEntityByLogin("kama123")
+                    , userService.getEntityByLogin("walo123")
                     , carService.getOnCompanyEntityByLicensePlate("WN101")
                     , LocalDateTime.of(2020, 12, 7, 0, 0)
                     , LocalDateTime.of(2020, 12, 10, 0, 0)
@@ -230,8 +230,8 @@ public class DatabaseLoader implements CommandLineRunner {
                     , false, "Tired of people in public transport.", "Response", "");
 
             final Rent rent3 = new Rent(null
-                    , userService.getEntityByLogin("admin123")
-                    , carService.getOnCompanyEntityByLicensePlate("SBE11212")
+                    , userService.getEntityByLogin("walo123")
+                    , carService.getOnCompanyEntityByLicensePlate("WN101")
                     , LocalDateTime.of(2020, 11, 25, 0, 0)
                     , LocalDateTime.of(2020, 12, 1, 0, 0)
                     , parkingService.getEntityById(parkingId5)
@@ -239,13 +239,13 @@ public class DatabaseLoader implements CommandLineRunner {
                     , false, "Business trip.", "Response", "");
 
             final Rent rent4 = new Rent(null
-                    , userService.getEntityByLogin("user123")
+                    , userService.getEntityByLogin("walo123")
                     , carService.getOnCompanyEntityByLicensePlate("WN101")
                     , LocalDateTime.of(2020, 8, 25, 0, 0)
                     , LocalDateTime.of(2020, 9, 1, 0, 0)
                     , parkingService.getEntityById(parkingId7)
                     , parkingService.getEntityById(parkingId8)
-                    , false, "Give me lambo, please.", "Response", "");
+                    , true, "Give me lambo, please.", "Response", "");
 
             rentRepository.save(rent1);
             rentRepository.save(rent2);

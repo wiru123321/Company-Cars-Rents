@@ -60,7 +60,8 @@ public class UserController {
         if (!userService.checkIfUserWithLoginExists(login)) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("There is no user with passed login.");
         }
-        
+        rentService.deleteRentsByUser(userService.getEntityByLogin(login));
+
         return ResponseEntity.ok(userService.setUserIsNotActive(login));
     }
 }
