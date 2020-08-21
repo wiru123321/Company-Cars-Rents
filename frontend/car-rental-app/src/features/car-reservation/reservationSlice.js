@@ -18,8 +18,8 @@ const initialState = {
   stepThree: false,
   stepFour: false,
   finishForm: false,
-  isEndOfForm: true,
-  disableBack: false,
+  isEndOfForm: false,
+  disableBack: true,
   cars: [],
 };
 
@@ -97,6 +97,9 @@ export const reservationSlice = createSlice({
     setdisableBack: (state) => {
       state.disableBack = !state.disableBack;
     },
+    setisEndOfFormValue: (state) => {
+      state.isEndOfForm = false;
+    },
   },
 });
 
@@ -123,6 +126,7 @@ export const {
   setChoose,
   setisEndOfForm,
   setdisableBack,
+  setisEndOfFormValue,
 } = reservationSlice.actions;
 
 export const selectCars = (state) => state.reservation.cars;
