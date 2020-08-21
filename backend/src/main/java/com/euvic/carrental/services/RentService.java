@@ -205,12 +205,12 @@ public class RentService implements RentServiceInterface {
         final List<RentDTO> rentList = this.getAllDTOsByTimeRange(dateFromDateTo);
         final List<CarDTO> carList = new ArrayList<>();
         final List<CarDTO> carDTOList = carService.getInCompanyActiveCarDTOs();
-
-        for (final RentDTO rentDTO : rentList) {
-            carList.add(rentDTO.getCarDTO());
+        if (this.checkDateTimeChronological(dateFromDateTo.getDateFrom(), dateFromDateTo.getDateTo()) || this.checkIfDateIsAfterCurrentDate(dateFromDateTo.getDateFrom())) {
+            for (final RentDTO rentDTO : rentList) {
+                carList.add(rentDTO.getCarDTO());
+            }
+            carDTOList.removeAll(carList);
         }
-
-        carDTOList.removeAll(carList);
         return carDTOList;
     }
 
