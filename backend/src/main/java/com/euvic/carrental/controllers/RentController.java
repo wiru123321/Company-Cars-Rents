@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -198,6 +199,9 @@ public class RentController {
         }
         if (!rent.getUser().equals(user)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Rent is not belong to this user");
+        }
+        if (rent.getDateFrom().isAfter(LocalDateTime.now())) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Your reservation cannot be end now. Wait for reservation time.");
         }
 
         final ParkingHistory parkingTo;
