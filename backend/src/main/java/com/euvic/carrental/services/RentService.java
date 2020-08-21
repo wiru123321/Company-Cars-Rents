@@ -261,7 +261,7 @@ public class RentService implements RentServiceInterface {
     }
 
     private boolean checkDateTimeChronological(final LocalDateTime dateFrom, final LocalDateTime dateTo) {
-        return !dateFrom.isAfter(dateTo);
+        return !dateFrom.plusMinutes(30).isAfter(dateTo);
     }
 
     private boolean checkDate(final LocalDateTime dateFrom, final LocalDateTime dateTo,
