@@ -58,7 +58,7 @@ public class RentService implements RentServiceInterface {
             parkingService.deleteParkingById(parkingId);
         }
     }
-
+    
     @Override //TODO test it
     public void deleteAndUpdateRentAndParkings(final Rent rent, final ParkingDTO parkingDTO) {
         final Long parkingFromId = rent.getParkingFrom().getId();
@@ -204,8 +204,9 @@ public class RentService implements RentServiceInterface {
     public List<CarDTO> getActiveCarsBetweenDates(final DateFromDateTo dateFromDateTo) {
         final List<RentDTO> rentList = this.getAllDTOsByTimeRange(dateFromDateTo);
         final List<CarDTO> carList = new ArrayList<>();
-        final List<CarDTO> carDTOList = carService.getInCompanyActiveCarDTOs();
+        List<CarDTO> carDTOList = new ArrayList<>();
         if (this.checkDateTimeChronological(dateFromDateTo.getDateFrom(), dateFromDateTo.getDateTo()) || this.checkIfDateIsAfterCurrentDate(dateFromDateTo.getDateFrom())) {
+            carDTOList = carService.getInCompanyActiveCarDTOs();
             for (final RentDTO rentDTO : rentList) {
                 carList.add(rentDTO.getCarDTO());
             }
