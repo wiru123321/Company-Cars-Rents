@@ -133,6 +133,7 @@ const HorizontalLinearStepper = ({
     dispatch(endHourChange(""));
     dispatch(setdisableBack());
     dispatch(setisEndOfForm());
+    window.location.reload(false);
   };
 
   return (
