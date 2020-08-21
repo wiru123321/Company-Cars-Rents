@@ -201,7 +201,7 @@ public class RentController {
         }
 
         final ParkingHistory parkingTo;
-
+        final Parking actuallyCarParking = rent.getCar().getParking();
         if (endRentDTO.getParkingDTO() == null) {
             parkingTo = new ParkingHistory(null, rent.getParkingTo());
             rent.getCar().setParking(rent.getParkingTo());
@@ -211,7 +211,7 @@ public class RentController {
             parkingService.addEntityToDB(carParking);
             rent.getCar().setParking(carParking);
         }
-
+        parkingService.deleteParkingById(actuallyCarParking.getId());
         rentHistoryService.addNewRentHistoryWhenRentEnd(rent.getAdminResponseForTheRequest(), rent, parkingTo);
         carService.addEntityToDB(rent.getCar());
         rentService.deleteAndUpdateRentAndParkings(rent, endRentDTO.getParkingDTO());

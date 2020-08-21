@@ -52,9 +52,12 @@ public class RentService implements RentServiceInterface {
     public void updateNextRent(final Rent rent) {
         final Rent nextRent = this.getNearestRent(rent);
         if (nextRent != null) {
-            final Long parkingId;
+            final Long parkingId, newParkingId;
             parkingId = nextRent.getParkingFrom().getId();
-            nextRent.setParkingFrom(rent.getCar().getParking());
+            final Parking newParking = new Parking(rent.getCar().getParking());
+            newParkingId = parkingService.addEntityToDB(newParking);
+            nextRent.setParkingFrom(parkingService.getEntityById(newParkingId));
+            rentRepository.save(nextRent);
             parkingService.deleteParkingById(parkingId);
         }
     }
@@ -68,9 +71,8 @@ public class RentService implements RentServiceInterface {
         }
         this.deleteRent(rent);
         parkingService.deleteParkingById(parkingFromId);
-        if (parkingDTO == null) {
-            parkingService.deleteParkingById(parkingToId);
-        }
+        parkingService.deleteParkingById(parkingToId);
+
     }
 
     @Override //TODO test it
