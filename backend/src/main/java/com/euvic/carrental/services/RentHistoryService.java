@@ -56,7 +56,7 @@ public class RentHistoryService implements RentHistoryServiceInterface {
         final ParkingHistory parkingTo;
         parkingTo = Objects.requireNonNullElseGet(parkingHistoryTo, () -> new ParkingHistory(null, rent.getParkingTo()));
         final RentHistory rentHistory = new RentHistory(null, rent.getUser(), rent.getCar(), rent.getDateFrom(), rent.getDateTo(), parkingFrom
-                , parkingTo, true, false, rent.getReasonForTheLoan(), adminResponse, "");
+                , parkingTo, false, false, rent.getReasonForTheLoan(), adminResponse, "");
         parkingHistoryService.addEntityToDB(parkingFrom);
         parkingHistoryService.addEntityToDB(parkingTo);
         this.addEntityToDB(rentHistory);
