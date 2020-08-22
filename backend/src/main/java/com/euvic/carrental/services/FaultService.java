@@ -42,7 +42,7 @@ public class FaultService implements FaultServiceInterface {
 
     @Override
     public Fault mapRestModel(final Long id, final FaultDTO faultDTO) {
-        return new Fault(id, carService.getOnCompanyEntityByLicensePlate(faultDTO.getCarLicensePlate()), faultDTO.getDescription(), faultDTO.getSetCarInactive(), true);
+        return new Fault(id, carService.getOnCompanyEntityByLicensePlate(faultDTO.getCarLicensePlate()), faultDTO.getDescription(), faultDTO.getFaultDate(), faultDTO.getSetCarInactive(), true);
     }
 
     @Override

@@ -21,6 +21,7 @@ const useStyles = makeStyles({
 const ActiveRentsMenu = ({ exitMenu, currentRent }) => {
   const classes = useStyles();
   const [info, toggleInfo] = useState(true);
+
   return (
     <Grid container justify="center">
       <Paper className={classes.paper}>
@@ -64,7 +65,14 @@ const ActiveRentsMenu = ({ exitMenu, currentRent }) => {
         <Divider />
         <Grid container direction="column" justify="center" alignItems="center">
           {info ? (
-            <ReservationInfo rent={currentRent} />
+            <ReservationInfo
+              user={currentRent.userRentInfo}
+              parkingFrom={currentRent.parkingFrom}
+              parkingTo={currentRent.parkingTo}
+              car={currentRent.carDTO}
+              dateFrom={currentRent.dateFrom}
+              dateTo={currentRent.dateTo}
+            />
           ) : (
             <ChangeCar
               rent={currentRent}

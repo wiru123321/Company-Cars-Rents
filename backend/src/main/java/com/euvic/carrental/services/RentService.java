@@ -52,24 +52,52 @@ public class RentService implements RentServiceInterface {
     public void updateNextRent(final Rent rent) {
         final Rent nextRent = this.getNearestRent(rent);
         if (nextRent != null) {
-            final Long parkingId;
+            final Long parkingId, newParkingId;
             parkingId = nextRent.getParkingFrom().getId();
-            nextRent.setParkingFrom(rent.getCar().getParking());
+            final Parking newParking = new Parking(rent.getCar().getParking());
+            newParkingId = parkingService.addEntityToDB(newParking);
+            nextRent.setParkingFrom(parkingService.getEntityById(newParkingId));
+            rentRepository.save(nextRent);
             parkingService.deleteParkingById(parkingId);
+        }
+    }
+
+    @Override //TODO test it
+    public void deleteAndUpdateRentAndParkings(final Rent rent, final ParkingDTO parkingDTO) {
+        final Long parkingFromId = rent.getParkingFrom().getId();
+        final Long parkingToId = rent.getParkingTo().getId();
+        if (parkingDTO != null) {
+            this.updateNextRent(rent);
+        }
+        this.deleteRent(rent);
+        parkingService.deleteParkingById(parkingFromId);
+        parkingService.deleteParkingById(parkingToId);
+
+    }
+
+    @Override //TODO test it
+    public void deleteRentsByUser(final User user) {
+        final List<Rent> rentList = rentRepository.findAllByUser(user);
+        for (final Rent temp : rentList) {
+            this.deleteAndUpdateRentAndParkings(temp, null);
         }
     }
 
     @Override
     public boolean checkIfRentIsAllowedToBeRequested(final Rent rent) {
         boolean toReturn = true;
-        final List<Rent> rentList = this.getRentsByLicensePlate(rent.getCar().getLicensePlate());
+        if (this.checkIfDateIsAfterCurrentDate(rent.getDateFrom())) {
+            final List<Rent> rentList = this.getActiveRentsByLicensePlate(rent.getCar().getLicensePlate());
 
-        if (rentList != null) {
-            for (final Rent temp : rentList) {
-                if (this.checkDate(rent.getDateFrom(), rent.getDateTo(), new DateFromDateTo(temp.getDateFrom(), temp.getDateTo()))) {
-                    toReturn = false;
+            if (rentList != null) {
+                for (final Rent temp : rentList) {
+                    if (this.checkDate(rent.getDateFrom(), rent.getDateTo(), new DateFromDateTo(temp.getDateFrom(), temp.getDateTo()))) {
+                        toReturn = false;
+                    }
                 }
             }
+        } else {
+            toReturn = false;
         }
         return toReturn;
     }
@@ -164,7 +192,7 @@ public class RentService implements RentServiceInterface {
     }
 
     @Override
-    public List<Rent> getRentsByLicensePlate(final String licensePlate) {
+    public List<Rent> getActiveRentsByLicensePlate(final String licensePlate) {
         final Car car = carService.getOnCompanyEntityByLicensePlate(licensePlate);
         return rentRepository.findAllByCarAndIsActive(car, true);
     }
@@ -186,13 +214,14 @@ public class RentService implements RentServiceInterface {
     public List<CarDTO> getActiveCarsBetweenDates(final DateFromDateTo dateFromDateTo) {
         final List<RentDTO> rentList = this.getAllDTOsByTimeRange(dateFromDateTo);
         final List<CarDTO> carList = new ArrayList<>();
-        final List<CarDTO> carDTOList = carService.getInCompanyActiveCarDTOs();
-
-        for (final RentDTO rentDTO : rentList) {
-            carList.add(rentDTO.getCarDTO());
+        List<CarDTO> carDTOList = new ArrayList<>();
+        if (this.checkDateTimeChronological(dateFromDateTo.getDateFrom(), dateFromDateTo.getDateTo()) && this.checkIfDateIsAfterCurrentDate(dateFromDateTo.getDateFrom())) {
+            carDTOList = carService.getInCompanyActiveCarDTOs();
+            for (final RentDTO rentDTO : rentList) {
+                carList.add(rentDTO.getCarDTO());
+            }
+            carDTOList.removeAll(carList);
         }
-
-        carDTOList.removeAll(carList);
         return carDTOList;
     }
 
@@ -221,9 +250,8 @@ public class RentService implements RentServiceInterface {
     }
 
     private Rent getNearestRent(final Rent rent) {
-
         try {
-            final List<Rent> rentList = this.getRentsByLicensePlate(rent.getCar().getLicensePlate());
+            final List<Rent> rentList = this.getActiveRentsByLicensePlate(rent.getCar().getLicensePlate());
             rentList.remove(rent);
             LocalDateTime minimum = rent.getDateTo();
             int position = 0;
@@ -241,11 +269,10 @@ public class RentService implements RentServiceInterface {
         } catch (final NullPointerException | NoSuchElementException e) {
             return null;
         }
-
     }
 
     private boolean checkDateTimeChronological(final LocalDateTime dateFrom, final LocalDateTime dateTo) {
-        return !dateFrom.isAfter(dateTo);
+        return !dateFrom.plusMinutes(30).isAfter(dateTo);
     }
 
     private boolean checkDate(final LocalDateTime dateFrom, final LocalDateTime dateTo,
@@ -256,16 +283,22 @@ public class RentService implements RentServiceInterface {
                 && dateFromDateTo.getDateTo().isBefore(dateTo))
                 || (dateFromDateTo.getDateFrom().isBefore(dateFrom)
                 && dateFromDateTo.getDateTo().isAfter(dateTo))
-
                 || (dateFromDateTo.getDateFrom().isEqual(dateFrom) || dateFromDateTo.getDateFrom().isEqual(dateTo))
                 || (dateFromDateTo.getDateTo().isEqual(dateFrom) || dateFromDateTo.getDateTo().isEqual(dateTo));
     }
 
+    private boolean checkIfDateIsAfterCurrentDate(final LocalDateTime from) {
+        return from.isAfter(LocalDateTime.now().plusMinutes(15));
+    }
+
+    private boolean checkIfRentIsCurrentlyActive(final Rent rent) {
+        final LocalDateTime now = LocalDateTime.now();
+        return rent.getDateFrom().isBefore(now) && rent.getDateTo().isAfter(now);
+    }
+
     private List<RentPendingDTO> convertRentListToRentPendingDTOList(final List<Rent> rentArrayList) {
         final ArrayList<RentPendingDTO> rentPendingDTOArrayList = new ArrayList<>();
-
         if (!rentArrayList.isEmpty()) {
-
             for (final Rent rent : rentArrayList) {
                 final RentPendingDTO rentPendingDTO = new RentPendingDTO();
                 rentPendingDTO.setId(rent.getId());
@@ -286,7 +319,6 @@ public class RentService implements RentServiceInterface {
     private List<RentDTO> getAllDTOsByTimeRange(final DateFromDateTo dateFromDateTo) {
         final ArrayList<Rent> rentArrayList = new ArrayList<>(rentRepository.findAllByIsActive(true));
         final ArrayList<RentDTO> rentDTOArrayList = new ArrayList<>();
-
         if (!rentArrayList.isEmpty()) {
             for (final Rent rent : rentArrayList) {
                 if (this.checkDate(rent.getDateFrom(), rent.getDateTo(), dateFromDateTo)) {
@@ -298,5 +330,4 @@ public class RentService implements RentServiceInterface {
         }
         return rentDTOArrayList;
     }
-
 }

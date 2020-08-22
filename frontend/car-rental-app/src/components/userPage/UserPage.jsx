@@ -11,12 +11,13 @@ const UserPage = () => {
     <div>
       <UserNavbar />
 
-      <HashRouter basename="/userPage">
+      <HashRouter basename="/userPage/">
         <Switch>
           <Route path="/" exact component={YourReservation} />
           <Route path="/yourReservation" component={YourReservation} />
           <Route path="/reservation" component={Reservation} />
           <Route path="/settings" component={AccountSettings} />
+          <Route path="*" exact component={YourReservation} />
         </Switch>
       </HashRouter>
       <Footer />

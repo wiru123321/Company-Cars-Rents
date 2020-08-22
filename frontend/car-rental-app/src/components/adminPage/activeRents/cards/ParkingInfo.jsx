@@ -10,6 +10,7 @@ const useStyles = makeStyles({
 
 const ParkingInfo = ({ title, parking }) => {
   const classes = useStyles();
+
   return (
     <Grid container direction="column">
       <Typography className={classes.title}>{title}</Typography>

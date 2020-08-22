@@ -114,7 +114,16 @@ export const addFault = (faultDTO, alert, fetchActive) => async (dispatch) => {
     dispatch(fetchCars(fetchActive));
     alert.success("Succesfully added issue!");
   } catch (err) {
-    alert.error("Failed to add issue! Issues must not repeat!");
+    if (err.response) {
+      if (err.response.status === 409) {
+        console.log(err.response);
+        alert.error(err.response.data);
+      } else {
+        alert.error("Failed to add issue!");
+      }
+    } else {
+      alert.error("Failed to add issue! Issues must not repeat!");
+    }
   }
 };
 
@@ -135,7 +144,13 @@ export const setCarActivity = (
     dispatch(fetchCars(fetchActive));
     alert.success(`Car ${isActive ? "activated" : "suspended"}!`);
   } catch (err) {
-    alert.error("Failed to change car activity.");
+    if (err.response) {
+      alert.error(
+        "Failed to change car activity. Check if car has active rents."
+      );
+    } else {
+      alert.error("Failed to change car activity.");
+    }
   }
 };
 
@@ -185,6 +200,22 @@ export const uploadPicture = (licensePlate, file, alert, fetchActive) => async (
     alert.success("Uploaded successfully!");
   } catch (err) {
     alert.error("Failed to upload file.");
+  }
+};
+
+export const fetchHistory = (licensePlate, setHistory) => async (dispatch) => {
+  try {
+    const response = await axios.get(
+      API_URL + "/a/rent/car_history/" + licensePlate,
+      {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      }
+    );
+    setHistory(response.data);
+  } catch (err) {
+    console.log(err);
   }
 };
 

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box } from "@material-ui/core";
+import { Box, Paper, makeStyles, Typography, Grid } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import {
@@ -12,13 +12,23 @@ import BoxPanel from "./BoxPanel";
 import ParkingForm from "./ParkingForm";
 import PhotoForm from "./ControlPanel/PhotoForm";
 import SaveForm from "./ControlPanel/SaveForm";
+import { useAlert } from "react-alert";
 const API_URL = "http://localhost:8080";
+
+const useStyles = makeStyles({
+  root: {
+    minWidth: "60vw",
+    padding: "8px",
+  },
+});
 
 const AddCarForm = () => {
   const [showAddPhotoButton, toggleshowAddPhotoButton] = useState(false);
   const [showSaveButton, toggleshowSaveButton] = useState(true);
   const [showFormError, toggleshowFormError] = useState(false);
   const [photo, setPhoto] = useState("");
+  const alert = useAlert();
+  const classes = useStyles();
 
   const dispatch = useDispatch();
   const CarInfo = useSelector(selectAll);
@@ -38,7 +48,6 @@ const AddCarForm = () => {
     colourDTO,
     gearBoxTypeDTO,
     capacityOfTrunkScale,
-    imageFile,
     lastInspection,
     town,
     streetName,
@@ -93,9 +102,9 @@ const AddCarForm = () => {
       toggleshowAddPhotoButton(true);
       toggleshowSaveButton(false);
       toggleshowFormError(false);
-      dispatch(addCar(car));
+      dispatch(addCar(car, alert));
     } else {
-      toggleshowFormError(true);
+      alert.error("Wrong data input, please check entered data.");
     }
   }
 
@@ -106,6 +115,7 @@ const AddCarForm = () => {
 
   function submitImage(event) {
     event.preventDefault();
+    let isUploaded = false;
     let formData = new FormData();
     formData.append("imageFile", photo);
     axios
@@ -117,78 +127,77 @@ const AddCarForm = () => {
       })
       .then((response) => {
         console.log(response);
+        alert.success("Success");
+        isUploaded = true;
       })
       .catch((error) => console.log(JSON.stringify(error)));
-    toggleshowAddPhotoButton(false);
-    toggleshowSaveButton(true);
-    dispatch(reset());
+    if (isUploaded) {
+      toggleshowAddPhotoButton(false);
+      toggleshowSaveButton(true);
+      dispatch(reset());
+    }
   }
 
   return (
-    <div>
-      <Box display="flex" justifyContent="center">
-        <h3
-          style={{
-            fontWeight: "bold",
-            fontSize: "30px",
-            textTransform: "uppercase",
-          }}
-        >
-          Add car form.
-        </h3>
-      </Box>
-      <SelectBoxForm
-        modelDTO={modelDTO}
-        typeDTO={typeDTO}
-        fuelTypeDTO={fuelTypeDTO}
-        colourDTO={colourDTO}
-        gearBoxTypeDTO={gearBoxTypeDTO}
-        markDTO={markDTO}
-      />
-      <BoxPanel
-        mileage={mileage}
-        enginePower={enginePower}
-        licensePlate={licensePlate}
-        productionYear={productionYear}
-        capacityOfPeople={capacityOfPeople}
-        doorsNumber={doorsNumber}
-        capacityOfTrunkScale={capacityOfTrunkScale}
-      />
-      <div style={{ height: "5vh" }}></div>
-      <ParkingForm
-        town={town}
-        postalCode={postalCode}
-        streetName={streetName}
-        number={number}
-        comment={comment}
-      />
-      {error1}
-      {showSaveButton ? (
+    <Grid container justify="center">
+      <Paper elevation={6} className={classes.root}>
         <Box display="flex" justifyContent="center">
-          <SaveForm submit={submit} />
-          {showFormError ? (
-            <Box>
-              <p>Error in form! Please check form one more.</p>
-            </Box>
-          ) : (
-            <div></div>
-          )}
+          <Typography
+            style={{
+              fontWeight: "bold",
+              fontSize: "30px",
+              textTransform: "uppercase",
+            }}
+          >
+            Add car form
+          </Typography>
         </Box>
-      ) : (
-        <Box display="flex" justifyContent="center">
-          <Box>
-            <p>Car added, please add photo.</p>
-          </Box>
-        </Box>
-      )}
-
-      {showAddPhotoButton ? (
-        <PhotoForm
-          submitImage={submitImage}
-          handlePhotoChange={handlePhotoChange}
+        <SelectBoxForm
+          modelDTO={modelDTO}
+          typeDTO={typeDTO}
+          fuelTypeDTO={fuelTypeDTO}
+          colourDTO={colourDTO}
+          gearBoxTypeDTO={gearBoxTypeDTO}
+          markDTO={markDTO}
         />
-      ) : null}
-    </div>
+        <BoxPanel
+          mileage={mileage}
+          enginePower={enginePower}
+          licensePlate={licensePlate}
+          productionYear={productionYear}
+          capacityOfPeople={capacityOfPeople}
+          doorsNumber={doorsNumber}
+          capacityOfTrunkScale={capacityOfTrunkScale}
+        />
+        <div style={{ height: "5vh" }}></div>
+        <ParkingForm
+          town={town}
+          postalCode={postalCode}
+          streetName={streetName}
+          number={number}
+          comment={comment}
+        />
+        {error1}
+        {showSaveButton ? (
+          <Box display="flex" justifyContent="center">
+            <SaveForm submit={submit} />
+          </Box>
+        ) : (
+          <Box display="flex" justifyContent="center">
+            <Box>
+              <p>Car added, please add photo.</p>
+            </Box>
+          </Box>
+        )}
+
+        {showAddPhotoButton ? (
+          <PhotoForm
+            submitImage={submitImage}
+            handlePhotoChange={handlePhotoChange}
+          />
+        ) : null}
+      </Paper>
+    </Grid>
   );
 };
 

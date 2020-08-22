@@ -18,15 +18,23 @@ import {
   selectbeginHour,
   selectendDate,
   selectendHour,
+  setStepOne,
+  setStepTwo,
+  selectFinishForm,
+  setisEndOfForm,
 } from "../../../features/car-reservation/reservationSlice";
+import { useAlert } from "react-alert";
+import HorizontalLinearStepper from "./Stepper";
 
 const Reservation = () => {
   const classes = useStyles();
+  const alert = useAlert();
 
   const beginDate = useSelector(selectbeginDate);
   const beginHour = useSelector(selectbeginHour);
   const endDate = useSelector(selectendDate);
   const endHour = useSelector(selectendHour);
+  const finishForm = useSelector(selectFinishForm);
 
   const dispatch = useDispatch();
 
@@ -45,17 +53,29 @@ const Reservation = () => {
   function handleEndHourChange(event) {
     dispatch(endHourChange(event.target.value));
   }
-  function sumbitHander() {
-    console.log(beginDate + "T" + beginHour);
+  function sumbitDataHander() {
     let dateFromDateTo = {
       dateFrom: beginDate + "T" + beginHour + ":00",
       dateTo: endDate + "T" + endHour + ":00",
     };
-    dispatch(fetchCarsAvaiableInDate(dateFromDateTo));
-    console.log(dateFromDateTo);
+    if (beginDate && beginHour && endDate && endHour) {
+      dispatch(setStepOne());
+      dispatch(setStepTwo());
+    }
+
+    dispatch(fetchCarsAvaiableInDate(dateFromDateTo, alert));
+    if (beginDate && beginHour && endDate && endHour) {
+      dispatch(dateIsChoosenHandler());
+      dispatch(isCarFormActiveHandler());
+    }
+  }
+  function backToDataFrom() {
     dispatch(dateIsChoosenHandler());
     dispatch(isCarFormActiveHandler());
+    dispatch(setStepOne());
+    dispatch(setStepTwo());
   }
+
   let dateIsChoosen = useSelector(selectDateIsChoosen);
   let isCarFormActive = useSelector(selectIsCarFormActive);
   return (
@@ -68,37 +88,45 @@ const Reservation = () => {
         height: "100%",
       }}
     >
-      <Grid container direction="row" justify="center">
-        {dateIsChoosen ? (
-          <Box>
-            <Grid direction="column" alignItems="center">
-              <ReservationDate
-                inputText="Reservation start:"
-                handleDateChange={handleBeginDateChange}
-                handleHourChange={handleBeginHourChange}
-              />
-              <ReservationDate
-                inputText="Reservation end:"
-                handleDateChange={handleEndDateChange}
-                handleHourChange={handleEndHourChange}
-              />
-              <Button
-                style={{ marginTop: "2%", width: "100%" }}
-                variant="contained"
-                color="primary"
-                onClick={sumbitHander}
-              >
-                Submit
-              </Button>
-            </Grid>
-          </Box>
-        ) : null}
-        {isCarFormActive ? (
-          <Container>
-            <CarSuggestion />
-          </Container>
-        ) : null}
-      </Grid>
+      <HorizontalLinearStepper
+        sumbitDataHander={sumbitDataHander}
+        backToDataFrom={backToDataFrom}
+      />
+      {finishForm ? (
+        <Grid container direction="row" justify="center">
+          <h1 style={{ fontSize: "3vh" }}>
+            The car reservation was successful{" "}
+          </h1>
+        </Grid>
+      ) : (
+        <Grid container direction="row" justify="center">
+          {dateIsChoosen ? (
+            <Box>
+              <Grid direction="column" alignItems="center">
+                <ReservationDate
+                  inputText="Reservation start:"
+                  handleDateChange={handleBeginDateChange}
+                  handleHourChange={handleBeginHourChange}
+                  valueDate={beginDate}
+                  valueHour={beginHour}
+                />
+                <ReservationDate
+                  inputText="Reservation end:"
+                  handleDateChange={handleEndDateChange}
+                  handleHourChange={handleEndHourChange}
+                  valueDate={endDate}
+                  valueHour={endHour}
+                />
+              </Grid>
+            </Box>
+          ) : null}
+          {isCarFormActive ? (
+            <Container>
+              <CarSuggestion />
+            </Container>
+          ) : null}
+        </Grid>
+      )}
     </Container>
   );
 };

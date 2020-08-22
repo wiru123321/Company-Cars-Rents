@@ -38,7 +38,7 @@ const AccountSettings = () => {
 
   return (
     <Grid
-      style={{ height: "81vh" }}
+      style={{ height: "80vh" }}
       container
       direction="column"
       justify="center"

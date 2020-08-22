@@ -75,7 +75,7 @@ const Employee = ({ employee, handleDelete, handleUpdate }) => {
   };
 
   return (
-    <Paper className={classes.paper}>
+    <Paper elevation={6} className={classes.paper}>
       <Grid className={classes.card}>
         <Typography className={classes.title}>
           <FaceIcon /> {employee.name} {employee.surname}
@@ -103,6 +103,7 @@ const Employee = ({ employee, handleDelete, handleUpdate }) => {
 
 const ControlPanel = ({ edit, toggleEdit, handleRemove }) => {
   const classes = useStyles();
+
   return (
     <Grid className={classes.navPanel} container justify="space-evenly">
       <Button onClick={toggleEdit} variant="contained" color="primary">

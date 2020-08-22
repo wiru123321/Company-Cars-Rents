@@ -1,24 +1,26 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Grid, Button, Box, TextField } from "@material-ui/core";
+import { Grid, Button, Box, TextField, Paper } from "@material-ui/core";
 import CarImage from "../../carsListing/CarImage";
 import CarInfo from "../../carsListing/CarInfo";
 import {
   selectCar,
-  toggleChoose,
-  dateIsChoosenHandler,
-  isCarFormActiveHandler,
   uploadReservCar,
   selectbeginDate,
   selectbeginHour,
   selectendDate,
   selectendHour,
+  setStepFour,
+  setisEndOfForm,
+  setdisableBack,
 } from "../../../features/car-reservation/reservationSlice";
 import { ParkingData } from "./ReservationDataFormReserv";
+import { useAlert } from "react-alert";
 
 const SelectedCar = () => {
   const dispatch = useDispatch();
   const car = useSelector(selectCar);
+  const alert = useAlert();
 
   const [town, setTown] = useState(car.parkingDTO.town);
   const [streetName, setStreetName] = useState(car.parkingDTO.streetName);
@@ -31,8 +33,6 @@ const SelectedCar = () => {
   const beginHour = useSelector(selectbeginHour);
   const endDate = useSelector(selectendDate);
   const endHour = useSelector(selectendHour);
-
-  const toggleCarChoose = () => dispatch(toggleChoose());
 
   const toggleCarReserve = () => {
     let rentDTO = {
@@ -50,14 +50,20 @@ const SelectedCar = () => {
         comment: comment,
       },
     };
-    dispatch(uploadReservCar(car.licensePlate, rentDTO));
-    dispatch(dateIsChoosenHandler());
-    dispatch(isCarFormActiveHandler());
-  };
-
-  const undoSelection = () => {
-    dispatch(dateIsChoosenHandler());
-    dispatch(isCarFormActiveHandler());
+    dispatch(uploadReservCar(car.licensePlate, rentDTO, alert));
+    if (
+      beginDate &&
+      beginHour &&
+      endDate &&
+      endHour &&
+      town &&
+      postalCode &&
+      streetName
+    ) {
+      dispatch(setStepFour());
+      dispatch(setisEndOfForm());
+      dispatch(setdisableBack());
+    }
   };
   return (
     <div>
@@ -67,39 +73,34 @@ const SelectedCar = () => {
         alignItems="center"
         style={{ marginLeft: "22%" }}
       >
-        <Box display="flex">
-          <CarImage
-            src={
-              "http://localhost:8080/u/car/download-car-image/" +
-              car.licensePlate
-            }
-          />
-          <CarInfo car={car} />
-        </Box>
-        <Box display="flex">
-          <Button onClick={toggleCarChoose} variant="contained" color="primary">
-            Change car
-          </Button>
-        </Box>
-        <Box display="flex">
-          <Button onClick={undoSelection} variant="contained" color="secondary">
-            Undo selection
-          </Button>
-        </Box>
+        <Paper
+          elevation={6}
+          style={{ marginBottom: "1vh", marginRight: "20vw" }}
+        >
+          <Box display="flex">
+            <CarImage
+              src={
+                "http://localhost:8080/u/car/download-car-image/" +
+                car.licensePlate
+              }
+            />
+            <CarInfo car={car} />
+          </Box>
+        </Paper>
       </Grid>
+
       <Grid container justify="center" alignItems="center">
         <TextField
           onChange={(event) => setCommentToReservation(event.target.value)}
           value={commentToReservation}
-          label="Why you want this car"
+          label="Why do you want this car"
           variant="outlined"
           margin="normal"
-          required
         />
       </Grid>
       <Grid container justify="center" alignItems="center">
         <h1 style={{ fontSize: "30px", marginTop: "5vh" }}>
-          Enter parking where you want to give back the car.
+          Enter parking where do you want to give back the car
         </h1>
       </Grid>
 
@@ -117,7 +118,7 @@ const SelectedCar = () => {
       />
       <Grid container justify="center" alignItems="center">
         <Button onClick={toggleCarReserve} variant="contained" color="primary">
-          Reserve car.
+          Reserve car
         </Button>
       </Grid>
     </div>

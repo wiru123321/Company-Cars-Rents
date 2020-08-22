@@ -1,9 +1,6 @@
 package com.euvic.carrental.services;
 
-import com.euvic.carrental.model.Car;
-import com.euvic.carrental.model.ParkingHistory;
-import com.euvic.carrental.model.RentHistory;
-import com.euvic.carrental.model.User;
+import com.euvic.carrental.model.*;
 import com.euvic.carrental.repositories.RentHistoryRepository;
 import com.euvic.carrental.responses.CarDTO;
 import com.euvic.carrental.responses.ParkingHistoryDTO;
@@ -17,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class RentHistoryService implements RentHistoryServiceInterface {
@@ -50,6 +48,18 @@ public class RentHistoryService implements RentHistoryServiceInterface {
             temp.setIsActive(false);
             rentHistoryRepository.save(temp);
         }
+    }
+
+    @Override //TODO Test it
+    public void addNewRentHistoryWhenRentEnd(final String adminResponse, final Rent rent, final ParkingHistory parkingHistoryTo) {
+        final ParkingHistory parkingFrom = new ParkingHistory(null, rent.getParkingFrom());
+        final ParkingHistory parkingTo;
+        parkingTo = Objects.requireNonNullElseGet(parkingHistoryTo, () -> new ParkingHistory(null, rent.getParkingTo()));
+        final RentHistory rentHistory = new RentHistory(null, rent.getUser(), rent.getCar(), rent.getDateFrom(), rent.getDateTo(), parkingFrom
+                , parkingTo, false, false, rent.getReasonForTheLoan(), adminResponse, "");
+        parkingHistoryService.addEntityToDB(parkingFrom);
+        parkingHistoryService.addEntityToDB(parkingTo);
+        this.addEntityToDB(rentHistory);
     }
 
     @Override

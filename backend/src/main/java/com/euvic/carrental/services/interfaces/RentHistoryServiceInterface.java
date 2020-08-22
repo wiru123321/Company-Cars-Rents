@@ -1,6 +1,8 @@
 package com.euvic.carrental.services.interfaces;
 
 import com.euvic.carrental.model.Car;
+import com.euvic.carrental.model.ParkingHistory;
+import com.euvic.carrental.model.Rent;
 import com.euvic.carrental.model.RentHistory;
 import com.euvic.carrental.responses.CarDTO;
 import com.euvic.carrental.responses.RentHistoryDTO;
@@ -13,6 +15,8 @@ public interface RentHistoryServiceInterface {
     Long addEntityToDB(RentHistory rentHistory);
 
     void setToInactiveByLicensePlate(String licensePlate);
+
+    void addNewRentHistoryWhenRentEnd(String adminResponse, Rent rent, ParkingHistory parkingHistoryTo);
 
     RentHistoryEndPendingDTO getRentEndById(Long id);
 

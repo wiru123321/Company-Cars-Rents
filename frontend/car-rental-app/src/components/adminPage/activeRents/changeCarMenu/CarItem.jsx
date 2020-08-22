@@ -19,6 +19,7 @@ const useStyles = makeStyles({
 const CarItem = ({ car, changeCar }) => {
   const classes = useStyles();
   const alert = useAlert();
+
   const handleCarChange = () => {
     changeCar(car.licensePlate, alert);
   };

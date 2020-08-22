@@ -1,44 +1,57 @@
 import React from "react";
-import { Grid } from "@material-ui/core";
+import { Grid, makeStyles } from "@material-ui/core";
 import FacebookIcon from "@material-ui/icons/Facebook";
 import YouTubeIcon from "@material-ui/icons/YouTube";
 import MailIcon from "@material-ui/icons/Mail";
 
+const useStyles = makeStyles({
+  root: {
+    marginTop: "1%",
+    textAlign: "center",
+    height: "15vh",
+    backgroundColor: "#0e153a",
+  },
+  content: {
+    width: "30vw",
+  },
+  icon: {
+    fontSize: "6vh",
+  },
+  textArea: {
+    fontSize: "2.5vh",
+    color: "#f3f169",
+  },
+});
+
 const Footer = () => {
+  const classes = useStyles();
   return (
     <Grid
       container
-      style={{
-        textAlign: "center",
-        height: "15vh",
-        backgroundColor: "#0e153a",
-        // backgroundColor: "#3f51b5",
-      }}
+      className={classes.root}
       direction="column"
       justify="space-evenly"
       alignItems="center"
     >
-      <Grid style={{ width: "30vw" }} container justify="space-evenly">
+      <Grid className={classes.content} container justify="space-evenly">
         <Grid item xs={2}>
           <a href="https://www.facebook.com/">
-            <FacebookIcon style={{ fontSize: "6vh" }} />
+            <FacebookIcon className={classes.icon} />
           </a>
         </Grid>
         <Grid item xs={2}>
           <a href="https://www.youtube.com/">
-            <YouTubeIcon style={{ fontSize: "6vh" }} />
+            <YouTubeIcon className={classes.icon} />
           </a>
         </Grid>
         <Grid item xs={2}>
           <a href="#">
-            <MailIcon style={{ fontSize: "6vh" }} />
+            <MailIcon className={classes.icon} />
           </a>
         </Grid>
       </Grid>
       <Grid item>
-        <p style={{ fontSize: "2.5vh", color: "#f3f169" }}>
-          2020 &copy; All rights reserved.
-        </p>
+        <p className={classes.textArea}>2020 &copy; All rights reserved.</p>
       </Grid>
     </Grid>
   );

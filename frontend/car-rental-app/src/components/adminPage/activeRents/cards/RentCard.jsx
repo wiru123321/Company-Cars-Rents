@@ -13,7 +13,7 @@ const useStyles = makeStyles({
     margin: "1%",
     padding: "8px",
     minHeight: "30vh",
-    minWidth: "30vw",
+    minWidth: "35vw",
     backgroundColor: "#A9A9A9",
   },
   card: {
@@ -30,7 +30,7 @@ const RentCard = ({ rent, handleMenuModeChange }) => {
   const classes = useStyles();
 
   return (
-    <Paper className={classes.paper}>
+    <Paper elevation={6} className={classes.paper}>
       <Grid container direction="column">
         <Paper className={classes.card}>
           <UserInfo user={rent.userRentInfo} />

@@ -12,6 +12,8 @@ export const ReservationDate = ({
   inputText,
   handleDateChange,
   handleHourChange,
+  valueDate,
+  valueHour,
 }) => {
   return (
     <Box
@@ -29,6 +31,7 @@ export const ReservationDate = ({
               onChange={(event) => handleDateChange(event)}
               type="date"
               variant="outlined"
+              value={valueDate}
               shrink
               margin="normal"
               required
@@ -43,6 +46,7 @@ export const ReservationDate = ({
               onChange={(event) => handleHourChange(event)}
               type="time"
               variant="outlined"
+              value={valueHour}
               shrink
               margin="normal"
               required

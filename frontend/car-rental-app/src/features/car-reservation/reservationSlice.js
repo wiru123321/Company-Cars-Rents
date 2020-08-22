@@ -12,7 +12,14 @@ const initialState = {
   choose: true,
   dateIsChoosen: true,
   isCarFormActive: false,
-  choosenCar: 0,
+  choosenCar: "",
+  stepOne: true,
+  stepTwo: false,
+  stepThree: false,
+  stepFour: false,
+  finishForm: false,
+  isEndOfForm: false,
+  disableBack: true,
   cars: [],
 };
 
@@ -32,6 +39,9 @@ export const reservationSlice = createSlice({
 
     toggleChoose: (state) => {
       state.choose = !state.choose;
+      state.stepOne = !state.stepOne;
+      state.stepTwo = !state.stepTwo;
+      state.stepThree = !state.stepTwo;
     },
     firstnameChange: (state, action) => {
       state.firstName = action.payload;
@@ -41,6 +51,9 @@ export const reservationSlice = createSlice({
     },
     isCarFormActiveHandler: (state) => {
       state.isCarFormActive = !state.isCarFormActive;
+    },
+    setFinishForm: (state) => {
+      state.finishForm = !state.finishForm;
     },
     lastnameChange: (state, action) => {
       state.lastName = action.payload;
@@ -60,6 +73,33 @@ export const reservationSlice = createSlice({
     setCars: (state, action) => {
       state.cars = action.payload;
     },
+    setStepOne: (state) => {
+      state.stepOne = !state.stepOne;
+    },
+    setStepTwo: (state) => {
+      state.stepTwo = !state.stepTwo;
+    },
+    setStepThree: (state) => {
+      state.stepThree = !state.stepThree;
+    },
+    setStepFour: (state) => {
+      state.stepFour = !state.stepFour;
+    },
+    setisChoosen: (state) => {
+      state.isChoosen = !state.isChoosen;
+    },
+    setisEndOfForm: (state) => {
+      state.isEndOfForm = !state.isEndOfForm;
+    },
+    setChoose: (state) => {
+      state.choose = !state.choose;
+    },
+    setdisableBack: (state) => {
+      state.disableBack = !state.disableBack;
+    },
+    setisEndOfFormValue: (state) => {
+      state.isEndOfForm = false;
+    },
   },
 });
 
@@ -77,6 +117,16 @@ export const {
   getCars,
   dateIsChoosenHandler,
   isCarFormActiveHandler,
+  setStepOne,
+  setStepTwo,
+  setStepThree,
+  setStepFour,
+  setFinishForm,
+  setisChoosen,
+  setChoose,
+  setisEndOfForm,
+  setdisableBack,
+  setisEndOfFormValue,
 } = reservationSlice.actions;
 
 export const selectCars = (state) => state.reservation.cars;
@@ -91,12 +141,24 @@ export const selectbeginHour = (state) =>
   state.reservation.reservationBeginHours;
 export const selectendDate = (state) => state.reservation.reservationEndDate;
 export const selectendHour = (state) => state.reservation.reservationEndHour;
+export const selectFinishForm = (state) => state.reservation.finishForm;
+export const selectisEndOfForm = (state) => state.reservation.isEndOfForm;
 
 export const selectDateIsChoosen = (state) => state.reservation.dateIsChoosen;
+
+export const selectStepOne = (state) => state.reservation.stepOne;
+export const selectStepTwo = (state) => state.reservation.stepTwo;
+export const selectStepThree = (state) => state.reservation.stepThree;
+export const selectStepFour = (state) => state.reservation.stepFour;
+export const selectchoosenCar = (state) => state.reservation.choosenCar;
+export const selectdisableBack = (state) => state.reservation.disableBack;
+
 export const selectIsCarFormActive = (state) =>
   state.reservation.isCarFormActive;
 
-export const fetchCarsAvaiableInDate = (dateFromDateTo) => async (dispatch) => {
+export const fetchCarsAvaiableInDate = (dateFromDateTo, alert) => async (
+  dispatch
+) => {
   try {
     const response = await axios({
       method: "get",
@@ -106,12 +168,16 @@ export const fetchCarsAvaiableInDate = (dateFromDateTo) => async (dispatch) => {
     });
     console.log(response.data);
     dispatch(setCars(response.data));
+    alert.success("Success");
   } catch (error) {
     console.log(error);
+    alert.error("Wrong data input, please check entered data.");
   }
 };
 
-export const uploadReservCar = (licensePlate, formData) => async (dispatch) => {
+export const uploadReservCar = (licensePlate, formData, alert) => async (
+  dispatch
+) => {
   try {
     const response = await axios.post(
       API_URL + `/e/rent/${licensePlate}`,
@@ -122,8 +188,10 @@ export const uploadReservCar = (licensePlate, formData) => async (dispatch) => {
         },
       }
     );
+    alert.success("Success");
   } catch (error) {
     console.log(error);
+    alert.error("Wrong data input, please check entered data.");
   }
 };
 

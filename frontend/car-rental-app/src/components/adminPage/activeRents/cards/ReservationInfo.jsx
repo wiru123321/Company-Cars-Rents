@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Paper, makeStyles } from "@material-ui/core";
+import { Grid, Paper, makeStyles, Typography } from "@material-ui/core";
 import UserInfo from "../resrvationUi/UserInfo";
 import ReservationDate from "../resrvationUi/ReservationDate";
 import CarInfoCard from "../resrvationUi/CarInfoCard";
@@ -13,25 +13,40 @@ const useStyles = makeStyles({
   },
 });
 
-const ReservationInfo = ({ rent }) => {
+const ReservationInfo = ({
+  user,
+  dateFrom,
+  dateTo,
+  car,
+  parkingFrom,
+  parkingTo,
+  adminResponseForTheRequest,
+}) => {
   const classes = useStyles();
+
   return (
     <Grid container direction="column">
       <Paper className={classes.item}>
-        <UserInfo user={rent.userRentInfo} />
+        <UserInfo user={user} />
       </Paper>
       <Paper className={classes.item}>
-        <ReservationDate dateFrom={rent.dateFrom} dateTo={rent.dateTo} />
+        <ReservationDate dateFrom={dateFrom} dateTo={dateTo} />
       </Paper>
       <Paper className={classes.item}>
-        <CarInfoCard car={rent.carDTO} />
+        <CarInfoCard car={car} />
       </Paper>
       <Paper className={classes.item}>
-        <ParkingInfo title="Start parking" parking={rent.parkingFrom} />
+        <ParkingInfo title="Start parking" parking={parkingFrom} />
       </Paper>
       <Paper className={classes.item}>
-        <ParkingInfo title="End parking" parking={rent.parkingTo} />
+        <ParkingInfo title="End parking" parking={parkingTo} />
       </Paper>
+      {adminResponseForTheRequest && (
+        <Paper className={classes.item}>
+          <Typography>Admins response</Typography>
+          <Typography>{adminResponseForTheRequest}</Typography>
+        </Paper>
+      )}
     </Grid>
   );
 };

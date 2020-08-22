@@ -147,12 +147,12 @@ public class DatabaseLoader implements CommandLineRunner {
             }
             stringList.clear();
 
-            userRepository.save(new User(null, "admin123", passwordEncoder.encode("apassword123"), "admin@email.com", "Jan", "Kowalski", "123456789", roleRepository.findByName("ADMIN")));
-            userRepository.save(new User(null, "user123", passwordEncoder.encode("upassword123"), "user@email.com", "Andrzej", "Wywrot", "123456798", roleRepository.findByName("EMPLOYEE")));
-            userRepository.save(new User(null, "kama123", passwordEncoder.encode("upassword123"), "user@email.com", "Kamil", "Susek", "700100110", roleRepository.findByName("EMPLOYEE")));
-            userRepository.save(new User(null, "walo123", passwordEncoder.encode("upassword123"), "walo@email.com", "Wojciech", "Waleszczyk", "666999666", roleRepository.findByName("EMPLOYEE")));
+            userRepository.save(new User(null, "admin123", passwordEncoder.encode("apassword123"), "admin@email.com", "Jan", "Kowalski", "513238338", roleRepository.findByName("ADMIN")));
+            userRepository.save(new User(null, "user123", passwordEncoder.encode("upassword123"), "user@email.com", "Andrzej", "Wywrot", "713782393", roleRepository.findByName("EMPLOYEE")));
+            userRepository.save(new User(null, "kama123", passwordEncoder.encode("upassword123"), "Kamil@email.com", "Kamil", "Susek", "663232767", roleRepository.findByName("EMPLOYEE")));
+            userRepository.save(new User(null, "walo123", passwordEncoder.encode("upassword123"), "Wojtekmaj2@o2.pl", "Wojciech", "Waleszczyk", "508376153", roleRepository.findByName("EMPLOYEE")));
 
-            final Model model1 = new Model(null, "C350", markService.getEntityByName("Audi"));
+            final Model model1 = new Model(null, "TT", markService.getEntityByName("Audi"));
             final Model model2 = new Model(null, "Astra", markService.getEntityByName("Opel"));
             final Model model3 = new Model(null, "M5", markService.getEntityByName("BMW"));
 
@@ -170,7 +170,6 @@ public class DatabaseLoader implements CommandLineRunner {
             final Parking parking7 = new Parking(null, "Piotrowice", "40-333", "Bydgoska 77", "E-6", "Parking przy sklepiku Avea", true);
             final Parking parking8 = new Parking(null, "Kraków", "40-444", "Jaka 32", "A-8", "Parking przy sklepie Tesco", true);
             final Parking parking9 = new Parking(null, "Rzeszów", "40-555", "Weteranow 2", "B-4", "Parking przy dworcu", true);
-
             final Parking parking10 = new Parking(null, "Brzęczów", "22-333", "Pacyfistów 3", "C2", "Żabka", true);
             final Parking parking11 = new Parking(null, "Bydgoszcz", "22-222", "Wygidaiłów 77", "A1", "Biedronka", true);
             final Parking parking12 = new Parking(null, "Wrocław", "22-111", "Męczenników 32", "A5", "Lidl", true);
@@ -189,33 +188,37 @@ public class DatabaseLoader implements CommandLineRunner {
             final Long parkingId12 = parkingService.addEntityToDB(parking12);
 
 
+            final String exampleCarsPhotosDir = System.getProperty("user.dir") + "/src/main/upload/static/images/cars/examples/";
             final Car car1 = new Car(null, "WN101", 100, 4, 5, 5,
                     gearboxTypeService.getEntityByName("Automatic"), fuelTypeService.getEntityByName("Gasoline"),
                     LocalDateTime.of(2000, 3, 25, 0, 0), 1990, true, 200000, modelService.getEntityById(modelId1),
                     parkingService.getEntityById(parkingId10), colourService.getEntityByName("Red"), typeService.getEntityByName("Sedan"));
+            car1.setImagePath(exampleCarsPhotosDir + "AudiTT.png");
 
             final Car car2 = new Car(null, "SBE33212", 120, 1, 4, 3,
                     gearboxTypeService.getEntityByName("Manual"), fuelTypeService.getEntityByName("Diesel"),
                     LocalDateTime.of(2000, 3, 25, 0, 0), 2000, true, 120000, modelService.getEntityById(modelId2),
                     parkingService.getEntityById(parkingId11), colourService.getEntityByName("Blue"), typeService.getEntityByName("Coupe"));
+            car2.setImagePath(exampleCarsPhotosDir + "OpelAstra.png");
 
             final Car car3 = new Car(null, "SBE11212", 250, 4, 5, 5,
                     gearboxTypeService.getEntityByName("Automatic"), fuelTypeService.getEntityByName("Diesel"),
                     LocalDateTime.of(2000, 3, 25, 0, 0), 2014, true, 100000, modelService.getEntityById(modelId3),
                     parkingService.getEntityById(parkingId12), colourService.getEntityByName("Green"), typeService.getEntityByName("Sedan"));
+            car3.setImagePath(exampleCarsPhotosDir + "BMWM5.png");
 
             carService.addEntityToDB(car1);
             carService.addEntityToDB(car2);
             carService.addEntityToDB(car3);
 
             final Rent rent1 = new Rent(null
-                    , userService.getEntityByLogin("kama123")
+                    , userService.getEntityByLogin("walo123")
                     , carService.getOnCompanyEntityByLicensePlate("WN101")
                     , LocalDateTime.of(2020, 12, 7, 0, 0)
                     , LocalDateTime.of(2020, 12, 10, 0, 0)
                     , parkingService.getEntityById(parkingId1)
                     , parkingService.getEntityById(parkingId2)
-                    , true, "Simple comment", "Response", "");
+                    , true, "I have ill daughter.", "Response", "");
 
             final Rent rent2 = new Rent(null
                     , userService.getEntityByLogin("walo123")
@@ -224,36 +227,36 @@ public class DatabaseLoader implements CommandLineRunner {
                     , LocalDateTime.of(2020, 12, 10, 0, 0)
                     , parkingService.getEntityById(parkingId3)
                     , parkingService.getEntityById(parkingId4)
-                    , false, "walo comment", "Response", "");
+                    , false, "Tired of people in public transport.", "Response", "");
 
             final Rent rent3 = new Rent(null
-                    , userService.getEntityByLogin("admin123")
-                    , carService.getOnCompanyEntityByLicensePlate("SBE11212")
+                    , userService.getEntityByLogin("walo123")
+                    , carService.getOnCompanyEntityByLicensePlate("WN101")
                     , LocalDateTime.of(2020, 11, 25, 0, 0)
                     , LocalDateTime.of(2020, 12, 1, 0, 0)
                     , parkingService.getEntityById(parkingId5)
                     , parkingService.getEntityById(parkingId6)
-                    , false, "kama comment", "Response", "");
+                    , false, "Business trip.", "Response", "");
 
             final Rent rent4 = new Rent(null
-                    , userService.getEntityByLogin("user123")
+                    , userService.getEntityByLogin("walo123")
                     , carService.getOnCompanyEntityByLicensePlate("WN101")
                     , LocalDateTime.of(2020, 8, 25, 0, 0)
                     , LocalDateTime.of(2020, 9, 1, 0, 0)
                     , parkingService.getEntityById(parkingId7)
                     , parkingService.getEntityById(parkingId8)
-                    , false, "kama comment", "Response", "");
+                    , true, "Give me lambo, please.", "Response", "");
 
             rentRepository.save(rent1);
             rentRepository.save(rent2);
             rentRepository.save(rent3);
             rentRepository.save(rent4);
 
-            final Fault fault1 = new Fault(null, car1, "Wybita przednia szyba", false, true);
-            final Fault fault2 = new Fault(null, car1, "Zarysowany zderzak", false, false);
-            final Fault fault3 = new Fault(null, car1, "Wyrwane drzwi", false, true);
-            final Fault fault4 = new Fault(null, car2, "Zarysowany lakier", false, false);
-            final Fault fault5 = new Fault(null, car2, "Przebita opona", false, true);
+            final Fault fault1 = new Fault(null, car1, "Wybita przednia szyba", LocalDateTime.of(2020, 3, 20, 0, 0), false, true);
+            final Fault fault2 = new Fault(null, car1, "Zarysowany zderzak", LocalDateTime.of(2020, 3, 21, 0, 0), false, false);
+            final Fault fault3 = new Fault(null, car1, "Wyrwane drzwi", LocalDateTime.of(2020, 3, 22, 0, 0), false, true);
+            final Fault fault4 = new Fault(null, car2, "Zarysowany lakier", LocalDateTime.of(2020, 3, 23, 0, 0), false, false);
+            final Fault fault5 = new Fault(null, car2, "Przebita opona", LocalDateTime.of(2020, 3, 24, 0, 0), false, true);
 
             faultService.addEntityToDB(fault1);
             faultService.addEntityToDB(fault2);

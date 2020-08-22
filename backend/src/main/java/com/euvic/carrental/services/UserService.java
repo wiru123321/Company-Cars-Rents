@@ -120,7 +120,7 @@ public class UserService implements UserServiceInterface {
         return userRepository.findByLogin(login);
     }
 
-    @Override   //TODO test it
+    @Override
     public User getEntityByLoginAndisActive(final String login, final Boolean isActive) {
         return userRepository.findByLoginAndIsActive(login, isActive);
     }

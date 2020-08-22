@@ -13,6 +13,7 @@ const AddIssues = () => {
   const dispatch = useDispatch();
   const { currentCar, filterActive } = useSelector(selectAll);
   const [description, setDescription] = useState("");
+  const [date, setDate] = useState("");
   const [setCarInactive, changeCarInactive] = useState(false);
 
   const resetForm = () => {
@@ -22,6 +23,10 @@ const AddIssues = () => {
 
   const handleDescriptionChange = (event) => {
     setDescription(event.target.value);
+  };
+
+  const handleDateChange = (event) => {
+    setDate(event.target.value);
   };
 
   const handleCarInactiveChange = (event) => {
@@ -35,6 +40,7 @@ const AddIssues = () => {
         {
           description,
           setCarInactive,
+          faultDate: date + "T00:00:00",
           carLicensePlate: currentCar.licensePlate,
         },
         alert,
@@ -48,8 +54,10 @@ const AddIssues = () => {
     <Grid container justify="center">
       <AddIssuesForm
         description={description}
+        date={date}
         setCarInactive={setCarInactive}
         handleDescriptionChange={handleDescriptionChange}
+        handleDateChange={handleDateChange}
         handleCarInactiveChange={handleCarInactiveChange}
         handleSubmit={handleSubmit}
       />

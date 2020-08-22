@@ -34,11 +34,11 @@ const ChangeCar = ({ car, rent, dateFrom, dateTo }) => {
   };
 
   const fetchCars = () => {
-    let dateFromDateTo = {
+    let date = {
       dateFrom,
       dateTo,
     };
-    dispatch(fetchCarsBetweenDates(dateFromDateTo, setCars));
+    dispatch(fetchCarsBetweenDates(date, setCars));
   };
 
   const changeCar = (licensePlate, alert) => {
@@ -46,7 +46,7 @@ const ChangeCar = ({ car, rent, dateFrom, dateTo }) => {
     setSearch(false);
   };
 
-  const getView = () => {
+  const getCurrentView = () => {
     if (search) {
       return (
         <>
@@ -75,7 +75,7 @@ const ChangeCar = ({ car, rent, dateFrom, dateTo }) => {
         {search ? "Dismiss" : "Find new car"}
       </Button>
       <Divider />
-      <Grid className={classes.content}>{getView()}</Grid>
+      <Grid className={classes.content}>{getCurrentView()}</Grid>
     </Grid>
   );
 };

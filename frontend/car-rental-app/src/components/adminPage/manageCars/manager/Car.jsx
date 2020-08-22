@@ -1,8 +1,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { Grid, Paper, Button, makeStyles } from "@material-ui/core";
-import CarImage from "../../../carsListing/CarImage";
-import CarInfo from "../../../carsListing/CarInfo";
+import CarInfoCard from "../../activeRents/resrvationUi/CarInfoCard";
 import {
   setCurrentCar,
   enterManageCarMode,
@@ -12,7 +11,7 @@ const useStyles = makeStyles({
   content: {
     padding: "8px",
     marginTop: "1%",
-    width: "50vw",
+    minWidth: "40vw",
   },
   maxWidthButton: {
     minWidth: "100%",
@@ -22,27 +21,22 @@ const useStyles = makeStyles({
 const Car = ({ car }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
+
+  const handleManage = () => {
+    dispatch(setCurrentCar(car));
+    dispatch(enterManageCarMode(true));
+  };
+
   return (
-    <Paper className={classes.content}>
+    <Paper elevation={6} className={classes.content}>
       <Grid container justify="space-evenly" alignItems="center">
-        <Grid item>
-          <CarImage
-            src={
-              "http://localhost:8080/u/car/download-car-image/" +
-              car.licensePlate
-            }
-          />
-        </Grid>
-        <Grid item>
-          <CarInfo car={car} />
-        </Grid>
+        <CarInfoCard car={car} />
       </Grid>
       <Grid container justify="center" alignItems="center">
         <Button
-          onClick={() => {
-            dispatch(setCurrentCar(car));
-            dispatch(enterManageCarMode(true));
-          }}
+          color="primary"
+          variant="outlined"
+          onClick={handleManage}
           className={classes.maxWidthButton}
         >
           Manage

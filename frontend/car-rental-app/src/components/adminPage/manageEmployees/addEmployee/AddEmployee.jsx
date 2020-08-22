@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Grid, Typography, Select, MenuItem } from "@material-ui/core";
+import {
+  Grid,
+  Typography,
+  Select,
+  MenuItem,
+  makeStyles,
+  Paper,
+} from "@material-ui/core";
 import {
   firstnameChange,
   lastnameChange,
@@ -106,48 +113,54 @@ const AddEmployee = () => {
   }
 
   return (
-    <ValidatorForm onSubmit={submit}>
-      <Grid
-        className={classes.root}
-        container
-        direction="column"
-        justify="center"
-        alignItems="center"
-        style={{ height: "81vh" }}
-      >
-        <Typography variant="h2">Register user</Typography>
-        <UsersPersonalData
-          firstname={firstname}
-          lastname={lastname}
-          handleFirstnameChange={handleFirstnameChange}
-          handleLastnameChange={handleLastnameChange}
-        />
-        <UsersLogin
-          email={email}
-          login={login}
-          phoneNumber={phoneNumber}
-          handleEmailChange={handleEmailChange}
-          handleLoginChange={handleLoginChange}
-          handlePhoneNumberChange={handlePhoneNumberChange}
-        />
-        <Select
-          className={classes.selectArea}
-          required
-          onChange={(event) => dispatch(roleChange(event.target.value))}
-          value={role}
+    <Grid container justify="center" alignItems="center">
+      <ValidatorForm onSubmit={submit}>
+        <Grid
+          className={classes.root}
+          container
+          direction="column"
+          justify="center"
+          alignItems="center"
+          style={{ height: "80vh" }}
         >
-          <MenuItem value="EMPLOYEE">Employee</MenuItem>
-          <MenuItem value="ADMIN">Admin</MenuItem>
-        </Select>
-        <UsersPassword
-          password={password}
-          rePassword={rePassword}
-          handlePasswordChange={handlePasswordChange}
-          handleRePasswordChange={handleRePasswordChange}
-        />
-        <FormControlPanel success={success} showSuccess={showSuccess} />
-      </Grid>
-    </ValidatorForm>
+          <Paper elevation={6} className={classes.paper}>
+            <Grid className={classes.content}>
+              <Typography variant="h2">Register user</Typography>
+              <UsersPersonalData
+                firstname={firstname}
+                lastname={lastname}
+                handleFirstnameChange={handleFirstnameChange}
+                handleLastnameChange={handleLastnameChange}
+              />
+              <UsersLogin
+                email={email}
+                login={login}
+                phoneNumber={phoneNumber}
+                handleEmailChange={handleEmailChange}
+                handleLoginChange={handleLoginChange}
+                handlePhoneNumberChange={handlePhoneNumberChange}
+              />
+              <Select
+                className={classes.selectArea}
+                required
+                onChange={(event) => dispatch(roleChange(event.target.value))}
+                value={role}
+              >
+                <MenuItem value="EMPLOYEE">Employee</MenuItem>
+                <MenuItem value="ADMIN">Admin</MenuItem>
+              </Select>
+              <UsersPassword
+                password={password}
+                rePassword={rePassword}
+                handlePasswordChange={handlePasswordChange}
+                handleRePasswordChange={handleRePasswordChange}
+              />
+              <FormControlPanel success={success} showSuccess={showSuccess} />
+            </Grid>
+          </Paper>
+        </Grid>
+      </ValidatorForm>
+    </Grid>
   );
 };
 

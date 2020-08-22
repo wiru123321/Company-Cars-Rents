@@ -147,15 +147,17 @@ export const {
 
 export const selectAll = (state) => state.carsInfo;
 
-export const addCar = (carDTO) => async (dispatch) => {
+export const addCar = (carDTO, alert) => async (dispatch) => {
   try {
     const response = await axios.post(API_URL + "/a/car", carDTO, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     });
+    alert.success("Success");
   } catch (error) {
     console.log(error);
+    alert.error("Wrong data input, please check entered data.");
   }
 };
 

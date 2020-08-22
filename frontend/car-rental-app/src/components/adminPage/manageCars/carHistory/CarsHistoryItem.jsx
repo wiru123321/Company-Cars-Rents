@@ -1,5 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { Grid, Paper, Divider, makeStyles, Button } from "@material-ui/core";
+import React, { useState } from "react";
+import {
+  Grid,
+  Paper,
+  Divider,
+  makeStyles,
+  Button,
+  Typography,
+} from "@material-ui/core";
 import ParkingInfo from "../../activeRents/cards/ParkingInfo";
 import UserInfo from "../../activeRents/resrvationUi/UserInfo";
 import ReservationDate from "../../activeRents/resrvationUi/ReservationDate";
@@ -10,7 +17,7 @@ const useStyles = makeStyles({
     fontSize: "2rem",
   },
   paper: {
-    margin: "1%",
+    margin: "2%",
     padding: "8px",
     minWidth: "30vw",
   },
@@ -19,10 +26,23 @@ const useStyles = makeStyles({
     padding: "8px",
     backgroundColor: "#DCDCDC",
   },
+  item: {
+    margin: "2%",
+    padding: "4px",
+    backgroundColor: "#DCDCDC",
+  },
+  title: {
+    fontSize: "1.5rem",
+  },
+  textArea: {
+    wordWrap: "break-word",
+  },
 });
 
 const CarsHistoryItem = ({ rent }) => {
   const [hide, setHide] = useState(true);
+
+  console.log(rent);
 
   const toggleHide = () => {
     setHide(!hide);
@@ -30,7 +50,7 @@ const CarsHistoryItem = ({ rent }) => {
 
   const classes = useStyles();
   return (
-    <Paper className={classes.paper}>
+    <Paper elevation={6} className={classes.paper}>
       <Grid container direction="column">
         {!hide && (
           <Paper className={classes.card}>
@@ -56,6 +76,16 @@ const CarsHistoryItem = ({ rent }) => {
                 parking={rent.parkingHistoryDTOTo}
               />
             </Paper>
+            {rent.adminResponseForTheRequest && (
+              <Paper className={classes.item}>
+                <Typography className={classes.title}>
+                  Admins response
+                </Typography>
+                <Typography className={classes.textArea}>
+                  {rent.adminResponseForTheRequest}
+                </Typography>
+              </Paper>
+            )}
           </>
         )}
         <Button onClick={toggleHide}>{hide ? "Show more" : "Hide"}</Button>

@@ -17,7 +17,7 @@ const FormControlPanel = ({ success, showSuccess }) => {
       alignItems="center"
       className={classes.buttonArea}
     >
-      <Button variant="contained" type="submit">
+      <Button variant="contained" color="primary" type="submit">
         Create account
       </Button>
       {didSubmit && password !== rePassword && (

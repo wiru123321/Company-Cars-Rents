@@ -52,4 +52,14 @@ public class Parking {
         this.comment = comment;
         this.isActive = isActive;
     }
+
+    public Parking(final Parking oldParking) {
+        this.id = null;
+        this.town = oldParking.town;
+        this.postalCode = oldParking.postalCode;
+        this.streetName = oldParking.streetName;
+        this.number = oldParking.number;
+        this.comment = oldParking.comment;
+        this.isActive = oldParking.isActive;
+    }
 }
