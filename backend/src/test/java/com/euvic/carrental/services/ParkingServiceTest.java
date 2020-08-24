@@ -118,4 +118,24 @@ public class ParkingServiceTest {
             assertTrue(updatedParking.getIsActive());
         });
     }
+
+    @Test
+    void whenTwoParkingsGiven_ifFirstParkingIsNotNull_addToDBAndReturnParkingId() {
+        final ParkingDTO parkingDTONotNull1 = new ParkingDTO("Chorzow", "40-321", "Jakas 23", "E-1", "Parking przy Tesco");
+        final ParkingDTO parkingDTONotNull2 = new ParkingDTO("KAtowice", "40-311", "Mariacka 22", "A2", "Parking za mariacką");
+
+        final Long parkingFirstId = parkingService.choosesNotNullParkingAndAddToDB(parkingDTONotNull1, parkingDTONotNull2);
+        final ParkingDTO result1 = parkingService.getDTOById(parkingFirstId);
+
+        assertAll(() -> {
+            assertEquals(parkingDTONotNull2.getTown(), result1.getTown());
+            assertEquals(parkingDTONotNull2.getPostalCode(), result1.getPostalCode());
+        });
+        final Long parkingSecondId = parkingService.choosesNotNullParkingAndAddToDB(parkingDTONotNull1, null);
+        final ParkingDTO result2 = parkingService.getDTOById(parkingSecondId);
+        assertAll(() -> {
+            assertEquals(parkingDTONotNull1.getTown(), result2.getTown());
+            assertEquals(parkingDTONotNull1.getPostalCode(), result2.getPostalCode());
+        });
+    }
 }

@@ -50,7 +50,7 @@ public class RentHistoryService implements RentHistoryServiceInterface {
         }
     }
 
-    @Override //TODO Test it
+    @Override
     public void addNewRentHistoryWhenRentEnd(final String adminResponse, final Rent rent, final ParkingHistory parkingHistoryTo) {
         final ParkingHistory parkingFrom = new ParkingHistory(null, rent.getParkingFrom());
         final ParkingHistory parkingTo;

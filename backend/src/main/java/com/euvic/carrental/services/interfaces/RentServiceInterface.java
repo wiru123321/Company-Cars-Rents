@@ -3,7 +3,10 @@ package com.euvic.carrental.services.interfaces;
 import com.euvic.carrental.model.Car;
 import com.euvic.carrental.model.Rent;
 import com.euvic.carrental.model.User;
-import com.euvic.carrental.responses.*;
+import com.euvic.carrental.responses.CarDTO;
+import com.euvic.carrental.responses.DateFromDateTo;
+import com.euvic.carrental.responses.RentDTO;
+import com.euvic.carrental.responses.RentPendingDTO;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -17,7 +20,7 @@ public interface RentServiceInterface {
 
     void deleteRentsByUser(User user);
 
-    void deleteAndUpdateRentAndParkings(Rent rent, ParkingDTO parkingDTO);
+    void deleteAndUpdateRentAndParkings(Rent rent, Boolean ifUpdateNextRent);
 
     boolean checkMyRentsBeforeAddNewRent(RentDTO rentDTO);
 
