@@ -120,7 +120,7 @@ public class RentController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Rent request doesn't exist");
         }
         rentHistoryService.addNewRentHistoryWhenRentEnd(rentPermitRejectDTO.getResponse(), rent, null);
-        rentService.deleteAndUpdateRentAndParkings(rent, null);
+        rentService.deleteAndUpdateRentAndParkings(rent, false);
 
         return ResponseEntity.status(HttpStatus.OK).body("Passed");
     }
@@ -184,7 +184,7 @@ public class RentController {
         if (!rent.getUser().equals(user)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Rent is not belong to this user");
         }
-        rentService.deleteAndUpdateRentAndParkings(rent, null);
+        rentService.deleteAndUpdateRentAndParkings(rent, false);
 
         return ResponseEntity.status(HttpStatus.OK).body("Passed");
     }
@@ -208,7 +208,8 @@ public class RentController {
         final Parking actuallyCarParking = rent.getCar().getParking();
         if (endRentDTO.getParkingDTO() == null) {
             parkingTo = new ParkingHistory(null, rent.getParkingTo());
-            rent.getCar().setParking(rent.getParkingTo());
+            final Parking carParking = new Parking(rent.getParkingTo());
+            rent.getCar().setParking(carParking);
         } else {
             parkingTo = new ParkingHistory(null, endRentDTO.getParkingDTO());
             final Parking carParking = new Parking(null, endRentDTO.getParkingDTO());
@@ -218,7 +219,7 @@ public class RentController {
         parkingService.deleteParkingById(actuallyCarParking.getId());
         rentHistoryService.addNewRentHistoryWhenRentEnd(rent.getAdminResponseForTheRequest(), rent, parkingTo);
         carService.addEntityToDB(rent.getCar());
-        rentService.deleteAndUpdateRentAndParkings(rent, endRentDTO.getParkingDTO());
+        rentService.deleteAndUpdateRentAndParkings(rent, true);
 
         return ResponseEntity.status(HttpStatus.OK).body("Passed");
     }

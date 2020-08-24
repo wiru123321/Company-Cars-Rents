@@ -48,13 +48,13 @@ public class RentService implements RentServiceInterface {
         rentRepository.delete(rent);
     }
 
-    @Override //TODO test it
+    @Override
     public void updateNextRent(final Rent rent) {
         final Rent nextRent = this.getNearestRent(rent);
         if (nextRent != null) {
             final Long parkingId, newParkingId;
             parkingId = nextRent.getParkingFrom().getId();
-            final Parking newParking = new Parking(rent.getCar().getParking());
+            final Parking newParking = new Parking(rent.getParkingTo());
             newParkingId = parkingService.addEntityToDB(newParking);
             nextRent.setParkingFrom(parkingService.getEntityById(newParkingId));
             rentRepository.save(nextRent);
@@ -62,24 +62,23 @@ public class RentService implements RentServiceInterface {
         }
     }
 
-    @Override //TODO test it
-    public void deleteAndUpdateRentAndParkings(final Rent rent, final ParkingDTO parkingDTO) {
+    @Override
+    public void deleteAndUpdateRentAndParkings(final Rent rent, final Boolean ifUpdateNextRent) {
         final Long parkingFromId = rent.getParkingFrom().getId();
         final Long parkingToId = rent.getParkingTo().getId();
-        if (parkingDTO != null) {
+        if (ifUpdateNextRent) {
             this.updateNextRent(rent);
         }
         this.deleteRent(rent);
         parkingService.deleteParkingById(parkingFromId);
         parkingService.deleteParkingById(parkingToId);
-
     }
 
-    @Override //TODO test it
+    @Override
     public void deleteRentsByUser(final User user) {
         final List<Rent> rentList = rentRepository.findAllByUser(user);
         for (final Rent temp : rentList) {
-            this.deleteAndUpdateRentAndParkings(temp, null);
+            this.deleteAndUpdateRentAndParkings(temp, false);
         }
     }
 

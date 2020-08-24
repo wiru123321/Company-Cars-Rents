@@ -218,16 +218,16 @@ public class DatabaseLoader implements CommandLineRunner {
                     , LocalDateTime.of(2020, 12, 10, 0, 0)
                     , parkingService.getEntityById(parkingId1)
                     , parkingService.getEntityById(parkingId2)
-                    , true, "I have ill daughter.", "Response", "");
+                    , false, "I have ill daughter.", "Response", "");
 
             final Rent rent2 = new Rent(null
                     , userService.getEntityByLogin("walo123")
-                    , carService.getOnCompanyEntityByLicensePlate("SBE33212")
+                    , carService.getOnCompanyEntityByLicensePlate("WN101")
                     , LocalDateTime.of(2020, 12, 7, 0, 0)
                     , LocalDateTime.of(2020, 12, 10, 0, 0)
                     , parkingService.getEntityById(parkingId3)
                     , parkingService.getEntityById(parkingId4)
-                    , false, "Tired of people in public transport.", "Response", "");
+                    , true, "Tired of people in public transport.", "Response", "");
 
             final Rent rent3 = new Rent(null
                     , userService.getEntityByLogin("walo123")
@@ -236,12 +236,12 @@ public class DatabaseLoader implements CommandLineRunner {
                     , LocalDateTime.of(2020, 12, 1, 0, 0)
                     , parkingService.getEntityById(parkingId5)
                     , parkingService.getEntityById(parkingId6)
-                    , false, "Business trip.", "Response", "");
+                    , true, "Business trip.", "Response", "");
 
             final Rent rent4 = new Rent(null
                     , userService.getEntityByLogin("walo123")
                     , carService.getOnCompanyEntityByLicensePlate("WN101")
-                    , LocalDateTime.of(2020, 8, 25, 0, 0)
+                    , LocalDateTime.of(2020, 8, 23, 0, 0)
                     , LocalDateTime.of(2020, 9, 1, 0, 0)
                     , parkingService.getEntityById(parkingId7)
                     , parkingService.getEntityById(parkingId8)
