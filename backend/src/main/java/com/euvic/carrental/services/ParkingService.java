@@ -29,7 +29,7 @@ public class ParkingService implements ParkingServiceInterface {
         return parkingRepository.save(parking).getId();
     }
 
-    @Override //TODO test it
+    @Override
     public Long choosesNotNullParkingAndAddToDB(final ParkingDTO parkingDTOFromCar, final ParkingDTO parkingDTOFromUser) {
         final Long id;
         if (parkingDTOFromUser != null) {
