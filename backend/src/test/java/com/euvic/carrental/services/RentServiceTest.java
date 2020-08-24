@@ -770,17 +770,17 @@ public class RentServiceTest {
         userRepository.save(user);
         userRepository.save(user1);
 
-        final LocalDateTime dateFrom = LocalDateTime.of(2020, 3, 25, 0, 0);
-        final LocalDateTime dateTo = LocalDateTime.of(2020, 3, 30, 0, 0);
+        final LocalDateTime dateFrom = LocalDateTime.now().plusDays(37);
+        final LocalDateTime dateTo = LocalDateTime.now().plusDays(39);
 
-        final LocalDateTime dateFrom1 = LocalDateTime.of(2020, 3, 20, 0, 0);
-        final LocalDateTime dateTo1 = LocalDateTime.of(2020, 3, 26, 0, 0);
+        final LocalDateTime dateFrom1 = LocalDateTime.now().plusDays(40);
+        final LocalDateTime dateTo1 = LocalDateTime.now().plusDays(44);
 
-        final LocalDateTime dateFrom2 = LocalDateTime.of(2020, 3, 31, 0, 0);
-        final LocalDateTime dateTo2 = LocalDateTime.of(2020, 4, 3, 0, 0);
+        final LocalDateTime dateFrom2 = LocalDateTime.now().plusDays(45);
+        final LocalDateTime dateTo2 = LocalDateTime.now().plusDays(47);
 
-        final LocalDateTime dateFrom3 = LocalDateTime.of(2020, 5, 25, 0, 0);
-        final LocalDateTime dateTo3 = LocalDateTime.of(2020, 5, 30, 0, 0);
+        final LocalDateTime dateFrom3 = LocalDateTime.now().plusDays(48);
+        final LocalDateTime dateTo3 = LocalDateTime.now().plusDays(55);
 
         final Rent rent1 = new Rent(null, userService.getEntityByLogin("login"), carRepository.findByLicensePlateAndIsOnCompany("SBE00000", true), dateFrom, dateTo
                 , parkingService.getEntityById(parkingId1), parkingService.getEntityById(parkingId2), false, "comment", "Response", "");
@@ -796,11 +796,11 @@ public class RentServiceTest {
         final Long rentId3 = rentService.addEntityToDB(rent3);
         final Long rentId4 = rentService.addEntityToDB(rent4);
 
-        final DateFromDateTo date1 = new DateFromDateTo(LocalDateTime.of(2020, 3, 25, 0, 0)
-                , LocalDateTime.of(2020, 4, 1, 0, 0));
+        final DateFromDateTo date1 = new DateFromDateTo(LocalDateTime.now().plusDays(36)
+                , LocalDateTime.now().plusDays(47));
 
-        final DateFromDateTo date2 = new DateFromDateTo(LocalDateTime.of(2021, 3, 25, 0, 0)
-                , LocalDateTime.of(2021, 4, 1, 0, 0));
+        final DateFromDateTo date2 = new DateFromDateTo(LocalDateTime.now().plusDays(31)
+                , LocalDateTime.now().plusDays(35));
 
         List<CarDTO> list = new ArrayList<>(rentService.getActiveCarsBetweenDates(date2));
         assertEquals(4, list.size());
@@ -868,8 +868,8 @@ public class RentServiceTest {
         final LocalDateTime dateFrom2 = LocalDateTime.of(2020, 3, 28, 0, 0);
         final LocalDateTime dateTo2 = LocalDateTime.of(2020, 3, 29, 0, 0);
 
-        final LocalDateTime dateFrom3 = LocalDateTime.of(2020, 5, 25, 0, 0);
-        final LocalDateTime dateTo3 = LocalDateTime.of(2020, 5, 30, 0, 0);
+        final LocalDateTime dateFrom3 = LocalDateTime.of(2030, 9, 25, 0, 0);
+        final LocalDateTime dateTo3 = LocalDateTime.of(2030, 9, 30, 0, 0);
 
         final Rent shouldNotBeAllowedRent = new Rent(100L, userService.getEntityByLogin("login"), carRepository.findByLicensePlateAndIsOnCompany("SBE00000", true), dateFrom2, dateTo2
                 , parkingService.getEntityById(parkingId5), parkingService.getEntityById(parkingId6), false, "comment", "Response", "");
