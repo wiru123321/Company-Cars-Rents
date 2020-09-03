@@ -1,6 +1,6 @@
-# Read Me Template
+# Company cars rental application
 
-![Project Image](https://github.com/wiru123321/Company-Cars-Rents/blob/master/frontend/car-rental-app/src/resources/login.jpg)
+![Project Image](https://github.com/wiru123321/Company-Cars-Rents/blob/master/frontend/car-rental-app/src/resources/login-page.jpg)
 
 ---
 
@@ -15,20 +15,20 @@
 
 ## Description
 
-Our application was created on Euvic apprenticeships "Hacktyki".
-The application was created for companies with company cars.
-The basic functionalities are car booking by employees on the date chosen by them.
-The application has 2 accounts, a user and an administrator. The administrator can add new company cars, delete them, add and remove employees and confirm requests for car rentals from employees.
-The user can send inquiries about car reservations, manage their reservations and report faults related to them.
+### Our application was created on Euvic apprenticeships "Hacktyki".The application was created for companies with company cars.The basic functionalities are car booking by employees on the date chosen by them.The application has 2 accounts, a user and an administrator. The administrator can add new company cars, delete them, add and remove employees and confirm requests for car rentals from employees.The user can send inquiries about car reservations, manage their reservations and report faults related to them.
 
-##Gallery
+## Gallery
 
-![Project Image](https://github.com/wiru123321/Company-Cars-Rents/blob/master/frontend/car-rental-app/src/resources/admin-page.jpg)
-![Project Image](https://github.com/wiru123321/Company-Cars-Rents/blob/master/frontend/car-rental-app/src/resources/admin1-page.jpg)
-
-![Project Image](https://github.com/wiru123321/Company-Cars-Rents/blob/master/frontend/car-rental-app/src/resources/user-page.jpg)
-![Project Image](https://github.com/wiru123321/Company-Cars-Rents/blob/master/frontend/car-rental-app/src/resources/user1-page.jpg)
-
+<p align="center">
+  <img width="800" height="500" src="https://github.com/wiru123321/Company-Cars-Rents/blob/master/frontend/car-rental-app/src/resources/admin-page.jpg">
+  <br />
+  <img width="800" height="500" src="https://github.com/wiru123321/Company-Cars-Rents/blob/master/frontend/car-rental-app/src/resources/admin1-page.jpg">
+  <br />
+  <img width="800" height="500" src="https://github.com/wiru123321/Company-Cars-Rents/blob/master/frontend/car-rental-app/src/resources/user-page.jpg">
+  <br />
+  <img width="800" height="500" src="https://github.com/wiru123321/Company-Cars-Rents/blob/master/frontend/car-rental-app/src/resources/user1-page.jpg">
+  <br />
+</p>
 #### Technologies
 
 - React
@@ -51,12 +51,11 @@ The user can send inquiries about car reservations, manage their reservations an
 
 #### npm install
 
-and next
-
 #### npm start
 
 Starting domain http://localhost:3000/login
-We create 2 account:
+
+We create 2 accounts:
 
 - Admin: user name: admin123 password:apassword123
 - User: user name: user123 password:upassword123
