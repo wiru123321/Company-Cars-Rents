@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import Alert from "@material-ui/lab/Alert";
-import { Grid, Typography, Button, TextField } from "@material-ui/core";
+import { Grid, Typography, Button } from "@material-ui/core";
 import {
   setPassword,
   setNewPassword,

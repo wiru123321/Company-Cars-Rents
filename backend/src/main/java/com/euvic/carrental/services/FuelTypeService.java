@@ -25,8 +25,20 @@ public class FuelTypeService implements FuelTypeServiceInterface {
     }
 
     @Override
+    public Long updateFuelTypeInDB(final String oldFuelTypeName, final FuelTypeDTO fuelTypeDTO) {
+        final FuelType oldFuelType = this.getEntityByName(oldFuelTypeName);
+        oldFuelType.setName(fuelTypeDTO.getName());
+        return fuelTypeRepository.save(oldFuelType).getId();
+    }
+
+    @Override
     public FuelType getEntityByName(final String name) {
         return fuelTypeRepository.findByName(name);
+    }
+
+    @Override
+    public FuelType mapRestModel(final Long id, final FuelTypeDTO model) {
+        return new FuelType(id, model.getName());
     }
 
     @Override
@@ -36,23 +48,10 @@ public class FuelTypeService implements FuelTypeServiceInterface {
     }
 
     @Override
-    public Long updateFuelTypeInDB(final String oldFuelTypeName, final FuelTypeDTO fuelTypeDTO) {
-        final FuelType oldFuelType = this.getEntityByName(oldFuelTypeName);
-        oldFuelType.setName(fuelTypeDTO.getName());
-        return fuelTypeRepository.save(oldFuelType).getId();
-    }
-
-    @Override
-    public FuelType mapRestModel(final Long id, final FuelTypeDTO model) {
-        return new FuelType(id, model.getName());
-    }
-
-    @Override
     public List<FuelTypeDTO> getAllDTOs() {
         final ArrayList<FuelType> fuelTypeList = new ArrayList<>();
         fuelTypeRepository.findAll().forEach(fuelTypeList::add);
 
         return fuelTypeList.stream().map(FuelTypeDTO::new).collect(Collectors.toList());
     }
-
 }

@@ -1,39 +1,36 @@
 import React, { useState } from "react";
-import { Box, Button, makeStyles } from "@material-ui/core";
-import { Save, Delete } from "@material-ui/icons";
+import { Box, Paper, makeStyles, Typography, Grid } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
+import axios from "axios";
 import {
   selectAll,
   addCar,
   reset,
-  imageFileChange,
-  addImage,
 } from "../../../../features/add-car-info/carsInfoSlice";
 import SelectBoxForm from "./SelectBoxForm";
 import BoxPanel from "./BoxPanel";
 import ParkingForm from "./ParkingForm";
-import CircularProgress from "@material-ui/core/CircularProgress";
+import PhotoForm from "./ControlPanel/PhotoForm";
+import SaveForm from "./ControlPanel/SaveForm";
+import { useAlert } from "react-alert";
+const API_URL = "http://localhost:8080";
+
+const useStyles = makeStyles({
+  root: {
+    minWidth: "60vw",
+    padding: "8px",
+  },
+});
 
 const AddCarForm = () => {
   const [showAddPhotoButton, toggleshowAddPhotoButton] = useState(false);
   const [showSaveButton, toggleshowSaveButton] = useState(true);
   const [showFormError, toggleshowFormError] = useState(false);
-  const useStyles = makeStyles((theme) => ({
-    root: {
-      "& > *": {
-        margin: theme.spacing(1),
-      },
-    },
-    input: {
-      display: "none",
-    },
-    button: {
-      margin: theme.spacing(1),
-    },
-  }));
+  const [photo, setPhoto] = useState("");
+  const alert = useAlert();
+  const classes = useStyles();
 
   const dispatch = useDispatch();
-  const classes = useStyles();
   const CarInfo = useSelector(selectAll);
   let error1 = "";
 
@@ -51,7 +48,6 @@ const AddCarForm = () => {
     colourDTO,
     gearBoxTypeDTO,
     capacityOfTrunkScale,
-    imageFile,
     lastInspection,
     town,
     streetName,
@@ -106,112 +102,102 @@ const AddCarForm = () => {
       toggleshowAddPhotoButton(true);
       toggleshowSaveButton(false);
       toggleshowFormError(false);
-      dispatch(addCar(car));
+      dispatch(addCar(car, alert));
     } else {
-      toggleshowFormError(true);
+      alert.error("Wrong data input, please check entered data.");
     }
   }
 
+  const handlePhotoChange = (event) => {
+    setPhoto(event.target.files[0]);
+    console.log(event.target.files[0]);
+  };
+
   function submitImage(event) {
-    dispatch(imageFileChange(event.target.value));
-    let image = {
-      imageFile: imageFile,
-    };
-    dispatch(addImage(image, licensePlate));
-    toggleshowAddPhotoButton(false);
-    toggleshowSaveButton(true);
-    dispatch(reset());
+    event.preventDefault();
+    let isUploaded = false;
+    let formData = new FormData();
+    formData.append("imageFile", photo);
+    axios
+      .post(API_URL + `/a/car/upload-car-image/${licensePlate}`, formData, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+          "content-type": "multipart/form-data",
+        },
+      })
+      .then((response) => {
+        console.log(response);
+        alert.success("Success");
+        isUploaded = true;
+      })
+      .catch((error) => console.log(JSON.stringify(error)));
+    if (isUploaded) {
+      toggleshowAddPhotoButton(false);
+      toggleshowSaveButton(true);
+      dispatch(reset());
+    }
   }
 
   return (
-    <div>
-      <Box display="flex" justifyContent="center">
-        <h3
-          style={{
-            fontWeight: "bold",
-            fontSize: "30px",
-            textTransform: "uppercase",
-          }}
-        >
-          Add car form.
-        </h3>
-      </Box>
-      <SelectBoxForm
-        modelDTO={modelDTO}
-        typeDTO={typeDTO}
-        fuelTypeDTO={fuelTypeDTO}
-        colourDTO={colourDTO}
-        gearBoxTypeDTO={gearBoxTypeDTO}
-        markDTO={markDTO}
-      />
-      <BoxPanel
-        mileage={mileage}
-        enginePower={enginePower}
-        licensePlate={licensePlate}
-        productionYear={productionYear}
-        capacityOfPeople={capacityOfPeople}
-        doorsNumber={doorsNumber}
-        capacityOfTrunkScale={capacityOfTrunkScale}
-      />
-      <div style={{ height: "5vh" }}></div>
-      <ParkingForm
-        town={town}
-        postalCode={postalCode}
-        streetName={streetName}
-        number={number}
-        comment={comment}
-      />
-      {error1}
-      {showSaveButton ? (
+    <Grid container justify="center">
+      <Paper elevation={6} className={classes.root}>
         <Box display="flex" justifyContent="center">
-          <Box>
-            <Button
-              variant="contained"
-              color="primary"
-              size="normal"
-              className={classes.button}
-              startIcon={<Save />}
-              type="submit"
-              onClick={submit}
-            >
-              Save
-            </Button>
+          <Typography
+            style={{
+              fontWeight: "bold",
+              fontSize: "30px",
+              textTransform: "uppercase",
+            }}
+          >
+            Add car form
+          </Typography>
+        </Box>
+        <SelectBoxForm
+          modelDTO={modelDTO}
+          typeDTO={typeDTO}
+          fuelTypeDTO={fuelTypeDTO}
+          colourDTO={colourDTO}
+          gearBoxTypeDTO={gearBoxTypeDTO}
+          markDTO={markDTO}
+        />
+        <BoxPanel
+          mileage={mileage}
+          enginePower={enginePower}
+          licensePlate={licensePlate}
+          productionYear={productionYear}
+          capacityOfPeople={capacityOfPeople}
+          doorsNumber={doorsNumber}
+          capacityOfTrunkScale={capacityOfTrunkScale}
+        />
+        <div style={{ height: "5vh" }}></div>
+        <ParkingForm
+          town={town}
+          postalCode={postalCode}
+          streetName={streetName}
+          number={number}
+          comment={comment}
+        />
+        {error1}
+        {showSaveButton ? (
+          <Box display="flex" justifyContent="center">
+            <SaveForm submit={submit} />
           </Box>
-          {showFormError ? (
+        ) : (
+          <Box display="flex" justifyContent="center">
             <Box>
-              <p>Error in form! Please check form one more.</p>
+              <p>Car added, please add photo.</p>
             </Box>
-          ) : (
-            <div></div>
-          )}
-        </Box>
-      ) : (
-        <Box display="flex" justifyContent="center">
-          <Box>
-            <p>Car added, please add photo.</p>
           </Box>
-        </Box>
-      )}
+        )}
 
-      {showAddPhotoButton ? (
-        <Box display="flex" justifyContent="center" m={1} p={1}>
-          <input
-            accept="image/*"
-            className={classes.input}
-            type="file"
-            id="contained-button-file"
-            multiple
-            value={imageFile}
-            onChange={(event) => submitImage(event)}
+        {showAddPhotoButton ? (
+          <PhotoForm
+            submitImage={submitImage}
+            handlePhotoChange={handlePhotoChange}
           />
-          <label htmlFor="contained-button-file">
-            <Button variant="contained" color="primary" component="span">
-              Upload Photo
-            </Button>
-          </label>
-        </Box>
-      ) : null}
-    </div>
+        ) : null}
+      </Paper>
+    </Grid>
   );
 };
 

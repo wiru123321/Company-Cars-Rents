@@ -1,5 +1,6 @@
 package com.euvic.carrental.model;
 
+import com.euvic.carrental.responses.ParkingDTO;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -32,6 +33,16 @@ public class Parking {
     public Parking() {
     }
 
+    public Parking(final Long id, final ParkingDTO parkingDTO) {
+        this.id = id;
+        this.town = parkingDTO.getTown();
+        this.postalCode = parkingDTO.getPostalCode();
+        this.streetName = parkingDTO.getStreetName();
+        this.number = parkingDTO.getNumber();
+        this.comment = parkingDTO.getComment();
+        this.isActive = true;
+    }
+
     public Parking(final Long id, final String town, final String postalCode, final String street, final String number, final String comment, final Boolean isActive) {
         this.id = id;
         this.town = town;
@@ -40,5 +51,15 @@ public class Parking {
         this.number = number;
         this.comment = comment;
         this.isActive = isActive;
+    }
+
+    public Parking(final Parking oldParking) {
+        this.id = null;
+        this.town = oldParking.town;
+        this.postalCode = oldParking.postalCode;
+        this.streetName = oldParking.streetName;
+        this.number = oldParking.number;
+        this.comment = oldParking.comment;
+        this.isActive = oldParking.isActive;
     }
 }

@@ -25,14 +25,14 @@ public class RoleService implements RoleServiceInterface {
     }
 
     @Override
-    public RoleDTO getDTOByRoleName(final String name) {
-        final Role role = roleRepository.findByName(name);
-        return new RoleDTO(role);
+    public Role getEntityByRoleName(final String roleName) {
+        return roleRepository.findByName(roleName);
     }
 
     @Override
-    public Role getEntityByRoleName(final String roleName) {
-        return roleRepository.findByName(roleName);
+    public RoleDTO getDTOByRoleName(final String name) {
+        final Role role = roleRepository.findByName(name);
+        return new RoleDTO(role);
     }
 
     @Override

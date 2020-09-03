@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Main files (working application) on BackendRoleBasedAuthorization branch.
 
 # Read Me Template
@@ -43,3 +44,6 @@ Main files (working application) on BackendRoleBasedAuthorization branch.
 - Michał Matysiak
 
 [Back To The Top](#read-me-template)
+=======
+Main branch with working application.
+>>>>>>> origin/BackendRoleBasedAuthorization

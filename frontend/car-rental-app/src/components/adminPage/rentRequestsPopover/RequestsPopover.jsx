@@ -1,17 +1,11 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Nav } from "react-bootstrap";
-import {
-  Popover,
-  Typography,
-  Button,
-  Paper,
-  Container,
-} from "@material-ui/core";
-import { useSelector, useDispatch } from "react-redux";
-
-import ContentItem from "./ContentItem";
+import { Popover, Button, Container } from "@material-ui/core";
+import { useSelector } from "react-redux";
 import { selectAll } from "../../../features/rents/rentsSlice";
-import { makeStyles } from "@material-ui/core";
+import { makeStyles, Badge } from "@material-ui/core";
+import ContentItem from "./ContentItem";
+import DriveEtaIcon from "@material-ui/icons/DriveEta";
 
 const useStyles = makeStyles({
   paper: {
@@ -19,11 +13,13 @@ const useStyles = makeStyles({
     width: "30vw",
     padding: "8px",
   },
+  button: {
+    borderRadius: "50%",
+  },
 });
 
 const RequestsPopover = () => {
   const classes = useStyles();
-  const dispatch = useDispatch();
   const { pendingRents } = useSelector(selectAll);
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -40,9 +36,15 @@ const RequestsPopover = () => {
 
   return (
     <>
-      <Nav.Link>
-        <Button variant="contained" onClick={handleClick}>
-          {pendingRents.length}
+      <Nav.Link title="Finished rents waiting for accept.">
+        <Button className={classes.button} onClick={handleClick}>
+          {pendingRents.length > 0 ? (
+            <Badge badgeContent={pendingRents.length} color="secondary">
+              <DriveEtaIcon color="secondary" />
+            </Badge>
+          ) : (
+            <DriveEtaIcon color="primary" />
+          )}
         </Button>
       </Nav.Link>
       <Popover

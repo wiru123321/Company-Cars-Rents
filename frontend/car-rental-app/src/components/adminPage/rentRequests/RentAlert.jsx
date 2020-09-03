@@ -15,8 +15,8 @@ const RentAlert = () => {
     <AlertMessage
       isActive={didUpdate}
       isOk={didUpdateSuccess}
-      successMessage="Successfully updated."
-      errorMessage="Failed to update user."
+      successMessage="Successfull."
+      errorMessage="Failed."
       resetUpdateState={resetUpdateState}
     />
   );

@@ -15,7 +15,6 @@ public class FileService {
 
     final private CarService carService;
 
-    //TODO tests
     private static final String UPLOAD_DIRECTORY = System.getProperty("user.dir") + "/src/main/upload";
     private static final String STATIC_DIRECTORY = System.getProperty("user.dir") + "/src/main/upload/static";
     private static final String IMAGES_DIRECTORY = System.getProperty("user.dir") + "/src/main/upload/static/images";
@@ -60,7 +59,7 @@ public class FileService {
     }
 
     public byte[] downloadCarImage(String licensePlate) throws NullPointerException, IOException {
-        Car car = carService.getEntityByLicensePlate(licensePlate);
+        Car car = carService.getOnCompanyEntityByLicensePlate(licensePlate);
         String photoPath = car.getImagePath();
         File filePath;
         try{

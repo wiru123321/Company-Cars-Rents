@@ -12,7 +12,6 @@ public class ParkingDTO {
     private String streetName;
     private String number;
     private String comment;
-    private Boolean isActive;
 
     public ParkingDTO(final ParkingHistory entity) {
         this.town = entity.getTown();
@@ -20,7 +19,6 @@ public class ParkingDTO {
         this.streetName = entity.getStreetName();
         this.number = entity.getNumber();
         this.comment = entity.getComment();
-        this.isActive = entity.getIsActive();
     }
 
     public ParkingDTO(final Parking entity) {
@@ -29,15 +27,13 @@ public class ParkingDTO {
         this.streetName = entity.getStreetName();
         this.number = entity.getNumber();
         this.comment = entity.getComment();
-        this.isActive = entity.getIsActive();
     }
 
-    public ParkingDTO(final String town, final String postalCode, final String street, final String number, final String comment, final boolean isActive) {
+    public ParkingDTO(final String town, final String postalCode, final String street, final String number, final String comment) {
         this.town = town;
         this.postalCode = postalCode;
         this.streetName = street;
         this.number = number;
         this.comment = comment;
-        this.isActive = isActive;
     }
 }

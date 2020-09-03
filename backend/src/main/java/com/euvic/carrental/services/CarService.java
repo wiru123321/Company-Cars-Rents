@@ -34,40 +34,15 @@ public class CarService implements CarServiceInterface {
     }
 
     @Override
-    public Car mapRestModel(final Long id, final CarDTO carDTO, final Long parkingId, final Long modelId) {
-        return new Car(id, carDTO, gearboxTypeService.getEntityByName(carDTO.getGearBoxTypeDTO().getName()),
-                fuelTypeService.getEntityByName(carDTO.getFuelTypeDTO().getName()),
-                modelService.getEntityById(modelId),
-                parkingService.getEntityById(parkingId),
-                colourService.getEntityByName(carDTO.getColourDTO().getName()),
-                typeService.getEntityByName(carDTO.getTypeDTO().getName()));
+    public Boolean checkIfOnCompanyCarWithLicensePlateExists(final String licensePlate) {
+        return carRepository.existsByLicensePlateAndIsOnCompany(licensePlate, true);
     }
 
     @Override
-    public Car getEntityByLicensePlate(final String licensePlate) {
-        return carRepository.findByLicensePlate(licensePlate);
-    }
-
-    @Override
-    public CarDTO getDTOByLicensePlate(final String licensePlate) {
-        final Car car = carRepository.findByLicensePlate(licensePlate);
-        final GearboxType gearboxType = car.getGearboxType();
-        final FuelType fuelType = car.getFuelType();
-        final Model model = car.getModel();
-        final Parking parking = car.getParking();
-        final Colour colour = car.getColour();
-        final Type type = car.getType();
-        return new CarDTO(car, gearboxTypeService.getDTOByName(gearboxType.getName()), fuelTypeService.getDTOByName(fuelType.getName())
-                , modelService.getDTOByName(model.getName()), parkingService.getDTOById(parking.getId())
-                , colourService.getDTOByName(colour.getName()), typeService.getDTOByName(type.getName()));
-    }
-
-    @Override
-    public List<CarDTO> getAllDTOs() {
-        final ArrayList<Car> carList = new ArrayList<>();
-        carRepository.findAll().forEach(carList::add);
-
-        return this.mapEntityList(carList);
+    public Long addExistingImageToExistingCar(final String carImagePath, final String licensePlate) {
+        final Car car = this.getOnCompanyEntityByLicensePlate(licensePlate);
+        car.setImagePath(carImagePath);
+        return this.addEntityToDB(car);
     }
 
     @Override
@@ -76,8 +51,15 @@ public class CarService implements CarServiceInterface {
     }
 
     @Override
+    public Long setCarActivity(final Boolean isActive, final String licensePlate) {
+        final Car car = this.getOnCompanyEntityByLicensePlate(licensePlate);
+        car.setIsActive(isActive);
+        return this.addEntityToDB(car);
+    }
+
+    @Override
     public Long updateCarInDB(final String oldCarLicensePlate, final CarDTO newCarDTO) {
-        final Car oldCar = this.getEntityByLicensePlate(oldCarLicensePlate);
+        final Car oldCar = this.getOnCompanyEntityByLicensePlate(oldCarLicensePlate);
 
         oldCar.setLicensePlate(newCarDTO.getLicensePlate());
         oldCar.setEnginePower(newCarDTO.getEnginePower());
@@ -98,11 +80,47 @@ public class CarService implements CarServiceInterface {
         return carRepository.save(oldCar).getId();
     }
 
+    @Override
     public Long setCarIsNotInCompany(final String licensePlate) {
-        final Car car = this.getEntityByLicensePlate(licensePlate);
+        final Car car = this.getOnCompanyEntityByLicensePlate(licensePlate);
         car.setIsOnCompany(false);
         car.setIsActive(false);
         return carRepository.save(car).getId();
+    }
+
+    @Override
+    public Car mapRestModel(final Long id, final CarDTO carDTO, final Long parkingId, final Long modelId) {
+        return new Car(id, carDTO, gearboxTypeService.getEntityByName(carDTO.getGearBoxTypeDTO().getName()),
+                fuelTypeService.getEntityByName(carDTO.getFuelTypeDTO().getName()),
+                modelService.getEntityById(modelId),
+                parkingService.getEntityById(parkingId),
+                colourService.getEntityByName(carDTO.getColourDTO().getName()),
+                typeService.getEntityByName(carDTO.getTypeDTO().getName()));
+    }
+
+    @Override
+    public Car getOnCompanyEntityByLicensePlate(final String licensePlate) {
+        return carRepository.findByLicensePlateAndIsOnCompany(licensePlate, true);
+    }
+
+    @Override
+    public CarDTO mapToCarDTO(final Car car) {
+        return new CarDTO(car, new GearBoxTypeDTO(car.getGearboxType()), new FuelTypeDTO(car.getFuelType()), new ModelDTO(car.getModel()),
+                new ParkingDTO(car.getParking()), new ColourDTO(car.getColour()), new TypeDTO(car.getType()));
+    }
+
+    @Override
+    public CarDTO getDTOByLicensePlate(final String licensePlate) {
+        final Car car = carRepository.findByLicensePlateAndIsOnCompany(licensePlate, true);
+        final GearboxType gearboxType = car.getGearboxType();
+        final FuelType fuelType = car.getFuelType();
+        final Model model = car.getModel();
+        final Parking parking = car.getParking();
+        final Colour colour = car.getColour();
+        final Type type = car.getType();
+        return new CarDTO(car, gearboxTypeService.getDTOByName(gearboxType.getName()), fuelTypeService.getDTOByName(fuelType.getName())
+                , modelService.getDTOByName(model.getName()), parkingService.getDTOById(parking.getId())
+                , colourService.getDTOByName(colour.getName()), typeService.getDTOByName(type.getName()));
     }
 
     @Override
@@ -127,9 +145,11 @@ public class CarService implements CarServiceInterface {
     }
 
     @Override
-    public CarDTO mapToCarDTO(final Car car) {
-        return new CarDTO(car, new GearBoxTypeDTO(car.getGearboxType()), new FuelTypeDTO(car.getFuelType()), new ModelDTO(car.getModel()),
-                new ParkingDTO(car.getParking()), new ColourDTO(car.getColour()), new TypeDTO(car.getType()));
+    public List<CarDTO> getAllDTOs() {
+        final ArrayList<Car> carList = new ArrayList<>();
+        carRepository.findAll().forEach(carList::add);
+
+        return this.mapEntityList(carList);
     }
 
     private List<CarDTO> mapEntityList(final List<Car> carList) {
@@ -140,17 +160,5 @@ public class CarService implements CarServiceInterface {
             carDTOList.add(carDTO);
         });
         return carDTOList;
-    }
-
-    @Override
-    public Long addExistingImageToExistingCar(String carImagePath, String licensePlate) {
-        Car car = getEntityByLicensePlate(licensePlate);
-        car.setImagePath(carImagePath);
-        return addEntityToDB(car);
-    }
-
-    @Override
-    public Boolean checkIfCarWithLicensePlateExists(final String licensePlate) {
-        return carRepository.existsByLicensePlate(licensePlate);
     }
 }

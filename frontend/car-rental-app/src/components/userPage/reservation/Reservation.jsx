@@ -1,34 +1,42 @@
-import React, { useEffect } from "react";
+import React from "react";
 import CarSuggestion from "./CarSuggestion";
 import useStyles from "./useStyles";
 import { Container, Grid, Button, Box } from "@material-ui/core";
-import { ReservationDate, UserPersonalData } from "./ReservationForm";
-import { useDispatch } from "react-redux";
+import { ReservationDate } from "./ReservationForm";
+import { useDispatch, useSelector } from "react-redux";
 import {
-  firstnameChange,
-  lastnameChange,
+  fetchCarsAvaiableInDate,
+  dateIsChoosenHandler,
+  selectDateIsChoosen,
+  selectIsCarFormActive,
+  isCarFormActiveHandler,
   beginDateChange,
   beginHourChange,
   endDateChange,
   endHourChange,
-  fetchActiveCars,
+  selectbeginDate,
+  selectbeginHour,
+  selectendDate,
+  selectendHour,
+  setStepOne,
+  setStepTwo,
+  selectFinishForm,
+  setisEndOfForm,
 } from "../../../features/car-reservation/reservationSlice";
+import { useAlert } from "react-alert";
+import HorizontalLinearStepper from "./Stepper";
 
 const Reservation = () => {
   const classes = useStyles();
+  const alert = useAlert();
+
+  const beginDate = useSelector(selectbeginDate);
+  const beginHour = useSelector(selectbeginHour);
+  const endDate = useSelector(selectendDate);
+  const endHour = useSelector(selectendHour);
+  const finishForm = useSelector(selectFinishForm);
+
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(fetchActiveCars());
-  }, []);
-
-  function handleFirstnameChange(event) {
-    dispatch(firstnameChange(event.target.value));
-  }
-
-  function handleLastnameChange(event) {
-    dispatch(lastnameChange(event.target.value));
-  }
 
   function handleBeginDateChange(event) {
     dispatch(beginDateChange(event.target.value));
@@ -45,7 +53,31 @@ const Reservation = () => {
   function handleEndHourChange(event) {
     dispatch(endHourChange(event.target.value));
   }
+  function sumbitDataHander() {
+    let dateFromDateTo = {
+      dateFrom: beginDate + "T" + beginHour + ":00",
+      dateTo: endDate + "T" + endHour + ":00",
+    };
+    if (beginDate && beginHour && endDate && endHour) {
+      dispatch(setStepOne());
+      dispatch(setStepTwo());
+    }
 
+    dispatch(fetchCarsAvaiableInDate(dateFromDateTo, alert));
+    if (beginDate && beginHour && endDate && endHour) {
+      dispatch(dateIsChoosenHandler());
+      dispatch(isCarFormActiveHandler());
+    }
+  }
+  function backToDataFrom() {
+    dispatch(dateIsChoosenHandler());
+    dispatch(isCarFormActiveHandler());
+    dispatch(setStepOne());
+    dispatch(setStepTwo());
+  }
+
+  let dateIsChoosen = useSelector(selectDateIsChoosen);
+  let isCarFormActive = useSelector(selectIsCarFormActive);
   return (
     <Container
       className={classes.root}
@@ -56,36 +88,45 @@ const Reservation = () => {
         height: "100%",
       }}
     >
-      <Grid container direction="row" justify="left" alignItems="flex-start">
-        <Box className={classes.leftColumn}>
-          <Grid direction="column" justify="flex-start" alignItems="center">
-            <UserPersonalData
-              handleFirstnameChange={handleFirstnameChange}
-              handleLastnameChange={handleLastnameChange}
-            />
-            <ReservationDate
-              inputText="Reservation start:"
-              handleDateChange={handleBeginDateChange}
-              handleHourChange={handleBeginHourChange}
-            />
-            <ReservationDate
-              inputText="Reservation end:"
-              handleDateChange={handleEndDateChange}
-              handleHourChange={handleEndHourChange}
-            />
-            <Button
-              style={{ marginTop: "2%", width: "100%" }}
-              variant="contained"
-              color="primary"
-            >
-              Submit
-            </Button>
-          </Grid>
-        </Box>
-        <Container className={classes.rightColumn}>
-          <CarSuggestion />
-        </Container>
-      </Grid>
+      <HorizontalLinearStepper
+        sumbitDataHander={sumbitDataHander}
+        backToDataFrom={backToDataFrom}
+      />
+      {finishForm ? (
+        <Grid container direction="row" justify="center">
+          <h1 style={{ fontSize: "3vh" }}>
+            The car reservation was successful{" "}
+          </h1>
+        </Grid>
+      ) : (
+        <Grid container direction="row" justify="center">
+          {dateIsChoosen ? (
+            <Box>
+              <Grid direction="column" alignItems="center">
+                <ReservationDate
+                  inputText="Reservation start:"
+                  handleDateChange={handleBeginDateChange}
+                  handleHourChange={handleBeginHourChange}
+                  valueDate={beginDate}
+                  valueHour={beginHour}
+                />
+                <ReservationDate
+                  inputText="Reservation end:"
+                  handleDateChange={handleEndDateChange}
+                  handleHourChange={handleEndHourChange}
+                  valueDate={endDate}
+                  valueHour={endHour}
+                />
+              </Grid>
+            </Box>
+          ) : null}
+          {isCarFormActive ? (
+            <Container>
+              <CarSuggestion />
+            </Container>
+          ) : null}
+        </Grid>
+      )}
     </Container>
   );
 };

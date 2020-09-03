@@ -1,33 +1,79 @@
 import React, { useEffect } from "react";
+import PropTypes from "prop-types";
+import SwipeableViews from "react-swipeable-views";
+import { useTheme } from "@material-ui/core/styles";
 import {
-  Grid,
-  Button,
   Box,
-  ListItem,
-  List,
   Container,
+  AppBar,
+  Tabs,
+  Tab,
+  Typography,
 } from "@material-ui/core";
-import CarImage from "../../carsListing/CarImage";
-import CarInfo from "../../carsListing/CarInfo";
 import { useSelector, useDispatch } from "react-redux";
 import {
   selectReservation,
-  chooseCar,
   fetchReservation,
-  fetchCarImage,
-  selectImg,
-  updateCar,
+  fetchHistoryReservation,
+  selectHistoryReservation,
+  selectRequestReservation,
+  fetchRequestReservation,
 } from "../../../features/your-cars/yourCarsSlice";
+import YourReservationForm from "./YourReservationForm";
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
 
-// TODO Fetch users cars from api.
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`full-width-tabpanel-${index}`}
+      aria-labelledby={`full-width-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box p={3}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.any.isRequired,
+  value: PropTypes.any.isRequired,
+};
+
+function a11yProps(index) {
+  return {
+    id: `full-width-tab-${index}`,
+    "aria-controls": `full-width-tabpanel-${index}`,
+  };
+}
 
 const YourCarsList = () => {
+  const theme = useTheme();
+  const [value, setValue] = React.useState(0);
+  const active = false;
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
+  const handleChangeIndex = (index) => {
+    setValue(index);
+  };
   const dispatch = useDispatch();
   const reservations = useSelector(selectReservation);
-  const img = useSelector(selectImg);
+  const historyReservations = useSelector(selectHistoryReservation);
+  const requestReservation = useSelector(selectRequestReservation);
   useEffect(() => {
     dispatch(fetchReservation());
-  }, []);
+    dispatch(fetchHistoryReservation());
+    dispatch(fetchRequestReservation());
+  },[]);
   return (
     <Container
       style={{
@@ -36,38 +82,41 @@ const YourCarsList = () => {
         height: "100%",
       }}
     >
-      <Box display="flex" justifyContent="center" alignItems="center">
-        <List>
-          {reservations.map((reservation, index) => (
-            <ListItem key={index}>
-              <Box display="flex">
-                <CarImage
-                  src={
-                    "http://localhost:8080/u/car/download-car-image/" +
-                    reservation.carDTO.licensePlate
-                  }
-                />
-                <CarInfo car={reservation.carDTO} />
-              </Box>
-              <Button
-                variant="outlined"
-                color="primary"
-                onClick={(event) => {
-                  event.preventDefault();
-                  // var newCar = {
-                  //   ...car,
-                  //   isActive: false,
-                  // };
-                  // dispatch(updateCar(reservation.CarDTO.licensePlate, newCar));
-                  dispatch(chooseCar(index));
-                }}
-              >
-                Give the car back
-              </Button>
-            </ListItem>
-          ))}
-        </List>
-      </Box>
+      <AppBar position="static" color="default">
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          indicatorColor="primary"
+          textColor="primary"
+          variant="fullWidth"
+          aria-label="full width tabs example"
+        >
+          <Tab label="Your reservations" {...a11yProps(0)} />
+          <Tab label="History" {...a11yProps(1)} />
+          <Tab label="Pending reservations" {...a11yProps(2)} />
+        </Tabs>
+      </AppBar>
+      <SwipeableViews
+        axis={theme.direction === "rtl" ? "x-reverse" : "x"}
+        index={value}
+        onChangeIndex={handleChangeIndex}
+      >
+        <TabPanel value={value} index={0} dir={theme.direction}>
+          <YourReservationForm reservations={reservations} isActive="true" />
+        </TabPanel>
+        <TabPanel value={value} index={1} dir={theme.direction}>
+          <YourReservationForm
+            reservations={historyReservations}
+            isActive={active}
+          />
+        </TabPanel>
+        <TabPanel value={value} index={2} dir={theme.direction}>
+          <YourReservationForm
+            reservations={requestReservation}
+            isActive={active}
+          />
+        </TabPanel>
+      </SwipeableViews>
     </Container>
   );
 };

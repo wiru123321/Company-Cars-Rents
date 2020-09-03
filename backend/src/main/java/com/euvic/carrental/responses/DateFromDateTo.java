@@ -16,4 +16,9 @@ public class DateFromDateTo {
         this.dateFrom = dateFrom;
         this.dateTo = dateTo;
     }
+
+    public DateFromDateTo(final String dateFrom, final String dateTo) {
+        this.dateFrom = LocalDateTime.parse(dateFrom);
+        this.dateTo = LocalDateTime.parse((dateTo));
+    }
 }

@@ -1,6 +1,6 @@
 import React from "react";
-import { Paper, Typography, Button, Grid, Divider } from "@material-ui/core";
-import { useDispatch, useSelector } from "react-redux";
+import { Typography, Button, Grid, Divider } from "@material-ui/core";
+import { useDispatch } from "react-redux";
 import { chooseRequest } from "../../../features/rents/rentsSlice";
 import { makeStyles } from "@material-ui/core";
 const useStyles = makeStyles({
@@ -37,7 +37,7 @@ const ContentItem = ({ rent, index }) => {
         <Typography>Reservation start: {dateFrom.slice(0, 10)}</Typography>
         <Typography>Reservation end: {dateTo.slice(0, 10)}</Typography>
         <Button variant="contained" onClick={setActiveRequest} href={linkPath}>
-          consider
+          check
         </Button>
       </Grid>
       <Divider />

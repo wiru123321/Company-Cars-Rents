@@ -147,38 +147,37 @@ export const {
 
 export const selectAll = (state) => state.carsInfo;
 
-export const addCar = (carDTO) => async (dispatch) => {
+export const addCar = (carDTO, alert) => async (dispatch) => {
   try {
     const response = await axios.post(API_URL + "/a/car", carDTO, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     });
+    alert.success("Success");
   } catch (error) {
     console.log(error);
+    alert.error("Wrong data input, please check entered data.");
   }
 };
 
 export const addImage = (file, licensePlate) => async (dispatch) => {
-  try {
-    const json = JSON.stringify(file);
-    const blob = new Blob([json], {
-      type: "application/json",
-    });
-    const data = new FormData();
-    data.append("imageFile", blob);
-    const response = await axios.post(
-      API_URL + "/a/car/upload-car-image/" + licensePlate,
-      data,
-      {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      }
-    );
-  } catch (error) {
-    console.log(error);
-  }
+  let formData = new FormData();
+  const json = JSON.stringify(file);
+  const blob = new Blob([json], {
+    type: "application/json",
+  });
+  const data = new FormData();
+  data.append("imageFile", blob);
+  const response = await axios
+    .post(API_URL + "/a/car/upload-car-image/" + licensePlate, data, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+        "content-type": "multipart/form-data",
+      },
+    })
+    .then((response) => {})
+    .catch((error) => console.log(JSON.stringify(error)));
 };
 
 export default carsInfoSlice.reducer;

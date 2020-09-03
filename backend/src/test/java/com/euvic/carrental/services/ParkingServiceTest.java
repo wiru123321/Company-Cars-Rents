@@ -1,9 +1,7 @@
 package com.euvic.carrental.services;
 
-import com.euvic.carrental.model.Model;
 import com.euvic.carrental.model.Parking;
 import com.euvic.carrental.repositories.ParkingRepository;
-import com.euvic.carrental.responses.ModelDTO;
 import com.euvic.carrental.responses.ParkingDTO;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -31,7 +29,7 @@ public class ParkingServiceTest {
     @Test
     void whenParkingDTOGiven_thenReturnParkingEntity() {
         final Parking parking = new Parking(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
-        final ParkingDTO parkingDTO = new ParkingDTO("Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
+        final ParkingDTO parkingDTO = new ParkingDTO("Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea");
         assertAll(() -> {
             assertEquals(parkingService.mapRestModel(null, parkingDTO).getId(), parking.getId());
             assertEquals(parkingService.mapRestModel(null, parkingDTO).getTown(), parking.getTown());
@@ -79,7 +77,7 @@ public class ParkingServiceTest {
             assertEquals(parking.getPostalCode(), parkingDTO1.getPostalCode());
             assertEquals(parking.getNumber(), parkingDTO1.getNumber());
             assertEquals(parking.getComment(), parkingDTO1.getComment());
-            assertEquals(parking.getIsActive(), parkingDTO1.getIsActive());
+            assertEquals(parking.getIsActive(), true);
 
 
             assertEquals(parking.getTown(), parkingDTO2.getTown());
@@ -87,7 +85,7 @@ public class ParkingServiceTest {
             assertEquals(parking.getPostalCode(), parkingDTO2.getPostalCode());
             assertEquals(parking.getNumber(), parkingDTO2.getNumber());
             assertEquals(parking.getComment(), parkingDTO2.getComment());
-            assertEquals(parking.getIsActive(), parkingDTO2.getIsActive());
+            assertEquals(parking.getIsActive(), true);
         });
     }
 
@@ -104,13 +102,13 @@ public class ParkingServiceTest {
     void whenParkingDTOGiven_shouldUpdateExistingDBParking() {
         final Parking parking = new Parking(null, "Katowice", "40-001", "Bydgoska 23", "E-6", "Parking przy sklepiku Avea", true);
 
-        final ParkingDTO parkingDTO = new ParkingDTO("Chorzow", "40-321", "Jakas 23", "E-1", "Parking przy Tesco", true);
+        final ParkingDTO parkingDTO = new ParkingDTO("Chorzow", "40-321", "Jakas 23", "E-1", "Parking przy Tesco");
         assertEquals(0, parkingRepository.count());
-        Long parkingId = parkingService.addEntityToDB(parking);
+        final Long parkingId = parkingService.addEntityToDB(parking);
         assertEquals(1, parkingRepository.count());
         parkingService.updateParkingInDb(parkingId, parkingDTO);
         final Parking updatedParking = parkingService.getEntityById(parkingId);
-        assertAll(()->{
+        assertAll(() -> {
             assertEquals(1, parkingRepository.count());
             assertEquals("Chorzow", updatedParking.getTown());
             assertEquals("40-321", updatedParking.getPostalCode());
@@ -118,6 +116,26 @@ public class ParkingServiceTest {
             assertEquals("E-1", updatedParking.getNumber());
             assertEquals("Parking przy Tesco", updatedParking.getComment());
             assertTrue(updatedParking.getIsActive());
+        });
+    }
+
+    @Test
+    void whenTwoParkingsGiven_ifFirstParkingIsNotNull_addToDBAndReturnParkingId() {
+        final ParkingDTO parkingDTONotNull1 = new ParkingDTO("Chorzow", "40-321", "Jakas 23", "E-1", "Parking przy Tesco");
+        final ParkingDTO parkingDTONotNull2 = new ParkingDTO("KAtowice", "40-311", "Mariacka 22", "A2", "Parking za mariacką");
+
+        final Long parkingFirstId = parkingService.choosesNotNullParkingAndAddToDB(parkingDTONotNull1, parkingDTONotNull2);
+        final ParkingDTO result1 = parkingService.getDTOById(parkingFirstId);
+
+        assertAll(() -> {
+            assertEquals(parkingDTONotNull2.getTown(), result1.getTown());
+            assertEquals(parkingDTONotNull2.getPostalCode(), result1.getPostalCode());
+        });
+        final Long parkingSecondId = parkingService.choosesNotNullParkingAndAddToDB(parkingDTONotNull1, null);
+        final ParkingDTO result2 = parkingService.getDTOById(parkingSecondId);
+        assertAll(() -> {
+            assertEquals(parkingDTONotNull1.getTown(), result2.getTown());
+            assertEquals(parkingDTONotNull1.getPostalCode(), result2.getPostalCode());
         });
     }
 }

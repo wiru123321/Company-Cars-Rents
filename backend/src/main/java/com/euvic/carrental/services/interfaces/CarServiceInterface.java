@@ -6,15 +6,16 @@ import com.euvic.carrental.responses.CarDTO;
 import java.util.List;
 
 public interface CarServiceInterface {
+
+    Boolean checkIfOnCompanyCarWithLicensePlateExists(String licensePlate);
+
     Car mapRestModel(Long id, CarDTO carDTO, Long parkingId, Long modelId);
+
+    Car getOnCompanyEntityByLicensePlate(String licensePlate);
 
     CarDTO mapToCarDTO(Car car);
 
-    Car getEntityByLicensePlate(String licensePlate);
-
     CarDTO getDTOByLicensePlate(String licensePlate);
-
-    List<CarDTO> getAllDTOs();
 
     Long addEntityToDB(Car car);
 
@@ -22,13 +23,15 @@ public interface CarServiceInterface {
 
     Long setCarIsNotInCompany(String licensePlate);
 
+    Long addExistingImageToExistingCar(String carImagePath, String licensePlate);
+
+    Long setCarActivity(Boolean isActive, String licensePlate);
+
+    List<CarDTO> getAllDTOs();
+
     List<CarDTO> getInCompanyCarDTOs();
 
     List<CarDTO> getInCompanyActiveCarDTOs();
 
     List<CarDTO> getInCompanyInactiveCarDTOs();
-
-    Long addExistingImageToExistingCar(String carImagePath, String licensePlate);
-
-    Boolean checkIfCarWithLicensePlateExists(String licensePlate);
 }

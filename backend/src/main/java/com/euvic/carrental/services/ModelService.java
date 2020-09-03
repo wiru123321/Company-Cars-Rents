@@ -23,26 +23,9 @@ public class ModelService implements ModelServiceInterface {
     }
 
     @Override
-    public Model mapRestModel(final Long id, final ModelDTO modelDTO) {
-        return new Model(id, modelDTO.getName(), markService.getEntityByName(modelDTO.getMarkDTO().getName()));
-    }
-
-    @Override
-    public Model getEntityByName(final String name) {
-        return modelRepository.findByName(name);
-    }
-
-
-    @Override
-    public Model getEntityById(final Long id) {
-        return modelRepository.findById(id).get();
-    }
-
-    @Override
-    public ModelDTO getDTOByName(final String name) {
-        final Model model = modelRepository.findByName(name);
-        final Mark modelMark = model.getMark();
-        return new ModelDTO(model.getName(), markService.getDTOByName(modelMark.getName()));
+    public void updateModelInDb(final Long oldModelId, final ModelDTO newModelDTO) {
+        final Model updatedModel = this.mapRestModel(oldModelId, newModelDTO);
+        modelRepository.save(updatedModel);
     }
 
     @Override
@@ -58,27 +41,6 @@ public class ModelService implements ModelServiceInterface {
     }
 
     @Override
-    public List<ModelDTO> getAllDTOs() {
-        final ArrayList<Model> modelList = new ArrayList<>();
-        modelRepository.findAll().forEach(modelList::add);
-
-        final ArrayList<ModelDTO> modelDTOList = new ArrayList<>();
-        modelList.forEach((model) -> {
-            final ModelDTO modelDTO = new ModelDTO(model.getName(), new MarkDTO(model.getMark().getName()));
-            modelDTOList.add(modelDTO);
-        });
-
-        return modelDTOList;
-    }
-
-
-    @Override
-    public void updateModelInDb(final Long oldModelId, final ModelDTO newModelDTO) {
-        final Model updatedModel = this.mapRestModel(oldModelId, newModelDTO);
-        modelRepository.save(updatedModel);
-    }
-
-    @Override
     public Long updateModelInDbFromFront(final String oldModelName, final ModelDTO newModelDTO) {
         final Model oldModel = this.getEntityByName(oldModelName);
         final Mark mark = markService.getEntityByName(newModelDTO.getMarkDTO().getName());
@@ -91,5 +53,41 @@ public class ModelService implements ModelServiceInterface {
             throw new NullPointerException();
         }
         return id;
+    }
+
+    @Override
+    public Model mapRestModel(final Long id, final ModelDTO modelDTO) {
+        return new Model(id, modelDTO.getName(), markService.getEntityByName(modelDTO.getMarkDTO().getName()));
+    }
+
+    @Override
+    public Model getEntityByName(final String name) {
+        return modelRepository.findByName(name);
+    }
+
+    @Override
+    public Model getEntityById(final Long id) {
+        return modelRepository.findById(id).get();
+    }
+
+    @Override
+    public ModelDTO getDTOByName(final String name) {
+        final Model model = modelRepository.findByName(name);
+        final Mark modelMark = model.getMark();
+        return new ModelDTO(model.getName(), markService.getDTOByName(modelMark.getName()));
+    }
+
+    @Override
+    public List<ModelDTO> getAllDTOs() {
+        final ArrayList<Model> modelList = new ArrayList<>();
+        modelRepository.findAll().forEach(modelList::add);
+
+        final ArrayList<ModelDTO> modelDTOList = new ArrayList<>();
+        modelList.forEach((model) -> {
+            final ModelDTO modelDTO = new ModelDTO(model.getName(), new MarkDTO(model.getMark().getName()));
+            modelDTOList.add(modelDTO);
+        });
+
+        return modelDTOList;
     }
 }

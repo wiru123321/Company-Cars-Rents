@@ -1,5 +1,6 @@
 package com.euvic.carrental.model;
 
+import com.euvic.carrental.responses.ParkingDTO;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -51,6 +52,17 @@ public class ParkingHistory {
         this.number = parking.getNumber();
         this.comment = parking.getComment();
         this.isActive = parking.getIsActive();
+
+    }
+
+    public ParkingHistory(final Long id, final ParkingDTO parking) {
+        this.id = id;
+        this.town = parking.getTown();
+        this.postalCode = parking.getPostalCode();
+        this.streetName = parking.getStreetName();
+        this.number = parking.getNumber();
+        this.comment = parking.getComment();
+        this.isActive = true;
 
     }
 

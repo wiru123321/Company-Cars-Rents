@@ -8,10 +8,10 @@ import java.util.List;
 public interface GearboxTypeServiceInterface {
     GearboxType getEntityByName(String name);
 
-    GearBoxTypeDTO getDTOByName(String name);
-
     GearboxType mapRestModel(Long id, GearBoxTypeDTO model);
 
+    GearBoxTypeDTO getDTOByName(String name);
+    
     Long addEntityToDB(GearboxType gearboxType);
 
     Long updateGearboxTypeInDB(String oldGearboxTypeName, GearBoxTypeDTO gearBoxTypeDTO);

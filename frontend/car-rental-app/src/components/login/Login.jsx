@@ -1,55 +1,114 @@
 import React, { useState } from "react";
-import {
-  Container,
-  ShadowContainer,
-  ImageContainer,
-} from "../../styles/styles.style";
-import InputControl from "./InputControl";
-import Submit from "./Submit";
+import { Container } from "../../styles/styles.style";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  login,
-  selectRedirectAddress,
-  selectShouldRedirect,
-} from "../../features/authentication/authSlice";
+  Grid,
+  InputAdornment,
+  Paper,
+  Button,
+  makeStyles,
+  TextField,
+  Typography,
+} from "@material-ui/core";
+import { login, selectAll } from "../../features/authentication/authSlice";
 import { Redirect } from "react-router-dom";
-const Error = ({ message }) => {
-  // TODO: Make separate component when integrated with Api.
-  return <div style={{ color: "red" }}> {message}</div>;
-};
+import AccountCircle from "@material-ui/icons/AccountCircle";
+import LockOpenIcon from "@material-ui/icons/LockOpen";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 
-const LoginPage = () => {
-  return (
-    <ImageContainer img>
-      <ShadowContainer shadow="0.4">
-        <Container col height="100vh">
-          <Login />
-        </Container>
-      </ShadowContainer>
-    </ImageContainer>
-  );
-};
+const useStyles = makeStyles({
+  paper: {
+    padding: "10px",
+  },
+  textField: {
+    minWidth: "30ch",
+  },
+  title: {
+    fontSize: "2rem",
+    color: "white",
+  },
+});
 
 const Login = () => {
+  const classes = useStyles();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [validate, setValidate] = useState(false);
-  const redirectTo = useSelector(selectRedirectAddress);
-  const shouldRedirect = useSelector(selectShouldRedirect);
+  const { redirectTo, shouldRedirect, failed, errorMessage } = useSelector(
+    selectAll
+  );
+
   const dispatch = useDispatch();
+
+  const handlesubmit = (event) => {
+    event.preventDefault();
+    const user = { login: username, password: password };
+    dispatch(login(user));
+  };
+
   if (shouldRedirect === true) {
     return <Redirect to={redirectTo} />;
   } else {
     return (
-      <form
-        onSubmit={(event) => {
-          event.preventDefault();
-          const user = { login: username, password: password };
-          dispatch(login(user));
-        }}
-      >
-        <Container width="40vw" height="40vh" bgr="#0e153a" col round>
-          <InputControl
+      <form onSubmit={handlesubmit}>
+        <Grid>
+          <Container width="40vw" height="40vh" bgr="#0e153a" col round>
+            <Typography className={classes.title}>Login</Typography>
+            <Paper className={classes.paper}>
+              <TextField
+                onChange={(event) => {
+                  setUsername(event.target.value);
+                }}
+                variant="outlined"
+                error={failed}
+                className={classes.textField}
+                placeholder="login"
+                label={failed ? errorMessage : "login"}
+                type="text"
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <AccountCircle />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </Paper>
+            <Paper className={classes.paper}>
+              <TextField
+                onChange={(event) => {
+                  setPassword(event.target.value);
+                }}
+                variant="outlined"
+                error={failed}
+                className={classes.textField}
+                placeholder="password"
+                label={failed ? errorMessage : "password"}
+                type="password"
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <LockOpenIcon />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </Paper>
+            <Button
+              variant="contained"
+              type="submit"
+              startIcon={<ExitToAppIcon />}
+            >
+              Login
+            </Button>
+          </Container>
+        </Grid>
+      </form>
+    );
+  }
+};
+
+export default Login;
+/**<InputControl
             type="login"
             value={username}
             handleChange={setUsername}
@@ -69,11 +128,4 @@ const Login = () => {
           {validate && !password && (
             <Error message="Please, type a password." />
           )}
-          <Submit>Login</Submit>
-        </Container>
-      </form>
-    );
-  }
-};
-
-export default LoginPage;
+          <Submit>Login</Submit> */

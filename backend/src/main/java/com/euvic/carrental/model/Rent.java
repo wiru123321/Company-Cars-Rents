@@ -21,10 +21,13 @@ public class Rent {
     private LocalDateTime dateTo;
 
     @Column()
-    private String comment;
+    private String reasonForTheLoan;
 
     @Column()
-    private String response;
+    private String faultMessage;
+
+    @Column()
+    private String adminResponseForTheRequest;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private User user;
@@ -46,7 +49,7 @@ public class Rent {
     }
 
     public Rent(final Long id, final User user, final Car car, final LocalDateTime dateFrom, final LocalDateTime dateTo, final Parking parkingFrom
-            , final Parking parkingTo, final Boolean isActive, final String comment, final String response) {
+            , final Parking parkingTo, final Boolean isActive, final String reasonForTheLoan, final String adminResponseForTheRequest, final String faultMessage) {
         this.id = id;
         this.user = user;
         this.car = car;
@@ -55,7 +58,8 @@ public class Rent {
         this.parkingFrom = parkingFrom;
         this.parkingTo = parkingTo;
         this.isActive = isActive;
-        this.comment = comment;
-        this.response = response;
+        this.reasonForTheLoan = reasonForTheLoan;
+        this.adminResponseForTheRequest = adminResponseForTheRequest;
+        this.faultMessage = faultMessage;
     }
 }

@@ -20,18 +20,40 @@ public class ParkingService implements ParkingServiceInterface {
     }
 
     @Override
-    public Parking mapRestModel(final Long id, final ParkingDTO parking) {
-        return new Parking(id, parking.getTown(), parking.getPostalCode(), parking.getStreetName(), parking.getNumber(), parking.getComment(), parking.getIsActive());
+    public boolean checkIfParkingExist(final Parking parking) {
+        return parkingRepository.findById(parking.getId()).isPresent();
     }
 
     @Override
-    public List<ParkingDTO> getAllDTOsByTownName(final String name) {
-        final ArrayList<Parking> parkingArrayList = new ArrayList<>();
-        parkingArrayList.addAll(parkingRepository.findByTown(name));
+    public Long addEntityToDB(final Parking parking) {
+        return parkingRepository.save(parking).getId();
+    }
 
-        return parkingArrayList.stream()
-                .map(ParkingDTO::new)
-                .collect(Collectors.toList());
+    @Override
+    public Long choosesNotNullParkingAndAddToDB(final ParkingDTO parkingDTOFromCar, final ParkingDTO parkingDTOFromUser) {
+        final Long id;
+        if (parkingDTOFromUser != null) {
+            id = this.addEntityToDB(this.mapRestModel(null, parkingDTOFromUser));
+        } else {
+            id = this.addEntityToDB(this.mapRestModel(null, parkingDTOFromCar));
+        }
+        return id;
+    }
+
+    @Override
+    public void updateParkingInDb(final Long oldParkingId, final ParkingDTO newParkingDTO) {
+        final Parking updatedParking = this.mapRestModel(oldParkingId, newParkingDTO);
+        parkingRepository.save(updatedParking);
+    }
+
+    @Override
+    public void deleteParkingById(final Long id) {
+        parkingRepository.deleteById(id);
+    }
+
+    @Override
+    public Parking mapRestModel(final Long id, final ParkingDTO parking) {
+        return new Parking(id, parking.getTown(), parking.getPostalCode(), parking.getStreetName(), parking.getNumber(), parking.getComment(), true);
     }
 
     @Override
@@ -45,8 +67,12 @@ public class ParkingService implements ParkingServiceInterface {
     }
 
     @Override
-    public Long addEntityToDB(final Parking parking) {
-        return parkingRepository.save(parking).getId();
+    public List<ParkingDTO> getAllDTOsByTownName(final String name) {
+        final ArrayList<Parking> parkingArrayList = new ArrayList<>(parkingRepository.findByTown(name));
+
+        return parkingArrayList.stream()
+                .map(ParkingDTO::new)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -57,11 +83,5 @@ public class ParkingService implements ParkingServiceInterface {
         return parkingArrayList.stream()
                 .map(ParkingDTO::new)
                 .collect(Collectors.toList());
-    }
-
-    @Override
-    public void updateParkingInDb(Long oldParkingId, ParkingDTO newParkingDTO) {
-        Parking updatedParking = mapRestModel(oldParkingId, newParkingDTO);
-        parkingRepository.save(updatedParking);
     }
 }

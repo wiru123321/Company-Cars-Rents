@@ -1,7 +1,7 @@
 import React from "react";
 import { Alert, AlertTitle } from "@material-ui/lab";
 import { makeStyles } from "@material-ui/core/styles";
-import { Paper, Dialog, DialogTitle } from "@material-ui/core";
+import { Paper, Dialog } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   modal: {

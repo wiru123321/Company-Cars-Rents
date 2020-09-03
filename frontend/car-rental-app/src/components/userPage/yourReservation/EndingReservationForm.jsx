@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Grid,
   Container,
@@ -13,19 +13,64 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   selectReservation,
   selectIndex,
-  parkingNumberChange,
-  parkingPlaceNumberChange,
   acceptForm,
+  backTheCarBack,
 } from "../../../features/your-cars/yourCarsSlice";
 import { ParkingData } from "./ReservationDataForm";
 import BugReport from "./BugReport";
+import { useAlert } from "react-alert";
 
 const EndingReservationForm = () => {
   const dispatch = useDispatch();
+  const alert = useAlert();
+
   const reservation = useSelector(selectReservation);
   const selectCarIndex = useSelector(selectIndex);
+  const [town, setTown] = useState(reservation[selectCarIndex].parkingTo.town);
+  const [streetName, setStreetName] = useState(
+    reservation[selectCarIndex].parkingTo.streetName
+  );
+  const [postalCode, setPostalCode] = useState(
+    reservation[selectCarIndex].parkingTo.postalCode
+  );
+  const [number, setNumber] = useState(
+    reservation[selectCarIndex].parkingTo.number
+  );
+  const [comment, setComment] = useState(
+    reservation[selectCarIndex].parkingTo.comment
+  );
+  const [bugDescribe, setBugDescribe] = useState(
+    reservation[selectCarIndex].faultMessage
+  );
+
+  function submitCar() {
+    let newReservation = {
+      parkingDTO: {
+        town: town,
+        streetName: streetName,
+        postalCode: postalCode,
+        number: number,
+        comment: comment,
+      },
+      faultMessage: bugDescribe,
+    };
+    console.log(newReservation);
+    dispatch(
+      backTheCarBack(reservation[selectCarIndex].id, newReservation, alert)
+    );
+    setTimeout(function () {
+      dispatch(acceptForm());
+    }, 1500);
+  }
   return (
-    <Container maxWidth="lg">
+    <Container
+      maxWidth="lg"
+      style={{
+        minHeight: "80vh",
+        height: "auto",
+        height: "100%",
+      }}
+    >
       <Grid container direction="row" justify="center">
         <Grid xs={6}>
           <List>
@@ -44,12 +89,34 @@ const EndingReservationForm = () => {
         </Grid>
         <Grid xs={3}>
           <ParkingData
-            handleParkingNumberChange={dispatch(parkingNumberChange())}
-            handleParkingPlaceChange={dispatch(parkingPlaceNumberChange())}
+            handletownChange={setTown}
+            handlestreetNameChange={setStreetName}
+            handlepostalCodeChange={setPostalCode}
+            handlenumberChange={setNumber}
+            handlecommentChange={setComment}
+            town={town}
+            streetName={streetName}
+            postalCode={postalCode}
+            number={number}
+            comment={comment}
           />
         </Grid>
         <Grid container justify="center" xs={12}>
-          <BugReport />
+          <BugReport
+            bugDescribe={bugDescribe}
+            bugDescribeHandler={setBugDescribe}
+          />
+        </Grid>
+        <Grid xs={12} container justify="center" style={{ marginTop: "1vh" }}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              submitCar();
+            }}
+          >
+            Give the car back
+          </Button>
         </Grid>
         <Grid xs={12} container justify="center" style={{ marginTop: "1vh" }}>
           <Button
@@ -59,7 +126,7 @@ const EndingReservationForm = () => {
               dispatch(acceptForm());
             }}
           >
-            Give Car Back
+            Back to Car reservations.
           </Button>
         </Grid>
       </Grid>

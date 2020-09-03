@@ -1,7 +1,6 @@
 import React from "react";
 import {
   TextField,
-  Grid,
   InputLabel,
   FormGroup,
   FormControlLabel,
@@ -9,40 +8,12 @@ import {
 } from "@material-ui/core";
 import useStyles from "./useStyles";
 
-export const UserPersonalData = ({
-  handleFirstnameChange,
-  handleLastnameChange,
-}) => {
-  return (
-    <Box
-      border={1}
-      className={useStyles().borderedBox}
-      borderRadius="borderRadius"
-    >
-      <Grid container direction="row" justify="space-between">
-        <TextField
-          onChange={(event) => handleFirstnameChange(event)}
-          label="Firstname"
-          variant="outlined"
-          margin="normal"
-          required
-        />
-        <TextField
-          onChange={(event) => handleLastnameChange(event)}
-          label="Lastname"
-          variant="outlined"
-          margin="normal"
-          required
-        />
-      </Grid>
-    </Box>
-  );
-};
-
 export const ReservationDate = ({
   inputText,
   handleDateChange,
   handleHourChange,
+  valueDate,
+  valueHour,
 }) => {
   return (
     <Box
@@ -60,6 +31,7 @@ export const ReservationDate = ({
               onChange={(event) => handleDateChange(event)}
               type="date"
               variant="outlined"
+              value={valueDate}
               shrink
               margin="normal"
               required
@@ -74,6 +46,7 @@ export const ReservationDate = ({
               onChange={(event) => handleHourChange(event)}
               type="time"
               variant="outlined"
+              value={valueHour}
               shrink
               margin="normal"
               required

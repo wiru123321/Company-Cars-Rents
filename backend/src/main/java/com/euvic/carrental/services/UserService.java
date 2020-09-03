@@ -30,60 +30,9 @@ public class UserService implements UserServiceInterface {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
-    @Override //NO PASSWORD MAPPING
-    public User mapRestModel(final Long id, final UserDTO userDTO) {
-        return new User(id, userDTO, roleService.getEntityByRoleName(userDTO.getRoleDTO().getName()));
-    }
-
-    @Override
-    public User mapCreationModel(final Long id, final UserCreation userCreation) {
-        return new User(id, userCreation, roleService.getEntityByRoleName(userCreation.getRoleDTO().getName()));
-    }
-
-    @Override
-    public User getEntityByLogin(final String login) {
-        return userRepository.findByLogin(login);
-    }
-
-    @Override   //TODO test it
-    public User getEntityByLoginAndisActive(final String login, final Boolean isActive) {
-        return userRepository.findByLoginAndIsActive(login, isActive);
-    }
-
-    @Override
-    public UserDTO getDTOByLogin(final String login) {
-        final User user = userRepository.findByLogin(login);
-        return new UserDTO(user, roleService.getDTOByRoleName(user.getRole().getName()));
-    }
-
-    @Override
-    public User getEntityByEmail(final String email) {
-        return userRepository.findByEmail(email);
-    }
-
-
-    @Override
-    public UserDTO getDTOByEmail(final String email) {
-        final User user = userRepository.findByEmail(email);
-        return new UserDTO(user, roleService.getDTOByRoleName(user.getRole().getName()));
-    }
-
     @Override
     public Long addEntityToDB(final User user) {
         return userRepository.save(user).getId();
-    }
-
-    @Override
-    public List<UserDTO> getAllDTOs() {
-        final ArrayList<User> userArrayList = new ArrayList<>();
-        userRepository.findAll().forEach(userArrayList::add);
-        return this.mapRestList(userArrayList);
-    }
-
-    @Override
-    public List<UserDTO> getAllActiveUserDTOs() {
-        final ArrayList<User> userArrayList = new ArrayList<>(userRepository.findAllByIsActive(true));
-        return this.mapRestList(userArrayList);
     }
 
     @Override //NO PASSWORD CHANGE
@@ -104,18 +53,15 @@ public class UserService implements UserServiceInterface {
     }
 
     @Override
-    public Boolean checkIfUserWithLoginExists(final String login) {
-        return userRepository.existsByLogin(login);
+    public void changeEmail(final User user, final String email) {
+        user.setEmail(email);
+        userRepository.save(user);
     }
 
-
-    private List<UserDTO> mapRestList(final List<User> userArrayList) {
-        final ArrayList<UserDTO> userDTOArrayList = new ArrayList<>();
-        userArrayList.forEach((user) -> {
-            final UserDTO userDTO = new UserDTO(user, roleService.getDTOByRoleName(user.getRole().getName()));
-            userDTOArrayList.add(userDTO);
-        });
-        return userDTOArrayList;
+    @Override
+    public void changePhoneNumber(final User user, final String phoneNumber) {
+        user.setPhoneNumber(phoneNumber);
+        userRepository.save(user);
     }
 
     @Override
@@ -130,18 +76,6 @@ public class UserService implements UserServiceInterface {
             userRepository.save(user);
         }
         return matcher.matches();
-    }
-
-    @Override
-    public void changeEmail(final User user, final String email) {
-        user.setEmail(email);
-        userRepository.save(user);
-    }
-
-    @Override
-    public void changePhoneNumber(final User user, final String phoneNumber) {
-        user.setPhoneNumber(phoneNumber);
-        userRepository.save(user);
     }
 
     @Override
@@ -164,5 +98,69 @@ public class UserService implements UserServiceInterface {
         final Pattern pattern = Pattern.compile(regex);
         final Matcher matcher = pattern.matcher(phoneNumber);
         return matcher.matches();
+    }
+
+    @Override
+    public Boolean checkIfUserWithLoginExists(final String login) {
+        return userRepository.existsByLogin(login);
+    }
+
+    @Override //NO PASSWORD MAPPING
+    public User mapRestModel(final Long id, final UserDTO userDTO) {
+        return new User(id, userDTO, roleService.getEntityByRoleName(userDTO.getRoleDTO().getName()));
+    }
+
+    @Override
+    public User mapCreationModel(final Long id, final UserCreation userCreation) {
+        return new User(id, userCreation, roleService.getEntityByRoleName(userCreation.getRoleDTO().getName()));
+    }
+
+    @Override
+    public User getEntityByLogin(final String login) {
+        return userRepository.findByLogin(login);
+    }
+
+    @Override
+    public User getEntityByLoginAndisActive(final String login, final Boolean isActive) {
+        return userRepository.findByLoginAndIsActive(login, isActive);
+    }
+
+    @Override
+    public User getEntityByEmail(final String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    @Override
+    public UserDTO getDTOByLogin(final String login) {
+        final User user = userRepository.findByLogin(login);
+        return new UserDTO(user, roleService.getDTOByRoleName(user.getRole().getName()));
+    }
+
+    @Override
+    public UserDTO getDTOByEmail(final String email) {
+        final User user = userRepository.findByEmail(email);
+        return new UserDTO(user, roleService.getDTOByRoleName(user.getRole().getName()));
+    }
+
+    @Override
+    public List<UserDTO> getAllDTOs() {
+        final ArrayList<User> userArrayList = new ArrayList<>();
+        userRepository.findAll().forEach(userArrayList::add);
+        return this.mapRestList(userArrayList);
+    }
+
+    @Override
+    public List<UserDTO> getAllActiveUserDTOs() {
+        final ArrayList<User> userArrayList = new ArrayList<>(userRepository.findAllByIsActive(true));
+        return this.mapRestList(userArrayList);
+    }
+
+    private List<UserDTO> mapRestList(final List<User> userArrayList) {
+        final ArrayList<UserDTO> userDTOArrayList = new ArrayList<>();
+        userArrayList.forEach((user) -> {
+            final UserDTO userDTO = new UserDTO(user, roleService.getDTOByRoleName(user.getRole().getName()));
+            userDTOArrayList.add(userDTO);
+        });
+        return userDTOArrayList;
     }
 }

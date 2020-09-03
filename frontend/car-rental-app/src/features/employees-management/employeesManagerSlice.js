@@ -70,62 +70,48 @@ export const fetchAllUsers = () => async (dispatch) => {
     });
     dispatch(setUsers(response.data));
     dispatch(setFilteredEmployees(response.data));
-    console.log(response.data);
   } catch (error) {
     console.log(error);
   }
 };
 
-export const updateUser = (login, userUpdate) => async (dispatch) => {
+export const updateUser = (login, alert, userUpdate) => async (dispatch) => {
   try {
-    const updateResponse = await axios.put(
-      API_URL + `/a/user/${login}`,
-      userUpdate,
-      {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      }
-    );
-    const fetchResponse = await axios.get(API_URL + "/a/users", {
+    await axios.put(API_URL + `/a/user/${login}`, userUpdate, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     });
-    dispatch(setUsers(fetchResponse.data));
-    dispatch(setUpdateResult(true));
-  } catch (error) {
-    dispatch(setUpdateResult(false));
+    dispatch(fetchAllUsers());
+    alert.success("Successfully updated user!");
+  } catch (err) {
+    alert.error("Failed to update user!");
   }
 };
 
-export const deleteUser = (login) => async (dispatch) => {
+export const deleteUser = (login, alert) => async (dispatch) => {
   try {
-    const deleteResponse = await axios.delete(API_URL + `/a/user/${login}`, {
+    await axios.delete(API_URL + `/a/user/${login}`, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     });
-    const fetchResponse = await axios.get(API_URL + "/a/users", {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("token"),
-      },
-    });
-    dispatch(setUsers(fetchResponse.data));
-  } catch (error) {
-    console.log(error);
+    dispatch(fetchAllUsers());
+    alert.success("Successfully deleted user!");
+  } catch (err) {
+    alert.error("Failed to delete user!");
   }
 };
 
 export const filterUsers = (users, loginFilters, nameFilters) => (dispatch) => {
   let filteredEmployees = users.filter((employee) =>
-    employee.login.includes(loginFilters)
+    employee.login.toLowerCase().includes(loginFilters.toLowerCase())
   );
 
   filteredEmployees = filteredEmployees.filter(
     (employee) =>
-      employee.name.includes(nameFilters) ||
-      employee.surname.includes(nameFilters)
+      employee.name.toLowerCase().includes(nameFilters.toLowerCase()) ||
+      employee.surname.toLowerCase().includes(nameFilters.toLowerCase())
   );
   dispatch(setFilteredEmployees(filteredEmployees));
 };

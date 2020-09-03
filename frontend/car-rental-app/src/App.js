@@ -1,5 +1,5 @@
 import React from "react";
-import LoginPage from "./components/login/Login";
+import LoginPage from "./components/login/LoginPage";
 import UserPage from "./components/userPage/UserPage";
 import AdminPage from "./components/adminPage/AdminPage";
 import {
@@ -31,6 +31,7 @@ function App() {
         <Route exact path="/login" component={LoginPage} />
         <PrivateRoute path="/adminPage" role="ADMIN" component={AdminPage} />
         <PrivateRoute path="/userPage" role="EMPLOYEE" component={UserPage} />
+        <Route exact path="*" component={LoginPage} />
       </Switch>
     </Router>
   );

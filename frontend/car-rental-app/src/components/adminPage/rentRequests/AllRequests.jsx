@@ -7,6 +7,7 @@ import NotFoundMessage from "../messages/NotFoundMessage";
 
 const AllRequests = () => {
   const { pendingRents } = useSelector(selectAll);
+
   return (
     <Container style={{ minHeight: "80vh", height: "auto", height: "100%" }}>
       {pendingRents.length > 0 ? (

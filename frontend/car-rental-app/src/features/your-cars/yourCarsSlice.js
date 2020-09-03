@@ -5,9 +5,9 @@ const API_URL = "http://localhost:8080";
 
 const initialState = {
   reservation: [],
+  historyReservation: [],
+  requestReservation: [],
   photoCarIndex: 0,
-  parkingNumber: 0,
-  parkingPlaceNumber: 0,
   endingFormChoose: false,
   carImg: [],
   chooseCarIndex: 0,
@@ -20,23 +20,18 @@ export const yourCarsSlice = createSlice({
     setReservation: (state, action) => {
       state.reservation = action.payload;
     },
+    setHistoryReservation: (state, action) => {
+      state.historyReservation = action.payload;
+    },
+    setRequestReservation: (state, action) => {
+      state.requestReservation = action.payload;
+    },
     chooseCar: (state, action) => {
-      state.reservation[action.payload].carDTO.isActive = false;
       state.endingFormChoose = !state.endingFormChoose;
       state.chooseCarIndex = action.payload;
-      state.photoCarIndex = action.payload;
     },
     acceptForm: (state) => {
       state.endingFormChoose = !state.endingFormChoose;
-    },
-    changephotoCarIndex: (state, action) => {
-      state.photoCarIndex = action.payload;
-    },
-    parkingNumberChange: (state, action) => {
-      state.parkingNumber = action.payload;
-    },
-    parkingPlaceNumberChange: (state, action) => {
-      state.parkingPlaceNumber = action.payload;
     },
     bugOpenChange: (state) => {
       state.bugOpen = !state.bugOpen;
@@ -53,16 +48,19 @@ export const yourCarsSlice = createSlice({
 export const {
   setReservation,
   chooseCar,
-  parkingNumberChange,
-  parkingPlaceNumberChange,
   acceptForm,
   bugOpenChange,
   bugDescribeChane,
   setImage,
-  changephotoCarIndex,
+  setHistoryReservation,
+  setRequestReservation,
 } = yourCarsSlice.actions;
 
 export const selectReservation = (state) => state.YourReservation.reservation;
+export const selectHistoryReservation = (state) =>
+  state.YourReservation.historyReservation;
+export const selectRequestReservation = (state) =>
+  state.YourReservation.requestReservation;
 export const selectImg = (state) =>
   state.YourReservation.carImg[state.photoCarIndex];
 export const selectIndex = (state) => state.YourReservation.chooseCarIndex;
@@ -79,6 +77,32 @@ export const fetchReservation = () => async (dispatch) => {
     });
     console.log(response.data);
     dispatch(setReservation(response.data));
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const fetchHistoryReservation = () => async (dispatch) => {
+  try {
+    const response = await axios.get(API_URL + "/e/rent/my_history", {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
+    dispatch(setHistoryReservation(response.data));
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const fetchRequestReservation = () => async (dispatch) => {
+  try {
+    const response = await axios.get(API_URL + "/e/rent/my_requests", {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
+    dispatch(setRequestReservation(response.data));
   } catch (error) {
     console.log(error);
   }
@@ -107,7 +131,22 @@ export const fetchCarImage = (licensePlate) => async (dispatch) => {
     console.log(error);
   }
 };
-//TODO backend poprawic ma dostęp do tej metody.
+
+export const backTheCarBack = (id, parkingDTO, alert) => async (dispatch) => {
+  try {
+    const response = await axios({
+      method: "delete",
+      url: API_URL + `/e/rent/end_rent/${id}`,
+      data: parkingDTO,
+      headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+    });
+    alert.success("Success");
+  } catch (error) {
+    console.log(error);
+    alert.error("Wrong data input, please check entered data.");
+  }
+};
+
 export const updateCar = (licensePlate, car) => async (dispatch) => {
   try {
     const updateResponse = await axios.put(
