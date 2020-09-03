@@ -2,9 +2,7 @@ Main files (working application) on BackendRoleBasedAuthorization branch.
 
 # Read Me Template
 
-![Project Image](C:\Users\wiru1\OneDrive\Pulpit\Studia\Projekty\Company-Cars-Rents\frontend\car-rental-app\src\resources\login-background.jpg)
-
-> This is a ReadMe template to help save you time and effort.
+![Project Image](https://github.com/wiru123321/Company-Cars-Rents/blob/master/frontend/car-rental-app/src/resources/login-background.jpg)
 
 ---
 
