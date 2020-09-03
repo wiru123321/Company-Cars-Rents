@@ -6,10 +6,10 @@
 
 ### Menu
 
-- [Description](#description)
-- [How To Use](#how-to-use)
-- [Gallery](#gallery)
-- [Author Info](#author-info)
+- #### [Description](#description)
+- #### [How To Use](#how-to-use)
+- #### [Gallery](#gallery)
+- #### [Author Info](#author-info)
 
 ---
 
@@ -29,6 +29,7 @@
   <img width="800" height="500" src="https://github.com/wiru123321/Company-Cars-Rents/blob/master/frontend/car-rental-app/src/resources/user1-page.jpg">
   <br />
 </p>
+
 #### Technologies
 
 - React
@@ -62,11 +63,11 @@ We create 2 accounts:
 
 ## Author Info
 
-- Wojciech Waleszczyk
-- Kamil Susek
-- Rafał Paprota
-- Bartosz Czapiewski
-- Michał Matysiak
+- Wojciech Waleszczyk (frontend)
+- Kamil Susek (frontend)
+- Rafał Paprota (backend)
+- Bartosz Czapiewski (backend)
+- Michał Matysiak (devops)
 
 [Back To The Top](#read-me-template)
 
