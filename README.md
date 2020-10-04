@@ -15,7 +15,7 @@
 
 ## Description
 
-### Our application was created on Euvic apprenticeships "Hacktyki".The application was created for companies with company cars.The basic functionalities are car booking by employees on the date chosen by them.The application has 2 accounts, a user and an administrator. The administrator can add new company cars, delete them, add and remove employees and confirm requests for car rentals from employees.The user can send inquiries about car reservations, manage their reservations and report faults related to them.
+### The application was created for companies which deal with renting the company cars to their employees. The main feature of this application is the possibility to send request about car rental in the term given by employee. The application has two differing account options: for administrators and for employees.  The administrator account has possibility to add and remove cars and employees and to accept and reject employees requests for car renting. Whereas, the employee account has a possibility to send requests for car rental in the given term and reporting faults in rented cars. 
 
 ## Gallery
 
